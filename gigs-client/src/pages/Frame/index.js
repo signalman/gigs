@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '@mui/material/Button';
 import Header from '../Header';
+import Main from '../Main';
 import { Box, styled } from '@mui/material';
 
 const HeaderSpace = styled(Box)((p) => ({
@@ -8,7 +8,8 @@ const HeaderSpace = styled(Box)((p) => ({
 }));
 
 const Body = styled(Box)((p) => ({
-  width: '100%',
+  width: '1200px',
+  margin: '0 auto',
 }));
 
 /**
@@ -22,6 +23,7 @@ const Frame = () => {
     {/* Carousel */}
     <Body>
       바디
+      <Main></Main>
     </Body>
   </>
   );
