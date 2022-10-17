@@ -5,27 +5,27 @@ const Container = styled(Box)((p) => ({
   position: 'fixed',
   width: '100%',
   height: '200px',
-  backgroundColor: "red",
+  backgroundColor: 'white',
+  boxShadow: '0 0 4px black',
 }));
 
 const HeaderBox = styled(Box)((p) => ({
   margin: "0 auto",
   width: '1200px',
   height: '100%',
-  backgroundColor: 'blue',
   display: 'flex',
 }));
 
 const SmallBox = styled(Box)((p) => ({
   width: '250px',
   height: '100%',
-  backgroundColor: 'yellow',
+  border: '0.5px solid gray'
 }));
 
 const MenuBtnBox = styled(Box)((p) => ({
   width: '700px',
   height: '100%',
-  backgroundColor: 'green',
+  border: '0.5px solid gray'
 }));
 
 /**
