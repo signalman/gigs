@@ -16,6 +16,7 @@ public class User {
     private Integer role;
     private String phone;
     private String password;
-    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "id")
+
+    @Embedded
     private Address address;
 }
