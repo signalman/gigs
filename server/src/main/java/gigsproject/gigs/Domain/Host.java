@@ -34,7 +34,7 @@ public class Host {
     private Integer targetNumber;
     private Integer pay;
 
-    @OneToOne @JoinColumn(name = "id")
+    @Embedded
     private Address stageAddressId;
 
     private Boolean targetGender;
