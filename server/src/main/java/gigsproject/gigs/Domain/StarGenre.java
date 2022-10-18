@@ -9,10 +9,21 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StarGenre {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long id;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "starId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "starId")
     private Star star;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "genreId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "genreId")
     private Genre genre;
+
+    public StarGenre(Star star, Genre genre) {
+        this.star = star;
+        this.genre = genre;
+    }
+    public StarGenre(Star star){
+        this(star, null);
+    }
 }
