@@ -2,6 +2,10 @@ import React from 'react';
 import Header from '../Header';
 import Main from '../Main';
 import { Box, styled } from '@mui/material';
+import {
+  Routes,
+  Route,
+} from 'react-router-dom';
 
 const HeaderSpace = styled(Box)((p) => ({
   height: '200px',
@@ -20,10 +24,15 @@ const Frame = () => {
   <>
     <Header />
     <HeaderSpace />
-    {/* Carousel */}
+    
     <Body>
-      바디
-      <Main></Main>
+      <Routes>
+        {/* Carousel */}
+        <Route path="/" element={<Main>메인</Main>} />
+        <Route path="/stage" element={<Main>무대 찾기</Main>} />
+        <Route path="/star" element={<Main>스타 찾기</Main>} />
+        <Route path="/review" element={<Main>이용 후기</Main>} />
+      </Routes>
     </Body>
   </>
   );

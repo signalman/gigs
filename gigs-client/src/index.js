@@ -16,7 +16,7 @@ root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-        <Route path='/' element={<Frame />} />
+        <Route path='/*' element={<Frame />} />
       </Routes>
     </Router>
   </React.StrictMode>
