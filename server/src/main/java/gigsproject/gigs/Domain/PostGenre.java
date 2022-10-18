@@ -1,13 +1,13 @@
 package gigsproject.gigs.Domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class PostGenre {
     @Id @GeneratedValue
     private Long id;

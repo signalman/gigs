@@ -1,7 +1,6 @@
 package gigsproject.gigs.Domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.xml.stream.events.StartDocument;
@@ -9,8 +8,9 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Proposal {
     @Id @GeneratedValue
     private Long id;

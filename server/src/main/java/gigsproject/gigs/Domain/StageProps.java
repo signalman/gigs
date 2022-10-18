@@ -1,12 +1,13 @@
 package gigsproject.gigs.Domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter @Setter
+@Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class StageProps {
     @Id @GeneratedValue
     private Long id;

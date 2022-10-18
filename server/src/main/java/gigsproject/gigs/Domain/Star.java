@@ -1,11 +1,13 @@
 package gigsproject.gigs.Domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Getter @Setter @Entity
+@Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Star {
     @Id @GeneratedValue
     private Long id;

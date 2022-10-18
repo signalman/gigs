@@ -1,14 +1,16 @@
 package gigsproject.gigs.Domain;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
-@Getter @Setter @Entity
+@Getter
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Carousel {
     @Id @GeneratedValue
     private Long id;
