@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -18,8 +20,12 @@ public class Host {
     private String stageName;
     private String stageInfo;
     private Integer stageCount;
-    private String openTime;
-    private String closeTime;
+
+    @Temporal(TemporalType.TIME)
+    private LocalTime openTime;
+
+    @Temporal(TemporalType.TIME)
+    private LocalTime closeTime;
 
     @OneToOne @JoinColumn(name = "id")
     private StageType stageType;

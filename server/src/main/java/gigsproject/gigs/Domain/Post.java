@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,9 +17,9 @@ public class Post {
     private Host host;
 
     @Temporal(TemporalType.TIME)
-    private String showStartTime;
+    private LocalDateTime showStartTime;
 
     @Temporal(TemporalType.TIME)
-    private String showEndTime;
+    private LocalDateTime showEndTime;
 
 }
