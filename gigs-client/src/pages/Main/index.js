@@ -11,11 +11,13 @@ const Container = styled(Box)((p) => ({
  * gigs 접속 시 제일 처음 보여지는 페이지
  * gigs에 대한 안내 혹은 홍보, 이벤트 등이 보여짐
  */
-const Main = () => {
+const Main = ({
+  children,
+}) => {
   return (
     <>
       <Container>
-        Main
+        {children}
       </Container>
     </>
   );

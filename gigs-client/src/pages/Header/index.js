@@ -1,5 +1,7 @@
 import { Box, styled } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import HeaderBtn from '../../components/HeaderBtn';
 
 const Container = styled(Box)((p) => ({
   position: 'fixed',
@@ -28,6 +30,9 @@ const SmallBox = styled(Box)((p) => ({
 const MenuBtnBox = styled(Box)((p) => ({
   width: '700px',
   height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   border: '0.5px solid gray'
 }));
 
@@ -35,12 +40,28 @@ const MenuBtnBox = styled(Box)((p) => ({
  * 화면 상단 위치에 고정된 헤더
  */
 const Header = () => {
+  const pathname = window.location.pathname;
+  const navigate = useNavigate();
+
   return (
   <>
     <Container>
       <HeaderBox>
         <SmallBox>로고</SmallBox>
-        <MenuBtnBox>메뉴 버튼들</MenuBtnBox>
+        <MenuBtnBox>
+          <HeaderBtn
+            isClicked={pathname === '/stage'}
+            handleClick={() => {navigate('/stage');}}  
+          >무대 찾기</HeaderBtn>
+          <HeaderBtn
+            isClicked={pathname === '/star'}
+            handleClick={() => {navigate('/star');}}  
+          >스타 찾기</HeaderBtn>
+          <HeaderBtn
+            isClicked={pathname === '/review'}
+            handleClick={() => {navigate('/review');}}
+          >이용 후기</HeaderBtn>
+        </MenuBtnBox>
         <SmallBox>마이메뉴</SmallBox>
       </HeaderBox>
     </Container>
