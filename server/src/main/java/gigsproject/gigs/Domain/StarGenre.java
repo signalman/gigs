@@ -11,8 +11,8 @@ import javax.persistence.*;
 public class StarGenre {
     @Id @GeneratedValue
     private Long id;
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "starId")
     private Star star;
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "genreId")
     private Genre genre;
 }

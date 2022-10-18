@@ -17,10 +17,10 @@ public class Proposal {
 
     private Boolean type;
 
-    @ManyToOne(fetch = FetchType.LAZY)  @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY)  @JoinColumn(name = "hostId")
     private Host host;
 
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "starId")
     private Star star;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -35,6 +35,6 @@ public class Proposal {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime showEndTime;
 
-    @OneToOne @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "showStatusId")
     private ShowStatus showStatus;
 }

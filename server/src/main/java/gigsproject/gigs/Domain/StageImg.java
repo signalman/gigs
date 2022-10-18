@@ -14,7 +14,7 @@ public class StageImg {
 
     private String url;
 
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "hostId")
     private Host host;
 
 

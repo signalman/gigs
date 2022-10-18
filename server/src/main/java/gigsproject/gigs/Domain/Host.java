@@ -14,7 +14,7 @@ public class Host {
     @Id @GeneratedValue
     private Long id;
 
-    @OneToOne @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "userId")
     private User user;
 
     private String stageName;
@@ -27,7 +27,7 @@ public class Host {
     @Temporal(TemporalType.TIME)
     private LocalTime closeTime;
 
-    @OneToOne @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "stageTypeId")
     private StageType stageType;
 
     private Integer targetAge;
@@ -35,7 +35,7 @@ public class Host {
     private Integer pay;
 
     @Embedded
-    private Address stageAddressId;
+    private Address stageAddress;
 
     private Boolean targetGender;
     private Integer stageSize;

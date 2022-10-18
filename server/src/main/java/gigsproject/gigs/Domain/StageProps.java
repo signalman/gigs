@@ -11,7 +11,7 @@ public class StageProps {
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "hostId")
     private Host host;
 
     @OneToOne(fetch = FetchType.LAZY)

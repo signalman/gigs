@@ -12,9 +12,9 @@ public class PostGenre {
     @Id @GeneratedValue
     private Long id;
 
-    @OneToOne @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "genreId")
     private Genre genre;
 
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "postId")
     private Post post;
 }

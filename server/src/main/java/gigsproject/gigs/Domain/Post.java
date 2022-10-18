@@ -13,7 +13,7 @@ public class Post {
     @Id @GeneratedValue
     private Long id;
 
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "hostId")
     private Host host;
 
     @Temporal(TemporalType.TIME)

@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Star {
     @Id @GeneratedValue
     private Long id;
-    @OneToOne @JoinColumn(name = "id")
+    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "userId")
     private User user;
     private String gender;
     private Integer memberNumber;

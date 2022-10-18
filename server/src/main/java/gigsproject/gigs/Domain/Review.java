@@ -13,9 +13,9 @@ public class Review {
     @Id @GeneratedValue
     private Long id;
     private String content;
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "hostId")
     private Host host;
-    @ManyToOne @JoinColumn(name = "id")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "starId")
     private Star star;
     private LocalDateTime createdAt;
     private Integer score;
