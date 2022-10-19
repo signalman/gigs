@@ -2,6 +2,7 @@ import { Box, styled } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
+import LogoBtn from '../../components/LogoBtn';
 
 const Container = styled(Box)((p) => ({
   position: 'fixed',
@@ -47,7 +48,12 @@ const Header = () => {
   <>
     <Container>
       <HeaderBox>
-        <SmallBox>로고</SmallBox>
+        <SmallBox>
+          <LogoBtn
+          isClicked={pathname === '/'}
+          handleClick={() => navigate('/')}
+          ><img alt="logo_tmp" src="img/gigs_logo_tmp.png"/></LogoBtn>
+         </SmallBox>
         <MenuBtnBox>
           <HeaderBtn
             isClicked={pathname === '/stage'}
