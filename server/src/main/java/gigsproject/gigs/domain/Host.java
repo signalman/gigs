@@ -46,4 +46,6 @@ public class Host {
     @OneToMany(mappedBy = "host")
     private List<Post> posts = new ArrayList<>();
 
+    private Double score;
+
 }

@@ -1,5 +1,6 @@
 package gigsproject.gigs.response;
 
+import com.querydsl.core.annotations.QueryProjection;
 import gigsproject.gigs.domain.Genre;
 import gigsproject.gigs.domain.StageType;
 import lombok.*;
@@ -7,9 +8,9 @@ import lombok.*;
 import java.util.List;
 
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class StarCard {
-    private Long postId;
     private Long starId;
     private String starImgUrl;
     private String starName;

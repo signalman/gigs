@@ -19,11 +19,11 @@ public class StarGenre {
     @JoinColumn(name = "genreId")
     private Genre genre;
 
-    public StarGenre(Star star, Genre genre) {
+    /**
+     * 연관관계 편의 메소드 추가
+     */
+    public void setStar(Star star) {
         this.star = star;
-        this.genre = genre;
-    }
-    public StarGenre(Star star){
-        this(star, null);
+        star.getStarGenres().add(this);
     }
 }

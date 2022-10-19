@@ -10,4 +10,5 @@ public class PostRepositoryImpl implements PostRepositoryCustom{
 
     private final JPAQueryFactory jpaQueryFactory;
 
+
 }

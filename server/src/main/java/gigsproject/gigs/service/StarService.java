@@ -11,8 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StarService {
     private final StarRepository starRepository;
-
     public List<StarCard> getStarCardList() {
-        return List.of();
+        return starRepository.getStarCardList();
     }
 }

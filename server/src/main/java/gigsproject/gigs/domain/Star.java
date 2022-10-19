@@ -3,6 +3,8 @@ package gigsproject.gigs.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -19,4 +21,11 @@ public class Star {
     private String introduce;
     private Integer showCount;
     private Boolean status;
+    private Double score;
+
+    /**
+     * 양방향 연관관계 추가
+     */
+    @OneToMany(mappedBy = "star")
+    private List<StarGenre> starGenres = new ArrayList<>();
 }
