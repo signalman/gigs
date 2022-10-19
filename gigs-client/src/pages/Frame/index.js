@@ -6,6 +6,7 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+import Search from '../Search';
 
 const HeaderSpace = styled(Box)((p) => ({
   height: '200px',
@@ -30,7 +31,7 @@ const Frame = () => {
         {/* Carousel */}
         <Route path="/" element={<Main>메인</Main>} />
         <Route path="/stage" element={<Main>무대 찾기</Main>} />
-        <Route path="/star" element={<Main>스타 찾기</Main>} />
+        <Route path="/star" element={<Search></Search>} />
         <Route path="/review" element={<Main>이용 후기</Main>} />
       </Routes>
     </Body>
