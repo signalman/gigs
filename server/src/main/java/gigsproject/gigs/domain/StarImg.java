@@ -1,4 +1,4 @@
-package gigsproject.gigs.Domain;
+package gigsproject.gigs.domain;
 
 import lombok.*;
 
@@ -8,11 +8,10 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ShowStageType {
+public class StarImg {
     @Id @GeneratedValue
     private Long id;
+    private String url;
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "starId")
     private Star star;
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name ="stageTypeId")
-    private StageType stageType;
 }

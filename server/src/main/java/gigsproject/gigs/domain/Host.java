@@ -1,9 +1,8 @@
-package gigsproject.gigs.Domain;
+package gigsproject.gigs.domain;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;

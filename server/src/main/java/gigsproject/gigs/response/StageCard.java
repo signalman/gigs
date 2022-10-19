@@ -1,6 +1,6 @@
-package gigsproject.gigs.Dto;
+package gigsproject.gigs.response;
 
-import gigsproject.gigs.Domain.Genre;
+import gigsproject.gigs.domain.Genre;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class StageCardDto {
+public class StageCard {
     private Long postId;
     private Long hostId;
     private String imgUrl;
