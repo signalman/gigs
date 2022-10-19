@@ -18,7 +18,7 @@ public class Host {
     @GeneratedValue
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "userId")
     private User user;
 
@@ -29,7 +29,7 @@ public class Host {
     private LocalTime openTime;
     private LocalTime closeTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY )
     @JoinColumn(name = "stageTypeId")
     private StageType stageType;
 

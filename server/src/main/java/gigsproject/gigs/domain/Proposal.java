@@ -18,7 +18,7 @@ public class Proposal {
     @ManyToOne(fetch = FetchType.LAZY)  @JoinColumn(name = "hostId")
     private Host host;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "starId")
+    @ManyToOne(fetch = FetchType.LAZY ) @JoinColumn(name = "starId")
     private Star star;
 
     private LocalDateTime createdAt;
@@ -29,6 +29,6 @@ public class Proposal {
     private LocalDateTime showStartTime;
     private LocalDateTime showEndTime;
 
-    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "showStatusId")
+    @OneToOne(fetch = FetchType.LAZY ) @JoinColumn(name = "showStatusId")
     private ShowStatus showStatus;
 }

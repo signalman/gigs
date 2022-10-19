@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 public class Address {
 
-    private String addressName;
-    private String cityName;
-    private String countryName;
+    private String addressName; //시
+    private String cityName; //동
+    private String countryName; //구
 }
