@@ -16,10 +16,8 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "hostId")
     private Host host;
 
-    @Temporal(TemporalType.TIME)
     private LocalDateTime showStartTime;
 
-    @Temporal(TemporalType.TIME)
     private LocalDateTime showEndTime;
 
     //-- 연관관계 편의 메서드 --//

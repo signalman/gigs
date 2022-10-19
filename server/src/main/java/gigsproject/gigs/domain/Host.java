@@ -3,6 +3,8 @@ package gigsproject.gigs.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +26,7 @@ public class Host {
     private String stageInfo;
     private Integer stageCount;
 
-    @Temporal(TemporalType.TIME)
     private LocalTime openTime;
-
-    @Temporal(TemporalType.TIME)
     private LocalTime closeTime;
 
     @OneToOne(fetch = FetchType.LAZY)
