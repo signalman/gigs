@@ -1,7 +1,6 @@
 package gigsproject.gigs.Dto;
 
 import gigsproject.gigs.Domain.Genre;
-import gigsproject.gigs.Domain.StageType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
