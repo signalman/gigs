@@ -25,7 +25,7 @@ public class StarRepositoryImpl implements StarRepositoryCustom{
         List<StarCard> result = queryFactory
                 .select()
                 .from(star)
-                .join(star)
+                .join(star.starGenres)
 
         return null;
     }
