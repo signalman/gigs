@@ -24,10 +24,8 @@ public class Host {
     private String stageInfo;
     private Integer stageCount;
 
-    @Temporal(TemporalType.TIME)
     private LocalTime openTime;
 
-    @Temporal(TemporalType.TIME)
     private LocalTime closeTime;
 
     @OneToOne(fetch = FetchType.LAZY)

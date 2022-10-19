@@ -21,16 +21,13 @@ public class Proposal {
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "starId")
     private Star star;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     @Lob
     private String content;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime showStartTime;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime showEndTime;
 
     @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "showStatusId")
