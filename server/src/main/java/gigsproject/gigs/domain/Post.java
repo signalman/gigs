@@ -1,4 +1,4 @@
-package gigsproject.gigs.Domain;
+package gigsproject.gigs.domain;
 
 import lombok.*;
 
@@ -21,5 +21,17 @@ public class Post {
 
     @Temporal(TemporalType.TIME)
     private LocalDateTime showEndTime;
+
+    //-- 연관관계 편의 메서드 --//
+    /**
+     * 삭제 예정 주석
+     * @param host
+     * 다대일 관계에서 일 쪽에 연관관계 편의 메서드를 만들려고 하니 setter를 열어줘야 해서
+     * 일단 다 쪽에 만들었습니다.
+     */
+    public void setHost(Host host) {
+        this.host = host;
+        host.getPosts().add(this);
+    }
 
 }

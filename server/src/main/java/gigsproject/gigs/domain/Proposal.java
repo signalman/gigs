@@ -1,11 +1,9 @@
-package gigsproject.gigs.Domain;
+package gigsproject.gigs.domain;
 
 import lombok.*;
 
 import javax.persistence.*;
-import javax.xml.stream.events.StartDocument;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Entity

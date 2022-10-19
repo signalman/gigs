@@ -1,4 +1,4 @@
-package gigsproject.gigs.Domain;
+package gigsproject.gigs.domain;
 
 import lombok.*;
 
@@ -10,9 +10,9 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ShowStatus {
+public class Props {
     @Id @GeneratedValue
     private Long id;
-    private String status;
+    private String name;
 
 }
