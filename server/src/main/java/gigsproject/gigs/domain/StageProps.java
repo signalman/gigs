@@ -10,12 +10,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class StageProps {
     @Id @GeneratedValue
-    private Long id;
+    private Long stagePropsId;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "hostId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "hostId")
     private Host host;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "propsId")
     private Props props;
 }

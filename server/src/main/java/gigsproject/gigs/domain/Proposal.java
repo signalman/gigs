@@ -11,28 +11,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Proposal {
     @Id @GeneratedValue
-    private Long id;
+    private Long proposalId;
 
     private Boolean type;
 
-    @ManyToOne(fetch = FetchType.LAZY)  @JoinColumn(name = "hostId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  @JoinColumn(name = "hostId")
     private Host host;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "starId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "starId")
     private Star star;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     @Lob
     private String content;
 
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime showStartTime;
-
-    @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime showEndTime;
 
-    @OneToOne(fetch = FetchType.LAZY) @JoinColumn(name = "showStatusId")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "showStatusId")
     private ShowStatus showStatus;
 }

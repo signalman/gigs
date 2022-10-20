@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class ShowStatus {
     @Id @GeneratedValue
-    private Long id;
+    private Long showStatusId;
     private String status;
 
 }

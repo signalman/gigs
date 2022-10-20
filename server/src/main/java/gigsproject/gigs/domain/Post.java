@@ -5,21 +5,20 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Builder
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post {
     @Id @GeneratedValue
-    private Long id;
+    private Long postId;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "hostId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "hostId")
     private Host host;
 
-    @Temporal(TemporalType.TIME)
     private LocalDateTime showStartTime;
 
-    @Temporal(TemporalType.TIME)
     private LocalDateTime showEndTime;
 
     //-- 연관관계 편의 메서드 --//

@@ -3,6 +3,8 @@ package gigsproject.gigs.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +16,9 @@ import java.util.List;
 public class Host {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long hostId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
 
@@ -24,13 +26,10 @@ public class Host {
     private String stageInfo;
     private Integer stageCount;
 
-    @Temporal(TemporalType.TIME)
     private LocalTime openTime;
-
-    @Temporal(TemporalType.TIME)
     private LocalTime closeTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "stageTypeId")
     private StageType stageType;
 
@@ -46,5 +45,7 @@ public class Host {
 
     @OneToMany(mappedBy = "host")
     private List<Post> posts = new ArrayList<>();
+
+    private Double score;
 
 }

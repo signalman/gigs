@@ -10,7 +10,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class User {
     @Id @GeneratedValue
-    private Long id;
+    private Long userId;
     private String uid;
     private String name;
     private Integer role;
