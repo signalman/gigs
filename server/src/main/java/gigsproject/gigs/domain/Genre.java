@@ -12,6 +12,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Genre {
     @Id @GeneratedValue
-    private Long id;
+    private Long genreId;
     private String name;
 }

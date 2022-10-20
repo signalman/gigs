@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class StageType {
     @Id @GeneratedValue
-    private Long id;
+    private Long stageTypeId;
 
     private String name;
 }

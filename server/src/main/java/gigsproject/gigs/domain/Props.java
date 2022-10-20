@@ -12,7 +12,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Props {
     @Id @GeneratedValue
-    private Long id;
+    private Long propsId;
     private String name;
 
 }

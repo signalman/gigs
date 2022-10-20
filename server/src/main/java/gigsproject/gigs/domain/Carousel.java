@@ -13,7 +13,7 @@ import javax.persistence.Lob;
 @AllArgsConstructor
 public class Carousel {
     @Id @GeneratedValue
-    private Long id;
+    private Long carouselId;
     private String name;
     @Lob
     private String url;

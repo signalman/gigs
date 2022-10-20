@@ -10,11 +10,11 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class StageImg {
     @Id @GeneratedValue
-    private Long id;
+    private Long stageImgId;
 
     private String url;
 
-    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "hostId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "hostId")
     private Host host;
 
 

@@ -16,9 +16,9 @@ import java.util.List;
 public class Host {
     @Id
     @GeneratedValue
-    private Long id;
+    private Long hostId;
 
-    @OneToOne(fetch = FetchType.LAZY )
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private User user;
 
@@ -29,7 +29,7 @@ public class Host {
     private LocalTime openTime;
     private LocalTime closeTime;
 
-    @OneToOne(fetch = FetchType.LAZY )
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "stageTypeId")
     private StageType stageType;
 
