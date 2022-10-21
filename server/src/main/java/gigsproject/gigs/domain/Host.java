@@ -7,6 +7,8 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+
 @Builder
 @Getter
 @Entity
@@ -44,6 +46,6 @@ public class Host {
     private Integer stageSize;
 
     @OneToMany(mappedBy = "host")
-    private List<Post> posts = new ArrayList<>();
+    private final List<Post> posts = new ArrayList<>();
 
 }

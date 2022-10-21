@@ -4,7 +4,8 @@ import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Post;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
-import org.assertj.core.api.Assertions;
+import gigsproject.gigs.request.StageSearch;
+import gigsproject.gigs.response.StageCard;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,33 +26,36 @@ class PostServiceTest {
     @Autowired PostRepository postRepository;
     @Autowired HostRepository hostRepository;
 
-
     @Test
-    @DisplayName("무대 이름에 대한 포스트 조회")
-    void findByHostName () throws Exception{
+    @DisplayName("무대 1 페이지 조회")
+    void getStages () throws Exception{
         //given
         Host host = Host.builder()
-                .stageName("host")
                 .build();
 
-        Post post1 = Post.builder()
-                .host(host)
-                .build();
-
-        Post post2 = Post.builder()
-                .host(host)
-                .build();
-        hostRepository.save(host);
-        postRepository.save(post1);
-        postRepository.save(post2);
+        List<Post> requestPosts = IntStream.range(0, 30)
+                .mapToObj(i -> {
+                    return Post.builder()
+                            .host(host)
+                            .build();
+                })
+                .collect(Collectors.toList());
 
         //when
-        List<Post> posts = postService.getListByName("host");
+        postRepository.saveAll(requestPosts);
+
+        StageSearch postSearch = StageSearch.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        List<StageCard> responseList = postService.getList(postSearch);
 
         //then
-        assertThat(posts.size()).isEqualTo(2);
-        assertThat(posts.get(0).getHost().getStageName()).isEqualTo("host");
-        assertThat(posts.get(0).getHost()).isEqualTo(posts.get(1).getHost());
+        assertThat(postRepository.count()).isEqualTo(30);
+        assertThat(responseList.size()).isEqualTo(10L);
+        assertThat(responseList.get(0).getHostId()).isEqualTo(host.getId());
+
     }
 
 }

@@ -20,6 +20,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         /**
          * StageSearch 조건에 부합하는 필터링 기능 구현 필요
+         * Host Repo에서 데이터 필터링 해야할듯
          */
         return jpaQueryFactory.selectFrom(QPost.post)
                 .limit(stageSearch.getSize())
