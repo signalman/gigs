@@ -1,6 +1,7 @@
 package gigsproject.gigs.response;
 
 import gigsproject.gigs.domain.Genre;
+import gigsproject.gigs.domain.Post;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,4 +33,12 @@ public class StageCard {
     private List<Genre> genres;
     private Float avgScore;
     private Integer reviewCount;
+
+
+    public StageCard(Post post) {
+        this.postId = post.getId();
+        this.hostId = post.getHost().getHostId();
+        this.startTime = LocalTime.from(post.getShowStartTime());
+        this.endTime = LocalTime.from(post.getShowEndTime());
+    }
 }
