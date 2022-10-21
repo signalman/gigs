@@ -1,10 +1,11 @@
 package gigsproject.gigs.controller;
 
-import gigsproject.gigs.domain.Post;
+import gigsproject.gigs.request.StageSearch;
+import gigsproject.gigs.response.StageCard;
 import gigsproject.gigs.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,11 +18,10 @@ public class StageController {
 
     /**
      * 무대 조회
-     * @return
      */
     @GetMapping("/stages")
-    public List<Post> getList(@RequestParam String name) {
-        return postService.getListByName(name);
+    public List<StageCard> getList(@ModelAttribute StageSearch stageSearch) {
+        return postService.getList(stageSearch);
     }
 
 
