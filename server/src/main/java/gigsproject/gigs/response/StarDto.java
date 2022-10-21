@@ -17,9 +17,6 @@ public class StarDto {
         private Integer showCount;
         private Boolean status;
         private Double score;
-//        private List<StarStageType> starStageTypes = new ArrayList<>();
-//        private List<StarGenre> starGenres = new ArrayList<>();
-//        private List<StarImg> starImgs = new ArrayList<>();
     public StarDto(Star star){
         this.starId = star.getStarId();
         this.name = star.getName();
