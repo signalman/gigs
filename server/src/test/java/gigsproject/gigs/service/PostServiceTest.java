@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -27,32 +28,77 @@ class PostServiceTest {
     @Autowired HostRepository hostRepository;
 
     @Test
-    @DisplayName("무대 1 페이지 조회")
+    @DisplayName("무대 조회")
     void getStages () throws Exception{
         //given
+        //동일한 host의 post 30개를 생성, 이를 페이징 처리하여 조회
         Host host = Host.builder()
                 .build();
 
-        List<Post> requestPosts = IntStream.range(0, 30)
+        List<Post> requestPosts = IntStream.range(0, 24)
                 .mapToObj(i -> {
                     return Post.builder()
                             .host(host)
                             .build();
                 })
                 .collect(Collectors.toList());
-
-        //when
         postRepository.saveAll(requestPosts);
 
-        StageSearch postSearch = StageSearch.builder()
+        //when
+
+        StageSearch stageSearch = StageSearch.builder()
                 .page(1)
                 .size(10)
                 .build();
 
-        List<StageCard> responseList = postService.getList(postSearch);
+        List<StageCard> responseList = postService.getList(stageSearch);
 
         //then
-        assertThat(postRepository.count()).isEqualTo(30);
+        assertThat(postRepository.count()).isEqualTo(24);
+        assertThat(responseList.size()).isEqualTo(10L);
+        assertThat(responseList.get(0).getHostId()).isEqualTo(host.getHostId());
+
+    }
+
+    @Test
+    @DisplayName("무대 시간 별 조회")
+    void getStages_byTime () throws Exception{
+        //given
+        //동일한 host의 post 30개를 생성, 이를 페이징 처리하여 조회
+        Host host = Host.builder()
+                .build();
+
+        List<Post> requestPosts = IntStream.range(0, 24)
+                .mapToObj(i -> {
+                    return Post.builder()
+                            .host(host)
+                            .showStartTime(LocalDateTime.of(2022, 10, 1, 1, 2))
+                            .showEndTime(LocalDateTime.of(2022, 10, 1, 5, 6))
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        Post exceptPost= Post.builder()
+                .host(host)
+                .showStartTime(LocalDateTime.of(2022, 9, 1, 1, 2))
+                .showEndTime(LocalDateTime.of(2022, 9, 1, 5, 6))
+                .build();
+        requestPosts.add(exceptPost);
+
+        postRepository.saveAll(requestPosts);
+
+        //when
+
+        StageSearch stageSearch = StageSearch.builder()
+                .page(1)
+                .size(10)
+                .build();
+        stageSearch.setStartTime(String.valueOf(LocalDateTime.of(2022, 9, 30, 1, 2)));
+        stageSearch.setEndTime(String.valueOf(LocalDateTime.of(2022, 10, 3, 5, 6)));
+
+        List<StageCard> responseList = postService.getList(stageSearch);
+
+        //then
         assertThat(responseList.size()).isEqualTo(10L);
         assertThat(responseList.get(0).getHostId()).isEqualTo(host.getHostId());
 

@@ -7,15 +7,19 @@ import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.StageCard;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;
@@ -27,6 +31,7 @@ public class PostService {
          * 이에 해당하는 post를 return하며,
          * StageSearch의 size와 page 값을 바탕으로 querydsl을 적용한 페이징 처리 구현
          */
+
         return postRepository.getList(stageSearch).stream()
                 .map(post -> new StageCard(post))
                 .collect(Collectors.toList());
