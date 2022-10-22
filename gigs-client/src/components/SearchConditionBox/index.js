@@ -26,7 +26,9 @@ const ItemName = styled(Box)(() => ({
 }));
 
 const SearchConditionBox = ({
-  setStarCards,
+  fetchDataForStar,
+  setConditions,
+  setParentSort,
 }) => {
   const [genres, setGenres] = useState([]);
   const [stageTypes, setStageTypes] = useState([]);
@@ -35,11 +37,13 @@ const SearchConditionBox = ({
   const [address, setAddress] = useState('');
   const [selectedGenres, setSelectedGenres] = useState({});
   const [selectedStageTypes, setSelectedStageTypes] = useState({});
-  const [teamMember, setTeamMember] = useState('none');
+  const [gender, setGender] = useState('none');
+  const [sort, setSort] = useState('dateDesc');
 
   // DB에서 모든 장르와 장소 종류를 가져옴
   useEffect(() => {
     // 임시 코드
+    // TODO: 불변 테이블에서 가져오기?
     setGenres(['Rock', '힙합', '재즈']);
     setStageTypes(['Cafe', 'Pub', 'Stage']);
   }, []);
@@ -83,30 +87,33 @@ const SearchConditionBox = ({
   }, [selectedStageTypes]);
 
   // 팀 구성 변경 시
-  const handleTeamMemberChange = (e) => {
-    console.log(e);
-    setTeamMember(e.target.value);
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
   }
+
+  // 정렬 변경 시
+  const handleSortChange = useCallback((e) => {
+    setSort(e.target.value);
+    setParentSort(e.target.value);
+    fetchDataForStar({}, e.target.value);
+  }, [fetchDataForStar]); 
 
   // 검색 버튼 클릭 시
   const handleClickSearchBtn = useCallback(() => {
-    const getStarCardsApi = async () => {
-      const finalStageTypes = [];
-      for(const key in selectedStageTypes) {
-        if(selectedStageTypes[key]) finalStageTypes.push(key);
-      }
-
-      const finalGenres = [];
-      for(const key in selectedGenres) {
-        if(selectedGenres[key]) finalGenres.push(key);
-      }
-
-      const response = await axios.get(API.getStarCards(name, finalStageTypes, finalGenres, address, teamMember, 'dateDesc'));
-
-      return response.data;
+    const stageTypes = [];
+    for(const key in selectedStageTypes) {
+      if(selectedStageTypes[key]) stageTypes.push(key);
     }
-    setStarCards(getStarCardsApi());
-  }, [name, selectedStageTypes, selectedGenres, address, teamMember, setStarCards]);
+
+    const genres = [];
+    for(const key in selectedGenres) {
+      if(selectedGenres[key]) genres.push(key);
+    }
+
+    const newConditions = {name, address, gender, genres, stageTypes};
+    setConditions(newConditions);
+    fetchDataForStar(newConditions);
+  }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchDataForStar]);
 
   return (
     <>
@@ -192,8 +199,8 @@ const SearchConditionBox = ({
               <FormControl sx={{ alignSelf: 'center' }}>
                 <RadioGroup
                   row
-                  value={teamMember}
-                  onChange={handleTeamMemberChange}
+                  value={gender}
+                  onChange={handleGenderChange}
                 >
                   <FormControlLabel value='none' control={<Radio size='small' />} label='무관' />
                   <FormControlLabel value='man' control={<Radio size='small' />} label='남성' />
@@ -232,9 +239,12 @@ const SearchConditionBox = ({
               height: '30px',
             }}
             variant='standard'
-            defaultValue='최신순'
+            value={sort}
+            onChange={handleSortChange}
           >
-            <MenuItem value='최신순'>최신순</MenuItem>
+            <MenuItem value='dateDesc'>최신순</MenuItem>
+            <MenuItem value='rateDesc'>별점순</MenuItem>
+            <MenuItem value='reviewDesc'>리뷰순</MenuItem>
           </Select>
         </Line>
       </Box>

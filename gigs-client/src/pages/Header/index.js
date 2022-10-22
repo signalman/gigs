@@ -11,6 +11,7 @@ const Container = styled(Box)((p) => ({
   height: '200px',
   backgroundColor: 'white',
   boxShadow: '0 0 4px black',
+  zIndex: 100,
 }));
 
 const HeaderBox = styled(Box)((p) => ({
@@ -51,8 +52,8 @@ const Header = () => {
       <HeaderBox>
         <SmallBox>
           <LogoBtn
-          isClicked={pathname === '/'}
-          handleClick={() => navigate('/')}
+            isClicked={pathname === '/'}
+            handleClick={() => navigate('/')}
           ><img alt="logo_tmp" src="img/gigs_logo_tmp.png"/></LogoBtn>
          </SmallBox>
         <MenuBtnBox>
