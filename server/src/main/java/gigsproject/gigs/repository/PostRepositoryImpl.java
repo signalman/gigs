@@ -1,7 +1,10 @@
 package gigsproject.gigs.repository;
 
+import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gigsproject.gigs.domain.Post;
+import gigsproject.gigs.domain.QHost;
 import gigsproject.gigs.domain.QPost;
 import gigsproject.gigs.request.StageSearch;
 import lombok.RequiredArgsConstructor;
@@ -11,42 +14,64 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static gigsproject.gigs.domain.QHost.host;
+import static gigsproject.gigs.domain.QPost.*;
+import static java.util.Objects.isNull;
+import static org.springframework.util.StringUtils.hasText;
+
 @Repository
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-
-    /**
-     * 시간대별 post 조회
-     * @param stageSearch
-     * @return
-     */
     @Override
     public List<Post> getList(StageSearch stageSearch) {
 
-        /**
-         * StageSearch 조건에 부합하는 필터링 기능 구현 필요
-         * host 와 post fetch join해서 그 결과 정보를 response객체에 담아 전송
-         * */
-
-        /**
-         * LocalDateTime 변환 로직
-         * null처리안되어있음
-         * 추후 수정 예정
-         */
-        LocalDateTime startSearchTime = LocalDateTime.parse(stageSearch.getStartTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        LocalDateTime endSearchTime = LocalDateTime.parse(stageSearch.getEndTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-
-        QPost p = QPost.post;
+        QPost p = post;
 
         return jpaQueryFactory.selectFrom(p)
-                .where(p.showStartTime.after(startSearchTime).and(p.showEndTime.before(endSearchTime)))
+                .join(p.host, host)
+                .fetchJoin()
+                .where(
+                        stageNameEq(stageSearch.getName()),
+                        stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime(), p)
+                )
                 .limit(stageSearch.getSize())
                 .offset(stageSearch.getOffset())
                 .orderBy(p.id.desc())
                 .fetch();
+
+    }
+
+    private Predicate stageNameEq(String name) {
+        return hasText(name) ? post.host.stageName.eq(name) : null;
+    }
+
+    /**
+     * null 값에 대한 테스트 검증 필요
+     * @param startSearchTime
+     * @param endSearchTime
+     * @param p
+     * @return
+     */
+    private Predicate stageTimeEq(String startSearchTime, String endSearchTime, QPost p) {
+
+        LocalDateTime startTime = hasText(startSearchTime) ? LocalDateTime.parse(startSearchTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME) : null;
+        LocalDateTime endTime = hasText(endSearchTime) ? LocalDateTime.parse(endSearchTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME) : null;
+
+        if (startTime == null) {
+            if (endTime == null) {
+                return null;
+            } else {
+                return post.showEndTime.before(endTime);
+            }
+        } else {
+            if (startTime == null) {
+                return post.showStartTime.after(startTime);
+            }
+            return p.showStartTime.after(startTime).and(p.showEndTime.before(endTime));
+        }
     }
 }
 

@@ -3,6 +3,7 @@ package gigsproject.gigs.service;
 import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Post;
 import gigsproject.gigs.repository.HostRepository;
+import gigsproject.gigs.repository.HostSpecification;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.StageCard;

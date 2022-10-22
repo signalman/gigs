@@ -26,7 +26,10 @@ public class Host {
     private User user;
 
     private String stageName;
+
+    @Lob
     private String stageInfo;
+
     private Integer stageCount;
 
     private LocalTime openTime;
@@ -44,7 +47,7 @@ public class Host {
     private Address stageAddress;
 
     private Boolean targetGender;
-    private Integer stageSize;
+    private Double stageSize;
 
     @OneToMany(mappedBy = "host")
     private final List<Post> posts = new ArrayList<>();

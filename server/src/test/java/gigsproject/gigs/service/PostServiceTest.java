@@ -27,13 +27,14 @@ class PostServiceTest {
     @Autowired PostRepository postRepository;
     @Autowired HostRepository hostRepository;
 
+
     @Test
-    @DisplayName("무대 조회")
-    void getStages () throws Exception{
+    @DisplayName("무대 이름 별 조회")
+    void getStages_byName () throws Exception{
         //given
         //동일한 host의 post 30개를 생성, 이를 페이징 처리하여 조회
         Host host = Host.builder()
-                .pay(100000)
+                .stageName("abc")
                 .build();
 
         List<Post> requestPosts = IntStream.range(0, 24)
@@ -51,14 +52,14 @@ class PostServiceTest {
                 .page(1)
                 .size(10)
                 .build();
-
+        stageSearch.setName("abc");
         List<StageCard> responseList = postService.getList(stageSearch);
 
         //then
         assertThat(postRepository.count()).isEqualTo(24);
         assertThat(responseList.size()).isEqualTo(10L);
         assertThat(responseList.get(0).getHostId()).isEqualTo(host.getHostId());
-        assertThat(responseList.get(0).getPay()).isEqualTo(host.getPay());
+        assertThat(responseList.get(0).getStageName()).isEqualTo(host.getStageName());
 
 
     }
@@ -104,6 +105,47 @@ class PostServiceTest {
         //then
         assertThat(responseList.size()).isEqualTo(10L);
         assertThat(responseList.get(0).getHostId()).isEqualTo(host.getHostId());
+
+    }
+
+    @Test
+    @DisplayName("무대 이름 + 시간 별 조회")
+    void getStages_Name_Time () throws Exception{
+        //given
+        //동일한 host의 post 30개를 생성, 이를 페이징 처리하여 조회
+        Host host = Host.builder()
+                .stageName("abc")
+                .build();
+
+        List<Post> requestPosts = IntStream.range(0, 24)
+                .mapToObj(i -> {
+                    return Post.builder()
+                            .host(host)
+                            .showStartTime(LocalDateTime.of(2022, 10, 1, 1, 2))
+                            .showEndTime(LocalDateTime.of(2022, 10, 1, 5, 6))
+                            .build();
+                })
+                .collect(Collectors.toList());
+        postRepository.saveAll(requestPosts);
+
+        //when
+
+        StageSearch stageSearch = StageSearch.builder()
+                .page(1)
+                .size(10)
+                .build();
+
+        stageSearch.setName("abc");
+        stageSearch.setStartTime(String.valueOf(LocalDateTime.of(2022, 10, 1, 1, 2)));
+        stageSearch.setEndTime(String.valueOf(LocalDateTime.of(2022, 10, 1, 5, 6)));
+
+        List<StageCard> responseList = postService.getList(stageSearch);
+
+        //then
+        assertThat(postRepository.count()).isEqualTo(24);
+        assertThat(responseList.size()).isEqualTo(10L);
+        assertThat(responseList.get(0).getHostId()).isEqualTo(host.getHostId());
+        assertThat(responseList.get(0).getStageName()).isEqualTo(host.getStageName());
 
     }
 
