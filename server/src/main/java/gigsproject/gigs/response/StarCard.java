@@ -4,7 +4,9 @@ import com.querydsl.core.annotations.QueryProjection;
 import gigsproject.gigs.domain.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -23,7 +25,7 @@ public class StarCard {
     private Integer reviewCount;  //리뷰
     public StarCard(Star star){
         this.starId = star.getStarId();
-        this.starImgUrl = star.getStarImgs().stream().findAny().orElse(null).getUrl();
+        this.starImgUrl =  star.getStarImgs().isEmpty() ?  "" :  star.getStarImgs().get(0).getUrl();
         this.starName = star.getName();
         this.address = star.getUser().getAddress();
         this.gender = star.getGender();
