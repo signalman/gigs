@@ -33,6 +33,7 @@ class PostServiceTest {
         //given
         //동일한 host의 post 30개를 생성, 이를 페이징 처리하여 조회
         Host host = Host.builder()
+                .pay(100000)
                 .build();
 
         List<Post> requestPosts = IntStream.range(0, 24)
@@ -57,6 +58,8 @@ class PostServiceTest {
         assertThat(postRepository.count()).isEqualTo(24);
         assertThat(responseList.size()).isEqualTo(10L);
         assertThat(responseList.get(0).getHostId()).isEqualTo(host.getHostId());
+        assertThat(responseList.get(0).getPay()).isEqualTo(host.getPay());
+
 
     }
 

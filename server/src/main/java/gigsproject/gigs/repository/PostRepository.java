@@ -9,6 +9,4 @@ import java.util.List;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> , PostRepositoryCustom{
-
-    List<Post> findByHost(Host host);
 }

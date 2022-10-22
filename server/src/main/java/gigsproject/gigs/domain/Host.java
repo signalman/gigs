@@ -51,4 +51,7 @@ public class Host {
 
     private Double score;
 
+    @OneToMany(mappedBy = "host", cascade = ALL)
+    private final List<StageImg> imgs = new ArrayList<>();
+
 }
