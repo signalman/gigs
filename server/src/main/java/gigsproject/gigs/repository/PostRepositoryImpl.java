@@ -35,7 +35,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetchJoin()
                 .where(
                         stageNameEq(stageSearch.getName()),
-                        stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime(), p)
+                        stageTypeEq(stageSearch.getStageTypes()),
+                        stageGenreEq(stageSearch.getGenres()),
+                        starAddressEq(stageSearch.getAddress()),
+                        stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime())
+//                        stageTargetEq(stageSearch.getTargetGender(), stageSearch.getTargetAge(), stageSearch.getTargetMinCount())
+
                 )
                 .limit(stageSearch.getSize())
                 .offset(stageSearch.getOffset())
@@ -44,33 +49,48 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     }
 
+//    private Predicate stageTargetEq(Integer targetGender, Integer targetAge, Integer targetMinCount) {
+//        BooleanExpression genderEq = isNull(targetGender) ? null : post.host.targetGender.eq(targetGender);
+//        BooleanExpression ageEq = isNull(targetAge) ? null : post.host.targetAge.eq(targetGender);
+//        BooleanExpression minCountEq = isNull(targetMinCount) ? null : post.host.targetNumber.eq(targetMinCount);
+//        return ;
+//    }
+
+    private Predicate stageTypeEq(List<String> stageTypes) {
+        return isNull(stageTypes) ? null : post.host.stageType.name.in(stageTypes);
+    }
+
+    private Predicate stageGenreEq(List<String> genres) {
+        return isNull(genres) ? null : post.host.hostGenres.any().genre.name.in(genres);
+    }
+    private Predicate starAddressEq(String address) {
+        return hasText(address) ? host.user.address.cityName.eq(address) : null;
+    }
+
     private Predicate stageNameEq(String name) {
         return hasText(name) ? post.host.stageName.eq(name) : null;
     }
 
-    /**
-     * null 값에 대한 테스트 검증 필요
-     * @param startSearchTime
-     * @param endSearchTime
-     * @param p
-     * @return
-     */
-    private Predicate stageTimeEq(String startSearchTime, String endSearchTime, QPost p) {
+    private Predicate stageTimeEq(String startSearchTime, String endSearchTime) {
 
         LocalDateTime startTime = hasText(startSearchTime) ? LocalDateTime.parse(startSearchTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME) : null;
         LocalDateTime endTime = hasText(endSearchTime) ? LocalDateTime.parse(endSearchTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME) : null;
 
         if (startTime == null) {
             if (endTime == null) {
+                // x <= <= x
                 return null;
             } else {
+                // x <=  <= o
                 return post.showEndTime.before(endTime);
             }
         } else {
-            if (startTime == null) {
+            if (endTime == null) {
+                //o <=  <= x
                 return post.showStartTime.after(startTime);
             }
-            return p.showStartTime.after(startTime).and(p.showEndTime.before(endTime));
+            //o <= <= o
+            return post.showStartTime.after(startTime).and(post.showEndTime.before(endTime));
         }
     }
 }

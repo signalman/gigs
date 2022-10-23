@@ -8,13 +8,14 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class PostGenre {
+@Setter
+public class HostGenre {
     @Id @GeneratedValue
     private Long postGenreId;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "genreId")
     private Genre genre;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "postId")
-    private Post post;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "hostId")
+    private Host host;
 }
