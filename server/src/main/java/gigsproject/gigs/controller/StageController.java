@@ -18,23 +18,10 @@ public class StageController {
 
     private final PostService postService;
 
-    /**
-     * 무대 조회
-     * JPA Specification 공부중
-     *
-     * --param list --
-     * name
-     * stageTypes
-     * genres
-     * address
-     * startTime, endTime
-     * targetGender
-     * targetAge
-     * targetMinCount
-     */
     @GetMapping("/stages")
     public List<StageCard> getList(@ModelAttribute StageSearch stageSearch) {
 
+        log.info("StageSearch.stageName = {}", stageSearch.getName());
         return postService.getList(stageSearch);
     }
 

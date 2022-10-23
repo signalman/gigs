@@ -53,19 +53,11 @@ public class Host {
 
     @OneToMany(mappedBy = "host")
     private final List<Post> posts = new ArrayList<>();
-    public void addPosts(Post post) {
-        posts.add(post);
-        post.setHost(this);
-    }
 
     @OneToMany(mappedBy = "host", cascade = ALL)
     private final List<StageImg> imgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "host", cascade = ALL)
-    private List<HostGenre> hostGenres = new ArrayList<>();
-    public void addGenres(HostGenre postGenre) {
-        hostGenres.add(postGenre);
-        postGenre.setHost(this);
-    }
+    private final List<HostGenre> hostGenres = new ArrayList<>();
 
 }

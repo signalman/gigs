@@ -9,7 +9,4 @@ import java.util.List;
 
 @Repository
 public interface HostRepository extends JpaRepository<Host, Long> {
-
-    List<Host> findByStageName(String stageName);
-
 }

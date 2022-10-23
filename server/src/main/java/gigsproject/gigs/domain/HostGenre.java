@@ -18,4 +18,9 @@ public class HostGenre {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "hostId")
     private Host host;
+    public void setHost(Host host) {
+        this.host = host;
+        host.getHostGenres().add(this);
+    }
+
 }

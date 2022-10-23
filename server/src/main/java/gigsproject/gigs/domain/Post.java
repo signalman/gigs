@@ -16,15 +16,14 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "hostId")
     private Host host;
-
-    private LocalDateTime showStartTime;
-
-    private LocalDateTime showEndTime;
-
     //-- 연관관계 편의 메서드 --//
     public void setHost(Host host) {
         this.host = host;
         host.getPosts().add(this);
     }
+
+    private LocalDateTime showStartTime;
+
+    private LocalDateTime showEndTime;
 
 }

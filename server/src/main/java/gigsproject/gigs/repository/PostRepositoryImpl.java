@@ -8,8 +8,10 @@ import gigsproject.gigs.domain.QHost;
 import gigsproject.gigs.domain.QPost;
 import gigsproject.gigs.request.StageSearch;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -21,17 +23,21 @@ import static org.springframework.util.StringUtils.hasText;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    private final EntityManager em;
+
     @Override
     public List<Post> getList(StageSearch stageSearch) {
 
-        QPost p = post;
+        QHost host = QHost.host;
 
-        return jpaQueryFactory.selectFrom(p)
-                .join(p.host, host)
+        return jpaQueryFactory.select(post)
+                .from(post)
+                .join(post.host, host)
                 .fetchJoin()
                 .where(
                         stageNameEq(stageSearch.getName()),
@@ -39,14 +45,29 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageGenreEq(stageSearch.getGenres()),
                         starAddressEq(stageSearch.getAddress()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime())
+                        //장르는 조건 확정된 후 작업 예정
 //                        stageTargetEq(stageSearch.getTargetGender(), stageSearch.getTargetAge(), stageSearch.getTargetMinCount())
 
                 )
                 .limit(stageSearch.getSize())
                 .offset(stageSearch.getOffset())
-                .orderBy(p.id.desc())
+                .orderBy(post.id.desc())
                 .fetch();
 
+    }
+
+    /**
+     * JPQL로 구현한 이름 검색
+     *
+     * @param stageSearch
+     * @return
+     */
+    private List<Post> getListByStageName(StageSearch stageSearch) {
+        String query = "SELECT p FROM Post p INNER JOIN p.host h "
+                + "WHERE h.stageName = :stageName";
+        return em.createQuery(query, Post.class)
+                .setParameter("stageName", stageSearch.getName())
+                .getResultList();
     }
 
 //    private Predicate stageTargetEq(Integer targetGender, Integer targetAge, Integer targetMinCount) {
@@ -63,6 +84,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private Predicate stageGenreEq(List<String> genres) {
         return isNull(genres) ? null : post.host.hostGenres.any().genre.name.in(genres);
     }
+
     private Predicate starAddressEq(String address) {
         return hasText(address) ? host.user.address.cityName.eq(address) : null;
     }
