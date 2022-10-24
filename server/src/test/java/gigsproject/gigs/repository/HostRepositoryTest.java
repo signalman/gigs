@@ -18,9 +18,9 @@ class HostRepositoryTest {
 
     @Test
     public void querydsl(){
-        JPAQueryFactory query = new JPAQueryFactory(em);
-        Genre genre = new Genre(null, "hoin");
-        em.persist(genre);
+//        JPAQueryFactory query = new JPAQueryFactory(em);
+//        Genre genre = new Genre(null, "hoin");
+//        em.persist(genre);
     }
 
 }

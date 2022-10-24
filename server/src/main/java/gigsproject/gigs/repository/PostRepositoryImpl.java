@@ -2,8 +2,10 @@ package gigsproject.gigs.repository;
 
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import gigsproject.gigs.domain.Genre;
 import gigsproject.gigs.domain.Post;
 import gigsproject.gigs.domain.QHost;
+import gigsproject.gigs.domain.StageType;
 import gigsproject.gigs.request.StageSearch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,12 +68,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return isNull(targetGender) ? null : post.host.targetGender.eq(targetGender);
     }
 
-    private Predicate stageTypeEq(List<String> stageTypes) {
-        return isNull(stageTypes) ? null : post.host.stageType.name.in(stageTypes);
+    private Predicate stageTypeEq(List<StageType> stageTypes) {
+        return isNull(stageTypes) ? null : post.host.stageType.in(stageTypes);
     }
 
-    private Predicate stageGenreEq(List<String> genres) {
-        return isNull(genres) ? null : post.host.hostGenres.any().genre.name.in(genres);
+    private Predicate stageGenreEq(List<Genre> genres) {
+        return isNull(genres) ? null : post.host.hostGenres.any().genre.in(genres);
     }
 
     private Predicate starAddressEq(String address) {

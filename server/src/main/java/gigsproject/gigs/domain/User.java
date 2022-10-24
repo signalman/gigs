@@ -8,12 +8,14 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class User {
     @Id @GeneratedValue
     private Long userId;
     private String uid;
     private String name;
-    private Integer role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private String phone;
     private String password;
 

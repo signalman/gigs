@@ -33,8 +33,7 @@ public class Host {
     private LocalTime openTime;
     private LocalTime closeTime;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "stageTypeId")
+    @Enumerated(EnumType.STRING)
     private StageType stageType;
 
 

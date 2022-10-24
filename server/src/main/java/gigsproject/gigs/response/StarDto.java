@@ -15,19 +15,16 @@ public class StarDto {
         private Integer memberNumber;
         private String introduce;
         private Integer showCount;
-        private Boolean status;
+        private String status;
         private Double score;
-//        private List<StarStageType> starStageTypes = new ArrayList<>();
-//        private List<StarGenre> starGenres = new ArrayList<>();
-//        private List<StarImg> starImgs = new ArrayList<>();
     public StarDto(Star star){
         this.starId = star.getStarId();
         this.name = star.getName();
-        this.gender = star.getGender();
+        this.gender = star.getGender().name();
         this.memberNumber = star.getMemberNumber();
         this.introduce = star.getIntroduce();
         this.showCount = star.getShowCount();
-        this.status = star.getStatus();
+        this.status = star.getStatus().name();
         this.score = star.getScore();
     }
 }

@@ -3,17 +3,19 @@ package gigsproject.gigs.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class StarStageType {
     @Id @GeneratedValue
     private Long starStageTypeId;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "starId")
     private Star star;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name ="stageTypeId")
+    @Enumerated(EnumType.STRING)
     private StageType stageType;
 
     /**

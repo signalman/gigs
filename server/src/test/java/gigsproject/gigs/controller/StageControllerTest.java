@@ -104,19 +104,22 @@ class StageControllerTest {
     void read_name_stageType () throws Exception{
         //given
 
-        StageType stageType1 = new StageType();
-        stageType1.setName("bar");
-        StageType stageType2 = new StageType();
-        stageType2.setName("cafe");
+        /**
+         * 이제 필요없어진 코드입니다.
+         * StageType stageType1 = new StageType();
+         *         stageType1.setName("bar");
+         *         StageType stageType2 = new StageType();
+         *         stageType2.setName("cafe");
+         */
 
 
         Host host1 = Host.builder()
                 .stageName("abc")
-                .stageType(stageType1)
+                .stageType(StageType.BAR)
                 .build();
         Host host2 = Host.builder()
                 .stageName("abc")
-                .stageType(stageType2)
+                .stageType(StageType.CAFE)
                 .build();
 
         Post post1 = Post.builder()
@@ -141,17 +144,20 @@ class StageControllerTest {
     void read_stageType_time () throws Exception{
         //given
 
-        StageType stageType1 = new StageType();
-        stageType1.setName("bar");
+        /**
+         * 필요없어진 코드
+         */
+//        StageType stageType1 = new StageType();
+//        stageType1.setName("bar");
 
 
         Host host1 = Host.builder()
                 .stageName("abc")
-                .stageType(stageType1)
+                .stageType(StageType.BAR)
                 .build();
         Host host2 = Host.builder()
                 .stageName("def")
-                .stageType(stageType1)
+                .stageType(StageType.BAR)
                 .build();
 
 

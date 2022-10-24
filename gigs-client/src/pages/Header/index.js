@@ -3,6 +3,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
 import LogoBtn from '../../components/LogoBtn';
+import MyMenuBox from '../../components/MyMenuBox';
 
 const Container = styled(Box)((p) => ({
   position: 'fixed',
@@ -10,6 +11,7 @@ const Container = styled(Box)((p) => ({
   height: '200px',
   backgroundColor: 'white',
   boxShadow: '0 0 4px black',
+  zIndex: 100,
 }));
 
 const HeaderBox = styled(Box)((p) => ({
@@ -50,8 +52,8 @@ const Header = () => {
       <HeaderBox>
         <SmallBox>
           <LogoBtn
-          isClicked={pathname === '/'}
-          handleClick={() => navigate('/')}
+            isClicked={pathname === '/'}
+            handleClick={() => navigate('/')}
           ><img alt="logo_tmp" src="img/gigs_logo_tmp.png"/></LogoBtn>
          </SmallBox>
         <MenuBtnBox>
@@ -68,7 +70,18 @@ const Header = () => {
             handleClick={() => {navigate('/review');}}
           >이용 후기</HeaderBtn>
         </MenuBtnBox>
-        <SmallBox>마이메뉴</SmallBox>
+        <SmallBox>
+          <MyMenuBox>
+          <img alt="menu_box" src="img/MenuBox.png" width={"60"} height={"60"}/>
+          </MyMenuBox>
+          {/*여백 */}
+          <t>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</t>
+          <LogoBtn
+          isClicked={pathname === '/mypage'}
+          handleClick={() => navigate('/mypage')}>
+          <img alt="my_info" src="img/MyInfo.png" width={"60"} height={"60"}/>
+          </LogoBtn>
+        </SmallBox>
       </HeaderBox>
     </Container>
   </>

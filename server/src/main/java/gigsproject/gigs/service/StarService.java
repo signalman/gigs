@@ -2,8 +2,11 @@ package gigsproject.gigs.service;
 
 import gigsproject.gigs.domain.Star;
 import gigsproject.gigs.repository.StarRepository;
+import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StarService {
     private final StarRepository starRepository;
-    public List<Star> getStarCardList() {
-        return starRepository.getStarCardList();
-    }
 
     public void createStars(Star star){
         starRepository.save(star);
@@ -26,5 +26,9 @@ public class StarService {
 
     public List<Star> findAll(){
         return starRepository.findAll();
+    }
+
+    public Page<StarCard> getStarCardListCond(StarSearch starSearch, Pageable pageable) {
+        return starRepository.getStarCardListCond(starSearch, pageable);
     }
 }

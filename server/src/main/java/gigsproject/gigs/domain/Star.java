@@ -8,35 +8,36 @@ import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
+@Builder(access = AccessLevel.PUBLIC)
 public class Star {
     @Id @GeneratedValue
     private Long starId;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "userId")
     private User user;
     private String name;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private Integer memberNumber;
     private String introduce;
     private Integer showCount;
-    private Boolean status;
+    @Enumerated(EnumType.STRING)
+    private StarStatus status;
     private Double score;
 
     /**
      * 양방향 연관관계 추가
      */
-    @OneToMany(mappedBy = "star")
+    @OneToMany(mappedBy = "star") @Builder.Default
     private List<StarStageType> starStageTypes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "star")
+    @OneToMany(mappedBy = "star") @Builder.Default
     private List<StarGenre> starGenres = new ArrayList<>();
 
-    @OneToMany(mappedBy = "star")
+    @OneToMany(mappedBy = "star") @Builder.Default
     private List<StarImg> starImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "star")
+    @OneToMany(mappedBy = "star") @Builder.Default
     private List<Review> reviews = new ArrayList<>();
-
-
 }

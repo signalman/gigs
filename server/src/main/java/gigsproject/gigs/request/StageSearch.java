@@ -1,5 +1,7 @@
 package gigsproject.gigs.request;
 
+import gigsproject.gigs.domain.Genre;
+import gigsproject.gigs.domain.StageType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +15,9 @@ public class StageSearch {
 
     private String name;
 
-    private List<String> stageTypes;
+    private List<StageType> stageTypes;
 
-    private List<String> genres;
+    private List<Genre> genres;
 
     private String address;
 

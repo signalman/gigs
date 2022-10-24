@@ -29,6 +29,6 @@ public class Proposal {
     private LocalDateTime showStartTime;
     private LocalDateTime showEndTime;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "showStatusId")
+    @Enumerated(EnumType.STRING)
     private ShowStatus showStatus;
 }

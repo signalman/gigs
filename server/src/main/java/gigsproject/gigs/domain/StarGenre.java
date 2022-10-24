@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class StarGenre {
     @Id
     @GeneratedValue
@@ -15,8 +16,7 @@ public class StarGenre {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "starId")
     private Star star;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "genreId")
+    @Enumerated(EnumType.STRING)
     private Genre genre;
 
     /**
