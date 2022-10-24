@@ -3,19 +3,25 @@ package gigsproject.gigs.service;
 import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Post;
 import gigsproject.gigs.repository.HostRepository;
+import gigsproject.gigs.repository.HostSpecification;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.StageCard;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class PostService {
 
     private final PostRepository postRepository;

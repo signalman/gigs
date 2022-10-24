@@ -1,25 +1,28 @@
 package gigsproject.gigs.request;
 
+import gigsproject.gigs.domain.Genre;
+import gigsproject.gigs.domain.StageType;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 public class StageSearch {
 
     private String name;
 
-    private final List<String> stageTypes = new ArrayList<>();
+    private List<StageType> stageTypes;
 
-    private final List<String> genres = new ArrayList<>();
+    private List<Genre> genres;
 
     private String address;
 
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private String startTime;
+    private String endTime;
 
     private Integer targetGender;
 
@@ -33,6 +36,7 @@ public class StageSearch {
     private Integer page;
     private Integer size;
     private static final int MAX_SIZE = 2000;
+
     @Builder
     public StageSearch(Integer page, Integer size) {
         this.page = (page== null) ? 1 : page;

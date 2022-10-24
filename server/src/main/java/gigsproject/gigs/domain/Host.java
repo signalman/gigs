@@ -3,8 +3,6 @@ package gigsproject.gigs.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +24,10 @@ public class Host {
     private User user;
 
     private String stageName;
+
+    @Lob
     private String stageInfo;
+
     private Integer stageCount;
 
     private LocalTime openTime;
@@ -35,19 +36,27 @@ public class Host {
     @Enumerated(EnumType.STRING)
     private StageType stageType;
 
-    private Integer targetAge;
-    private Integer targetNumber;
+
+    private Double stageSize;
     private Integer pay;
 
     @Embedded
     private Address stageAddress;
 
-    private Boolean targetGender;
-    private Integer stageSize;
+    private Integer targetGender;
+    private Integer targetAge;
+    private Integer targetNumber;
+
+
+    private Double score;
 
     @OneToMany(mappedBy = "host")
     private final List<Post> posts = new ArrayList<>();
 
-    private Double score;
+    @OneToMany(mappedBy = "host", cascade = ALL)
+    private final List<StageImg> imgs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "host", cascade = ALL)
+    private final List<HostGenre> hostGenres = new ArrayList<>();
 
 }

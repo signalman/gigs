@@ -29,15 +29,15 @@ public class Star {
     /**
      * 양방향 연관관계 추가
      */
-    @OneToMany(mappedBy = "star")
+    @OneToMany(mappedBy = "star") @Builder.Default
     private List<StarStageType> starStageTypes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "star")
+    @OneToMany(mappedBy = "star") @Builder.Default
     private List<StarGenre> starGenres = new ArrayList<>();
 
-    @OneToMany(mappedBy = "star")
+    @OneToMany(mappedBy = "star") @Builder.Default
     private List<StarImg> starImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "star")
+    @OneToMany(mappedBy = "star") @Builder.Default
     private List<Review> reviews = new ArrayList<>();
 }
