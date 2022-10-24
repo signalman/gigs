@@ -6,13 +6,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Getter
-@Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-public class ShowStatus {
-    @Id @GeneratedValue
-    private Long showStatusId;
-    private String status;
+public enum ShowStatus {
 
+    COMP,    //공연완료
+    SIGNED,  //제안서 체결
+    UNSIGNED //제안서 미체결
 }

@@ -14,6 +14,6 @@ public class StarGenreDto {
 
     public StarGenreDto(StarGenre starGenre) {
         this.starGenreId = starGenre.getStarGenreId();
-        this.genreName = starGenre.getGenre().getName();
+        this.genreName = starGenre.getGenre().name();
     }
 }

@@ -36,8 +36,8 @@ class StarRepositoryImplTest {
     @Test
     public void 장르_저장() {
 
-        Genre genre1 = new Genre(null, "pop");
-        Genre genre2 = new Genre(null, "hip-hop");
+//        Genre genre1 = new Genre(null, "pop");
+//        Genre genre2 = new Genre(null, "hip-hop");
 
     }
 

@@ -28,7 +28,7 @@ public class StarCard {
         this.starImgUrl =  star.getStarImgs().isEmpty() ?  "" :  star.getStarImgs().get(0).getUrl();
         this.starName = star.getName();
         this.address = star.getUser().getAddress();
-        this.gender = star.getGender();
+        this.gender = star.getGender().name();
         this.memberNumber = star.getMemberNumber();
         this.showCount = star.getShowCount();
         this.avgScore = star.getScore();
