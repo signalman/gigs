@@ -97,7 +97,8 @@ class PostServiceTest {
                 .page(1)
                 .size(10)
                 .build();
-        stageSearch.setStartTime(String.valueOf(LocalDateTime.of(2022, 9, 30, 1, 2)));
+
+        stageSearch.setStartTime(String.valueOf(LocalDateTime.of(2022, 10, 1, 1, 2)));
         stageSearch.setEndTime(String.valueOf(LocalDateTime.of(2022, 10, 3, 5, 6)));
 
         List<StageCard> responseList = postService.getList(stageSearch);

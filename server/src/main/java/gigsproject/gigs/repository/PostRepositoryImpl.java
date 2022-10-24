@@ -93,15 +93,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 return null;
             } else {
                 // x <=  <= o
-                return post.showEndTime.before(endTime);
+                return post.showEndTime.loe(endTime);
             }
         } else {
             if (endTime == null) {
                 //o <=  <= x
-                return post.showStartTime.after(startTime);
+                return post.showStartTime.goe(startTime);
             }
             //o <= <= o
-            return post.showStartTime.after(startTime).and(post.showEndTime.before(endTime));
+            return post.showStartTime.goe(startTime).and(post.showEndTime.loe(endTime));
         }
     }
 }
