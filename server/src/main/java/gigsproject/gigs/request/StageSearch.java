@@ -13,9 +13,9 @@ public class StageSearch {
 
     private String name;
 
-    private final List<String> stageTypes = new ArrayList<>();
+    private List<String> stageTypes;
 
-    private final List<String> genres = new ArrayList<>();
+    private List<String> genres;
 
     private String address;
 

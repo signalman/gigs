@@ -1,9 +1,6 @@
 package gigsproject.gigs.response;
 
-import gigsproject.gigs.domain.Address;
-import gigsproject.gigs.domain.Genre;
-import gigsproject.gigs.domain.Post;
-import gigsproject.gigs.domain.StageType;
+import gigsproject.gigs.domain.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,7 +33,7 @@ public class StageCard {
 
     private Integer pay;
     private StageType stageType;
-    private List<Genre> genres = new ArrayList<>();
+    private List<HostGenre> genres;
 
     private Float avgScore;
     private Integer reviewCount;
@@ -48,10 +45,10 @@ public class StageCard {
 //        this.imgUrl = post.getHost().getImgs().get(0).getUrl();
         this.stageName = post.getHost().getStageName();
         this.stageAddress = post.getHost().getStageAddress();
-//        this.area = post.getHost().geta
-//        this.targetGender = post.getHost().getTargetGender();
+        this.stageSize = post.getHost().getStageSize();
+        this.targetGender = String.valueOf(post.getHost().getTargetGender());
         this.targetAge = post.getHost().getTargetAge();
-//this.targetMinCount = post.getHost().gettarget
+        this.targetMinCount = post.getHost().getTargetNumber();
         this.startTime = isNull(post.getShowStartTime()) ? null : LocalTime.from(post.getShowStartTime());
         this.endTime = isNull(post.getShowEndTime()) ? null : LocalTime.from(post.getShowEndTime());
 
@@ -59,7 +56,7 @@ public class StageCard {
         this.pay  = post.getHost().getPay();
         this.stageType = post.getHost().getStageType();
 
-//        this.genres = post.getHost().get
+        this.genres = post.getHost().getHostGenres();
 
     }
 }

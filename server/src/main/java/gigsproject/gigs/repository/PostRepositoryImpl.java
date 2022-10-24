@@ -1,11 +1,9 @@
 package gigsproject.gigs.repository;
 
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gigsproject.gigs.domain.Post;
 import gigsproject.gigs.domain.QHost;
-import gigsproject.gigs.domain.QPost;
 import gigsproject.gigs.request.StageSearch;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static gigsproject.gigs.domain.QHost.host;
-import static gigsproject.gigs.domain.QPost.*;
+import static gigsproject.gigs.domain.QPost.post;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
 
@@ -44,10 +42,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         starAddressEq(stageSearch.getAddress()),
-                        stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime())
-                        //장르는 조건 확정된 후 작업 예정
-//                        stageTargetEq(stageSearch.getTargetGender(), stageSearch.getTargetAge(), stageSearch.getTargetMinCount())
-
+                        stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
+                        stageTargetGenderEq(stageSearch.getTargetGender()),
+                        stageTargetAgeEq(stageSearch.getTargetAge()),
+                        stageTargetMinCountEq(stageSearch.getTargetMinCount())
                 )
                 .limit(stageSearch.getSize())
                 .offset(stageSearch.getOffset())
@@ -56,26 +54,17 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     }
 
-    /**
-     * JPQL로 구현한 이름 검색
-     *
-     * @param stageSearch
-     * @return
-     */
-    private List<Post> getListByStageName(StageSearch stageSearch) {
-        String query = "SELECT p FROM Post p INNER JOIN p.host h "
-                + "WHERE h.stageName = :stageName";
-        return em.createQuery(query, Post.class)
-                .setParameter("stageName", stageSearch.getName())
-                .getResultList();
+    private Predicate stageTargetMinCountEq(Integer targetMinCount) {
+        return isNull(targetMinCount) ? null : post.host.targetNumber.goe(targetMinCount);
     }
 
-//    private Predicate stageTargetEq(Integer targetGender, Integer targetAge, Integer targetMinCount) {
-//        BooleanExpression genderEq = isNull(targetGender) ? null : post.host.targetGender.eq(targetGender);
-//        BooleanExpression ageEq = isNull(targetAge) ? null : post.host.targetAge.eq(targetGender);
-//        BooleanExpression minCountEq = isNull(targetMinCount) ? null : post.host.targetNumber.eq(targetMinCount);
-//        return ;
-//    }
+    private Predicate stageTargetAgeEq(Integer targetAge) {
+        return isNull(targetAge) ? null : post.host.targetAge.eq(targetAge);
+    }
+
+    private Predicate stageTargetGenderEq(Integer targetGender) {
+        return isNull(targetGender) ? null : post.host.targetGender.eq(targetGender);
+    }
 
     private Predicate stageTypeEq(List<String> stageTypes) {
         return isNull(stageTypes) ? null : post.host.stageType.name.in(stageTypes);

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,8 +21,6 @@ public class StageController {
 
     @GetMapping("/stages")
     public List<StageCard> getList(@ModelAttribute StageSearch stageSearch) {
-
-        log.info("StageSearch.stageName = {}", stageSearch.getName());
         return postService.getList(stageSearch);
     }
 
