@@ -8,19 +8,22 @@ import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
+@Builder(access = AccessLevel.PUBLIC)
 public class Star {
     @Id @GeneratedValue
     private Long starId;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "userId")
     private User user;
     private String name;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private Integer memberNumber;
     private String introduce;
     private Integer showCount;
-    private Boolean status;
+    @Enumerated(EnumType.STRING)
+    private StarStatus status;
     private Double score;
 
     /**
@@ -37,6 +40,4 @@ public class Star {
 
     @OneToMany(mappedBy = "star")
     private List<Review> reviews = new ArrayList<>();
-
-
 }

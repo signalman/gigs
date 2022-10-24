@@ -1,6 +1,7 @@
 package gigsproject.gigs.request;
 
-import gigsproject.gigs.domain.Address;
+import gigsproject.gigs.domain.Genre;
+import gigsproject.gigs.domain.StageType;
 import lombok.Data;
 
 import java.util.List;
@@ -8,8 +9,8 @@ import java.util.List;
 @Data
 public class StarSearch {
     private String name;
-    private List<String> stages;
-    private List<String> genres;
+    private List<StageType> stages;
+    private List<Genre> genres;
     private String address;
     private String gender;
 }

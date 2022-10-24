@@ -12,6 +12,6 @@ public class StarStageTypeDto {
 
     public StarStageTypeDto(StarStageType starStageType){
         this.starStageTypeId = starStageType.getStarStageTypeId();
-        this.stageTypeName = starStageType.getStageType().getName();
+        this.stageTypeName = starStageType.getStageType().name();
     }
 }

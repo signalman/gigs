@@ -2,6 +2,7 @@ package gigsproject.gigs.repository;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.StarSearch;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static gigsproject.gigs.domain.QStar.star;
+import static gigsproject.gigs.domain.StarStatus.*;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.*;
 
@@ -35,6 +37,7 @@ public class StarRepositoryImpl implements StarRepositoryCustom{
                 .from(star)
                 .join(star.user, user).fetchJoin()
                 .where(
+                        isStarActive(),
                         starNameEq(starSearch.getName()),
                         starStageTypesEq(starSearch.getStages()),
                         starGenresEq(starSearch.getGenres()),
@@ -55,20 +58,24 @@ public class StarRepositoryImpl implements StarRepositoryCustom{
         return new PageImpl<>(content, pageable, total);
     }
 
+    private static BooleanExpression isStarActive() {
+        return star.status.eq(ACTIVE);
+    }
+
     private Predicate starNameEq(String name) {
         return hasText(name) ? star.name.eq(name) : null;
     }
-    private Predicate starStageTypesEq(List<String> stages) {
-        return isNull(stages) ? null : star.starStageTypes.any().stageType.name.in(stages);
+    private Predicate starStageTypesEq(List<StageType> stages) {
+        return isNull(stages) ? null : star.starStageTypes.any().stageType.in(stages);
     }
-    private Predicate starGenresEq(List<String> genres) {//락.인디.R&B
-        return isNull(genres) ? null : star.starGenres.any().genre.name.in(genres);
+    private Predicate starGenresEq(List<Genre> genres) {//락.인디.R&B
+        return isNull(genres) ? null : star.starGenres.any().genre.in(genres);
     }
     private Predicate starAddressEq(String address) {
         return hasText(address) ? star.user.address.cityName.eq(address) : null;
     }
     private Predicate starGenderEq(String gender) {
-        return hasText(gender) ? star.gender.eq(gender) : null;
+        return hasText(gender) ? star.gender.eq(Gender.valueOf(gender)) : null;
     }
 
 
