@@ -1,8 +1,6 @@
 import { Box, Button, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, styled, TextField } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import CategoryItem from '../CategoryItem';
-import { API } from '../../utils/Constants';
-import axios from 'axios';
 
 const Line = styled(Box)(() => ({
   width: '100%',
@@ -218,7 +216,7 @@ const SearchConditionBox = ({
                 width: 100,
                 height: 35,
                 alignSelf: 'center',
-                backgroundColor: '#D046D2',
+                color: 'primary',
                 borderRadius: 3,
               }}
               variant='contained'
