@@ -43,7 +43,8 @@ public class Host {
     @Embedded
     private Address stageAddress;
 
-    private Integer targetGender;
+    @Enumerated(EnumType.STRING)
+    private Gender targetGender;
     private Integer targetAge;
     private Integer targetNumber;
 

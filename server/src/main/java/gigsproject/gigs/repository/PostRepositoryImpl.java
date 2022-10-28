@@ -1,20 +1,24 @@
 package gigsproject.gigs.repository;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import gigsproject.gigs.domain.Genre;
-import gigsproject.gigs.domain.Post;
-import gigsproject.gigs.domain.QHost;
-import gigsproject.gigs.domain.StageType;
+import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.StageSearch;
+import gigsproject.gigs.response.StageCard;
+import gigsproject.gigs.response.StarCard;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static gigsproject.gigs.domain.QHost.host;
 import static gigsproject.gigs.domain.QPost.post;
@@ -31,29 +35,36 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final EntityManager em;
 
     @Override
-    public List<Post> getList(StageSearch stageSearch) {
+    public Page<StageCard> getList(StageSearch stageSearch, Pageable pageable) {
 
         QHost host = QHost.host;
-
-        return jpaQueryFactory.select(post)
+        QueryResults<Post> queryResults = jpaQueryFactory.select(post)
                 .from(post)
                 .join(post.host, host)
                 .fetchJoin()
                 .where(
                         stageNameEq(stageSearch.getName()),
-                        stageTypeEq(stageSearch.getStageTypes()),
-                        stageGenreEq(stageSearch.getGenres()),
+//                        stageTypeEq(stageSearch.getStageTypes()),
+//                        stageGenreEq(stageSearch.getGenres()),
                         starAddressEq(stageSearch.getAddress()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
-                        stageTargetGenderEq(stageSearch.getTargetGender()),
+//                        stageTargetGenderEq(stageSearch.getTargetGender()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
                         stageTargetMinCountEq(stageSearch.getTargetMinCount())
                 )
-                .limit(stageSearch.getSize())
-                .offset(stageSearch.getOffset())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .orderBy(post.id.desc())
-                .fetch();
+                .fetchResults();
+        List<Post> posts = queryResults.getResults();
 
+        List<StageCard> stageCards = posts.stream()
+                .map(post -> new StageCard(post))
+                .collect(Collectors.toList());
+
+        long total = queryResults.getTotal();
+
+        return new PageImpl<>(stageCards, pageable, total);
     }
 
     private Predicate stageTargetMinCountEq(Integer targetMinCount) {
@@ -64,7 +75,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return isNull(targetAge) ? null : post.host.targetAge.eq(targetAge);
     }
 
-    private Predicate stageTargetGenderEq(Integer targetGender) {
+    private Predicate stageTargetGenderEq(Gender targetGender) {
         return isNull(targetGender) ? null : post.host.targetGender.eq(targetGender);
     }
 

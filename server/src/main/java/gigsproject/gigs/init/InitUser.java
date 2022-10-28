@@ -9,8 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
+import static gigsproject.gigs.domain.Gender.MEN;
 import static gigsproject.gigs.domain.Genre.*;
 import static gigsproject.gigs.domain.Role.*;
 import static gigsproject.gigs.domain.StageType.*;
@@ -196,6 +199,55 @@ public class InitUser {
                 em.persist(starImg);
                 em.persist(starImg1);
 
+            }
+
+            /**
+             * Host 및 Post dummy Data (총 10개 Host, 50개 Post)
+             */
+
+            Address userAddress = new Address("수원시", "팔달구", "인계동");
+            Address stageAddress = new Address("수원시", "팔달구", "우만동");
+            LocalTime openTime = LocalTime.of(9, 0);
+            LocalTime closeTime = LocalTime.of(22, 0);
+
+            for (int i = 0; i < 10; i++) {
+                User user = User.builder()
+                        .uid("uid" + "("+ (i+1)+ ")")
+                        .name("유저" + "("+ (i+1)+ ")")
+                        .role(HOST)
+                        .phone("01012345678")
+                        .password("ppwwee")
+                        .address(userAddress)
+                        .build();
+                em.persist(user);
+
+                Host host = Host.builder()
+                        .user(user)
+                        .stageName("abc")
+                        .stageInfo("무대 정보입니다.")
+                        .stageCount(10)
+                        .openTime(openTime)
+                        .closeTime(closeTime)
+                        .stageType(StageType.BAR)
+                        .stageSize(23.4)
+                        .pay(100000)
+                        .stageAddress(stageAddress)
+                        .targetGender(MEN)
+                        .targetAge(20)
+                        .targetNumber(40)
+                        .score(4.7)
+                        .build();
+                for (int j = 0; j < 5; j++) {
+                    LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
+                    LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
+
+                    Post post = Post.builder()
+                            .host(host)
+                            .showStartTime(startTime)
+                            .showEndTime(endTime)
+                            .build();
+                    em.persist(post);
+                }
             }
 
 
