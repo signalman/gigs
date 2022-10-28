@@ -21,6 +21,6 @@ export const PATH = {
 };
 
 export const SYMBOL = {
-  star: Symbol(),
-  stage: Symbol(),
+  star: Symbol('star'),
+  stage: Symbol('stage'),
 }

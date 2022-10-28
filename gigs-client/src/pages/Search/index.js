@@ -17,8 +17,7 @@ const debounce = (callback, limit) => {
   }
 };
 
-const Search = () => {
-  const [target, setTarget] = useState(null);
+const Search = ({target}) => {
   const [conditions, setConditions] = useState({});
   const [sort, setSort] = useState("dateDesc");
   const [cards, setCards] = useState([]);
@@ -55,7 +54,11 @@ const Search = () => {
     // check pathname
     const pathname = window.location.pathname;
     if(pathname.indexOf(PATH.searchStar) > -1) {
-      setTarget(SYMBOL.star);
+      console.log("in star");
+      fetchDataForStar();
+    } else if(pathname.indexOf(PATH.searchStage) > -1) {
+      console.log("in stage");
+      // TODO: STAGE SEARCH
       fetchDataForStar();
     }
   }, []);
@@ -110,7 +113,7 @@ const Search = () => {
       >
         <Box
           sx={{ width: '100%', }}>
-          <SearchConditionBox fetchDataForStar={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />
+          <SearchConditionBox target={target} fetchDataForStar={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />
         </Box>
         <Box
           sx={{

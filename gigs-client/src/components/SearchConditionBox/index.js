@@ -1,8 +1,10 @@
 import { Box, Button, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, styled, TextField } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
+import { SYMBOL } from '../../utils/Constants';
 import CategoryItem from '../CategoryItem';
-import { API } from '../../utils/Constants';
-import axios from 'axios';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
 
 const Line = styled(Box)(() => ({
   width: '100%',
@@ -26,6 +28,7 @@ const ItemName = styled(Box)(() => ({
 }));
 
 const SearchConditionBox = ({
+  target,
   fetchDataForStar,
   setConditions,
   setParentSort,
@@ -133,7 +136,7 @@ const SearchConditionBox = ({
         >
           <Line>
             <Item>
-              <ItemName>스타 이름</ItemName>
+              <ItemName>{target === SYMBOL.star ? "스타 이름" : "무대 이름"}</ItemName>
               <TextField
                 sx={{
                   width: '200px',
@@ -148,7 +151,7 @@ const SearchConditionBox = ({
           </Line>
           <Line>
             <Item>
-              <ItemName>장르</ItemName>
+              <ItemName>{target === SYMBOL.star ? "장르" : "선호 장르"}</ItemName>
               <Box
                 sx={{
                   width: 'auto',
@@ -195,18 +198,41 @@ const SearchConditionBox = ({
               ></TextField>
             </Item>
             <Item type='half'>
-              <ItemName>팀 구성</ItemName>
-              <FormControl sx={{ alignSelf: 'center' }}>
-                <RadioGroup
-                  row
-                  value={gender}
-                  onChange={handleGenderChange}
-                >
-                  <FormControlLabel value='none' control={<Radio size='small' />} label='무관' />
-                  <FormControlLabel value='man' control={<Radio size='small' />} label='남성' />
-                  <FormControlLabel value='woman' control={<Radio size='small' />} label='여성' />
-                </RadioGroup>
-              </FormControl>
+              {target === SYMBOL.star ? (
+                <>
+                  <ItemName>팀 구성</ItemName>
+                  <FormControl sx={{ alignSelf: 'center' }}>
+                    <RadioGroup
+                      row
+                      value={gender}
+                      onChange={handleGenderChange}
+                    >
+                      <FormControlLabel value='none' control={<Radio size='small' />} label='무관' />
+                      <FormControlLabel value='man' control={<Radio size='small' />} label='남성' />
+                      <FormControlLabel value='woman' control={<Radio size='small' />} label='여성' />
+                    </RadioGroup>
+                  </FormControl>
+                </>
+                
+              ) : (
+                <>
+                  <ItemName>주소</ItemName>
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DateTimePicker
+                      sx={{
+                        height: '50px'
+                      }}
+                      renderInput={(props) => <TextField {...props} />}
+                      label="DateTimePicker"
+                      value={""}
+                      onChange={(newValue) => {
+                        return;
+                      }}
+                    />
+                  </LocalizationProvider>
+                </>
+              )}
+              
             </Item>
           </Line>
           <Line>
