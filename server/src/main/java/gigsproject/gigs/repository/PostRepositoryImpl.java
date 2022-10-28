@@ -2,6 +2,7 @@ package gigsproject.gigs.repository;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Predicate;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.StageSearch;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -38,7 +40,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<StageCard> getList(StageSearch stageSearch, Pageable pageable) {
 
         QHost host = QHost.host;
-        QueryResults<Post> queryResults = jpaQueryFactory.select(post)
+        List<Post> posts = jpaQueryFactory.select(post)
                 .from(post)
                 .join(post.host, host)
                 .fetchJoin()
@@ -55,16 +57,28 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc())
-                .fetchResults();
-        List<Post> posts = queryResults.getResults();
+                .fetch();
 
-        List<StageCard> stageCards = posts.stream()
+        List<StageCard> content = posts.stream()
                 .map(post -> new StageCard(post))
                 .collect(Collectors.toList());
 
-        long total = queryResults.getTotal();
+        JPAQuery<Long> countQuery = jpaQueryFactory
+                .select(post.count())
+                .from(post)
+                .where(
+                        stageNameEq(stageSearch.getName()),
+//                        stageTypeEq(stageSearch.getStageTypes()),
+//                        stageGenreEq(stageSearch.getGenres()),
+                        starAddressEq(stageSearch.getAddress()),
+                        stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
+//                        stageTargetGenderEq(stageSearch.getTargetGender()),
+                        stageTargetAgeEq(stageSearch.getTargetAge()),
+                        stageTargetMinCountEq(stageSearch.getTargetMinCount())
 
-        return new PageImpl<>(stageCards, pageable, total);
+                );
+
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     private Predicate stageTargetMinCountEq(Integer targetMinCount) {
