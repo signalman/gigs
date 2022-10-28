@@ -15,7 +15,7 @@ const HeaderBtn = ({
           letterSpacing: '0.25px',
           p: 0,
           mx: 3,
-          color: isClicked ? '#D00E64' : 'black',
+          color: isClicked ? 'primary' : 'black',
         }}
         variant='text'
         onClick={handleClick}
