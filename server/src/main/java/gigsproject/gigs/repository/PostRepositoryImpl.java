@@ -1,17 +1,14 @@
 package gigsproject.gigs.repository;
 
-import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.StageCard;
-import gigsproject.gigs.response.StarCard;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
@@ -26,6 +23,7 @@ import static gigsproject.gigs.domain.QHost.host;
 import static gigsproject.gigs.domain.QPost.post;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
+import static org.springframework.util.StringUtils.isEmpty;
 
 @Repository
 @RequiredArgsConstructor
@@ -46,11 +44,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetchJoin()
                 .where(
                         stageNameEq(stageSearch.getName()),
-//                        stageTypeEq(stageSearch.getStageTypes()),
-//                        stageGenreEq(stageSearch.getGenres()),
+                        stageTypeEq(stageSearch.getStageTypes()),
+                        stageGenreEq(stageSearch.getGenres()),
+                        stageTargetGenderEq(stageSearch.getTargetGender()),
                         starAddressEq(stageSearch.getAddress()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
-//                        stageTargetGenderEq(stageSearch.getTargetGender()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
                         stageTargetMinCountEq(stageSearch.getTargetMinCount())
                 )
@@ -68,11 +66,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .from(post)
                 .where(
                         stageNameEq(stageSearch.getName()),
-//                        stageTypeEq(stageSearch.getStageTypes()),
-//                        stageGenreEq(stageSearch.getGenres()),
+                        stageTypeEq(stageSearch.getStageTypes()),
+                        stageGenreEq(stageSearch.getGenres()),
+                        stageTargetGenderEq(stageSearch.getTargetGender()),
                         starAddressEq(stageSearch.getAddress()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
-//                        stageTargetGenderEq(stageSearch.getTargetGender()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
                         stageTargetMinCountEq(stageSearch.getTargetMinCount())
 
@@ -94,11 +92,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private Predicate stageTypeEq(List<StageType> stageTypes) {
-        return isNull(stageTypes) ? null : post.host.stageType.in(stageTypes);
+        return isEmpty(stageTypes) ? null : post.host.stageType.in(stageTypes);
     }
 
     private Predicate stageGenreEq(List<Genre> genres) {
-        return isNull(genres) ? null : post.host.hostGenres.any().genre.in(genres);
+        return isEmpty(genres) ? null : post.host.hostGenres.any().genre.in(genres);
     }
 
     private Predicate starAddressEq(String address) {

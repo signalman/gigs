@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import static gigsproject.gigs.domain.Gender.MEN;
+import static gigsproject.gigs.domain.Gender.*;
 import static gigsproject.gigs.domain.Genre.*;
 import static gigsproject.gigs.domain.Role.*;
 import static gigsproject.gigs.domain.StageType.*;
@@ -25,17 +25,17 @@ public class InitUser {
     private final InitUserService initUserService;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         initUserService.init();
     }
 
     @Component
-    static class InitUserService{
+    static class InitUserService {
         @PersistenceContext
         EntityManager em;
 
         @Transactional
-        public void init(){
+        public void init() {
 
             //주소 더미데이터 생성
             Address address1 = new Address("수원시", "장안구", "율전동");
@@ -43,7 +43,7 @@ public class InitUser {
             Address address3 = new Address("수원시", "영통구", "매탄동");
             Address address4 = new Address("서울시", "동작구", "사당동");
 
-            for(int i=0; i < 100; i++){
+            for (int i = 0; i < 100; i++) {
 
                 User user = User.builder()
                         .uid("uid" + i)
@@ -71,14 +71,14 @@ public class InitUser {
 
                 em.persist(star);
 
-                if(i % 4 == 0){
+                if (i % 4 == 0) {
                     StarStageType starStageType = StarStageType.builder()
                             .stageType(BAR)
                             .star(star)
                             .build();
                     starStageType.setStar(star);
                     em.persist(starStageType);
-                }else if(i % 4 == 1){
+                } else if (i % 4 == 1) {
                     StarStageType starStageType1 = StarStageType.builder()
                             .stageType(BAR)
                             .star(star)
@@ -110,7 +110,7 @@ public class InitUser {
                     em.persist(starStageType1);
                     em.persist(starStageType2);
                     em.persist(starStageType3);
-                }else{
+                } else {
                     StarStageType starStageType1 = StarStageType.builder()
                             .stageType(CAFE)
                             .star(star)
@@ -120,7 +120,7 @@ public class InitUser {
                 }
 
 
-                if(i % 5 == 0){
+                if (i % 5 == 0) {
                     StarGenre starGenre1 = StarGenre.builder()
                             .star(star)
                             .genre(DANCE)
@@ -142,7 +142,7 @@ public class InitUser {
                     starGenre1.setStar(star);
                     em.persist(starGenre1);
 
-                }else if(i % 5 == 2){
+                } else if (i % 5 == 2) {
                     StarGenre starGenre1 = StarGenre.builder()
                             .star(star)
                             .genre(DANCE)
@@ -186,13 +186,13 @@ public class InitUser {
                 }
 
                 StarImg starImg = StarImg.builder()
-                                        .star(star)
-                                        .url("/documents/files/...")
-                                        .build();
+                        .star(star)
+                        .url("/documents/files/...")
+                        .build();
                 StarImg starImg1 = StarImg.builder()
-                                .star(star)
-                                .url("/files/myfiles/..")
-                                .build();
+                        .star(star)
+                        .url("/files/myfiles/..")
+                        .build();
                 starImg.setStar(star);
                 starImg1.setStar(star);
 
@@ -202,7 +202,7 @@ public class InitUser {
             }
 
             /**
-             * Host 및 Post dummy Data (총 10개 Host, 50개 Post)
+             * Host 및 Post dummy Data (총 15개 Host, 75개 Post)
              */
 
             Address userAddress = new Address("수원시", "팔달구", "인계동");
@@ -212,8 +212,8 @@ public class InitUser {
 
             for (int i = 0; i < 10; i++) {
                 User user = User.builder()
-                        .uid("uid" + "("+ (i+1)+ ")")
-                        .name("유저" + "("+ (i+1)+ ")")
+                        .uid("uid" + "(" + (i + 1) + ")")
+                        .name("유저" + "(" + (i + 1) + ")")
                         .role(HOST)
                         .phone("01012345678")
                         .password("ppwwee")
@@ -237,6 +237,7 @@ public class InitUser {
                         .targetNumber(40)
                         .score(4.7)
                         .build();
+
                 for (int j = 0; j < 5; j++) {
                     LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
                     LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
@@ -248,8 +249,76 @@ public class InitUser {
                             .build();
                     em.persist(post);
                 }
+                if (i % 2 == 0) {
+                    HostGenre hostGenre = HostGenre.builder()
+                            .host(host)
+                            .genre(HIPHOP)
+                            .build();
+                    em.persist(hostGenre);
+                } else {
+                    HostGenre hostGenre = HostGenre.builder()
+                            .host(host)
+                            .genre(JAZZ)
+                            .build();
+                    em.persist(hostGenre);
+                }
             }
 
+
+
+            for (int i = 10; i < 15; i++) {
+                User user = User.builder()
+                        .uid("uid" + "(" + (i + 1) + ")")
+                        .name("유저" + "(" + (i + 1) + ")")
+                        .role(HOST)
+                        .phone("01012345678")
+                        .password("ppwwee")
+                        .address(userAddress)
+                        .build();
+                em.persist(user);
+
+                Host host = Host.builder()
+                        .user(user)
+                        .stageName("defg")
+                        .stageInfo("무대 정보입니다.")
+                        .stageCount(10)
+                        .openTime(openTime)
+                        .closeTime(closeTime)
+                        .stageType(StageType.CAFE)
+                        .stageSize(23.4)
+                        .pay(100000)
+                        .stageAddress(stageAddress)
+                        .targetGender(WOMEN)
+                        .targetAge(20)
+                        .targetNumber(40)
+                        .score(4.7)
+                        .build();
+
+                for (int j = 0; j < 5; j++) {
+                    LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
+                    LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
+
+                    Post post = Post.builder()
+                            .host(host)
+                            .showStartTime(startTime)
+                            .showEndTime(endTime)
+                            .build();
+                    em.persist(post);
+                }
+                if (i % 2 == 0) {
+                    HostGenre hostGenre = HostGenre.builder()
+                            .host(host)
+                            .genre(HIPHOP)
+                            .build();
+                    em.persist(hostGenre);
+                } else {
+                    HostGenre hostGenre = HostGenre.builder()
+                            .host(host)
+                            .genre(JAZZ)
+                            .build();
+                    em.persist(hostGenre);
+                }
+            }
 
         }
     }

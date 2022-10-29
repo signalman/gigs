@@ -51,13 +51,13 @@ public class Host {
 
     private Double score;
 
-    @OneToMany(mappedBy = "host")
+    @OneToMany(mappedBy = "host") @Builder.Default
     private final List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "host", cascade = ALL)
+    @OneToMany(mappedBy = "host", cascade = ALL) @Builder.Default
     private final List<StageImg> imgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "host", cascade = ALL)
+    @OneToMany(mappedBy = "host", cascade = ALL) @Builder.Default
     private final List<HostGenre> hostGenres = new ArrayList<>();
 
 }

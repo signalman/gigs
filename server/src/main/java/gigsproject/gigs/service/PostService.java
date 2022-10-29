@@ -1,6 +1,8 @@
 package gigsproject.gigs.service;
 
+import gigsproject.gigs.domain.Genre;
 import gigsproject.gigs.domain.Post;
+import gigsproject.gigs.domain.StageType;
 import gigsproject.gigs.domain.Star;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.request.StageSearch;
