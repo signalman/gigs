@@ -52,7 +52,6 @@ const Header = () => {
       <HeaderBox>
         <SmallBox>
           <LogoBtn
-            isClicked={pathname === '/'}
             handleClick={() => navigate('/')}
           ><img alt="logo_tmp" src="img/gigs_logo_tmp.png"/></LogoBtn>
          </SmallBox>
@@ -74,13 +73,6 @@ const Header = () => {
           <MyMenuBox>
           <img alt="menu_box" src="img/MenuBox.png" width={"60"} height={"60"}/>
           </MyMenuBox>
-          {/*여백 */}
-          <t>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</t>
-          <LogoBtn
-          isClicked={pathname === '/mypage'}
-          handleClick={() => navigate('/mypage')}>
-          <img alt="my_info" src="img/MyInfo.png" width={"60"} height={"60"}/>
-          </LogoBtn>
         </SmallBox>
       </HeaderBox>
     </Container>

@@ -1,56 +1,47 @@
-import { Button } from '@mui/material';
-import { Box, styled } from '@mui/material';
+import { Button, MenuItem,Fade, Menu} from '@mui/material';
 import React,{useState} from 'react';
-import LogoBtn from '../LogoBtn';
 import { useNavigate } from 'react-router-dom';
-
-const MenuBox = styled(Box)((p) => ({
-    position: 'absolute',
-    right: -32,
-    top: 65,
-    width: '130px',
-    height: '120px',
-    boxShadow: '0 0 4px black',
-  }));
 
 const MyMenuBox = ({
   children,
-  /*handleClick,*/
 }) => {
+  const navigate = useNavigate();
 
-    const pathname = window.location.pathname;
-    const navigate = useNavigate();
-
-    const [isOpen,setMenu] = useState(false);
-    const toggleMenu = () => {
-        setMenu(isOpen => isOpen ? false : true);
-    };
-
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <>
-      <Button onClick={toggleMenu}>
+      <Button
+        id="fade-button"
+        aria-controls={open ? 'fade-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        onClick={handleClick}
+      >
         {children}
-        {isOpen ? 
-        <MenuBox>
-            <LogoBtn
-          isClicked={pathname === '/mypage'}
-          handleClick={() => navigate('/mypage')}>
-            <div>내 정보</div>
-          </LogoBtn>
-          <LogoBtn
-          isClicked={pathname === '/posts'}
-          handleClick={() => navigate('/posts')}>
-            <div>포스트 등록</div>
-          </LogoBtn>
-
-          {/*logout 만들어지면 수정*/}
-          <LogoBtn
-          isClicked={pathname === '/logout'}
-          handleClick={() => navigate('/logout')}>
-            <div>로그아웃</div>
-          </LogoBtn>
-    </MenuBox> : null}
-      </Button>
+        </Button>
+      <Menu
+        id="fade-menu"
+        MenuListProps={{
+           'aria-labelledby': 'fade-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+      >
+        <MenuItem onClick={() => {navigate('/mypage'); handleClose()}}>내 정보</MenuItem>
+        
+        <MenuItem onClick={() => {navigate('/posts'); handleClose()}}>포스트 등록</MenuItem>
+        
+        <MenuItem onClick={() => {navigate('/logout'); handleClose()}}>로그아웃</MenuItem>
+      </Menu>
     </>
   );
 };
