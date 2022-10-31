@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, styled, TextField } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, styled, TextField, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import CategoryItem from '../CategoryItem';
 
@@ -13,6 +13,7 @@ const Item = styled(Box)((p) => ({
   width: p.type === 'half' ? '50%' : '100%',
   height: '100%',
   display: 'flex',
+  alignItems: 'center',
 }));
 
 const ItemName = styled(Box)(() => ({
@@ -23,8 +24,8 @@ const ItemName = styled(Box)(() => ({
   fontSize: 17,
 }));
 
-const SearchConditionBox = ({
-  fetchDataForStar,
+const StarSearchConditionBox = ({
+  fetchData,
   setConditions,
   setParentSort,
 }) => {
@@ -35,6 +36,8 @@ const SearchConditionBox = ({
   const [address, setAddress] = useState('');
   const [selectedGenres, setSelectedGenres] = useState({});
   const [selectedStageTypes, setSelectedStageTypes] = useState({});
+
+  // 스타 찾기
   const [gender, setGender] = useState('none');
   const [sort, setSort] = useState('dateDesc');
 
@@ -93,8 +96,8 @@ const SearchConditionBox = ({
   const handleSortChange = useCallback((e) => {
     setSort(e.target.value);
     setParentSort(e.target.value);
-    fetchDataForStar({}, e.target.value);
-  }, [fetchDataForStar]); 
+    fetchData({}, e.target.value);
+  }, [fetchData]); 
 
   // 검색 버튼 클릭 시
   const handleClickSearchBtn = useCallback(() => {
@@ -110,8 +113,8 @@ const SearchConditionBox = ({
 
     const newConditions = {name, address, gender, genres, stageTypes};
     setConditions(newConditions);
-    fetchDataForStar(newConditions);
-  }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchDataForStar]);
+    fetchData(newConditions);
+  }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchData]);
 
   return (
     <>
@@ -250,4 +253,4 @@ const SearchConditionBox = ({
   );
 };
 
-export default SearchConditionBox;
+export default StarSearchConditionBox;
