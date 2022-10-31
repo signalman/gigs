@@ -116,7 +116,7 @@ const Search = ({
 
 const stage_dummy = {
   hostId:1,
-  stageName:"카페",
+  stageName:"스타벅스",
   avgScore:2,
   stageAddress:"경기도 수원시 영통구",
   stageSize:34,
@@ -129,9 +129,11 @@ const stage_dummy = {
   stageImgUrl:"img/stage_tmp.jpg",
   stageGenres:[
   {stageGenreId : 1, genreName : "팝송"},
-  {stageGenreId : 2, genreName : "발라드"}],
+  {stageGenreId : 2, genreName : "발라드"},
+  {stageGenreId : 3, genreName : "랩"}],
   stageTypes:[
   {stageTypeId: 1, genreName : "카페"},
+  {stageTypeId: 2, genreName : "식당"}
 ]
 }
 
@@ -198,24 +200,23 @@ const stage_dummy = {
           <Grid container spacing={'75px'} sx={{ pl: '75px', }}>
             {cards?.map((card, i) => (
               <Grid item key={i}>
-                <Box sx={{width: '300px', height: '450px', backgroundColor: 'red',}}></Box>
+                <StarCard
+                  starId={star_dummy.starId}
+                  starName={star_dummy.starName}
+                  avgScore={star_dummy.avgScore}
+                  starAddress={star_dummy.starAddress}
+                  memberNumber={star_dummy.memberNumber}
+                  gender={star_dummy.gender}
+                  showCount={star_dummy.showCount}
+                  starGenres={star_dummy.starGenres}
+                  starStageTypes={star_dummy.starStageTypes}
+                  starImgUrl={star_dummy.starImgUrl}
+                  />
               </Grid>  
             ))}
           </Grid>
         </Box>
       </Box>
-      <StarCard
-      starId={star_dummy.starId}
-      starName={star_dummy.starName}
-      avgScore={star_dummy.avgScore}
-      starAddress={star_dummy.starAddress}
-      memberNumber={star_dummy.memberNumber}
-      gender={star_dummy.gender}
-      showCount={star_dummy.showCount}
-      starGenres={star_dummy.starGenres}
-      starStageTypes={star_dummy.starStageTypes}
-      starImgUrl={star_dummy.starImgUrl}
-      />
       <StageCard
       hostId={stage_dummy.hostId}
       stageName={stage_dummy.stageName}
