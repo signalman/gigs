@@ -2,10 +2,10 @@ import { Box, Grid } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { API, PATH, SYMBOL } from '../../utils/Constants';
 import axios from 'axios';
-import SearchConditionBox from '../../components/SearchConditionBox';
+import StarSearchConditionBox from '../../components/StarSearchConditionBox';
+import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
-const DEV = false;
 
 const debounce = (callback, limit) => {
   let timeout;
@@ -17,7 +17,9 @@ const debounce = (callback, limit) => {
   }
 };
 
-const Search = ({target}) => {
+const Search = ({
+  target,
+}) => {
   const [conditions, setConditions] = useState({});
   const [sort, setSort] = useState("dateDesc");
   const [cards, setCards] = useState([]);
@@ -42,41 +44,6 @@ const Search = ({target}) => {
       setPage(1);
     }
   }, [conditions, sort]);
-  // TODO: fetchDataForStage
-
-  useEffect(() => {
-    if(DEV) {
-      const newCards = [];
-      for(let i=0; i<PAGE_SIZE; i++) newCards.push(i);
-      setCards(newCards);
-      return;
-    }
-    // check pathname
-    const pathname = window.location.pathname;
-    if(pathname.indexOf(PATH.searchStar) > -1) {
-      console.log("in star");
-      fetchDataForStar();
-    } else if(pathname.indexOf(PATH.searchStage) > -1) {
-      console.log("in stage");
-      // TODO: STAGE SEARCH
-      fetchDataForStar();
-    }
-  }, []);
-
-  // 무한 스크롤 이벤트 등록
-  useEffect(() => {
-    const handleScroll = debounce(() => {
-      const { scrollTop, offsetHeight } = document.documentElement;
-      if(window.innerHeight + scrollTop >= offsetHeight) {
-        setFetching(true);
-      }
-    }, 100);
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    }
-  }, []);
 
   const fetchDataForStarPaging = useCallback(async () => {
     try {
@@ -93,16 +60,120 @@ const Search = ({target}) => {
       setFetching(false);
     }
   }, [cards, conditions, sort, page]);
+  
+  const fetchDataForStage = useCallback( async (newConditions = {}, newSort = "") => {
+    newConditions = newConditions || conditions;
+    newSort = newSort || sort;
+
+    try {
+      const response = await axios.get(API.getStageCards(newConditions, newSort, PAGE_SIZE, 0));
+
+      const data = response.data;
+      setCards(data);
+      setPage(1);
+    } catch (e) {
+      console.log(e);
+      
+      setCards([1, 2, 3, 4, 5, 6]);
+      setPage(1);
+    }
+  }, [conditions, sort]);
+
+  const fetchDataForStagePaging = useCallback(async () => {
+    try {
+      const response = await axios.get(API.getStageCards(conditions, sort, PAGE_SIZE, page));
+      const data = response.data;
+      setCards(data);
+      setPage(page+1);
+      setFetching(false);
+      // TODO: hasNext 처리
+    } catch (e) {
+      console.log(e);
+      setCards([...cards, 1, 2, 3, 4, 5, 6]);
+      setPage(page+1);
+      setFetching(false);
+    }
+  }, [cards, conditions, sort, page]);
+
+  const star_dummy = {
+    starId:1,
+    starName:"Oasis",
+    avgScore:2,
+    starAddress:"경기도 수원시 영통구",
+    memberNumber:3,
+    gender:"남성",
+    showCount:5,
+    starImgUrl:"img/star_tmp.jpg",
+    starGenres:[
+    {starGenreId : 1, genreName : "팝송"},
+    {starGenreId : 2, genreName : "발라드"}],
+    starStageTypes:[
+    {starStageTypeId: 1, genreName : "카페"},
+    {starStageTypeId : 2, genreName : "길거리"}]
+}
+
+const stage_dummy = {
+  hostId:1,
+  stageName:"카페",
+  avgScore:2,
+  stageAddress:"경기도 수원시 영통구",
+  stageSize:34,
+  age:20,
+  //gender:"남성",
+  stageStartTime:"10:00",
+  stageEndTime:"22:00",
+  showCount:5,
+  stageCost:10,
+  stageImgUrl:"img/stage_tmp.jpg",
+  stageGenres:[
+  {stageGenreId : 1, genreName : "팝송"},
+  {stageGenreId : 2, genreName : "발라드"}],
+  stageTypes:[
+  {stageTypeId: 1, genreName : "카페"},
+]
+}
+
+  useEffect(() => {
+  }, []);
+
+  useEffect(() => {
+    switch(target) {
+      case SYMBOL.star:
+        fetchDataForStar();
+        break;
+      case SYMBOL.stage:
+        fetchDataForStage();
+    }
+  }, [target]);
+
+  // 무한 스크롤 이벤트 등록
+  useEffect(() => {
+    const handleScroll = debounce(() => {
+      const { scrollTop, offsetHeight } = document.documentElement;
+      if(window.innerHeight + scrollTop >= offsetHeight) {
+        setFetching(true);
+      }
+    }, 100);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
 
   // 무한 스크롤 시 데이터 가져오기
   useEffect(() => {
     console.log("scroll!")
     if(isFetching && hasNextPage) {
-      if(target === SYMBOL.star) {
-        fetchDataForStarPaging();
+      switch(target) {
+        case SYMBOL.star:
+          fetchDataForStarPaging();
+          break;
+        case SYMBOL.stage:
+          fetchDataForStagePaging();
       }
     } else if(!hasNextPage) setFetching(false);
-  }, [isFetching]);
+  }, [isFetching, target]);
 
   return (
     <>
@@ -113,7 +184,9 @@ const Search = ({target}) => {
       >
         <Box
           sx={{ width: '100%', }}>
-          <SearchConditionBox target={target} fetchDataForStar={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />
+          {target === SYMBOL.star ?
+          (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />) :
+          (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} />)}
         </Box>
         <Box
           sx={{

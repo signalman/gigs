@@ -1,10 +1,6 @@
-import { Box, Button, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, styled, TextField } from '@mui/material';
+import { Box, Button, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, styled, TextField, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { SYMBOL } from '../../utils/Constants';
 import CategoryItem from '../CategoryItem';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {DateTimePicker} from '@mui/x-date-pickers/DateTimePicker';
 
 const Line = styled(Box)(() => ({
   width: '100%',
@@ -17,6 +13,7 @@ const Item = styled(Box)((p) => ({
   width: p.type === 'half' ? '50%' : '100%',
   height: '100%',
   display: 'flex',
+  alignItems: 'center',
 }));
 
 const ItemName = styled(Box)(() => ({
@@ -27,9 +24,8 @@ const ItemName = styled(Box)(() => ({
   fontSize: 17,
 }));
 
-const SearchConditionBox = ({
-  target,
-  fetchDataForStar,
+const StarSearchConditionBox = ({
+  fetchData,
   setConditions,
   setParentSort,
 }) => {
@@ -40,6 +36,8 @@ const SearchConditionBox = ({
   const [address, setAddress] = useState('');
   const [selectedGenres, setSelectedGenres] = useState({});
   const [selectedStageTypes, setSelectedStageTypes] = useState({});
+
+  // 스타 찾기
   const [gender, setGender] = useState('none');
   const [sort, setSort] = useState('dateDesc');
 
@@ -98,8 +96,8 @@ const SearchConditionBox = ({
   const handleSortChange = useCallback((e) => {
     setSort(e.target.value);
     setParentSort(e.target.value);
-    fetchDataForStar({}, e.target.value);
-  }, [fetchDataForStar]); 
+    fetchData({}, e.target.value);
+  }, [fetchData]); 
 
   // 검색 버튼 클릭 시
   const handleClickSearchBtn = useCallback(() => {
@@ -115,8 +113,8 @@ const SearchConditionBox = ({
 
     const newConditions = {name, address, gender, genres, stageTypes};
     setConditions(newConditions);
-    fetchDataForStar(newConditions);
-  }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchDataForStar]);
+    fetchData(newConditions);
+  }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchData]);
 
   return (
     <>
@@ -136,7 +134,7 @@ const SearchConditionBox = ({
         >
           <Line>
             <Item>
-              <ItemName>{target === SYMBOL.star ? "스타 이름" : "무대 이름"}</ItemName>
+              <ItemName>스타 이름</ItemName>
               <TextField
                 sx={{
                   width: '200px',
@@ -151,7 +149,7 @@ const SearchConditionBox = ({
           </Line>
           <Line>
             <Item>
-              <ItemName>{target === SYMBOL.star ? "장르" : "선호 장르"}</ItemName>
+              <ItemName>장르</ItemName>
               <Box
                 sx={{
                   width: 'auto',
@@ -198,41 +196,18 @@ const SearchConditionBox = ({
               ></TextField>
             </Item>
             <Item type='half'>
-              {target === SYMBOL.star ? (
-                <>
-                  <ItemName>팀 구성</ItemName>
-                  <FormControl sx={{ alignSelf: 'center' }}>
-                    <RadioGroup
-                      row
-                      value={gender}
-                      onChange={handleGenderChange}
-                    >
-                      <FormControlLabel value='none' control={<Radio size='small' />} label='무관' />
-                      <FormControlLabel value='man' control={<Radio size='small' />} label='남성' />
-                      <FormControlLabel value='woman' control={<Radio size='small' />} label='여성' />
-                    </RadioGroup>
-                  </FormControl>
-                </>
-                
-              ) : (
-                <>
-                  <ItemName>주소</ItemName>
-                  <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <DateTimePicker
-                      sx={{
-                        height: '50px'
-                      }}
-                      renderInput={(props) => <TextField {...props} />}
-                      label="DateTimePicker"
-                      value={""}
-                      onChange={(newValue) => {
-                        return;
-                      }}
-                    />
-                  </LocalizationProvider>
-                </>
-              )}
-              
+              <ItemName>팀 구성</ItemName>
+              <FormControl sx={{ alignSelf: 'center' }}>
+                <RadioGroup
+                  row
+                  value={gender}
+                  onChange={handleGenderChange}
+                >
+                  <FormControlLabel value='none' control={<Radio size='small' />} label='무관' />
+                  <FormControlLabel value='man' control={<Radio size='small' />} label='남성' />
+                  <FormControlLabel value='woman' control={<Radio size='small' />} label='여성' />
+                </RadioGroup>
+              </FormControl>
             </Item>
           </Line>
           <Line>
@@ -278,4 +253,4 @@ const SearchConditionBox = ({
   );
 };
 
-export default SearchConditionBox;
+export default StarSearchConditionBox;

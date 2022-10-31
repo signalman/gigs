@@ -75,7 +75,7 @@ const Header = () => {
           <img alt="menu_box" src="img/MenuBox.png" width={"60"} height={"60"}/>
           </MyMenuBox>
           {/*여백 */}
-          <t>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</t>
+          {/* <t>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</t> */}
           <LogoBtn
           isClicked={pathname === '/mypage'}
           handleClick={() => navigate('/mypage')}>
