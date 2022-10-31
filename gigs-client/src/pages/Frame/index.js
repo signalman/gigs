@@ -7,6 +7,7 @@ import {
   Route,
 } from 'react-router-dom';
 import Search from '../Search';
+import { SYMBOL } from '../../utils/Constants';
 
 const HeaderSpace = styled(Box)((p) => ({
   height: '200px',
@@ -29,9 +30,9 @@ const Frame = () => {
     <Body>
       <Routes>
         {/* Carousel */}
-        <Route path="/" element={<Main>메인</Main>} />
-        <Route path="/stage" element={<Main>무대 찾기</Main>} />
-        <Route path="/star" element={<Search></Search>} />
+        <Route exact path="/" element={<Main>메인</Main>} />
+        <Route exact path="/stage" element={<Search target={SYMBOL.stage}></Search>} />
+        <Route exact path="/star" element={<Search target={SYMBOL.star}></Search>} />
         <Route path="/review" element={<Main>이용 후기</Main>} />
       </Routes>
     </Body>

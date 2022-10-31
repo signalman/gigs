@@ -13,6 +13,22 @@ export const API = {
     ['size', size],
     ['page', page],
   ])}`,
+  getStageCards: ({name, stageTypes, genres, address, targetAge, targetGender, targetMinCount, startDate, endDate, startTime, endTime}, sort, size, page) => `${BASE_URL}/stages${queryString([
+    ['name', name],
+    ['stageTypes', stageTypes?.join(',')],
+    ['genres', genres?.join(',')],
+    ['address', address],
+    ['targetAge', targetAge],
+    ['targetGender', targetGender],
+    ['targetMinCount', targetMinCount],
+    ['startDate', startDate],
+    ['endDate', endDate],
+    ['startTime', startTime],
+    ['endTime', endTime],
+    ['sort', sort],
+    ['size', size],
+    ['page', page],
+  ])}`,
 };
 
 export const PATH = {
@@ -21,6 +37,6 @@ export const PATH = {
 };
 
 export const SYMBOL = {
-  star: Symbol(),
-  stage: Symbol(),
+  star: Symbol('star'),
+  stage: Symbol('stage'),
 }

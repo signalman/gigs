@@ -1,5 +1,6 @@
 package gigsproject.gigs.request;
 
+import gigsproject.gigs.domain.Gender;
 import gigsproject.gigs.domain.Genre;
 import gigsproject.gigs.domain.StageType;
 import lombok.Builder;
@@ -16,7 +17,6 @@ public class StageSearch {
     private String name;
 
     private List<StageType> stageTypes;
-
     private List<Genre> genres;
 
     private String address;
@@ -24,25 +24,9 @@ public class StageSearch {
     private String startTime;
     private String endTime;
 
-    private Integer targetGender;
+    private Gender targetGender;
 
     private Integer targetAge;
 
     private Integer targetMinCount;
-
-    /**
-     * page 와 size 정보
-     */
-    private Integer page;
-    private Integer size;
-    private static final int MAX_SIZE = 2000;
-
-    @Builder
-    public StageSearch(Integer page, Integer size) {
-        this.page = (page== null) ? 1 : page;
-        this.size = (size== null) ? 10 : size;
-    }
-    public long getOffset() {
-        return (long) Math.max(0, (page - 1)) * Math.min(size, MAX_SIZE);
-    }
 }

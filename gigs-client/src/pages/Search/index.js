@@ -2,12 +2,12 @@ import { Box, Grid } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { API, PATH, SYMBOL } from '../../utils/Constants';
 import axios from 'axios';
-import SearchConditionBox from '../../components/SearchConditionBox';
+import StarSearchConditionBox from '../../components/StarSearchConditionBox';
+import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import StarCard from '../../components/StarCard';
 import StageCard from '../../components/StageCard';
 
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
-const DEV = false;
 
 const debounce = (callback, limit) => {
   let timeout;
@@ -19,8 +19,9 @@ const debounce = (callback, limit) => {
   }
 };
 
-const Search = () => {
-  const [target, setTarget] = useState(null);
+const Search = ({
+  target,
+}) => {
   const [conditions, setConditions] = useState({});
   const [sort, setSort] = useState("dateDesc");
   const [cards, setCards] = useState([]);
@@ -45,7 +46,56 @@ const Search = () => {
       setPage(1);
     }
   }, [conditions, sort]);
-  // TODO: fetchDataForStage
+
+  const fetchDataForStarPaging = useCallback(async () => {
+    try {
+      const response = await axios.get(API.getStarCards(conditions, sort, PAGE_SIZE, page));
+      const data = response.data;
+      setCards(data);
+      setPage(page+1);
+      setFetching(false);
+      // TODO: hasNext 처리
+    } catch (e) {
+      console.log(e);
+      setCards([...cards, 1, 2, 3, 4, 5, 6]);
+      setPage(page+1);
+      setFetching(false);
+    }
+  }, [cards, conditions, sort, page]);
+  
+  const fetchDataForStage = useCallback( async (newConditions = {}, newSort = "") => {
+    newConditions = newConditions || conditions;
+    newSort = newSort || sort;
+
+    try {
+      const response = await axios.get(API.getStageCards(newConditions, newSort, PAGE_SIZE, 0));
+
+      const data = response.data;
+      setCards(data);
+      setPage(1);
+    } catch (e) {
+      console.log(e);
+      
+      setCards([1, 2, 3, 4, 5, 6]);
+      setPage(1);
+    }
+  }, [conditions, sort]);
+
+  const fetchDataForStagePaging = useCallback(async () => {
+    try {
+      const response = await axios.get(API.getStageCards(conditions, sort, PAGE_SIZE, page));
+      const data = response.data;
+      setCards(data);
+      setPage(page+1);
+      setFetching(false);
+      // TODO: hasNext 처리
+    } catch (e) {
+      console.log(e);
+      setCards([...cards, 1, 2, 3, 4, 5, 6]);
+      setPage(page+1);
+      setFetching(false);
+    }
+  }, [cards, conditions, sort, page]);
 
   const star_dummy = {
     starId:1,
@@ -88,19 +138,17 @@ const stage_dummy = {
 }
 
   useEffect(() => {
-    if(DEV) {
-      const newCards = [];
-      for(let i=0; i<PAGE_SIZE; i++) newCards.push(i);
-      setCards(newCards);
-      return;
-    }
-    // check pathname
-    const pathname = window.location.pathname;
-    if(pathname.indexOf(PATH.searchStar) > -1) {
-      setTarget(SYMBOL.star);
-      fetchDataForStar();
-    }
   }, []);
+
+  useEffect(() => {
+    switch(target) {
+      case SYMBOL.star:
+        fetchDataForStar();
+        break;
+      case SYMBOL.stage:
+        fetchDataForStage();
+    }
+  }, [target]);
 
   // 무한 스크롤 이벤트 등록
   useEffect(() => {
@@ -117,31 +165,19 @@ const stage_dummy = {
     }
   }, []);
 
-  const fetchDataForStarPaging = useCallback(async () => {
-    try {
-      const response = await axios.get(API.getStarCards(conditions, sort, PAGE_SIZE, page));
-      const data = response.data;
-      setCards(data);
-      setPage(page+1);
-      setFetching(false);
-      // TODO: hasNext 처리
-    } catch (e) {
-      console.log(e);
-      setCards([...cards, 1, 2, 3, 4, 5, 6]);
-      setPage(page+1);
-      setFetching(false);
-    }
-  }, [cards, conditions, sort, page]);
-
   // 무한 스크롤 시 데이터 가져오기
   useEffect(() => {
     console.log("scroll!")
     if(isFetching && hasNextPage) {
-      if(target === SYMBOL.star) {
-        fetchDataForStarPaging();
+      switch(target) {
+        case SYMBOL.star:
+          fetchDataForStarPaging();
+          break;
+        case SYMBOL.stage:
+          fetchDataForStagePaging();
       }
     } else if(!hasNextPage) setFetching(false);
-  }, [isFetching]);
+  }, [isFetching, target]);
 
   return (
     <>
@@ -152,7 +188,9 @@ const stage_dummy = {
       >
         <Box
           sx={{ width: '100%', }}>
-          <SearchConditionBox fetchDataForStar={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />
+          {target === SYMBOL.star ?
+          (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />) :
+          (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} />)}
         </Box>
         <Box
           sx={{
