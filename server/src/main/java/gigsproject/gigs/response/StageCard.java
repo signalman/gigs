@@ -38,7 +38,7 @@ public class StageCard {
 
 
     public StageCard(Post post) {
-        this.postId = post.getId();
+        this.postId = post.getPostId();
         this.hostId = post.getHost().getHostId();
 //        this.imgUrl = post.getHost().getImgs().get(0).getUrl();
         this.stageName = post.getHost().getStageName();

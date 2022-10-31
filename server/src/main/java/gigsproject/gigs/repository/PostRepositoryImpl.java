@@ -54,7 +54,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(post.id.desc())
+                .orderBy(post.postId.desc())
                 .fetch();
 
         List<StageCard> content = posts.stream()
