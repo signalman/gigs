@@ -7,14 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StageCard {
     private Long postId;
     private Long hostId;
@@ -33,7 +31,7 @@ public class StageCard {
 
     private Integer pay;
     private StageType stageType;
-    private List<HostGenre> genres;
+    private List<HostGenreDto> genres;
 
     private Float avgScore;
     private Integer reviewCount;
@@ -56,7 +54,9 @@ public class StageCard {
         this.pay  = post.getHost().getPay();
         this.stageType = post.getHost().getStageType();
 
-        this.genres = post.getHost().getHostGenres();
+        this.genres = post.getHost().getHostGenres().stream()
+                .map(hostGenre -> new HostGenreDto(hostGenre))
+                .collect(Collectors.toList());
 
     }
 }

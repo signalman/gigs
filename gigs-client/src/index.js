@@ -8,17 +8,28 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#D046D2",
+    },
+  }
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // StrictMode는 개발 버전에서만 적용되는 모드로, 여러 부분에서 검사를 해주는 모드
   // https://ko.reactjs.org/docs/strict-mode.html
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path='/*' element={<Frame />} />
-      </Routes>
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <Routes>
+          <Route path='/*' element={<Frame />} />
+        </Routes>
+      </Router>
+    </ThemeProvider>
   </React.StrictMode>
 );
 

@@ -4,6 +4,8 @@ import { API, PATH, SYMBOL } from '../../utils/Constants';
 import axios from 'axios';
 import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
+import StarCard from '../../components/StarCard';
+import StageCard from '../../components/StageCard';
 
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
 
@@ -202,6 +204,34 @@ const stage_dummy = {
           </Grid>
         </Box>
       </Box>
+      <StarCard
+      starId={star_dummy.starId}
+      starName={star_dummy.starName}
+      avgScore={star_dummy.avgScore}
+      starAddress={star_dummy.starAddress}
+      memberNumber={star_dummy.memberNumber}
+      gender={star_dummy.gender}
+      showCount={star_dummy.showCount}
+      starGenres={star_dummy.starGenres}
+      starStageTypes={star_dummy.starStageTypes}
+      starImgUrl={star_dummy.starImgUrl}
+      />
+      <StageCard
+      hostId={stage_dummy.hostId}
+      stageName={stage_dummy.stageName}
+      avgScore={stage_dummy.avgScore}
+      stageAddress={stage_dummy.stageAddress}
+      stageSize={stage_dummy.stageSize}
+      age={stage_dummy.age}
+      //gender:"남성",
+      stageStartTime={stage_dummy.stageStartTime}
+      stageEndTime={stage_dummy.stageEndTime}
+      showCount={stage_dummy.showCount}
+      stageCost={stage_dummy.stageCost}
+      stageImgUrl={stage_dummy.stageImgUrl}
+      stageGenres={stage_dummy.stageGenres}
+      stageTypes={stage_dummy.stageTypes}
+      />
     </>
   );
 };

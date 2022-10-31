@@ -219,7 +219,7 @@ const StarSearchConditionBox = ({
                 width: 100,
                 height: 35,
                 alignSelf: 'center',
-                backgroundColor: '#D046D2',
+                color: 'primary',
                 borderRadius: 3,
               }}
               variant='contained'

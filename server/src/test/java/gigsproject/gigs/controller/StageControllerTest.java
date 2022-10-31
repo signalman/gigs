@@ -1,6 +1,7 @@
 package gigsproject.gigs.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gigsproject.gigs.domain.Gender;
 import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Post;
 import gigsproject.gigs.domain.StageType;
@@ -18,6 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static gigsproject.gigs.domain.Gender.MEN;
+import static gigsproject.gigs.domain.Gender.WOMEN;
+import static gigsproject.gigs.domain.StageType.*;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -103,23 +107,13 @@ class StageControllerTest {
     @DisplayName("무대 조회 (이름 & 무대 타입)")
     void read_name_stageType () throws Exception{
         //given
-
-        /**
-         * 이제 필요없어진 코드입니다.
-         * StageType stageType1 = new StageType();
-         *         stageType1.setName("bar");
-         *         StageType stageType2 = new StageType();
-         *         stageType2.setName("cafe");
-         */
-
-
         Host host1 = Host.builder()
                 .stageName("abc")
-                .stageType(StageType.BAR)
+                .stageType(BAR)
                 .build();
         Host host2 = Host.builder()
                 .stageName("abc")
-                .stageType(StageType.CAFE)
+                .stageType(CAFE)
                 .build();
 
         Post post1 = Post.builder()
@@ -143,21 +137,13 @@ class StageControllerTest {
     @DisplayName("무대 조회 (무대 타입 & 시간)")
     void read_stageType_time () throws Exception{
         //given
-
-        /**
-         * 필요없어진 코드
-         */
-//        StageType stageType1 = new StageType();
-//        stageType1.setName("bar");
-
-
         Host host1 = Host.builder()
                 .stageName("abc")
-                .stageType(StageType.BAR)
+                .stageType(BAR)
                 .build();
         Host host2 = Host.builder()
                 .stageName("def")
-                .stageType(StageType.BAR)
+                .stageType(BAR)
                 .build();
 
 
@@ -222,4 +208,34 @@ class StageControllerTest {
                 .andDo(print());
     }
 
+    @Test
+    @DisplayName("무대 조회 (타겟 성별)")
+    void read_targetGender () throws Exception{
+        //given
+
+        Host host1 = Host.builder()
+                .stageName("abc")
+                .targetGender(MEN)
+                .build();
+        Host host2 = Host.builder()
+                .stageName("def")
+                .targetGender(WOMEN)
+                .build();
+
+        Post post1 = Post.builder()
+                .host(host1)
+                .build();
+
+        Post post2 = Post.builder()
+                .host(host2)
+                .build();
+        postRepository.save(post1);
+        postRepository.save(post2);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/stages?targetGender=MEN")
+                        .contentType(APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()").value(1))
+                .andDo(print());
+    }
 }
