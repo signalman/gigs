@@ -1,10 +1,7 @@
 package gigsproject.gigs.response;
 
 import gigsproject.gigs.domain.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -31,7 +28,7 @@ public class StageCard {
 
     private Integer pay;
     private StageType stageType;
-    private List<HostGenreDto> genres;
+    private List<PostGenreDto> genres;
 
     private Float avgScore;
     private Integer reviewCount;
@@ -54,8 +51,8 @@ public class StageCard {
         this.pay  = post.getHost().getPay();
         this.stageType = post.getHost().getStageType();
 
-        this.genres = post.getHost().getHostGenres().stream()
-                .map(hostGenre -> new HostGenreDto(hostGenre))
+        this.genres = post.getPostGenres().stream()
+                .map(postGenre -> new PostGenreDto(postGenre))
                 .collect(Collectors.toList());
 
     }

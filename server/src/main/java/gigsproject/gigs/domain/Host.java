@@ -57,7 +57,5 @@ public class Host {
     @OneToMany(mappedBy = "host", cascade = ALL) @Builder.Default
     private final List<StageImg> imgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "host", cascade = ALL) @Builder.Default
-    private final List<HostGenre> hostGenres = new ArrayList<>();
 
 }

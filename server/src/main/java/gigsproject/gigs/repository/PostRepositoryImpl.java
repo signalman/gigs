@@ -92,11 +92,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private Predicate stageTypeEq(List<StageType> stageTypes) {
-        return isEmpty(stageTypes) ? null : post.host.stageType.in(stageTypes);
+        return isNull(stageTypes) ? null : post.host.stageType.in(stageTypes);
     }
 
     private Predicate stageGenreEq(List<Genre> genres) {
-        return isEmpty(genres) ? null : post.host.hostGenres.any().genre.in(genres);
+        return isNull(genres) ? null : post.postGenres.any().genre.in(genres);
     }
 
     private Predicate starAddressEq(String address) {

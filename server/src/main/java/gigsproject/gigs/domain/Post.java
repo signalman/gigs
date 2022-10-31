@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Builder
 @Getter
@@ -16,14 +18,22 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "hostId")
     private Host host;
-    //-- 연관관계 편의 메서드 --//
+
+    private LocalDateTime showStartTime;
+
+    private LocalDateTime showEndTime;
+
+
+    @OneToMany(mappedBy = "post") @Builder.Default
+    private List<PostGenre> postGenres = new ArrayList<>();
+
+
     public void setHost(Host host) {
         this.host = host;
         host.getPosts().add(this);
     }
 
-    private LocalDateTime showStartTime;
 
-    private LocalDateTime showEndTime;
+
 
 }

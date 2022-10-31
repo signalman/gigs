@@ -239,30 +239,32 @@ public class InitUser {
                         .build();
                 em.persist(host);
 
-                if (i % 2 == 0) {
-                    HostGenre hostGenre = HostGenre.builder()
+                for (int j = 0; j < 5; j++) {
+                    LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
+                    LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
+
+                    Post post = Post.builder()
                             .host(host)
-                            .genre(HIPHOP)
+                            .showStartTime(startTime)
+                            .showEndTime(endTime)
                             .build();
-                    em.persist(hostGenre);
-                } else {
-                    HostGenre hostGenre = HostGenre.builder()
-                            .host(host)
-                            .genre(JAZZ)
-                            .build();
-                    em.persist(hostGenre);
+                    em.persist(post);
+                    if (i % 2 == 0) {
+                        PostGenre postGenre = PostGenre.builder()
+                                .post(post)
+                                .genre(HIPHOP)
+                                .build();
+                        em.persist(postGenre);
+                        post.getPostGenres().add(postGenre);
+                    } else {
+                        PostGenre postGenre = PostGenre.builder()
+                                .post(post)
+                                .genre(JAZZ)
+                                .build();
+                        em.persist(postGenre);
+                        post.getPostGenres().add(postGenre);
+                    }
                 }
-//                for (int j = 0; j < 5; j++) {
-//                    LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
-//                    LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
-//
-//                    Post post = Post.builder()
-//                            .host(host)
-//                            .showStartTime(startTime)
-//                            .showEndTime(endTime)
-//                            .build();
-//                    em.persist(post);
-//                }
             }
 
 
@@ -296,30 +298,33 @@ public class InitUser {
                         .build();
                 em.persist(host);
 
-                if (i % 2 == 0) {
-                    HostGenre hostGenre = HostGenre.builder()
+                for (int j = 0; j < 5; j++) {
+                    LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
+                    LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
+
+                    Post post = Post.builder()
                             .host(host)
-                            .genre(HIPHOP)
+                            .showStartTime(startTime)
+                            .showEndTime(endTime)
                             .build();
-                    em.persist(hostGenre);
-                } else {
-                    HostGenre hostGenre = HostGenre.builder()
-                            .host(host)
-                            .genre(JAZZ)
-                            .build();
-                    em.persist(hostGenre);
+                    em.persist(post);
+                    if (i % 2 == 0) {
+                        PostGenre postGenre = PostGenre.builder()
+                                .post(post)
+                                .genre(HIPHOP)
+                                .build();
+                        em.persist(postGenre);
+                        post.getPostGenres().add(postGenre);
+                    } else {
+                        PostGenre postGenre = PostGenre.builder()
+                                .post(post)
+                                .genre(JAZZ)
+                                .build();
+                        em.persist(postGenre);
+                        post.getPostGenres().add(postGenre);
+
+                    }
                 }
-//                for (int j = 0; j < 5; j++) {
-//                    LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
-//                    LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
-//
-//                    Post post = Post.builder()
-//                            .host(host)
-//                            .showStartTime(startTime)
-//                            .showEndTime(endTime)
-//                            .build();
-//                    em.persist(post);
-//                }
 
 
             }
