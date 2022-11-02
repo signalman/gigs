@@ -24,7 +24,6 @@ const HeaderBox = styled(Box)((p) => ({
 const SmallBox = styled(Box)((p) => ({
   width: '250px',
   height: '100%',
-  border: '0.5px solid gray',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -36,7 +35,6 @@ const MenuBtnBox = styled(Box)((p) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  border: '0.5px solid gray'
 }));
 
 /**
