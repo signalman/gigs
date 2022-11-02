@@ -10,8 +10,7 @@ public class SignUpForm {
     private Role role;
     private String phone;
     private String password;
-
-
+    //todo - 주소 구현해야함.
 
 
 }
