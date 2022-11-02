@@ -1,6 +1,6 @@
 import { Box, Grid } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { API, PATH, SYMBOL } from '../../utils/Constants';
+import { API, SYMBOL } from '../../utils/Constants';
 import axios from 'axios';
 import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
@@ -8,6 +8,45 @@ import StarCard from '../../components/StarCard';
 import StageCard from '../../components/StageCard';
 
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
+
+const star_dummy = {
+  starId:1,
+  starName:"Oasis",
+  avgScore:2.4,
+  starAddress:"경기도 수원시 영통구",
+  memberNumber:3,
+  gender:"남성",
+  showCount:5,
+  starImgUrl:"img/star_tmp.jpg",
+  starGenres:[
+  {starGenreId : 1, genreName : "팝송"},
+  {starGenreId : 2, genreName : "발라드"}],
+  starStageTypes:[
+  {starStageTypeId: 1, stageTypeName : "카페"},
+  {starStageTypeId : 2, stageTypeName : "길거리"}],
+  reviewCount: 15,
+}
+
+const stage_dummy = {
+  hostId:1,
+  stageName:"스타벅스",
+  avgScore:4.1,
+  stageAddress:"경기도 수원시 영통구",
+  stageSize:34,
+  age:20,
+  //gender:"남성",
+  stageStartTime:"10:00",
+  stageEndTime:"22:00",
+  showCount:5,
+  stageCost:10,
+  stageImgUrl:"img/stage_tmp.jpg",
+  stageGenres:[
+    {stageGenreId : 1, genreName : "팝송"},
+    {stageGenreId : 2, genreName : "발라드"},
+    {stageGenreId : 3, genreName : "랩"}],
+  stageType: "카페",
+  reviewCount: 10,
+}
 
 const debounce = (callback, limit) => {
   let timeout;
@@ -97,24 +136,6 @@ const Search = ({
     }
   }, [cards, conditions, sort, page]);
 
-  const star_dummy = {
-    starId:1,
-    starName:"Oasis",
-    avgScore:2.4,
-    starAddress:"경기도 수원시 영통구",
-    memberNumber:3,
-    gender:"남성",
-    showCount:5,
-    starImgUrl:"img/star_tmp.jpg",
-    starGenres:[
-    {starGenreId : 1, genreName : "팝송"},
-    {starGenreId : 2, genreName : "발라드"}],
-    starStageTypes:[
-    {starStageTypeId: 1, stageTypeName : "카페"},
-    {starStageTypeId : 2, stageTypeName : "길거리"}],
-    reviewCount: 15,
-  }
-
   useEffect(() => {
   }, []);
 
@@ -178,19 +199,40 @@ const Search = ({
           <Grid container spacing={'75px'} sx={{ pl: '75px', }}>
             {cards?.map((card, i) => (
               <Grid item key={i}>
-                <StarCard
-                  starId={star_dummy.starId}
-                  starName={star_dummy.starName}
-                  avgScore={star_dummy.avgScore}
-                  starAddress={star_dummy.starAddress}
-                  memberNumber={star_dummy.memberNumber}
-                  gender={star_dummy.gender}
-                  showCount={star_dummy.showCount}
-                  starGenres={star_dummy.starGenres}
-                  starStageTypes={star_dummy.starStageTypes}
-                  starImgUrl={star_dummy.starImgUrl}
-                  reviewCount={star_dummy.reviewCount}
+                {target === SYMBOL.star ? (
+                  <StarCard
+                    starId={star_dummy.starId}
+                    starName={star_dummy.starName}
+                    avgScore={star_dummy.avgScore}
+                    starAddress={star_dummy.starAddress}
+                    memberNumber={star_dummy.memberNumber}
+                    gender={star_dummy.gender}
+                    showCount={star_dummy.showCount}
+                    starGenres={star_dummy.starGenres}
+                    starStageTypes={star_dummy.starStageTypes}
+                    starImgUrl={star_dummy.starImgUrl}
+                    reviewCount={star_dummy.reviewCount}
                   />
+                ) : (
+                  <StageCard
+                    hostId={stage_dummy.hostId}
+                    stageName={stage_dummy.stageName}
+                    avgScore={stage_dummy.avgScore}
+                    stageAddress={stage_dummy.stageAddress}
+                    stageSize={stage_dummy.stageSize}
+                    age={stage_dummy.age}
+                    //gender:"남성",
+                    stageStartTime={stage_dummy.stageStartTime}
+                    stageEndTime={stage_dummy.stageEndTime}
+                    showCount={stage_dummy.showCount}
+                    stageCost={stage_dummy.stageCost}
+                    stageImgUrl={stage_dummy.stageImgUrl}
+                    stageGenres={stage_dummy.stageGenres}
+                    stageType={stage_dummy.stageType}
+                    reviewCount={stage_dummy.reviewCount}
+                  />
+                )}
+                
               </Grid>  
             ))}
           </Grid>
