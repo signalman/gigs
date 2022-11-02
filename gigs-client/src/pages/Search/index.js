@@ -100,7 +100,7 @@ const Search = ({
   const star_dummy = {
     starId:1,
     starName:"Oasis",
-    avgScore:2,
+    avgScore:2.4,
     starAddress:"경기도 수원시 영통구",
     memberNumber:3,
     gender:"남성",
@@ -110,32 +110,10 @@ const Search = ({
     {starGenreId : 1, genreName : "팝송"},
     {starGenreId : 2, genreName : "발라드"}],
     starStageTypes:[
-    {starStageTypeId: 1, genreName : "카페"},
-    {starStageTypeId : 2, genreName : "길거리"}]
-}
-
-const stage_dummy = {
-  hostId:1,
-  stageName:"스타벅스",
-  avgScore:2,
-  stageAddress:"경기도 수원시 영통구",
-  stageSize:34,
-  age:20,
-  //gender:"남성",
-  stageStartTime:"10:00",
-  stageEndTime:"22:00",
-  showCount:5,
-  stageCost:10,
-  stageImgUrl:"img/stage_tmp.jpg",
-  stageGenres:[
-  {stageGenreId : 1, genreName : "팝송"},
-  {stageGenreId : 2, genreName : "발라드"},
-  {stageGenreId : 3, genreName : "랩"}],
-  stageTypes:[
-  {stageTypeId: 1, genreName : "카페"},
-  {stageTypeId: 2, genreName : "식당"}
-]
-}
+    {starStageTypeId: 1, stageTypeName : "카페"},
+    {starStageTypeId : 2, stageTypeName : "길거리"}],
+    reviewCount: 15,
+  }
 
   useEffect(() => {
   }, []);
@@ -211,28 +189,13 @@ const stage_dummy = {
                   starGenres={star_dummy.starGenres}
                   starStageTypes={star_dummy.starStageTypes}
                   starImgUrl={star_dummy.starImgUrl}
+                  reviewCount={star_dummy.reviewCount}
                   />
               </Grid>  
             ))}
           </Grid>
         </Box>
       </Box>
-      <StageCard
-      hostId={stage_dummy.hostId}
-      stageName={stage_dummy.stageName}
-      avgScore={stage_dummy.avgScore}
-      stageAddress={stage_dummy.stageAddress}
-      stageSize={stage_dummy.stageSize}
-      age={stage_dummy.age}
-      //gender:"남성",
-      stageStartTime={stage_dummy.stageStartTime}
-      stageEndTime={stage_dummy.stageEndTime}
-      showCount={stage_dummy.showCount}
-      stageCost={stage_dummy.stageCost}
-      stageImgUrl={stage_dummy.stageImgUrl}
-      stageGenres={stage_dummy.stageGenres}
-      stageTypes={stage_dummy.stageTypes}
-      />
     </>
   );
 };
