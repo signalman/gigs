@@ -1,36 +1,48 @@
-import { Button, MenuItem,Fade, Menu} from '@mui/material';
+import { Box, Button, MenuItem,Fade, Menu} from '@mui/material';
 import React,{useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const MyMenuBox = ({
-  children,
 }) => {
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
-      <Button
-        id="fade-button"
-        aria-controls={open ? 'fade-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
+      <Box
+        sx={{
+          width: '90px',
+          height: '40px',
+          border: '2px solid #c0c0c0',
+          borderRadius: '40px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          cursor: 'pointer',
+        }}
         onClick={handleClick}
       >
-        {children}
-        </Button>
+        <Box
+          sx={{
+            width: '30px',
+            height: '30px',
+            p : 0,
+          }}
+        >
+          <img alt="menu_box" src="img/MenuBox.png" width="30px" height="30px"/>
+        </Box>
+      </Box>
       <Menu
-        id="fade-menu"
-        MenuListProps={{
-           'aria-labelledby': 'fade-button',
-        }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
