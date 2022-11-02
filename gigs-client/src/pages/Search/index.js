@@ -6,10 +6,28 @@ import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import StarCard from '../../components/StarCard';
 import StageCard from '../../components/StageCard';
-import SortBar from '../../components/SortBar';
 
+// 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
 
+const star_dummy = {
+  starId:1,
+  starName:"Oasis",
+  avgScore:2,
+  starAddress:"경기도 수원시 영통구",
+  memberNumber:3,
+  gender:"남성",
+  showCount:5,
+  starImgUrl:"img/star_tmp.jpg",
+  starGenres:[
+  {starGenreId : 1, genreName : "팝송"},
+  {starGenreId : 2, genreName : "발라드"}],
+  starStageTypes:[
+  {starStageTypeId: 1, genreName : "카페"},
+  {starStageTypeId : 2, genreName : "길거리"}]
+}
+
+// 무한 스크롤 구현 시 스크롤 이벤트를 한 번만 발동시키기 위한 Debounce 기술
 const debounce = (callback, limit) => {
   let timeout;
   return (...args) => {
@@ -20,17 +38,31 @@ const debounce = (callback, limit) => {
   }
 };
 
+/**
+ * 스타/무대 찾는 페이지
+ * @param target 스타/무대 중 찾으려는 항목 (Symbol)
+ * @returns 
+ */
 const Search = ({
   target,
 }) => {
-  const [conditions, setConditions] = useState({});
-  const [sort, setSort] = useState("dateDesc");
-  const [cards, setCards] = useState([]);
-  const [page, setPage] = useState(1);
+  const [conditions, setConditions] = useState({});   // 조건 상자에서 검색을 누른 시점의 조건들
+  const [sort, setSort] = useState("dateDesc");       // 정렬 조건
+  const [cards, setCards] = useState([]);             // 카드 리스트
+  const [page, setPage] = useState(1);                // 무한 스크롤에서 현재 페이지
+  // 무한 스크롤에서 현재 데이터를 가져오고 있는 지 여부
+  // true라면 데이터를 가져오지 않음
   const [isFetching, setFetching] = useState(false);
-  const [hasNextPage, setNextPage] = useState(true);
+  const [hasNextPage, setNextPage] = useState(true);  // 무한 스크롤에서 다음 페이지가 존재하는 지 여부
 
+  /**
+   * 스타 카드를 가져오는 async function,
+   * 1 페이지의 데이터만 가져옴
+   * @param newConditions 특정 조건을 Object로 전달하면 해당 조건으로 검색
+   * @param newSort 특정 정렬 조건을 String으로 전달하면 해당 정렬 조건으로 검색 
+   */
   const fetchDataForStar = useCallback( async (newConditions = {}, newSort = "") => {
+    // 특정 조건이나 정렬 조건이 존재하지 않으면 state 로 저장된 조건으로 검색함
     newConditions = newConditions || conditions;
     newSort = newSort || sort;
 
@@ -41,6 +73,7 @@ const Search = ({
       setCards(data);
       setPage(1);
     } catch (e) {
+      // TODO: 예외 처리
       console.log(e);
       
       setCards([1, 2, 3, 4, 5, 6]);
@@ -48,6 +81,10 @@ const Search = ({
     }
   }, [conditions, sort]);
 
+  /**
+   * 무한 스크롤 시 스타 카드를 페이징하여 가져오는 async function,
+   * State에 저장된 page 를 참조함
+   */
   const fetchDataForStarPaging = useCallback(async () => {
     try {
       const response = await axios.get(API.getStarCards(conditions, sort, PAGE_SIZE, page));
@@ -57,6 +94,7 @@ const Search = ({
       setFetching(false);
       // TODO: hasNext 처리
     } catch (e) {
+      // TODO: 예외 처리
       console.log(e);
       setCards([...cards, 1, 2, 3, 4, 5, 6]);
       setPage(page+1);
@@ -64,7 +102,14 @@ const Search = ({
     }
   }, [cards, conditions, sort, page]);
   
+  /**
+   * 무대 카드를 가져오는 async function,
+   * 1 페이지의 데이터만 가져옴
+   * @param newConditions 특정 조건을 Object로 전달하면 해당 조건으로 검색
+   * @param newSort 특정 정렬 조건을 String으로 전달하면 해당 정렬 조건으로 검색 
+   */
   const fetchDataForStage = useCallback( async (newConditions = {}, newSort = "") => {
+    // 특정 조건이나 정렬 조건이 존재하지 않으면 state 로 저장된 조건으로 검색함
     newConditions = newConditions || conditions;
     newSort = newSort || sort;
 
@@ -75,6 +120,7 @@ const Search = ({
       setCards(data);
       setPage(1);
     } catch (e) {
+      // TODO: 예외 처리
       console.log(e);
       
       setCards([1, 2, 3, 4, 5, 6]);
@@ -82,6 +128,10 @@ const Search = ({
     }
   }, [conditions, sort]);
 
+  /**
+   * 무한 스크롤 시 무대 카드를 페이징하여 가져오는 async function,
+   * State에 저장된 page 를 참조함
+   */
   const fetchDataForStagePaging = useCallback(async () => {
     try {
       const response = await axios.get(API.getStageCards(conditions, sort, PAGE_SIZE, page));
@@ -91,6 +141,7 @@ const Search = ({
       setFetching(false);
       // TODO: hasNext 처리
     } catch (e) {
+      // TODO: 예외 처리
       console.log(e);
       setCards([...cards, 1, 2, 3, 4, 5, 6]);
       setPage(page+1);
@@ -98,26 +149,7 @@ const Search = ({
     }
   }, [cards, conditions, sort, page]);
 
-  const star_dummy = {
-    starId:1,
-    starName:"Oasis",
-    avgScore:2,
-    starAddress:"경기도 수원시 영통구",
-    memberNumber:3,
-    gender:"남성",
-    showCount:5,
-    starImgUrl:"img/star_tmp.jpg",
-    starGenres:[
-    {starGenreId : 1, genreName : "팝송"},
-    {starGenreId : 2, genreName : "발라드"}],
-    starStageTypes:[
-    {starStageTypeId: 1, genreName : "카페"},
-    {starStageTypeId : 2, genreName : "길거리"}]
-  }
-
-  useEffect(() => {
-  }, []);
-
+  // target이 변경되면 다시 데이터를 가져옴
   useEffect(() => {
     switch(target) {
       case SYMBOL.star:
@@ -155,7 +187,7 @@ const Search = ({
           fetchDataForStagePaging();
       }
     } else if(!hasNextPage) setFetching(false);
-  }, [isFetching, target]);
+  }, [isFetching, hasNextPage, target]);
 
   // 정렬 변경 시
   const handleSortChange = useCallback((e) => {
