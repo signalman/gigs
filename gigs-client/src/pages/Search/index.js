@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, MenuItem, Select } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { API, PATH, SYMBOL } from '../../utils/Constants';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import StarCard from '../../components/StarCard';
 import StageCard from '../../components/StageCard';
+import SortBar from '../../components/SortBar';
 
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
 
@@ -112,30 +113,7 @@ const Search = ({
     starStageTypes:[
     {starStageTypeId: 1, genreName : "카페"},
     {starStageTypeId : 2, genreName : "길거리"}]
-}
-
-const stage_dummy = {
-  hostId:1,
-  stageName:"스타벅스",
-  avgScore:2,
-  stageAddress:"경기도 수원시 영통구",
-  stageSize:34,
-  age:20,
-  //gender:"남성",
-  stageStartTime:"10:00",
-  stageEndTime:"22:00",
-  showCount:5,
-  stageCost:10,
-  stageImgUrl:"img/stage_tmp.jpg",
-  stageGenres:[
-  {stageGenreId : 1, genreName : "팝송"},
-  {stageGenreId : 2, genreName : "발라드"},
-  {stageGenreId : 3, genreName : "랩"}],
-  stageTypes:[
-  {stageTypeId: 1, genreName : "카페"},
-  {stageTypeId: 2, genreName : "식당"}
-]
-}
+  }
 
   useEffect(() => {
   }, []);
@@ -179,6 +157,22 @@ const stage_dummy = {
     } else if(!hasNextPage) setFetching(false);
   }, [isFetching, target]);
 
+  // 정렬 변경 시
+  const handleSortChange = useCallback((e) => {
+    const newSort = e.target.value;
+    setSort(newSort);
+
+    switch(target) {
+      case SYMBOL.star:
+        fetchDataForStar(conditions, newSort);
+        break;
+      case SYMBOL.stage:
+        fetchDataForStage(conditions, newSort);
+        break;
+    }
+
+  }, [target, conditions]);
+
   return (
     <>
       <Box
@@ -187,10 +181,35 @@ const stage_dummy = {
         }}
       >
         <Box
-          sx={{ width: '100%', }}>
+          sx={{ width: '100%', mb: `50px`}}>
           {target === SYMBOL.star ?
           (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />) :
           (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} />)}
+        </Box>
+        <Box
+          sx={{
+            width: '100%',
+            height: '50px',
+            display: 'flex',
+            position: 'relative',
+          }}
+        >
+          <Select
+            sx={{
+              position: 'absolute',
+              right: 15,
+              top: 0,
+              width: '100px',
+              height: '30px',
+            }}
+            variant='standard'
+            value={sort}
+            onChange={handleSortChange}
+          >
+            <MenuItem value='dateDesc'>최신순</MenuItem>
+            <MenuItem value='rateDesc'>별점순</MenuItem>
+            <MenuItem value='reviewDesc'>리뷰순</MenuItem>
+          </Select>
         </Box>
         <Box
           sx={{
@@ -217,22 +236,6 @@ const stage_dummy = {
           </Grid>
         </Box>
       </Box>
-      <StageCard
-      hostId={stage_dummy.hostId}
-      stageName={stage_dummy.stageName}
-      avgScore={stage_dummy.avgScore}
-      stageAddress={stage_dummy.stageAddress}
-      stageSize={stage_dummy.stageSize}
-      age={stage_dummy.age}
-      //gender:"남성",
-      stageStartTime={stage_dummy.stageStartTime}
-      stageEndTime={stage_dummy.stageEndTime}
-      showCount={stage_dummy.showCount}
-      stageCost={stage_dummy.stageCost}
-      stageImgUrl={stage_dummy.stageImgUrl}
-      stageGenres={stage_dummy.stageGenres}
-      stageTypes={stage_dummy.stageTypes}
-      />
     </>
   );
 };

@@ -52,8 +52,6 @@ const StageSearchConditionBox = ({
   const [startTime, setStartTime] = useState(moment());
   const [endTime, setEndTime] = useState(moment());
 
-  const [sort, setSort] = useState('dateDesc');
-
   // DB에서 모든 장르와 장소 종류를 가져옴
   useEffect(() => {
     // 임시 코드
@@ -140,13 +138,6 @@ const StageSearchConditionBox = ({
   const handleEndTimeChange = (e) => {
     setEndTime(e);
   }
-
-  // 정렬 변경 시
-  const handleSortChange = useCallback((e) => {
-    setSort(e.target.value);
-    setParentSort(e.target.value);
-    fetchData({}, e.target.value);
-  }, [fetchData]); 
 
   // 검색 버튼 클릭 시
   const handleClickSearchBtn = useCallback(() => {
@@ -370,25 +361,6 @@ const StageSearchConditionBox = ({
             </Button>
           </Line>
         </Box>
-
-        <Line sx={{ mt: '50px', }}>
-          <Select
-            sx={{
-              position: 'absolute',
-              right: 15,
-              top: 0,
-              width: '100px',
-              height: '30px',
-            }}
-            variant='standard'
-            value={sort}
-            onChange={handleSortChange}
-          >
-            <MenuItem value='dateDesc'>최신순</MenuItem>
-            <MenuItem value='rateDesc'>별점순</MenuItem>
-            <MenuItem value='reviewDesc'>리뷰순</MenuItem>
-          </Select>
-        </Line>
       </Box>
     </>
   );
