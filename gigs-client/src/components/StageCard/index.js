@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Card,Box,styled,CardMedia,
-    CardContent,Rating,Divider
+import {Card, Box, styled, CardMedia,
+    CardContent, Rating, Typography
  } from '@mui/material';
 import MapIcon from '@mui/icons-material/Map';
 import PeopleIcon from '@mui/icons-material/People';
@@ -11,146 +11,147 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import PhotoSizeSelectSmallIcon from '@mui/icons-material/PhotoSizeSelectSmall';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
-const FlexBoxA = styled(Box)((p) => ({
-  display:"flex",
-  justifyContent: 'space-between',
-  alignItems:'center'
+const Line = styled(CardContent)((p) => ({
+  height: "37.5px",
+  display: 'flex',
+  padding: 0,
 }));
 
-const FlexBoxB = styled(Box)((p) => ({
-  display:"flex",
-  justifyContent: 'space-between',
-  alignItems:'center'
+const Item = styled(Box)((p) => ({
+  display: "flex",
+  height: "100%",
+  width: p.type === "half" ? "50%" : "100%",
+  alignItems: 'center',
 }));
 
-const RightBox = styled(Box)((p) => ({
-  width : '200px',
-  display:'flex',
+const IconBox = styled(Box)((p) => ({
+  display: "flex",
+  height: "37.5px",
+  width: "37.5px",
   justifyContent: 'center',
   alignItems: 'center',
 }));
 
-const LeftBox = styled(Box)((p) => ({
-  width : '103px',
-}));
 
-function Types({genre,index,arr}) {
-    return(
-        <div>
-            <b>{genre.genreName}</b>{arr.length-1 > index ? "/" : null}
-        </div>
-    );
-}
-
-function StageCard(props) {
+function StageCard({
+  hostId,
+  stageName,
+  avgScore,
+  stageAddress,
+  stageSize,
+  age,
+  stageStartTime,
+  stageEndTime,
+  showCount,
+  stageCost,
+  stageImgUrl,
+  stageGenres,
+  stageType,
+  reviewCount,
+}) {
   const navigate = useNavigate();
-    return (
-        <>
-        <Card sx={{ width: 300 ,height: 500,border:0.1}} onClick={() => navigate('/stages/'+props.hostId)}>
+
+  return (
+    <Card
+      sx={{
+        width: "300px",
+        height: "487.5px",
+        border: "1.5px solid #808080",
+        borderRadius: "50px",
+        boxShadow: "0 4px 4px #808080",
+        cursor: "pointer",
+      }}
+      onClick={() => navigate('/stages/'+hostId)}
+    >
       <CardMedia
         component="img"
-        height="160"
-        image={props.stageImgUrl}
+        height="225"
+        image={stageImgUrl}
         alt="stages"
       />
-      <CardContent>
-        <FlexBoxA>
-        <Box sx={{fontSize:20,fontWeight:'bold'}}>
-        {props.stageName}
-        </Box>
-        <Box>
-        <Rating name="half-rating-read" defaultValue={props.avgScore} precision={0.5} readOnly />
-        </Box>
-        </FlexBoxA>
-      </CardContent>
-
-    <CardContent sx={{fontSize:13 ,textAlign:'center'}}>
-        <FlexBoxB>
-        <Box>
-        <MapIcon></MapIcon>
-        </Box>
-        <RightBox>
-        {props.stageAddress}
-        </RightBox>
-        </FlexBoxB>
-    </CardContent>
-
-    <CardContent sx={{fontSize:12}}>
-        <FlexBoxB>
-        <Box>
-        <PhotoSizeSelectSmallIcon fontSize="medium"></PhotoSizeSelectSmallIcon>
-        </Box>
-        <Box>
-        {props.stageSize} m^2 &nbsp;
-        </Box>
-        <Box sx={{width:'10px'}}>
-        <PeopleIcon fontSize="medium"></PeopleIcon>
-        </Box>
-        <Box>
-        {props.age} 살 이상
-        </Box>
-        <Box sx={{width:'30px'}}/>
-        </FlexBoxB>
-    </CardContent>
-
-    <CardContent sx={{fontSize:12}}>
-        <FlexBoxB>
-        <Box>
-        <AccessTimeIcon fontSize="medium"></AccessTimeIcon>
-        </Box>
-        <Box>
-        {props.stageStartTime} ~ {props.stageEndTime}
-        </Box>
-        <Box>
-        <MicExternalOnIcon fontSize="medium"></MicExternalOnIcon>
-        </Box>
-        <Box>
-        {props.showCount} 회
-        </Box>
-        <Box sx={{width:'65px'}}/>
-        </FlexBoxB>
-    </CardContent>
     
-    <CardContent sx={{fontSize:12}}>
-        <FlexBoxB>
-        <Box sx={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
-        <Box sx={{width:'40px'}}>
-        <LocalAtmIcon fontSize="medium"></LocalAtmIcon>
-        </Box>
-        <Box>
-        &nbsp;{props.stageCost}만원 이상
-        </Box>
-        </Box>
-        
-        <Box sx={{display:'flex',alignItems:'center'}}>
-        <Box sx={{width:'40px'}}>
-        <LocationOnIcon fontSize="medium"></LocationOnIcon>
-        </Box>
-        <LeftBox sx={{display:'flex'}}>
-        {props.stageTypes.map((genre,index,arr) => (
-                        <Types genre={genre} key={genre.stageTypeId} index={index} arr={arr}/>
-                    ))}
-        </LeftBox>
-        </Box>
-        </FlexBoxB>
-    </CardContent>
-    
-    <CardContent sx={{fontSize:12}}>
-        <FlexBoxB>
-        <Box>
-        <HeadsetMicIcon fontSize="medium"></HeadsetMicIcon>
-        </Box>
-        <RightBox sx={{display:'flex'}}>
-        {props.stageGenres.map((genre,index,arr) => (
-                        <Types genre={genre} key={genre.stageGenreId} index={index} arr={arr}/>
-                    ))}
-        </RightBox>
-        </FlexBoxB>
-    </CardContent>
+      <Line>
+        <Item type="half" sx={{ pl: "20px", }} >
+          <Typography>{stageName}</Typography>
+        </Item>
+        <Item type="half" sx={{ justifyContent: 'end', pr: "20px" }}>
+          <Rating
+            sx={{ width: `75px` }}
+            emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
+            icon={<StarIcon sx={{ width: `15px`, height: `15px` }}></StarIcon>}
+            defaultValue={avgScore} precision={0.1} readOnly
+          />
+          <Typography fontSize=".7rem">({reviewCount})</Typography>
+        </Item>
+      </Line>
+      
+      <Line>
+        <Item sx={{ px: '15px' }}>
+          <IconBox>
+            <MapIcon sx={{ width: "20px", height: "20px", }} />
+          </IconBox>
+          <Typography fontSize=".9rem">{stageAddress}</Typography>
+        </Item>
+      </Line>
+      
+      <Line>
+        <Item type="half" sx={{ px: '15px' }}>
+          <IconBox>
+            <PhotoSizeSelectSmallIcon sx={{ width: '20px', height: '20px', }} />
+          </IconBox>
+          <Typography fontSize=".9rem">{stageSize}m^2</Typography>
+        </Item>
+        <Item type="half" sx={{ px: '15px' }}>
+          <IconBox>
+            <PeopleIcon sx={{ width: '20px', height: '20px', }} />
+          </IconBox>
+          <Typography fontSize=".8rem">{age}대 {age}인 이상</Typography>
+        </Item>
+      </Line>
+
+      <Line>
+        <Item type="half" sx={{ px: '15px' }}>
+          <IconBox>
+            <AccessTimeIcon sx={{ width: '20px', height: '20px', }} />
+          </IconBox>
+          <Typography fontSize=".8rem">{stageStartTime} ~ {stageEndTime}</Typography>
+        </Item>
+        <Item type="half" sx={{ px: '15px' }}>
+          <IconBox>
+            <MicExternalOnIcon sx={{ width: '20px', height: '20px', }} />
+          </IconBox>
+          <Typography fontSize=".9rem">{showCount}회 이상</Typography>
+        </Item>
+      </Line>
+
+      <Line>
+        <Item type="half" sx={{ px: '15px' }}>
+          <IconBox>
+            <LocalAtmIcon sx={{ width: '20px', height: '20px', }} />
+          </IconBox>
+          <Typography fontSize=".9rem">{stageCost} 이상</Typography>
+        </Item>
+        <Item type="half" sx={{ px: '15px' }}>
+          <IconBox>
+            <LocationOnIcon sx={{ width: '20px', height: '20px', }} />
+          </IconBox>
+          <Typography fontSize=".9rem">{stageType}</Typography>
+        </Item>
+      </Line>
+
+      <Line>
+          <Item sx={{ px: '15px' }}>
+              <IconBox>
+                  <HeadsetMicIcon sx={{ width: "20px", height: "20px", }} />
+              </IconBox>
+              <Typography fontSize=".9rem">{stageGenres?.reduce((prev, cur) => (prev + ` / ${cur.genreName}`), "").substring(3)}</Typography>
+          </Item>
+      </Line>
     </Card>
-  </>
-    )
+  )
 }
 
 export default StageCard;

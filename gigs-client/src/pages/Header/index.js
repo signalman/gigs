@@ -68,9 +68,7 @@ const Header = () => {
           >이용 후기</HeaderBtn>
         </MenuBtnBox>
         <SmallBox>
-          <MyMenuBox>
-          <img alt="menu_box" src="img/MenuBox.png" width={"60"} height={"60"}/>
-          </MyMenuBox>
+          <MyMenuBox />
         </SmallBox>
       </HeaderBox>
     </Container>
