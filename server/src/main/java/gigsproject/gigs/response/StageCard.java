@@ -3,6 +3,7 @@ package gigsproject.gigs.response;
 import gigsproject.gigs.domain.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +22,11 @@ public class StageCard {
     private String targetGender;
     private Integer targetAge;
 
+    private LocalDate startDate;
+    private LocalDate endDate;
     private LocalTime startTime;
     private LocalTime endTime;
+
     private Integer targetMinCount;
     private Integer showCount;
 
@@ -44,8 +48,11 @@ public class StageCard {
         this.targetGender = String.valueOf(post.getHost().getTargetGender());
         this.targetAge = post.getHost().getTargetAge();
         this.targetMinCount = post.getHost().getTargetNumber();
-        this.startTime = isNull(post.getShowStartTime()) ? null : LocalTime.from(post.getShowStartTime());
-        this.endTime = isNull(post.getShowEndTime()) ? null : LocalTime.from(post.getShowEndTime());
+
+        this.startDate = isNull(post.getStartDate()) ? null : LocalDate.from(post.getStartDate());
+        this.endDate = isNull(post.getEndDate()) ? null : LocalDate.from(post.getEndDate());
+        this.startTime = isNull(post.getStartTime()) ? null : LocalTime.from(post.getStartTime());
+        this.endTime = isNull(post.getEndTime()) ? null : LocalTime.from(post.getEndTime());
 
         this.showCount = post.getHost().getStageCount();
         this.pay  = post.getHost().getPay();
