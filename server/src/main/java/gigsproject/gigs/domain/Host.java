@@ -14,7 +14,7 @@ import static javax.persistence.CascadeType.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Host {
+public class Host extends BaseTimeEntity{
     @Id
     @GeneratedValue
     private Long hostId;
