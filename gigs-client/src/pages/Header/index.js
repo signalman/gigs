@@ -1,79 +1,74 @@
-import { Box, styled } from '@mui/material';
+// refactor 221103
+
+import { Box, styled, Button } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
-import LogoBtn from '../../components/LogoBtn';
 import MyMenuBox from '../../components/MyMenuBox';
-
-const Container = styled(Box)((p) => ({
-  position: 'fixed',
-  width: '100%',
-  height: '200px',
-  backgroundColor: 'white',
-  boxShadow: '0 0 4px black',
-  zIndex: 100,
-}));
-
-const HeaderBox = styled(Box)((p) => ({
-  margin: "0 auto",
-  width: '1200px',
-  height: '100%',
-  display: 'flex',
-}));
+import { PATH } from '../../utils/Constants';
 
 const SmallBox = styled(Box)((p) => ({
   width: '250px',
   height: '100%',
-  border: '0.5px solid gray',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-}));
-
-const MenuBtnBox = styled(Box)((p) => ({
-  width: '700px',
-  height: '100%',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  border: '0.5px solid gray'
 }));
 
 /**
  * 화면 상단 위치에 고정된 헤더
  */
 const Header = () => {
-  const pathname = window.location.pathname;
+  const location = useLocation();
+  const pathname = location.pathname;
   const navigate = useNavigate();
 
   return (
   <>
-    <Container>
-      <HeaderBox>
+    <Box sx ={{
+      position: 'fixed',
+      width: '100%',
+      height: '150px',
+      backgroundColor: 'white',
+      boxShadow: '0 0 4px black',
+      zIndex: 100,
+    }}>
+      <Box sx={{
+        margin: "0 auto",
+        width: '1200px',
+        height: '100%',
+        display: 'flex',
+      }}>
         <SmallBox>
-          <LogoBtn
-            handleClick={() => navigate('/')}
-          ><img alt="logo_tmp" src="img/gigs_logo_tmp.png"/></LogoBtn>
+          <Button onClick={() => navigate(PATH.main)}>
+            <img alt="logo_tmp" src="img/gigs_logo_tmp.png"/>
+          </Button>
          </SmallBox>
-        <MenuBtnBox>
+        <Box sx={{
+          width: '700px',
+          height: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
           <HeaderBtn
-            isClicked={pathname === '/stage'}
-            handleClick={() => {navigate('/stage');}}  
+            isClicked={pathname === PATH.searchStage}
+            handleClick={() => {navigate(PATH.searchStage);}}  
           >무대 찾기</HeaderBtn>
           <HeaderBtn
-            isClicked={pathname === '/star'}
-            handleClick={() => {navigate('/star');}}  
+            isClicked={pathname === PATH.searchStar}
+            handleClick={() => {navigate(PATH.searchStar);}}  
           >스타 찾기</HeaderBtn>
           <HeaderBtn
-            isClicked={pathname === '/review'}
-            handleClick={() => {navigate('/review');}}
+            isClicked={pathname === PATH.review}
+            handleClick={() => {navigate(PATH.review);}}
           >이용 후기</HeaderBtn>
-        </MenuBtnBox>
+        </Box>
         <SmallBox>
           <MyMenuBox />
         </SmallBox>
-      </HeaderBox>
-    </Container>
+      </Box>
+    </Box>
   </>
   );
 }

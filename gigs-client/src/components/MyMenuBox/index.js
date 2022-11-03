@@ -1,9 +1,12 @@
-import { Box, Button, MenuItem,Fade, Menu} from '@mui/material';
-import React,{useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+// refactor 221103
 
-const MyMenuBox = ({
-}) => {
+import { Box, MenuItem,Fade, Menu} from '@mui/material';
+import React , { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { COLOR, PATH } from '../../utils/Constants';
+
+// TODO: 그냥 헤더에 합치기
+const MyMenuBox = () => {
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -23,7 +26,7 @@ const MyMenuBox = ({
         sx={{
           width: '90px',
           height: '40px',
-          border: '2px solid #c0c0c0',
+          border: `2px solid ${COLOR.lightBlack}`,
           borderRadius: '40px',
           display: 'flex',
           justifyContent: 'center',
@@ -48,8 +51,8 @@ const MyMenuBox = ({
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={() => {navigate('/mypage'); handleClose()}}>내 정보</MenuItem>
-        
+        <MenuItem onClick={() => {navigate(PATH.myPage); handleClose()}}>내 정보</MenuItem>
+        {/* TODO: 포스트 등록과 로그아웃은 따로 모달로 처리 */}
         <MenuItem onClick={() => {navigate('/posts'); handleClose()}}>포스트 등록</MenuItem>
         
         <MenuItem onClick={() => {navigate('/logout'); handleClose()}}>로그아웃</MenuItem>
