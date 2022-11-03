@@ -1,5 +1,8 @@
+// refactor 221103
+
 import { Button } from '@mui/material';
 import React from 'react';
+import { COLOR } from '../../utils/Constants';
 
 const HeaderBtn = ({
   children,
@@ -7,22 +10,20 @@ const HeaderBtn = ({
   handleClick,
 }) => {
   return (
-    <>
-      <Button
-        sx={{
-          fontSize: 30,
-          fontWeight: 'bold',
-          letterSpacing: '0.25px',
-          p: 0,
-          mx: 3,
-          color: isClicked ? 'primary' : 'black',
-        }}
-        variant='text'
-        onClick={handleClick}
-      >
-        {children}
-      </Button>
-    </>
+    <Button
+      sx={{
+        fontSize: 30,
+        fontWeight: 'bold',
+        letterSpacing: '0.25px',
+        p: 0,
+        mx: 3,
+        color: isClicked ? 'primary' : COLOR.blacky,
+      }}
+      variant='text'
+      onClick={handleClick}
+    >
+      {children}
+    </Button>
   );
 };
 

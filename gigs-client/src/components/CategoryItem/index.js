@@ -1,5 +1,8 @@
+// refactor 221103
+
 import { Box } from '@mui/system';
 import React from 'react';
+import { COLOR } from '../../utils/Constants';
 
 const CategoryItem = ({
   children,
@@ -12,14 +15,14 @@ const CategoryItem = ({
         sx={{
           width: '70px',
           height: '20px',
-          border: '.5px solid #808080',
+          border: `.5px solid ${COLOR.grey}`,
           borderRadius: '10px',
-          backgroundColor: selected ? '#D046D2' : '#f8f8f8',
+          backgroundColor: selected ? COLOR.main : COLOR.whity,
           mr: '10px',
           textAlign: 'center',
           lineHeight: '20px',
           fontSize: 11,
-          color: selected ? '#f8f8f8' : '#404040',
+          color: selected ? COLOR.whity : COLOR.blacky,
           cursor: 'pointer',
         }}
         onClick={() => selectItem(children)}

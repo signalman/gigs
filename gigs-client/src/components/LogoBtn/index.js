@@ -1,3 +1,5 @@
+// refactor 221103
+
 import { Button } from '@mui/material';
 import React from 'react';
 
@@ -6,11 +8,9 @@ const LogoBtn = ({
   handleClick,
 }) => {
   return (
-    <>
-      <Button onClick={handleClick}>
-        {children}
-      </Button>
-    </>
+    <Button onClick={handleClick}>
+      {children}
+    </Button>
   );
 };
 
