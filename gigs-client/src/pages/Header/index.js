@@ -1,10 +1,9 @@
 // refactor 221103
 
-import { Box, styled } from '@mui/material';
+import { Box, styled, Button } from '@mui/material';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
-import LogoBtn from '../../components/LogoBtn';
 import MyMenuBox from '../../components/MyMenuBox';
 import { PATH } from '../../utils/Constants';
 
@@ -29,7 +28,7 @@ const Header = () => {
     <Box sx ={{
       position: 'fixed',
       width: '100%',
-      height: '200px',
+      height: '150px',
       backgroundColor: 'white',
       boxShadow: '0 0 4px black',
       zIndex: 100,
@@ -41,9 +40,9 @@ const Header = () => {
         display: 'flex',
       }}>
         <SmallBox>
-          <LogoBtn
-            handleClick={() => navigate(PATH.main)}
-          ><img alt="logo_tmp" src="img/gigs_logo_tmp.png"/></LogoBtn>
+          <Button onClick={() => navigate(PATH.main)}>
+            <img alt="logo_tmp" src="img/gigs_logo_tmp.png"/>
+          </Button>
          </SmallBox>
         <Box sx={{
           width: '700px',

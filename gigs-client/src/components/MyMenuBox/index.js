@@ -1,13 +1,12 @@
 // refactor 221103
 
-import { Box, Button, MenuItem,Fade, Menu} from '@mui/material';
+import { Box, MenuItem,Fade, Menu} from '@mui/material';
 import React , { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { COLOR, PATH } from '../../utils/Constants';
 
 // TODO: 그냥 헤더에 합치기
-const MyMenuBox = ({
-}) => {
+const MyMenuBox = () => {
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
