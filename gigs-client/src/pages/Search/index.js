@@ -69,6 +69,20 @@ const debounce = (callback, limit) => {
 const Search = ({
   target,
 }) => {
+  const [StarCardData, setdata] = useState([]);
+
+  useEffect(() => {
+    const starCardData = async () => {
+      try {
+        const result = await axios.get('/stars')
+        setdata(result.data.content)
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    starCardData()
+  }, []);
+
   const [conditions, setConditions] = useState({});   // 조건 상자에서 검색을 누른 시점의 조건들
   const [sort, setSort] = useState("dateDesc");       // 정렬 조건
   const [cards, setCards] = useState([]);             // 카드 리스트
@@ -274,22 +288,21 @@ const Search = ({
           }}
         >
           <Grid container spacing={'75px'} sx={{ pl: '75px', }}>
-            {cards?.map((card, i) => (
+            {StarCardData?.map((card, i) => (
               <Grid item key={i}>
                 {target === SYMBOL.star ? (
                   <StarCard
-                    starId={star_dummy.starId}
-                    starName={star_dummy.starName}
-                    avgScore={star_dummy.avgScore}
-                    starAddress={star_dummy.starAddress}
-                    memberNumber={star_dummy.memberNumber}
-                    gender={star_dummy.gender}
-                    showCount={star_dummy.showCount}
-                    starGenres={star_dummy.starGenres}
-                    starStageTypes={star_dummy.starStageTypes}
-                    starImgUrl={star_dummy.starImgUrl}
-                    reviewCount={star_dummy.reviewCount}
-                  />
+                    starId={card.starId}
+                    starName={card.starName}
+                    avgScore={card.avgScore}
+                    starAddress={card.address}
+                    memberNumber={card.memberNumber}
+                    gender={card.gender}
+                    showCount={card.showCount}
+                    starGenres={card.starGenres}
+                    starStageTypes={card.starStageTypes}
+                    starImgUrl={card.starImgUrl}
+                    reviewCount={card.reviewCount}
                 ) : (
                   <StageCard
                     hostId={stage_dummy.hostId}
