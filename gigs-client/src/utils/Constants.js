@@ -32,11 +32,23 @@ export const API = {
 };
 
 export const PATH = {
+  main: '/',
   searchStar: '/star',
   searchStage: '/stage',
+  review: '/review',
+  myPage: '/mypage',
+  
 };
 
 export const SYMBOL = {
   star: Symbol('star'),
   stage: Symbol('stage'),
+}
+
+export const COLOR = {
+  main: "#D046D2",
+  whity: "#f8f8f8",
+  grey: "#808080",
+  blacky: "#404040",
+  lightBlack: "#c0c0c0",
 }
