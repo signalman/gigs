@@ -22,6 +22,21 @@ const debounce = (callback, limit) => {
 const Search = ({
   target,
 }) => {
+
+  const [StarCardData, setdata] = useState([]);
+
+  useEffect(() => {
+    const starCardData = async () => {
+      try {
+        const result = await axios.get('/stars')
+        setdata(result.data.content)
+      } catch (error) {
+        console.log(error)
+      }
+    };
+    starCardData()
+  }, []);
+
   const [conditions, setConditions] = useState({});
   const [sort, setSort] = useState("dateDesc");
   const [cards, setCards] = useState([]);
@@ -98,21 +113,25 @@ const Search = ({
   }, [cards, conditions, sort, page]);
 
   const star_dummy = {
-    starId:1,
-    starName:"Oasis",
-    avgScore:2,
-    starAddress:"경기도 수원시 영통구",
-    memberNumber:3,
-    gender:"남성",
-    showCount:5,
-    starImgUrl:"img/star_tmp.jpg",
-    starGenres:[
-    {starGenreId : 1, genreName : "팝송"},
-    {starGenreId : 2, genreName : "발라드"}],
-    starStageTypes:[
-    {starStageTypeId: 1, genreName : "카페"},
-    {starStageTypeId : 2, genreName : "길거리"}]
-}
+    starId: 1,
+    starName: "Oasis",
+    avgScore: 2,
+    address: {
+      addressName: "수원시",
+      cityName: "장안구",
+      countryName: "율전동"
+    },
+    memberNumber: 3,
+    gender: "남성",
+    showCount: 5,
+    starImgUrl: "img/star_tmp.jpg",
+    starGenres: [
+      { starGenreId: 1, genreName: "팝송" },
+      { starGenreId: 2, genreName: "발라드" }],
+    starStageTypes: [
+      { starStageTypeId: 1, stageTypeName: "카페" },
+      { starStageTypeId: 2, stageTypeName: "길거리" }]
+  }
 
 const stage_dummy = {
   hostId:1,
@@ -198,19 +217,19 @@ const stage_dummy = {
           }}
         >
           <Grid container spacing={'75px'} sx={{ pl: '75px', }}>
-            {cards?.map((card, i) => (
+            {StarCardData?.map((card, i) => (
               <Grid item key={i}>
                 <StarCard
-                  starId={star_dummy.starId}
-                  starName={star_dummy.starName}
-                  avgScore={star_dummy.avgScore}
-                  starAddress={star_dummy.starAddress}
-                  memberNumber={star_dummy.memberNumber}
-                  gender={star_dummy.gender}
-                  showCount={star_dummy.showCount}
-                  starGenres={star_dummy.starGenres}
-                  starStageTypes={star_dummy.starStageTypes}
-                  starImgUrl={star_dummy.starImgUrl}
+                  starId={card.starId}
+                  starName={card.starName}
+                  avgScore={card.avgScore}
+                  starAddress={card.address}
+                  memberNumber={card.memberNumber}
+                  gender={card.gender}
+                  showCount={card.showCount}
+                  starGenres={card.starGenres}
+                  starStageTypes={card.starStageTypes}
+                  starImgUrl={card.starImgUrl}
                   />
               </Grid>  
             ))}

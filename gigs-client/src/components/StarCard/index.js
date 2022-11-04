@@ -42,6 +42,14 @@ function Types({genre,index,arr}) {
     );
 }
 
+function Types_stage({stageType,index,arr}) {
+    return(
+        <div>
+            <b>{stageType.stageTypeName}</b>{arr.length-1 > index ? "/" : null}
+        </div>
+    );
+}
+
 function StarCard(props) {
   const navigate = useNavigate();
 
@@ -72,7 +80,7 @@ function StarCard(props) {
         <MapIcon></MapIcon>
         </Box>
         <RightBox>
-        {props.starAddress}
+        {props.starAddress.addressName} {props.starAddress.cityName}  {props.starAddress.countryName} 
         </RightBox>
         </FlexBoxB>
     </CardContent>
@@ -113,8 +121,8 @@ function StarCard(props) {
         <LocationOnIcon fontSize="medium"></LocationOnIcon>
         </Box>
         <RightBox>
-        {props.starStageTypes.map((genre,index,arr) => (
-                        <Types genre={genre} key={genre.starStageTypeId} index={index} arr={arr}/>
+        {props.starStageTypes.map((stageType,index,arr) => (
+                        <Types_stage stageType={stageType} key={stageType.starStageTypeId} index={index} arr={arr}/>
                     ))}
         </RightBox>
         </FlexBoxB>
