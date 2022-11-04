@@ -1,5 +1,6 @@
 import { Box, styled } from '@mui/material';
 import React from 'react';
+// import KakaoBtn from '../../../public/img/kakao_login_button.png';
 
 const Container = styled(Box)((p) => ({
   width: '100%',
@@ -18,6 +19,7 @@ const Main = ({
     <>
       <Container>
         {children}
+        <img src={"/img/kakao_login_button.png"} alt="asdf" />
       </Container>
     </>
   );
