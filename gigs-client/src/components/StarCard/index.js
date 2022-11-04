@@ -10,6 +10,7 @@ import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { DEV } from '../../utils/Constants';
 
 const Line = styled(CardContent)((p) => ({
     height: "37.5px",
@@ -38,7 +39,7 @@ function StarCard({
     starName,
     avgScore,
     reviewCount,
-    starAddress,
+    address,
     memberNumber,
     gender,
     showCount,
@@ -62,7 +63,7 @@ function StarCard({
             <CardMedia
                 component="img"
                 height="225"
-                image={starImgUrl}
+                image={DEV ? "img/star_tmp.jpg" : starImgUrl}
                 alt="stars"
             />
     
@@ -86,7 +87,7 @@ function StarCard({
                     <IconBox>
                         <MapIcon sx={{ width: "20px", height: "20px", }} />
                     </IconBox>
-                    <Typography fontSize=".9rem">{starAddress}</Typography>
+                    <Typography fontSize=".9rem">{`${address.addressName} ${address.cityName} ${address.countryName}`}</Typography>
                 </Item>
             </Line>
             

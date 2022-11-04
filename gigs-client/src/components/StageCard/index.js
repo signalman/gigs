@@ -13,6 +13,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import PhotoSizeSelectSmallIcon from '@mui/icons-material/PhotoSizeSelectSmall';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { DEV } from '../../utils/Constants';
 
 const Line = styled(CardContent)((p) => ({
   height: "37.5px",
@@ -40,17 +41,19 @@ function StageCard({
   hostId,
   stageName,
   avgScore,
-  stageAddress,
+  address,
   stageSize,
-  age,
-  stageStartTime,
-  stageEndTime,
+  startTime,
+  endTime,
   showCount,
-  stageCost,
+  pay,
   stageImgUrl,
-  stageGenres,
+  genres,
   stageType,
   reviewCount,
+  targetAge,
+  targetGender,
+  targetMinCount,
 }) {
   const navigate = useNavigate();
 
@@ -69,7 +72,7 @@ function StageCard({
       <CardMedia
         component="img"
         height="225"
-        image={stageImgUrl}
+        image={DEV ? "img/stage_tmp.jpg" : stageImgUrl}
         alt="stages"
       />
     
@@ -93,7 +96,7 @@ function StageCard({
           <IconBox>
             <MapIcon sx={{ width: "20px", height: "20px", }} />
           </IconBox>
-          <Typography fontSize=".9rem">{stageAddress}</Typography>
+          <Typography fontSize=".9rem">{`${address.addressName} ${address.cityName} ${address.countryName}`}</Typography>
         </Item>
       </Line>
       
@@ -108,7 +111,7 @@ function StageCard({
           <IconBox>
             <PeopleIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".8rem">{age}대 {age}인 이상</Typography>
+          <Typography fontSize=".8rem">{targetAge}대 {targetGender} {targetMinCount}인 이상</Typography>
         </Item>
       </Line>
 
@@ -117,7 +120,7 @@ function StageCard({
           <IconBox>
             <AccessTimeIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".8rem">{stageStartTime} ~ {stageEndTime}</Typography>
+          <Typography fontSize=".8rem">{startTime} ~ {endTime}</Typography>
         </Item>
         <Item type="half" sx={{ px: '15px' }}>
           <IconBox>
@@ -132,7 +135,7 @@ function StageCard({
           <IconBox>
             <LocalAtmIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".9rem">{stageCost} 이상</Typography>
+          <Typography fontSize=".9rem">{pay}원 이상</Typography>
         </Item>
         <Item type="half" sx={{ px: '15px' }}>
           <IconBox>
@@ -147,7 +150,7 @@ function StageCard({
               <IconBox>
                   <HeadsetMicIcon sx={{ width: "20px", height: "20px", }} />
               </IconBox>
-              <Typography fontSize=".9rem">{stageGenres?.reduce((prev, cur) => (prev + ` / ${cur.genreName}`), "").substring(3)}</Typography>
+              <Typography fontSize=".9rem">{genres?.reduce((prev, cur) => (prev + ` / ${cur.genreName}`), "").substring(3)}</Typography>
           </Item>
       </Line>
     </Card>
