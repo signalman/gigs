@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
     @PostMapping("/signup")
-    public void signup(@RequestBody SignUpForm signUpForm){
+    public void signup(SignUpForm signUpForm){
         log.info("signup에 들어왔습니다");
         userService.createUser(signUpForm);
         log.info("잘 저장 되었습니다.");
