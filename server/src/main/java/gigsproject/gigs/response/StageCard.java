@@ -16,7 +16,7 @@ public class StageCard {
     private Long hostId;
     private String imgUrl;
     private String stageName;
-    private Address stageAddress;
+    private Address address;
 
     private Double stageSize;
     private String targetGender;
@@ -34,7 +34,7 @@ public class StageCard {
     private StageType stageType;
     private List<PostGenreDto> genres;
 
-    private Float avgScore;
+    private Double avgScore;
     private Integer reviewCount;
 
 
@@ -43,7 +43,7 @@ public class StageCard {
         this.hostId = post.getHost().getHostId();
         this.imgUrl = post.getHost().getImgs().isEmpty() ? "" : post.getHost().getImgs().get(0).getUrl();
         this.stageName = post.getHost().getStageName();
-        this.stageAddress = post.getHost().getStageAddress();
+        this.address = post.getHost().getStageAddress();
         this.stageSize = post.getHost().getStageSize();
         this.targetGender = String.valueOf(post.getHost().getTargetGender());
         this.targetAge = post.getHost().getTargetAge();
@@ -62,5 +62,7 @@ public class StageCard {
                 .map(postGenre -> new PostGenreDto(postGenre))
                 .collect(Collectors.toList());
 
+        this.reviewCount = isNull(post.getHost().getStageCount()) ? 0 : post.getHost().getStageCount();
+        this.avgScore = isNull(post.getHost().getAvgScore()) ? 0 : post.getHost().getAvgScore();
     }
 }

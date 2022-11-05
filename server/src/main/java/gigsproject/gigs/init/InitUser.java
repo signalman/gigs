@@ -227,7 +227,6 @@ public class InitUser {
                             .user(user)
                             .stageName("abc")
                             .stageInfo("무대 정보입니다.")
-                            .stageCount(10)
                             .openTime(openTime)
                             .closeTime(closeTime)
                             .stageType(StageType.BAR)
@@ -237,7 +236,6 @@ public class InitUser {
                             .targetGender(MEN)
                             .targetAge(20)
                             .targetNumber(40)
-                            .score(4.7)
                             .build();
                 } else {
                     host = Host.builder()
@@ -254,7 +252,8 @@ public class InitUser {
                             .targetGender(WOMEN)
                             .targetAge(30)
                             .targetNumber(20)
-                            .score(4.4)
+                            .avgScore(4.1)
+                            .stageCount(5)
                             .build();
                 }
                 em.persist(host);
