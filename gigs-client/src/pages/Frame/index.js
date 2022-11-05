@@ -11,6 +11,7 @@ import {
 import Search from '../Search';
 import { SYMBOL } from '../../utils/Constants';
 import Waiting from '../Waiting';
+import SignUpTest from '../SignUpTest';
 
 /**
  * 헤더의 위치를 잡아주고 바디의 페이지를 라우팅해주는 페이지
@@ -28,6 +29,7 @@ const Frame = () => {
         <Route exact path="/stage" element={<Search target={SYMBOL.stage}></Search>} />
         <Route exact path="/star" element={<Search target={SYMBOL.star}></Search>} />
         <Route exact path="/auth" element={<Waiting></Waiting>} />
+        <Route exact path="/signup" element={<SignUpTest></SignUpTest>} />
         <Route path="/review" element={<Main>이용 후기</Main>} />
       </Routes>
     </Box>
