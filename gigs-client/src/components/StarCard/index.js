@@ -43,7 +43,7 @@ function StarCard({
     memberNumber,
     gender,
     showCount,
-    starGenres,
+    genres,
     starStageTypes,
 }) {
   const navigate = useNavigate();
@@ -111,7 +111,7 @@ function StarCard({
                     <IconBox>
                         <HeadsetMicIcon sx={{ width: "20px", height: "20px", }} />
                     </IconBox>
-                    <Typography fontSize=".9rem">{starGenres?.reduce((prev, cur) => (prev + ` / ${cur.genreName}`), "").substring(3)}</Typography>
+                    <Typography fontSize=".9rem">{genres?.reduce((prev, cur) => (prev + ` / ${cur.genreName}`), "").substring(3)}</Typography>
                 </Item>
             </Line>
 

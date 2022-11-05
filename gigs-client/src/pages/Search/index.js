@@ -23,12 +23,14 @@ const starDummy = (() => {
     gender: "남성",
     showCount: id,
     starImgUrl: "img/star_tmp.jpg",
-    starGenres:[
-    {starGenreId : 1, genreName : "팝송"},
-    {starGenreId : 2, genreName : "발라드"}],
+    genres:[
+      {starGenreId : 1, genreName : "팝송"},
+      {starGenreId : 2, genreName : "발라드"}
+    ],
     starStageTypes:[
-    {starStageTypeId: 1, stageTypeName : "카페"},
-    {starStageTypeId : 2, stageTypeName : "길거리"}],
+      {starStageTypeId: 1, stageTypeName : "카페"},
+      {starStageTypeId : 2, stageTypeName : "길거리"}
+    ],
     reviewCount: 15,
   });
 })();
@@ -39,7 +41,7 @@ const stageDummy = (() => {
     hostId: id++,
     stageName: "스타벅스",
     avgScore: 4.1,
-    stageAddress: {
+    address: {
       addressName: "경기도",
       cityName: "수원시",
       countryName: "영통구",
@@ -309,7 +311,7 @@ const Search = ({
                     memberNumber={card.memberNumber}
                     gender={card.gender}
                     showCount={card.showCount}
-                    starGenres={card.starGenres}
+                    genres={card.genres}
                     starStageTypes={card.starStageTypes}
                     starImgUrl={card.starImgUrl}
                     reviewCount={card.reviewCount}
@@ -319,7 +321,7 @@ const Search = ({
                     hostId={card.hostId}
                     stageName={card.stageName}
                     avgScore={card.avgScore}
-                    address={card.stageAddress}
+                    address={card.address}
                     stageSize={card.stageSize}
                     startTime={card.startTime}
                     endTime={card.endTime}
