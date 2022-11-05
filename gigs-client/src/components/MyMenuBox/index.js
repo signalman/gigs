@@ -24,8 +24,8 @@ const MyMenuBox = () => {
     <>
       <Box
         sx={{
-          width: '90px',
-          height: '40px',
+          width: '75px',
+          height: '30px',
           border: `2px solid ${COLOR.lightBlack}`,
           borderRadius: '40px',
           display: 'flex',
