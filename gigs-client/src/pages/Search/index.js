@@ -303,6 +303,7 @@ const Search = ({
                     starStageTypes={card.starStageTypes}
                     starImgUrl={card.starImgUrl}
                     reviewCount={card.reviewCount}
+                  />
                 ) : (
                   <StageCard
                     hostId={stage_dummy.hostId}
