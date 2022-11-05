@@ -3,6 +3,12 @@ const BASE_URL = "http://localhost:8080";
 const queryString = (arr) => arr.reduce((p, c, ci, a) => p + (c[1] !== 0 && !c[1] ? '' : `${c[0]}=${c[1]}` + `${ci === a.length-1 ? '' : '&'}`), '?');
 
 export const API = {
+  signUp: ({id, name, address, phoneNumber}) => `${BASE_URL}/signup${queryString([
+    ['id', id],
+    ['name', name],
+    ['address', address],
+    ['phoneNumber', phoneNumber],
+  ])}`,
   getStarCards: ({name, stageTypes, genres, address, gender,}, sort, size, page) => `${BASE_URL}/stars${queryString([
     ['name', name],
     ['stageTypes', stageTypes?.join(',')],
