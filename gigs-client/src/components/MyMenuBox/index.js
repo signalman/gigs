@@ -81,7 +81,7 @@ const MyMenuBox = () => {
           로그인 방법 선택
         </DialogTitle>
         <DialogContent sx={{ display:'flex', flexDirection:'column', }}>
-          <a href={API.kakaoAuthorize} target="_blank">
+          <a href={API.kakaoAuthorize}>
             <img src={"/img/kakao_login_button.png"} alt="asdf"/>
           </a>
           {/* <Button
