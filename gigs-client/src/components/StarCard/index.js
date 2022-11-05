@@ -76,7 +76,7 @@ function StarCard({
                         sx={{ width: `75px` }}
                         emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
                         icon={<StarIcon sx={{ width: `15px`, height: `15px` }}></StarIcon>}
-                        defaultValue={avgScore} precision={0.1} readOnly
+                        value={avgScore} precision={0.1} readOnly
                     />
                     <Typography fontSize=".7rem">({reviewCount})</Typography>
                 </Item>

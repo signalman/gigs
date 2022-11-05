@@ -38,7 +38,7 @@ const StarSearchConditionBox = ({
   const [selectedStageTypes, setSelectedStageTypes] = useState({});
 
   // 스타 찾기
-  const [gender, setGender] = useState('none');
+  const [gender, setGender] = useState('MIXED');
 
   // DB에서 모든 장르와 장소 종류를 가져옴
   useEffect(() => {
@@ -104,7 +104,7 @@ const StarSearchConditionBox = ({
       if(selectedGenres[key]) genres.push(key);
     }
 
-    const newConditions = {name, address, gender, genres, stageTypes};
+    const newConditions = {name, address, gender: gender === "MIXED" ? "" : gender, genres, stageTypes};
     setConditions(newConditions);
     fetchData(newConditions);
   }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchData]);
@@ -196,9 +196,9 @@ const StarSearchConditionBox = ({
                   value={gender}
                   onChange={handleGenderChange}
                 >
-                  <FormControlLabel value='none' control={<Radio size='small' />} label='무관' />
-                  <FormControlLabel value='man' control={<Radio size='small' />} label='남성' />
-                  <FormControlLabel value='woman' control={<Radio size='small' />} label='여성' />
+                  <FormControlLabel value='MIXED' control={<Radio size='small' />} label='무관' />
+                  <FormControlLabel value='MEN' control={<Radio size='small' />} label='남성' />
+                  <FormControlLabel value='WOMEN' control={<Radio size='small' />} label='여성' />
                 </RadioGroup>
               </FormControl>
             </Item>
