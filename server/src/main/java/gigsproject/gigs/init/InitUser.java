@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -202,7 +202,7 @@ public class InitUser {
             }
 
             /**
-             * Host 및 Post dummy Data (총 15개 Host, 75개 Post)
+             * Host 및 Post dummy Data (총 4개 Host, 100개 Post)
              */
 
             Address userAddress = new Address("수원시", "팔달구", "인계동");
@@ -210,7 +210,7 @@ public class InitUser {
             LocalTime openTime = LocalTime.of(9, 0);
             LocalTime closeTime = LocalTime.of(22, 0);
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 20; i++) {
                 User user = User.builder()
                         .uid("uid" + "(" + (i + 1) + ")")
                         .name("유저" + "(" + (i + 1) + ")")
@@ -221,33 +221,76 @@ public class InitUser {
                         .build();
                 em.persist(user);
 
-                Host host = Host.builder()
-                        .user(user)
-                        .stageName("abc")
-                        .stageInfo("무대 정보입니다.")
-                        .stageCount(10)
-                        .openTime(openTime)
-                        .closeTime(closeTime)
-                        .stageType(StageType.BAR)
-                        .stageSize(23.4)
-                        .pay(100000)
-                        .stageAddress(stageAddress)
-                        .targetGender(MEN)
-                        .targetAge(20)
-                        .targetNumber(40)
-                        .score(4.7)
-                        .build();
+                Host host;
+                if (i % 2 == 1) {
+                    host = Host.builder()
+                            .user(user)
+                            .stageName("abc")
+                            .stageInfo("무대 정보입니다.")
+                            .openTime(openTime)
+                            .closeTime(closeTime)
+                            .stageType(StageType.BAR)
+                            .stageSize(23.4)
+                            .pay(100000)
+                            .stageAddress(stageAddress)
+                            .targetGender(MEN)
+                            .targetAge(20)
+                            .targetNumber(40)
+                            .build();
+                } else {
+                    host = Host.builder()
+                            .user(user)
+                            .stageName("xyz")
+                            .stageInfo("무대 정보입니다.")
+                            .stageCount(10)
+                            .openTime(openTime)
+                            .closeTime(closeTime)
+                            .stageType(CAFE)
+                            .stageSize(40.1)
+                            .pay(300000)
+                            .stageAddress(stageAddress)
+                            .targetGender(WOMEN)
+                            .targetAge(30)
+                            .targetNumber(20)
+                            .avgScore(4.1)
+                            .stageCount(5)
+                            .build();
+                }
                 em.persist(host);
 
-                for (int j = 0; j < 5; j++) {
-                    LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
-                    LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
+                LocalDate startDate1 = LocalDate.of(2022, 11, 1);
+                LocalDate endDate1 = LocalDate.of(2022, 11, 5);
+                LocalTime startTime1 = LocalTime.of(18, 0);
+                LocalTime endTime1 = LocalTime.of(21, 0);
 
-                    Post post = Post.builder()
-                            .host(host)
-                            .showStartTime(startTime)
-                            .showEndTime(endTime)
-                            .build();
+                LocalDate startDate2 = LocalDate.of(2022, 11, 1);
+                LocalDate endDate2 = LocalDate.of(2022, 11, 3);
+                LocalTime startTime2 = LocalTime.of(12, 0);
+                LocalTime endTime2 = LocalTime.of(15, 0);
+
+                for (int j = 0; j < 5; j++) {
+
+                    Post post;
+                    if (i < 3) {
+                        //60
+                        post = Post.builder()
+                                .host(host)
+                                .startDate(startDate1)
+                                .endDate(endDate1)
+                                .startTime(startTime1)
+                                .endTime(endTime1)
+                                .build();
+                    } else {
+                        //40
+                        post = Post.builder()
+                                .host(host)
+                                .startDate(startDate2)
+                                .endDate(endDate2)
+                                .startTime(startTime2)
+                                .endTime(endTime2)
+                                .build();
+                    }
+
                     em.persist(post);
                     if (i % 2 == 0) {
                         PostGenre postGenre = PostGenre.builder()
@@ -266,69 +309,6 @@ public class InitUser {
                     }
                 }
             }
-
-
-
-            for (int i = 10; i < 15; i++) {
-                User user = User.builder()
-                        .uid("uid" + "(" + (i + 1) + ")")
-                        .name("유저" + "(" + (i + 1) + ")")
-                        .role(HOST)
-                        .phone("01012345678")
-                        .password("ppwwee")
-                        .address(userAddress)
-                        .build();
-                em.persist(user);
-
-                Host host = Host.builder()
-                        .user(user)
-                        .stageName("defg")
-                        .stageInfo("무대 정보입니다.")
-                        .stageCount(10)
-                        .openTime(openTime)
-                        .closeTime(closeTime)
-                        .stageType(StageType.CAFE)
-                        .stageSize(23.4)
-                        .pay(100000)
-                        .stageAddress(stageAddress)
-                        .targetGender(WOMEN)
-                        .targetAge(20)
-                        .targetNumber(40)
-                        .score(4.7)
-                        .build();
-                em.persist(host);
-
-                for (int j = 0; j < 5; j++) {
-                    LocalDateTime startTime = LocalDateTime.of(2022, 10, 28, 10 + j, 0);
-                    LocalDateTime endTime = LocalDateTime.of(2022, 10, 28, 10 + j, 30);
-
-                    Post post = Post.builder()
-                            .host(host)
-                            .showStartTime(startTime)
-                            .showEndTime(endTime)
-                            .build();
-                    em.persist(post);
-                    if (i % 2 == 0) {
-                        PostGenre postGenre = PostGenre.builder()
-                                .post(post)
-                                .genre(HIPHOP)
-                                .build();
-                        em.persist(postGenre);
-                        post.getPostGenres().add(postGenre);
-                    } else {
-                        PostGenre postGenre = PostGenre.builder()
-                                .post(post)
-                                .genre(JAZZ)
-                                .build();
-                        em.persist(postGenre);
-                        post.getPostGenres().add(postGenre);
-
-                    }
-                }
-
-
-            }
-
         }
     }
 }
