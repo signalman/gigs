@@ -1,10 +1,11 @@
-import { Box, Button, MenuItem, Select, styled, Switch, TextField, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem, Select, Slider, styled, Switch, TextField, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import CategoryItem from '../CategoryItem';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import moment from 'moment';
 
 const Line = styled(Box)(() => ({
@@ -29,6 +30,29 @@ const ItemName = styled(Box)(() => ({
   fontSize: 17,
 }));
 
+const sliderValues = [
+  {
+    value: 0,
+    label: '00시',
+  },
+  {
+    value: 6,
+    label: '06시',
+  },
+  {
+    value: 12,
+    label: '12시',
+  },
+  {
+    value: 18,
+    label: '18시',
+  },
+  {
+    value: 24,
+    label: '24시',
+  },
+];
+
 const StageSearchConditionBox = ({
   fetchData,
   setConditions,
@@ -49,8 +73,10 @@ const StageSearchConditionBox = ({
   const [isTimeSearch, setTimeSearch] = useState(false);
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
+  const [time, setTime] = useState([0, 24]);
   const [startTime, setStartTime] = useState(moment());
   const [endTime, setEndTime] = useState(moment());
+  const [timeDialogOpen, setTimeDialogOpen] = useState(false);
 
   // DB에서 모든 장르와 장소 종류를 가져옴
   useEffect(() => {
@@ -139,6 +165,21 @@ const StageSearchConditionBox = ({
     setEndTime(e);
   }
 
+  // 시간 변경 시
+  const handleTimeChange = (e) => {
+    setTime(e.target.value);
+  };
+
+  // 시간 클릭해서 다이얼로그 열 때
+  const handleTimeClick = () => {
+    setTimeDialogOpen(true);
+  };
+
+  // 시간 변경 다이얼로그 닫을 때
+  const handleTimeDialogClose = () => {
+    setTimeDialogOpen(false);
+  };
+
   // 검색 버튼 클릭 시
   const handleClickSearchBtn = useCallback(() => {
     const stageTypes = [];
@@ -156,8 +197,10 @@ const StageSearchConditionBox = ({
       times = {
         startDate: startDate.format("YYYY-MM-DD"),
         endDate: endDate.format("YYYY-MM-DD"),
-        startTime: startTime.format("HH:mm:ss"),
-        endTime: endTime.format("HH:mm:ss"),
+        startTime: `${time[0] < 10 ? `0${time[0]}` : time[0]}:00:00`,
+        endTime: `${time[1] < 10 ? `0${time[1]}` : time[1]}:00:00`, 
+        // startTime: startTime.format("HH:mm:ss"),
+        // endTime: endTime.format("HH:mm:ss"),
       };
     }
 
@@ -322,7 +365,16 @@ const StageSearchConditionBox = ({
                   disabled={!isTimeSearch}
                 />
                 <Box sx={{ width: '30px' }} />
-                <TimePicker
+                <TextField
+                  sx={{ width: '100px', alignSelf: 'end', mb: '3px', }}
+                  onClick={handleTimeClick}
+                  contentEditable={false}
+                  size='small'
+                  variant="standard"
+                  value={`${time[0]} ~ ${time[1]} 시`}
+                  disabled={!isTimeSearch}
+                />
+                {/* <TimePicker
                   renderInput={(props) => <TextField size='small' sx={{ width: '120px' }} variant='standard' disabled {...props} />}
                   label="From"
                   ampm={false}
@@ -338,7 +390,7 @@ const StageSearchConditionBox = ({
                   value={endTime}
                   onChange={handleEndTimeChange}
                   disabled={!isTimeSearch}
-                />
+                /> */}
               </LocalizationProvider>
             </Item>
           </Line>
@@ -362,6 +414,28 @@ const StageSearchConditionBox = ({
           </Line>
         </Box>
       </Box>
+      <Dialog
+        open={timeDialogOpen}
+        onClose={handleTimeDialogClose}
+      >
+        <DialogTitle>시간 선택</DialogTitle>
+        <DialogContent>
+          <Box sx={{ pt: '50px', pb: '10px' }}>
+            <Slider
+              sx={{ width: '300px', }}
+              max={24}
+              step={1}
+              marks={sliderValues}
+              value={time}
+              onChange={handleTimeChange}
+              valueLabelDisplay='on'
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button variant='contained' onClick={handleTimeDialogClose}>저장</Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
