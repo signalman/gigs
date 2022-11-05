@@ -1,8 +1,6 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Card, CardMedia, styled,
-    CardContent, Rating ,Box, Typography
- } from '@mui/material';
+import {Card, CardMedia, styled, CardContent, Rating ,Box, Typography} from '@mui/material';
 import MapIcon from '@mui/icons-material/Map';
 import PeopleIcon from '@mui/icons-material/People';
 import MicExternalOnIcon from '@mui/icons-material/MicExternalOn';
@@ -53,10 +51,13 @@ function StarCard({
             sx={{
                 width: "300px",
                 height: "450px",
-                border: "1.5px solid #808080",
                 borderRadius: "50px",
                 boxShadow: "0 4px 4px #808080",
                 cursor: "pointer",
+                transition: 'ease-in .1s',
+                ":hover": {
+                    transform: 'translate(0, -10px)',
+                }
             }}
             onClick={() => navigate('/stars/'+starId)}
         >

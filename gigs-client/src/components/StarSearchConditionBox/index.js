@@ -115,7 +115,6 @@ const StarSearchConditionBox = ({
         sx={{
           width: `1150px`,
           m: '0 auto',
-          mt: '50px',
         }}
       >
         <Box

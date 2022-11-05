@@ -62,10 +62,13 @@ function StageCard({
       sx={{
         width: "300px",
         height: "487.5px",
-        border: "1.5px solid #808080",
         borderRadius: "50px",
         boxShadow: "0 4px 4px #808080",
         cursor: "pointer",
+        transition: 'ease-in .1s',
+        ":hover": {
+          transform: 'translate(0, -10px)',
+        }
       }}
       onClick={() => navigate('/stages/'+hostId)}
     >

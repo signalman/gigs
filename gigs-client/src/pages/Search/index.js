@@ -264,7 +264,7 @@ const Search = ({
         }}
       >
         <Box
-          sx={{ width: '100%', mb: `50px`}}>
+          sx={{ width: '100%', my: `25px`}}>
           {target === SYMBOL.star ?
           (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />) :
           (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} />)}
@@ -299,7 +299,7 @@ const Search = ({
             width: '100%',
           }}
         >
-          <Grid container spacing={'75px'} sx={{ pl: '75px', }}>
+          <Grid container spacing={'75px'} rowSpacing={'25px'} sx={{ pl: '75px', mb: '25px' }}>
             {cards?.map((card, i) => (
               <Grid item key={i}>
                 {target === SYMBOL.star ? (
