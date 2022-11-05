@@ -46,7 +46,8 @@ public class Host extends BaseTimeEntity{
     private Integer targetAge;
     private Integer targetNumber;
 
-    private Integer stageCount;
+    private Integer showCount;
+    private Integer reviewCount;
     private Double avgScore;
 
     @OneToMany(mappedBy = "host") @Builder.Default

@@ -242,7 +242,7 @@ public class InitUser {
                             .user(user)
                             .stageName("xyz")
                             .stageInfo("무대 정보입니다.")
-                            .stageCount(10)
+                            .showCount(10)
                             .openTime(openTime)
                             .closeTime(closeTime)
                             .stageType(CAFE)
@@ -253,7 +253,7 @@ public class InitUser {
                             .targetAge(30)
                             .targetNumber(20)
                             .avgScore(4.1)
-                            .stageCount(5)
+                            .reviewCount(5)
                             .build();
                 }
                 em.persist(host);
