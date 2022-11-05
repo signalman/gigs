@@ -3,12 +3,14 @@
 import { Box, MenuItem,Fade, Menu, Dialog, DialogTitle, DialogContent, Button} from '@mui/material';
 import React , { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { COLOR, PATH } from '../../utils/Constants';
+import { API, COLOR, PATH } from '../../utils/Constants';
+import axios from 'axios';
 
 /**
  * 헤더에 위치한 메뉴 버튼
  */
 const MyMenuBox = () => {
+  console.log(process.env);
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -79,7 +81,14 @@ const MyMenuBox = () => {
           로그인 방법 선택
         </DialogTitle>
         <DialogContent sx={{ display:'flex', flexDirection:'column', }}>
-          <Button><img src={"/img/kakao_login_button.png"} alt="asdf"/></Button>
+          <a href={API.kakaoAuthorize} target="_blank">
+            <img src={"/img/kakao_login_button.png"} alt="asdf"/>
+          </a>
+          {/* <Button
+            onClick={() => {
+              
+            }}
+          ></Button> */}
         </DialogContent>
       </Dialog>
     </>
