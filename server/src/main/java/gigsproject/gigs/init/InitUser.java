@@ -24,7 +24,7 @@ import static gigsproject.gigs.domain.StageType.*;
 public class InitUser {
     private final InitUserService initUserService;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         initUserService.init();
     }
