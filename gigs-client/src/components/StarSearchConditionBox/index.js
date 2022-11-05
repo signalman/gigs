@@ -44,8 +44,9 @@ const StarSearchConditionBox = ({
   useEffect(() => {
     // 임시 코드
     // TODO: 불변 테이블에서 가져오기?
-    setGenres(['Rock', '힙합', '재즈']);
-    setStageTypes(['Cafe', 'Pub', 'Stage']);
+    // DANCE, SESSION, ROCK, HIPHOP, INDIE, JAZZ, POP
+    setGenres("DANCE, SESSION, ROCK, HIPHOP, INDIE, JAZZ, POP".split(", "));
+    setStageTypes("CAFE, BAR, RESTAURANT, SCHOOL".split(", "));
   }, []);
 
   // 장르를 성공적으로 가져오면 선택한 장르 리스트 초기화
