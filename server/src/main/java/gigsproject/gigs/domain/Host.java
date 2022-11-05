@@ -34,7 +34,6 @@ public class Host extends BaseTimeEntity{
     @Enumerated(EnumType.STRING)
     private StageType stageType;
 
-
     private Double stageSize;
     private Integer pay;
 
