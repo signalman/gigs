@@ -44,7 +44,7 @@ const StageSearchConditionBox = ({
 
   // 무대 찾기
   const [targetAge, setTargetAge] = useState("all");
-  const [targetGender, setTargetGender] = useState("all");
+  const [targetGender, setTargetGender] = useState("MIXED");
   const [targetMinCount, setTargetMinCount] = useState(0);
   const [isTimeSearch, setTimeSearch] = useState(false);
   const [startDate, setStartDate] = useState(moment());
@@ -154,8 +154,8 @@ const StageSearchConditionBox = ({
     let times = {};
     if(isTimeSearch) {
       times = {
-        startDate: startDate.format("YYYY/MM/DD"),
-        endDate: endDate.format("YYYY/MM/DD"),
+        startDate: startDate.format("YYYY-MM-DD"),
+        endDate: endDate.format("YYYY-MM-DD"),
         startTime: startTime.format("HH:mm:ss"),
         endTime: endTime.format("HH:mm:ss"),
       };
@@ -164,7 +164,7 @@ const StageSearchConditionBox = ({
     const newConditions = {
       name, address, genres, stageTypes,
       targetAge: targetAge === "all" ? "" : targetAge,
-      targetGender: targetGender === "all" ? "" : targetGender,
+      targetGender: targetGender === "MIXED" ? "" : targetGender,
       targetMinCount,
       ...times
     };
@@ -280,9 +280,9 @@ const StageSearchConditionBox = ({
                 value={targetGender}
                 onChange={handleTargetGenderChange}
               >
-                <MenuItem value='all'>모두</MenuItem>
-                <MenuItem value='man'>남성</MenuItem>
-                <MenuItem value='woman'>여성</MenuItem>
+                <MenuItem value='MIXED'>모두</MenuItem>
+                <MenuItem value='MEN'>남성</MenuItem>
+                <MenuItem value='WOMEN'>여성</MenuItem>
               </Select>
               <TextField
                 sx={{
