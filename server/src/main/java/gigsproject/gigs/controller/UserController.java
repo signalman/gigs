@@ -23,6 +23,14 @@ public class UserController {
         log.info("잘 저장 되었습니다.");
     }
 
+    @PostMapping("/oauth/token")
+    public void getToken(){
+
+    }
+
+
+
+
 
 
 
