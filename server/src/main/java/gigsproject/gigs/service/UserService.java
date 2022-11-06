@@ -25,7 +25,6 @@ public class UserService {
                 .name(signUpForm.getName())
                 .uid(signUpForm.getUid())
                 .role(signUpForm.getRole())
-                .password(signUpForm.getPassword())
                 .phone(signUpForm.getPhone())
                 .build();
         userRepository.save(user);

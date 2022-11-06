@@ -50,7 +50,6 @@ public class InitUser {
                         .name("유저" + i)
                         .role(STAR)
                         .phone("01012345678")
-                        .password("ppwwee")
                         .address(address1)
                         .build();
                 em.persist(user);
@@ -216,7 +215,6 @@ public class InitUser {
                         .name("유저" + "(" + (i + 1) + ")")
                         .role(HOST)
                         .phone("01012345678")
-                        .password("ppwwee")
                         .address(userAddress)
                         .build();
                 em.persist(user);
@@ -275,7 +273,6 @@ public class InitUser {
                         .name("유저" + "(" + (i + 1) + ")")
                         .role(HOST)
                         .phone("01012345678")
-                        .password("ppwwee")
                         .address(userAddress)
                         .build();
                 em.persist(user);
