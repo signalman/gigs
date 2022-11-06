@@ -8,14 +8,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class PostController {
     private final PostService postService;
 
     @PostMapping("/posts")
-    public void PostSave(@RequestBody PostSave postSave){
-
+    public void PostSave(@RequestBody @Valid PostSave postSave){
+        postService.write(postSave);
     }
 
 }
