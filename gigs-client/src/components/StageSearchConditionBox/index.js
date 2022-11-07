@@ -6,6 +6,7 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import moment from 'moment';
+import { COLOR } from '../../utils/Constants';
 
 const Line = styled(Box)(() => ({
   width: '100%',
@@ -49,8 +50,10 @@ const StageSearchConditionBox = ({
   const [isTimeSearch, setTimeSearch] = useState(false);
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
-  const [startTime, setStartTime] = useState(moment());
-  const [endTime, setEndTime] = useState(moment());
+  const [startTime, setStartTime] = useState('00');
+  const [endTime, setEndTime] = useState('24');
+  // const [startTime, setStartTime] = useState(moment());
+  // const [endTime, setEndTime] = useState(moment());
 
   // DB에서 모든 장르와 장소 종류를 가져옴
   useEffect(() => {
@@ -129,14 +132,24 @@ const StageSearchConditionBox = ({
     setEndDate(e);
   }
 
+  // // 시작 시간 변경 시
+  // const handleStartTimeChange = (e) => {
+  //   setStartTime(e);
+  // }
+
+  // // 종료 시간 변경 시
+  // const handleEndTimeChange = (e) => {
+  //   setEndTime(e);
+  // }
+
   // 시작 시간 변경 시
   const handleStartTimeChange = (e) => {
-    setStartTime(e);
+    setStartTime(e.target.value);
   }
 
   // 종료 시간 변경 시
   const handleEndTimeChange = (e) => {
-    setEndTime(e);
+    setEndTime(e.target.value);
   }
 
   // 검색 버튼 클릭 시
@@ -178,7 +191,6 @@ const StageSearchConditionBox = ({
         sx={{
           width: `1150px`,
           m: '0 auto',
-          mt: '50px',
         }}
       >
         <Box
@@ -322,23 +334,40 @@ const StageSearchConditionBox = ({
                   disabled={!isTimeSearch}
                 />
                 <Box sx={{ width: '30px' }} />
-                <TimePicker
-                  renderInput={(props) => <TextField size='small' sx={{ width: '120px' }} variant='standard' disabled {...props} />}
-                  label="From"
-                  ampm={false}
-                  value={startTime}
-                  onChange={handleStartTimeChange}
-                  disabled={!isTimeSearch}
-                />
-                <Typography sx={{ width: '30px', textAlign: 'center' }}>~</Typography>
-                <TimePicker
-                  renderInput={(props) => <TextField size='small' sx={{ width: '120px' }} variant='standard' disabled {...props} />}
-                  label="To"
-                  ampm={false}
-                  value={endTime}
-                  onChange={handleEndTimeChange}
-                  disabled={!isTimeSearch}
-                />
+                <Box sx={{ display: 'flex', pt: '10px' }}>
+                  <Select
+                    sx={{
+                      width: '50px',
+                      height: '30px',
+                      ml: `20px`,
+                    }}
+                    disabled={!isTimeSearch}
+                    variant='standard'
+                    value={startTime}
+                    onChange={handleStartTimeChange}
+                  >
+                    { Array.from({length: 25}, (v, i) => i < 10 ? `0${i}` : String(i)).map(item => (
+                      <MenuItem key={item} value={item}>{item}</MenuItem>
+                    )) }
+                  </Select>
+                  <Typography sx={{ width: 'auto', textAlign: 'center', color: isTimeSearch ? COLOR.blacky : COLOR.grey }}>시 부터</Typography>
+                  <Select
+                    sx={{
+                      width: '50px',
+                      height: '30px',
+                      ml: `20px`,
+                    }}
+                    disabled={!isTimeSearch}
+                    variant='standard'
+                    value={endTime}
+                    onChange={handleEndTimeChange}
+                  >
+                    { Array.from({length: 25}, (v, i) => i < 10 ? `0${i}` : String(i)).map(item => (
+                      <MenuItem key={item} value={item}>{item}</MenuItem>
+                    )) }
+                  </Select>
+                  <Typography sx={{ width: 'auto', textAlign: 'center', color: isTimeSearch ? COLOR.blacky : COLOR.grey }}>시 까지</Typography>
+                </Box>
               </LocalizationProvider>
             </Item>
           </Line>
