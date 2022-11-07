@@ -34,6 +34,7 @@ const StageSearchConditionBox = ({
   fetchData,
   setConditions,
   setParentSort,
+  setProgress,
 }) => {
   const [genres, setGenres] = useState([]);
   const [stageTypes, setStageTypes] = useState([]);
@@ -52,8 +53,6 @@ const StageSearchConditionBox = ({
   const [endDate, setEndDate] = useState(moment());
   const [startTime, setStartTime] = useState('00');
   const [endTime, setEndTime] = useState('24');
-  // const [startTime, setStartTime] = useState(moment());
-  // const [endTime, setEndTime] = useState(moment());
 
   // DB에서 모든 장르와 장소 종류를 가져옴
   useEffect(() => {
@@ -132,16 +131,6 @@ const StageSearchConditionBox = ({
     setEndDate(e);
   }
 
-  // // 시작 시간 변경 시
-  // const handleStartTimeChange = (e) => {
-  //   setStartTime(e);
-  // }
-
-  // // 종료 시간 변경 시
-  // const handleEndTimeChange = (e) => {
-  //   setEndTime(e);
-  // }
-
   // 시작 시간 변경 시
   const handleStartTimeChange = (e) => {
     setStartTime(e.target.value);
@@ -169,8 +158,8 @@ const StageSearchConditionBox = ({
       times = {
         startDate: startDate.format("YYYY-MM-DD"),
         endDate: endDate.format("YYYY-MM-DD"),
-        startTime: startTime.format("HH:mm:ss"),
-        endTime: endTime.format("HH:mm:ss"),
+        startTime: `${startTime}:00:00`,
+        endTime: `${endTime}:00:00`,
       };
     }
 
@@ -182,6 +171,7 @@ const StageSearchConditionBox = ({
       ...times
     };
     setConditions(newConditions);
+    setProgress(true);
     fetchData(newConditions);
   }, [name, selectedStageTypes, selectedGenres, address, targetAge, targetGender, targetMinCount, isTimeSearch, startDate, endDate, startTime, endTime, setConditions, fetchData]);
 
