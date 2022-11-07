@@ -19,7 +19,7 @@ const Frame = () => {
   <>
     <Header />
     
-    <Box sx={{ width: '1200px', m: '0 auto', }}>
+    <Box sx={{ width: '100%', }}>
       <Routes>
         {/* Carousel */}
         <Route exact path="/" element={<Main>메인</Main>} />
