@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor
 @Builder(access = AccessLevel.PUBLIC)
-public class Star {
+public class Star extends BaseTimeEntity{
     @Id @GeneratedValue
     private Long starId;
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "userId")

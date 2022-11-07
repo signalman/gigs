@@ -7,14 +7,14 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
 
 @Builder
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Host {
+public class Host extends BaseTimeEntity{
     @Id
     @GeneratedValue
     private Long hostId;
@@ -28,14 +28,11 @@ public class Host {
     @Lob
     private String stageInfo;
 
-    private Integer stageCount;
-
     private LocalTime openTime;
     private LocalTime closeTime;
 
     @Enumerated(EnumType.STRING)
     private StageType stageType;
-
 
     private Double stageSize;
     private Integer pay;
@@ -48,8 +45,9 @@ public class Host {
     private Integer targetAge;
     private Integer targetNumber;
 
-
-    private Double score;
+    private Integer showCount;
+    private Integer reviewCount;
+    private Double avgScore;
 
     @OneToMany(mappedBy = "host") @Builder.Default
     private final List<Post> posts = new ArrayList<>();

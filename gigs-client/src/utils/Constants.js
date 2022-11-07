@@ -1,6 +1,8 @@
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "";
 
 const queryString = (arr) => arr.reduce((p, c, ci, a) => p + (c[1] !== 0 && !c[1] ? '' : `${c[0]}=${c[1]}` + `${ci === a.length-1 ? '' : '&'}`), '?');
+
+export const DEV = true;
 
 export const API = {
   signUp: ({id, name, address, phoneNumber}) => `${BASE_URL}/signup${queryString([

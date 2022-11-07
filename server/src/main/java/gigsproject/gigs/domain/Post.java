@@ -3,7 +3,9 @@ package gigsproject.gigs.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,16 +14,17 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Post {
+public class Post extends BaseTimeEntity{
     @Id @GeneratedValue
     private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "hostId")
     private Host host;
 
-    private LocalDateTime showStartTime;
-
-    private LocalDateTime showEndTime;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
 
     @OneToMany(mappedBy = "post") @Builder.Default

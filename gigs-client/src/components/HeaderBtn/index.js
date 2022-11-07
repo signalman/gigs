@@ -12,11 +12,11 @@ const HeaderBtn = ({
   return (
     <Button
       sx={{
-        fontSize: 30,
+        fontSize: 25,
         fontWeight: 'bold',
         letterSpacing: '0.25px',
         p: 0,
-        mx: 3,
+        mx: 4,
         color: isClicked ? 'primary' : COLOR.blacky,
       }}
       variant='text'

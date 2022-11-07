@@ -14,7 +14,8 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +24,6 @@ import static gigsproject.gigs.domain.QHost.host;
 import static gigsproject.gigs.domain.QPost.post;
 import static java.util.Objects.isNull;
 import static org.springframework.util.StringUtils.hasText;
-import static org.springframework.util.StringUtils.isEmpty;
 
 @Repository
 @RequiredArgsConstructor
@@ -48,6 +48,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
                         starAddressEq(stageSearch.getAddress()),
+                        stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
                         stageTargetMinCountEq(stageSearch.getTargetMinCount())
@@ -70,6 +71,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
                         starAddressEq(stageSearch.getAddress()),
+                        stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
                         stageTargetMinCountEq(stageSearch.getTargetMinCount())
@@ -107,10 +109,34 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return hasText(name) ? post.host.stageName.eq(name) : null;
     }
 
+    private Predicate stageDateEq(String searchStartDate, String searchEndDate) {
+
+        LocalDate startDate = hasText(searchStartDate) ? LocalDate.parse(searchStartDate, DateTimeFormatter.ISO_LOCAL_DATE) : null;
+        LocalDate endDate = hasText(searchEndDate) ? LocalDate.parse(searchEndDate, DateTimeFormatter.ISO_LOCAL_DATE) : null;
+
+        if (startDate == null) {
+            if (endDate == null) {
+                // x <= <= x
+                return null;
+            } else {
+                // x <=  <= o
+                return post.endDate.loe(endDate);
+            }
+        } else {
+            if (endDate == null) {
+                //o <=  <= x
+                return post.startDate.goe(startDate);
+            }
+            //o <= <= o
+            return post.startDate.goe(startDate).and(post.endDate.loe(endDate));
+        }
+    }
+
+
     private Predicate stageTimeEq(String startSearchTime, String endSearchTime) {
 
-        LocalDateTime startTime = hasText(startSearchTime) ? LocalDateTime.parse(startSearchTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME) : null;
-        LocalDateTime endTime = hasText(endSearchTime) ? LocalDateTime.parse(endSearchTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME) : null;
+        LocalTime startTime = hasText(startSearchTime) ? LocalTime.parse(startSearchTime, DateTimeFormatter.ISO_LOCAL_TIME) : null;
+        LocalTime endTime = hasText(endSearchTime) ? LocalTime.parse(endSearchTime, DateTimeFormatter.ISO_LOCAL_TIME) : null;
 
         if (startTime == null) {
             if (endTime == null) {
@@ -118,15 +144,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 return null;
             } else {
                 // x <=  <= o
-                return post.showEndTime.loe(endTime);
+                return post.endTime.loe(endTime);
             }
         } else {
             if (endTime == null) {
                 //o <=  <= x
-                return post.showStartTime.goe(startTime);
+                return post.startTime.goe(startTime);
             }
             //o <= <= o
-            return post.showStartTime.goe(startTime).and(post.showEndTime.loe(endTime));
+            return post.startTime.goe(startTime).and(post.endTime.loe(endTime));
         }
     }
 }

@@ -20,7 +20,6 @@ const Frame = () => {
   return (
   <>
     <Header />
-    <Box sx={{height: "150px"}}></Box>
     
     <Box sx={{ width: '1200px', m: '0 auto', }}>
       <Routes>
