@@ -6,16 +6,18 @@ import axios from 'axios';
 import { API } from '../../utils/Constants';
 
 const SignUp = () => {
+  const [name, setName] = useState("");
+  const [id, setId] = useState("");
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   
   const location = useLocation();
-  const cookies = new Cookies();
-  const ck = cookies.getAll();
 
   const getUserIdAndName = useCallback(async (uuid) => {
-    console.log("shoot");
-    await axios.get(API.getUserName(uuid));
+    const response = await axios.get(API.getUserName(uuid));
+    console.log(response.data);
+    setName(response.data.name);
+    setId(response.data.id);
   }, []);
 
   useEffect(() => {
@@ -26,29 +28,31 @@ const SignUp = () => {
   }, []);
 
   const handleClick = useCallback(async () => {
-    const id = cookies.get('id');
-    const name = cookies.get('name');
     const data = {
-      id, name, address, phoneNumber,
+      id, address, phoneNumber,
     };
 
-    await axios.get(API.signUp(data));
-  }, []);
+    await axios.post(API.signUp(data), data);
+  }, [id, address, phoneNumber]);
 
   return (
     <Box>
       <TextField
         placeholder='주소'
+        value={name}
+      />
+      <TextField
+        placeholder='주소'
         value={address}
         onChange={(e) => {
-          setPhoneNumber(e.target.value);
+          setAddress(e.target.value);
         }}
       />
       <TextField
         placeholder='연락처'
         value={phoneNumber}
         onChange={(e) => {
-          setAddress(e.target.value);
+          setPhoneNumber(e.target.value);
         }}
       />
       <Button

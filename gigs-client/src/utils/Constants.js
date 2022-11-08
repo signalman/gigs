@@ -5,12 +5,7 @@ const queryString = (arr) => arr.reduce((p, c, ci, a) => p + (c[1] !== 0 && !c[1
 export const DEV = true;
 
 export const API = {
-  signUp: ({id, name, address, phoneNumber}) => `${BASE_URL}/signup${queryString([
-    ['id', id],
-    ['name', name],
-    ['address', address],
-    ['phoneNumber', phoneNumber],
-  ])}`,
+  signUp: ({id, address, phoneNumber}) => `${BASE_URL}/signup`,
   getStarCards: ({name, stageTypes, genres, address, gender,}, sort, size, page) => `${BASE_URL}/stars${queryString([
     ['name', name],
     ['stageTypes', stageTypes?.join(',')],
