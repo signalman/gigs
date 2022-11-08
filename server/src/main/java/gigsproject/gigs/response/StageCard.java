@@ -28,13 +28,13 @@ public class StageCard {
     private LocalTime endTime;
 
     private Integer targetMinCount;
-    private Integer showCount;
 
     private Integer pay;
     private StageType stageType;
     private List<PostGenreDto> genres;
 
     private Double avgScore;
+    private Integer showCount;
     private Integer reviewCount;
 
 
@@ -54,7 +54,6 @@ public class StageCard {
         this.startTime = isNull(post.getStartTime()) ? null : LocalTime.from(post.getStartTime());
         this.endTime = isNull(post.getEndTime()) ? null : LocalTime.from(post.getEndTime());
 
-        this.showCount = post.getHost().getStageCount();
         this.pay  = post.getHost().getPay();
         this.stageType = post.getHost().getStageType();
 
@@ -62,7 +61,8 @@ public class StageCard {
                 .map(postGenre -> new PostGenreDto(postGenre))
                 .collect(Collectors.toList());
 
-        this.reviewCount = isNull(post.getHost().getStageCount()) ? 0 : post.getHost().getStageCount();
+        this.showCount = isNull(post.getHost().getShowCount()) ? 0 : post.getHost().getShowCount();
+        this.reviewCount = isNull(post.getHost().getReviewCount()) ? 0 : post.getHost().getReviewCount();
         this.avgScore = isNull(post.getHost().getAvgScore()) ? 0 : post.getHost().getAvgScore();
     }
 }
