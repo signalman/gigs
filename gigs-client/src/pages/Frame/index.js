@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import Search from '../Search';
 import { SYMBOL } from '../../utils/Constants';
+import SignUp from '../SignUp';
 import Info from '../Info';
 
 /**
@@ -29,6 +30,7 @@ const Frame = () => {
         <Route path="/stages/:id" element={<Info target={SYMBOL.stage} />} />
         <Route path="/stars/:id" element={<Info target={SYMBOL.star} />} />
         <Route path="/review" element={<Main>이용 후기</Main>} />
+        <Route path="/signup" element={<SignUp/>} />
       </Routes>
     </Box>
   </>
