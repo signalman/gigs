@@ -2,6 +2,7 @@ package gigsproject.gigs.config.oauth;
 
 import gigsproject.gigs.domain.User;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class SessionUser {

@@ -25,7 +25,6 @@ import static java.util.UUID.*;
 @Slf4j
 public class OAuth2AuthenticationFailureHandler implements AuthenticationFailureHandler {
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
     private final HttpSession session;
 
 
@@ -36,11 +35,7 @@ public class OAuth2AuthenticationFailureHandler implements AuthenticationFailure
         log.info("로그인 실패");
         String errorMessage = URLEncoder.encode(exception.getMessage(), StandardCharsets.UTF_8) ;
 
-        String UUID = randomUUID().toString();
-        session.setAttribute("uuid", UUID);
-        log.info("uuid: {}", UUID);
-
-
+        String UUID = session.getAttribute("uuid").toString();
         response.sendRedirect("http://localhost:3000/signup?uuid=" + UUID);
     }
 }

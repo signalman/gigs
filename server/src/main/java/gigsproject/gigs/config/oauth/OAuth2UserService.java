@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 import static java.util.Objects.*;
+import static java.util.UUID.randomUUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -37,8 +38,10 @@ public class OAuth2UserService extends DefaultOAuth2UserService { //return 한 �
         User findUser = userRepository.findByUid(uid);
 
         if(isNull(findUser)){ //회원가입 안한 사용자.
-            session.setAttribute("id", uid);
-            session.setAttribute("name", name);
+            String UUID = randomUUID().toString();
+            session.setAttribute("uuid", UUID);
+            NotSignedUser notSignedUser = new NotSignedUser(uid, UUID, name);
+            session.setAttribute(UUID, notSignedUser);
             throw new InternalAuthenticationServiceException(name + "님은 회원가입을 하지 않으셨습니다.");
         }
         session.setAttribute("user", new SessionUser(findUser));
