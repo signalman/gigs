@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 @Controller
@@ -15,8 +16,10 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
 
     @GetMapping("/signup")
-    String test(HttpServletRequest request){
+    String test(HttpServletRequest request, HttpServletResponse response){
         request.getSession();
+
+
 
         return "redirect:http://localhost:3000/signup";
     }
