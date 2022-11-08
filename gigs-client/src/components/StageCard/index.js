@@ -14,6 +14,7 @@ import PhotoSizeSelectSmallIcon from '@mui/icons-material/PhotoSizeSelectSmall';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { DEV } from '../../utils/Constants';
+import StageDummyImg from '../../images/stage_tmp.jpg';
 
 const Line = styled(CardContent)((p) => ({
   height: "37.5px",
@@ -75,7 +76,7 @@ function StageCard({
       <CardMedia
         component="img"
         height="225"
-        image={DEV ? "img/stage_tmp.jpg" : stageImgUrl}
+        image={DEV ? StageDummyImg : stageImgUrl}
         alt="stages"
       />
     
