@@ -1,31 +1,25 @@
 package gigsproject.gigs.config;
 
 //import gigsproject.gigs.config.oauth.OAuth2AuthenticationFailureHandler;
+
 import gigsproject.gigs.config.oauth.OAuth2AuthenticationFailureHandler;
 import gigsproject.gigs.config.oauth.OAuth2AuthenticationSuccessHandler;
 import gigsproject.gigs.config.oauth.OAuth2UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.web.cors.CorsConfiguration;
 
 
 @EnableWebSecurity
-@Configuration
+@RequiredArgsConstructor
 public class SecurityConfig{
-    @Autowired
-    private OAuth2UserService oauth2userService;
-
-    @Autowired
-    private OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
-
-    @Autowired
-    private OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final OAuth2UserService oauth2userService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
