@@ -1,5 +1,8 @@
 import { Box, styled } from '@mui/material';
 import React from 'react';
+import StaticDatePicker from '@mui/x-date-pickers/StaticDatePicker';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 
 const Container = styled(Box)((p) => ({
   width: '1200px',
@@ -19,6 +22,20 @@ const Main = ({
     <>
       <Container>
         {children}
+        <Box
+          sx={{
+            width: '1200px',
+            display: 'flex',
+          }}
+        >
+          <Box
+            sx={{
+              width: '600px',
+            }}
+          >
+            
+          </Box>
+        </Box>
       </Container>
     </>
   );
