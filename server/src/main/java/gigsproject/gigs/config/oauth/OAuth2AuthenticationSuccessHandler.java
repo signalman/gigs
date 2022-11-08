@@ -49,12 +49,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         log.info("이미 회원입니다.");
 
         targetUrl = "http://localhost:3000";
-//            getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000");
 
         response.setHeader("Location", targetUrl);
         response.setStatus(302);
-//        response.sendRedirect(targetUrl);
-//        getRedirectStrategy().sendRedirect(request,response,targetUrl);
     }
 }
 

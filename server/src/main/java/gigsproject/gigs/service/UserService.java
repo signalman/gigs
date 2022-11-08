@@ -23,26 +23,26 @@ public class UserService {
         //받아온 폼을 가지고 유저 저장.
         User user = User.builder()
                 .name(signUpForm.getName())
-                .uid(signUpForm.getUid())
-                .role(signUpForm.getRole())
-                .phone(signUpForm.getPhone())
+                .uid(signUpForm.getId())
+//                .role(signUpForm.getRole())
+                .phone(signUpForm.getPhoneNumber())
                 .build();
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         //유저가 host를 선택했다면 host 테이블에도 저장.
-        if (signUpForm.getRole() == Role.HOST) {
-            Host host = Host.builder()
-                    .user(user)
-                    .build();
-            hostRepository.save(host);
-        }
-        //유저가 star를 선택했다면 star 테이블에도 저장.
-        else{
-            Star star = Star.builder()
-                    .user(user)
-                    .build();
-            starRepository.save(star);
-        }
+//        if (signUpForm.getRole() == Role.HOST) {
+//            Host host = Host.builder()
+//                    .user(user)
+//                    .build();
+//            hostRepository.save(host);
+//        }
+//        //유저가 star를 선택했다면 star 테이블에도 저장.
+//        else{
+//            Star star = Star.builder()
+//                    .user(user)
+//                    .build();
+//            starRepository.save(star);
+//        }
 
     }
 }

@@ -5,12 +5,8 @@ import lombok.Data;
 
 @Data
 public class SignUpForm {
-    private String uid;
+    private String id;
     private String name;
-    private Role role;
-    private String phone;
-    private String password;
-    //todo - 주소 구현해야함.
-
-
+    private String phoneNumber;
+    private String address;
 }
