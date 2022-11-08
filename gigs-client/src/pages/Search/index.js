@@ -2,7 +2,7 @@
 
 import { Box, Grid, MenuItem, Select } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { API, SYMBOL } from '../../utils/Constants';
+import { API, DEV, SYMBOL } from '../../utils/Constants';
 import axios from 'axios';
 import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
@@ -12,44 +12,57 @@ import StageCard from '../../components/StageCard';
 // 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
 
-const star_dummy = {
-  starId:1,
-  starName:"Oasis",
-  avgScore:2.4,
-  starAddress:"경기도 수원시 영통구",
-  memberNumber:3,
-  gender:"남성",
-  showCount:5,
-  starImgUrl:"img/star_tmp.jpg",
-  starGenres:[
-  {starGenreId : 1, genreName : "팝송"},
-  {starGenreId : 2, genreName : "발라드"}],
-  starStageTypes:[
-  {starStageTypeId: 1, stageTypeName : "카페"},
-  {starStageTypeId : 2, stageTypeName : "길거리"}],
-  reviewCount: 15,
-}
+const starDummy = (() => {
+  let id = 0;
+  return () => ({
+    starId: id++,
+    starName: "Oasis",
+    avgScore: 2.4,
+    address: "경기도 수원시 영통구",
+    memberNumber: 3,
+    gender: "남성",
+    showCount: id,
+    starImgUrl: "img/star_tmp.jpg",
+    genres:[
+      {starGenreId : 1, genreName : "팝송"},
+      {starGenreId : 2, genreName : "발라드"}
+    ],
+    starStageTypes:[
+      {starStageTypeId: 1, stageTypeName : "카페"},
+      {starStageTypeId : 2, stageTypeName : "길거리"}
+    ],
+    reviewCount: 15,
+  });
+})();
 
-const stage_dummy = {
-  hostId:1,
-  stageName:"스타벅스",
-  avgScore:4.1,
-  stageAddress:"경기도 수원시 영통구",
-  stageSize:34,
-  age:20,
-  //gender:"남성",
-  stageStartTime:"10:00",
-  stageEndTime:"22:00",
-  showCount:5,
-  stageCost:10,
-  stageImgUrl:"img/stage_tmp.jpg",
-  stageGenres:[
-    {stageGenreId : 1, genreName : "팝송"},
-    {stageGenreId : 2, genreName : "발라드"},
-    {stageGenreId : 3, genreName : "랩"}],
-  stageType: "카페",
-  reviewCount: 10,
-}
+const stageDummy = (() => {
+  let id = 0;
+  return () => ({
+    hostId: id++,
+    stageName: "스타벅스",
+    avgScore: 4.1,
+    address: {
+      addressName: "경기도",
+      cityName: "수원시",
+      countryName: "영통구",
+    },
+    stageSize: 34,
+    targetAge: 20,
+    targetGender: "WOMEN",
+    targetMinCount: 40,
+    startTime: "10:00",
+    endTime: "22:00",
+    showCount: id,
+    pay: 10,
+    stageImgUrl: "img/stage_tmp.jpg",
+    genres:[
+      {stageGenreId : 1, genreName : "팝송"},
+      {stageGenreId : 2, genreName : "발라드"},
+      {stageGenreId : 3, genreName : "랩"}],
+    stageType: "카페",
+    reviewCount: 10,
+  });
+})();
 
 const debounce = (callback, limit) => {
   let timeout;
@@ -93,14 +106,18 @@ const Search = ({
       const response = await axios.get(API.getStarCards(newConditions, newSort, PAGE_SIZE, 0));
 
       const data = response.data;
-      setCards(data);
+      console.log(data);
+      setCards(data.content);
       setPage(1);
+      setNextPage(!data.last);
     } catch (e) {
-      // TODO: 예외 처리
-      console.log(e);
-      
-      setCards([1, 2, 3, 4, 5, 6]);
-      setPage(1);
+      if(DEV) {
+        setCards([starDummy(), starDummy(), starDummy(), starDummy(), starDummy(), starDummy(),]);
+        setPage(1);
+        setNextPage(true);
+      } else {
+        // TODO: 예외 처리
+      }
     }
   }, [conditions, sort]);
 
@@ -112,16 +129,19 @@ const Search = ({
     try {
       const response = await axios.get(API.getStarCards(conditions, sort, PAGE_SIZE, page));
       const data = response.data;
-      setCards(data);
+      setCards([...cards, ...data.content]);
       setPage(page+1);
       setFetching(false);
-      // TODO: hasNext 처리
+      setNextPage(!data.last);
     } catch (e) {
-      // TODO: 예외 처리
-      console.log(e);
-      setCards([...cards, 1, 2, 3, 4, 5, 6]);
-      setPage(page+1);
-      setFetching(false);
+      if(DEV) {
+        setCards([...cards, starDummy(), starDummy(), starDummy(), starDummy(), starDummy(), starDummy(),]);
+        setPage(page+1);
+        setFetching(false);
+        setNextPage(true);
+      } else {
+        // TODO: 예외 처리
+      }
     }
   }, [cards, conditions, sort, page]);
   
@@ -140,14 +160,18 @@ const Search = ({
       const response = await axios.get(API.getStageCards(newConditions, newSort, PAGE_SIZE, 0));
 
       const data = response.data;
-      setCards(data);
+      console.log(data.content[0])
+      setCards(data.content);
       setPage(1);
+      setNextPage(!data.last);
     } catch (e) {
-      // TODO: 예외 처리
-      console.log(e);
-      
-      setCards([1, 2, 3, 4, 5, 6]);
-      setPage(1);
+      if(DEV) {
+        setCards([stageDummy(), stageDummy(), stageDummy(), stageDummy(), stageDummy(), stageDummy(),]);
+        setPage(1);
+        setNextPage(true);
+      } else {
+        // TODO: 예외 처리
+      }
     }
   }, [conditions, sort]);
 
@@ -158,23 +182,25 @@ const Search = ({
   const fetchDataForStagePaging = useCallback(async () => {
     try {
       const response = await axios.get(API.getStageCards(conditions, sort, PAGE_SIZE, page));
+
       const data = response.data;
-      setCards(data);
+      setCards([...cards, ...data.content]);
       setPage(page+1);
       setFetching(false);
-      // TODO: hasNext 처리
+      setNextPage(!data.last);
     } catch (e) {
-      // TODO: 예외 처리
-      console.log(e);
-      setCards([...cards, 1, 2, 3, 4, 5, 6]);
-      setPage(page+1);
-      setFetching(false);
+      if(DEV) {
+        setCards([...cards, stageDummy(), stageDummy(), stageDummy(), stageDummy(), stageDummy(), stageDummy(),]);
+        setPage(page+1);
+        setFetching(false);
+        setNextPage(true);
+      } else {
+        // TODO: 예외 처리
+      }
     }
   }, [cards, conditions, sort, page]);
 
-  useEffect(() => {
-  }, []);
-
+  // 찾으려는 대상이 바뀌면 데이터를 다시 가져옴
   useEffect(() => {
     switch(target) {
       case SYMBOL.star:
@@ -238,7 +264,7 @@ const Search = ({
         }}
       >
         <Box
-          sx={{ width: '100%', mb: `50px`}}>
+          sx={{ width: '100%', my: `25px`}}>
           {target === SYMBOL.star ?
           (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />) :
           (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} />)}
@@ -273,43 +299,43 @@ const Search = ({
             width: '100%',
           }}
         >
-          <Grid container spacing={'75px'} sx={{ pl: '75px', }}>
+          <Grid container spacing={'75px'} rowSpacing={'25px'} sx={{ pl: '75px', mb: '25px' }}>
             {cards?.map((card, i) => (
               <Grid item key={i}>
                 {target === SYMBOL.star ? (
                   <StarCard
-                    starId={star_dummy.starId}
-                    starName={star_dummy.starName}
-                    avgScore={star_dummy.avgScore}
-                    starAddress={star_dummy.starAddress}
-                    memberNumber={star_dummy.memberNumber}
-                    gender={star_dummy.gender}
-                    showCount={star_dummy.showCount}
-                    starGenres={star_dummy.starGenres}
-                    starStageTypes={star_dummy.starStageTypes}
-                    starImgUrl={star_dummy.starImgUrl}
-                    reviewCount={star_dummy.reviewCount}
+                    starId={card.starId}
+                    starName={card.starName}
+                    avgScore={card.avgScore}
+                    address={card.address}
+                    memberNumber={card.memberNumber}
+                    gender={card.gender}
+                    showCount={card.showCount}
+                    genres={card.genres}
+                    starStageTypes={card.starStageTypes}
+                    starImgUrl={card.starImgUrl}
+                    reviewCount={card.reviewCount}
                   />
                 ) : (
                   <StageCard
-                    hostId={stage_dummy.hostId}
-                    stageName={stage_dummy.stageName}
-                    avgScore={stage_dummy.avgScore}
-                    stageAddress={stage_dummy.stageAddress}
-                    stageSize={stage_dummy.stageSize}
-                    age={stage_dummy.age}
-                    //gender:"남성",
-                    stageStartTime={stage_dummy.stageStartTime}
-                    stageEndTime={stage_dummy.stageEndTime}
-                    showCount={stage_dummy.showCount}
-                    stageCost={stage_dummy.stageCost}
-                    stageImgUrl={stage_dummy.stageImgUrl}
-                    stageGenres={stage_dummy.stageGenres}
-                    stageType={stage_dummy.stageType}
-                    reviewCount={stage_dummy.reviewCount}
+                    hostId={card.hostId}
+                    stageName={card.stageName}
+                    avgScore={card.avgScore}
+                    address={card.address}
+                    stageSize={card.stageSize}
+                    startTime={card.startTime}
+                    endTime={card.endTime}
+                    showCount={card.showCount}
+                    pay={card.pay}
+                    stageImgUrl={card.stageImgUrl}
+                    genres={card.genres}
+                    stageType={card.stageType}
+                    reviewCount={card.reviewCount}
+                    targetAge={card.targetAge}
+                    targetGender={card.targetGender}
+                    targetMinCount={card.targetMinCount}
                   />
                 )}
-                
               </Grid>  
             ))}
           </Grid>
