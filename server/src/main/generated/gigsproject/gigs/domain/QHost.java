@@ -22,11 +22,21 @@ public class QHost extends EntityPathBase<Host> {
 
     public static final QHost host = new QHost("host");
 
+    public final QBaseTimeEntity _super = new QBaseTimeEntity(this);
+
+    public final NumberPath<Double> avgScore = createNumber("avgScore", Double.class);
+
     public final TimePath<java.time.LocalTime> closeTime = createTime("closeTime", java.time.LocalTime.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
     public final NumberPath<Long> hostId = createNumber("hostId", Long.class);
 
     public final ListPath<StageImg, QStageImg> imgs = this.<StageImg, QStageImg>createList("imgs", StageImg.class, QStageImg.class, PathInits.DIRECT2);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final TimePath<java.time.LocalTime> openTime = createTime("openTime", java.time.LocalTime.class);
 
@@ -34,11 +44,11 @@ public class QHost extends EntityPathBase<Host> {
 
     public final ListPath<Post, QPost> posts = this.<Post, QPost>createList("posts", Post.class, QPost.class, PathInits.DIRECT2);
 
-    public final NumberPath<Double> score = createNumber("score", Double.class);
+    public final NumberPath<Integer> reviewCount = createNumber("reviewCount", Integer.class);
+
+    public final NumberPath<Integer> showCount = createNumber("showCount", Integer.class);
 
     public final QAddress stageAddress;
-
-    public final NumberPath<Integer> stageCount = createNumber("stageCount", Integer.class);
 
     public final StringPath stageInfo = createString("stageInfo");
 

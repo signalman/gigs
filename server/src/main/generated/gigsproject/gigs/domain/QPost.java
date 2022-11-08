@@ -22,15 +22,27 @@ public class QPost extends EntityPathBase<Post> {
 
     public static final QPost post = new QPost("post");
 
+    public final QBaseTimeEntity _super = new QBaseTimeEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
+    public final DatePath<java.time.LocalDate> endDate = createDate("endDate", java.time.LocalDate.class);
+
+    public final TimePath<java.time.LocalTime> endTime = createTime("endTime", java.time.LocalTime.class);
+
     public final QHost host;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final ListPath<PostGenre, QPostGenre> postGenres = this.<PostGenre, QPostGenre>createList("postGenres", PostGenre.class, QPostGenre.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> postId = createNumber("postId", Long.class);
 
-    public final DateTimePath<java.time.LocalDateTime> showEndTime = createDateTime("showEndTime", java.time.LocalDateTime.class);
+    public final DatePath<java.time.LocalDate> startDate = createDate("startDate", java.time.LocalDate.class);
 
-    public final DateTimePath<java.time.LocalDateTime> showStartTime = createDateTime("showStartTime", java.time.LocalDateTime.class);
+    public final TimePath<java.time.LocalTime> startTime = createTime("startTime", java.time.LocalTime.class);
 
     public QPost(String variable) {
         this(Post.class, forVariable(variable), INITS);

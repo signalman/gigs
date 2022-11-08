@@ -22,11 +22,19 @@ public class QStar extends EntityPathBase<Star> {
 
     public static final QStar star = new QStar("star");
 
+    public final QBaseTimeEntity _super = new QBaseTimeEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
     public final EnumPath<Gender> gender = createEnum("gender", Gender.class);
 
     public final StringPath introduce = createString("introduce");
 
     public final NumberPath<Integer> memberNumber = createNumber("memberNumber", Integer.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final StringPath name = createString("name");
 
