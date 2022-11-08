@@ -38,14 +38,15 @@ const StarSearchConditionBox = ({
   const [selectedStageTypes, setSelectedStageTypes] = useState({});
 
   // 스타 찾기
-  const [gender, setGender] = useState('none');
+  const [gender, setGender] = useState('MIXED');
 
   // DB에서 모든 장르와 장소 종류를 가져옴
   useEffect(() => {
     // 임시 코드
     // TODO: 불변 테이블에서 가져오기?
-    setGenres(['Rock', '힙합', '재즈']);
-    setStageTypes(['Cafe', 'Pub', 'Stage']);
+    // DANCE, SESSION, ROCK, HIPHOP, INDIE, JAZZ, POP
+    setGenres("DANCE, SESSION, ROCK, HIPHOP, INDIE, JAZZ, POP".split(", "));
+    setStageTypes("CAFE, BAR, RESTAURANT, SCHOOL".split(", "));
   }, []);
 
   // 장르를 성공적으로 가져오면 선택한 장르 리스트 초기화
@@ -103,7 +104,7 @@ const StarSearchConditionBox = ({
       if(selectedGenres[key]) genres.push(key);
     }
 
-    const newConditions = {name, address, gender, genres, stageTypes};
+    const newConditions = {name, address, gender: gender === "MIXED" ? "" : gender, genres, stageTypes};
     setConditions(newConditions);
     fetchData(newConditions);
   }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchData]);
@@ -114,7 +115,6 @@ const StarSearchConditionBox = ({
         sx={{
           width: `1150px`,
           m: '0 auto',
-          mt: '50px',
         }}
       >
         <Box
@@ -195,9 +195,9 @@ const StarSearchConditionBox = ({
                   value={gender}
                   onChange={handleGenderChange}
                 >
-                  <FormControlLabel value='none' control={<Radio size='small' />} label='무관' />
-                  <FormControlLabel value='man' control={<Radio size='small' />} label='남성' />
-                  <FormControlLabel value='woman' control={<Radio size='small' />} label='여성' />
+                  <FormControlLabel value='MIXED' control={<Radio size='small' />} label='무관' />
+                  <FormControlLabel value='MEN' control={<Radio size='small' />} label='남성' />
+                  <FormControlLabel value='WOMEN' control={<Radio size='small' />} label='여성' />
                 </RadioGroup>
               </FormControl>
             </Item>

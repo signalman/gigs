@@ -19,7 +19,7 @@ public class StarCard {
     private String gender;       //스타
     private Integer memberNumber;  //스타
     private Integer showCount;   //스타
-    private List<StarGenreDto> starGenres;  //스타장르
+    private List<StarGenreDto> genres;  //스타장르
     private List<StarStageTypeDto> starStageTypes;  //스타스테이지타입
     private Double avgScore;     //스타
     private Integer reviewCount;  //리뷰
@@ -33,7 +33,7 @@ public class StarCard {
         this.showCount = star.getShowCount();
         this.avgScore = star.getScore();
         this.reviewCount = Long.valueOf(star.getReviews().stream().count()).intValue();
-        this.starGenres = star.getStarGenres().stream()
+        this.genres = star.getStarGenres().stream()
                 .map(starGenre -> new StarGenreDto(starGenre))
                 .collect(Collectors.toList());
         this.starStageTypes = star.getStarStageTypes().stream()

@@ -26,9 +26,8 @@ const Header = () => {
   return (
   <>
     <Box sx ={{
-      position: 'fixed',
       width: '100%',
-      height: '150px',
+      height: '100px',
       backgroundColor: 'white',
       boxShadow: '0 0 4px black',
       zIndex: 100,
@@ -41,7 +40,7 @@ const Header = () => {
       }}>
         <SmallBox>
           <Button onClick={() => navigate(PATH.main)}>
-            <img alt="logo_tmp" src="img/gigs_logo_tmp.png"/>
+            <img alt="logo_tmp" src="img/gigs_logo_tmp.png" height="100px"/>
           </Button>
          </SmallBox>
         <Box sx={{
