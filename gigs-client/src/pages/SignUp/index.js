@@ -29,11 +29,11 @@ const SignUp = () => {
 
   const handleClick = useCallback(async () => {
     const data = {
-      id, address, phoneNumber,
+      id, name, address, phoneNumber,
     };
 
     await axios.post(API.signUp(data), data);
-  }, [id, address, phoneNumber]);
+  }, [id, name, address, phoneNumber]);
 
   return (
     <Box>
