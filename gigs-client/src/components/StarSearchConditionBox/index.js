@@ -28,6 +28,7 @@ const StarSearchConditionBox = ({
   fetchData,
   setConditions,
   setParentSort,
+  setProgress,
 }) => {
   const [genres, setGenres] = useState([]);
   const [stageTypes, setStageTypes] = useState([]);
@@ -106,6 +107,7 @@ const StarSearchConditionBox = ({
 
     const newConditions = {name, address, gender: gender === "MIXED" ? "" : gender, genres, stageTypes};
     setConditions(newConditions);
+    setProgress(true);
     fetchData(newConditions);
   }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchData]);
 

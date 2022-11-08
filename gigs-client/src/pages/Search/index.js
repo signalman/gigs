@@ -1,6 +1,6 @@
 // refactor 221102
 
-import { Box, Grid, MenuItem, Select } from '@mui/material';
+import { Box, CircularProgress, Grid, MenuItem, Select } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { API, DEV, SYMBOL } from '../../utils/Constants';
 import axios from 'axios';
@@ -90,6 +90,8 @@ const Search = ({
   // true라면 데이터를 가져오지 않음
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);  // 무한 스크롤에서 다음 페이지가 존재하는 지 여부
+  // progress
+  const [isProgress, setProgress] = useState(false);
 
   /**
    * 스타 카드를 가져오는 async function,
@@ -118,6 +120,8 @@ const Search = ({
       } else {
         // TODO: 예외 처리
       }
+    } finally {
+      setProgress(false);
     }
   }, [conditions, sort]);
 
@@ -142,6 +146,8 @@ const Search = ({
       } else {
         // TODO: 예외 처리
       }
+    } finally {
+      setProgress(false);
     }
   }, [cards, conditions, sort, page]);
   
@@ -172,6 +178,8 @@ const Search = ({
       } else {
         // TODO: 예외 처리
       }
+    } finally {
+      setProgress(false);
     }
   }, [conditions, sort]);
 
@@ -197,11 +205,16 @@ const Search = ({
       } else {
         // TODO: 예외 처리
       }
+    } finally {
+      setProgress(false);
     }
   }, [cards, conditions, sort, page]);
 
   // 찾으려는 대상이 바뀌면 데이터를 다시 가져옴
   useEffect(() => {
+    // set Progress
+    setProgress(true);
+
     switch(target) {
       case SYMBOL.star:
         fetchDataForStar();
@@ -229,7 +242,11 @@ const Search = ({
   // 무한 스크롤 시 데이터 가져오기
   useEffect(() => {
     console.log("scroll!")
+
     if(isFetching && hasNextPage) {
+      // set Progress
+      setProgress(true);
+
       switch(target) {
         case SYMBOL.star:
           fetchDataForStarPaging();
@@ -244,6 +261,9 @@ const Search = ({
   const handleSortChange = useCallback((e) => {
     const newSort = e.target.value;
     setSort(newSort);
+
+    // set Progress
+    setProgress(true);
 
     switch(target) {
       case SYMBOL.star:
@@ -266,8 +286,8 @@ const Search = ({
       <Box
         sx={{ width: '100%', my: `25px`}}>
         {target === SYMBOL.star ?
-        (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />) :
-        (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} />)}
+        (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />) :
+        (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />)}
       </Box>
       <Box
         sx={{
@@ -339,6 +359,11 @@ const Search = ({
             </Grid>  
           ))}
         </Grid>
+        {isProgress ? (
+          <Box sx={{ width: '100%', height: '75px', display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
+          </Box>
+        ) : (<></>)}
       </Box>
     </Box>
   );
