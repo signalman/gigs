@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
 import MyMenuBox from '../../components/MyMenuBox';
 import { PATH } from '../../utils/Constants';
+import LogoImg from '../../images/gigs_logo_tmp.png';
 
 const SmallBox = styled(Box)((p) => ({
   width: '250px',
@@ -40,7 +41,7 @@ const Header = () => {
       }}>
         <SmallBox>
           <Button onClick={() => navigate(PATH.main)}>
-            <img alt="logo_tmp" src="img/gigs_logo_tmp.png" height="100px"/>
+            <img alt="gigs_logo" src={LogoImg} height="100px"/>
           </Button>
          </SmallBox>
         <Box sx={{

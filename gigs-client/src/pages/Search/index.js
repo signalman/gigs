@@ -257,91 +257,90 @@ const Search = ({
   }, [target, conditions]);
 
   return (
-    <>
+    <Box
+      sx={{
+        width: `1200px`,
+        m: '0 auto',
+      }}
+    >
+      <Box
+        sx={{ width: '100%', my: `25px`}}>
+        {target === SYMBOL.star ?
+        (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />) :
+        (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} />)}
+      </Box>
       <Box
         sx={{
-          width: `100%`,
+          width: '100%',
+          height: '50px',
+          display: 'flex',
+          position: 'relative',
         }}
       >
-        <Box
-          sx={{ width: '100%', my: `25px`}}>
-          {target === SYMBOL.star ?
-          (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} />) :
-          (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} />)}
-        </Box>
-        <Box
+        <Select
           sx={{
-            width: '100%',
-            height: '50px',
-            display: 'flex',
-            position: 'relative',
+            position: 'absolute',
+            right: 15,
+            top: 0,
+            width: '100px',
+            height: '30px',
           }}
+          variant='standard'
+          value={sort}
+          onChange={handleSortChange}
         >
-          <Select
-            sx={{
-              position: 'absolute',
-              right: 15,
-              top: 0,
-              width: '100px',
-              height: '30px',
-            }}
-            variant='standard'
-            value={sort}
-            onChange={handleSortChange}
-          >
-            <MenuItem value='dateDesc'>최신순</MenuItem>
-            <MenuItem value='rateDesc'>별점순</MenuItem>
-            <MenuItem value='reviewDesc'>리뷰순</MenuItem>
-          </Select>
-        </Box>
-        <Box
-          sx={{
-            width: '100%',
-          }}
-        >
-          <Grid container spacing={'75px'} rowSpacing={'25px'} sx={{ pl: '75px', mb: '25px' }}>
-            {cards?.map((card, i) => (
-              <Grid item key={i}>
-                {target === SYMBOL.star ? (
-                  <StarCard
-                    starId={card.starId}
-                    starName={card.starName}
-                    avgScore={card.avgScore}
-                    address={card.address}
-                    memberNumber={card.memberNumber}
-                    gender={card.gender}
-                    showCount={card.showCount}
-                    genres={card.genres}
-                    starStageTypes={card.starStageTypes}
-                    starImgUrl={card.starImgUrl}
-                    reviewCount={card.reviewCount}
-                  />
-                ) : (
-                  <StageCard
-                    hostId={card.hostId}
-                    stageName={card.stageName}
-                    avgScore={card.avgScore}
-                    address={card.address}
-                    stageSize={card.stageSize}
-                    startTime={card.startTime}
-                    endTime={card.endTime}
-                    showCount={card.showCount}
-                    pay={card.pay}
-                    stageImgUrl={card.stageImgUrl}
-                    genres={card.genres}
-                    stageType={card.stageType}
-                    reviewCount={card.reviewCount}
-                    targetAge={card.targetAge}
-                    targetGender={card.targetGender}
-                    targetMinCount={card.targetMinCount}
-                  />
-                )}
-              </Grid>  
-            ))}
-          </Grid>
-        </Box>
+          <MenuItem value='dateDesc'>최신순</MenuItem>
+          <MenuItem value='rateDesc'>별점순</MenuItem>
+          <MenuItem value='reviewDesc'>리뷰순</MenuItem>
+        </Select>
       </Box>
-    </>
+      <Box
+        sx={{
+          width: '100%',
+        }}
+      >
+        <Grid container spacing={'75px'} rowSpacing={'25px'} sx={{ pl: '75px', mb: '25px' }}>
+          {cards?.map((card, i) => (
+            <Grid item key={i}>
+              {target === SYMBOL.star ? (
+                <StarCard
+                  starId={card.starId}
+                  starName={card.starName}
+                  avgScore={card.avgScore}
+                  address={card.address}
+                  memberNumber={card.memberNumber}
+                  gender={card.gender}
+                  showCount={card.showCount}
+                  genres={card.genres}
+                  starStageTypes={card.starStageTypes}
+                  starImgUrl={card.starImgUrl}
+                  reviewCount={card.reviewCount}
+                />
+              ) : (
+                <StageCard
+                  hostId={card.hostId}
+                  stageName={card.stageName}
+                  avgScore={card.avgScore}
+                  address={card.address}
+                  stageSize={card.stageSize}
+                  startTime={card.startTime}
+                  endTime={card.endTime}
+                  showCount={card.showCount}
+                  pay={card.pay}
+                  stageImgUrl={card.stageImgUrl}
+                  genres={card.genres}
+                  stageType={card.stageType}
+                  reviewCount={card.reviewCount}
+                  targetAge={card.targetAge}
+                  targetGender={card.targetGender}
+                  targetMinCount={card.targetMinCount}
+                />
+              )}
+            </Grid>  
+          ))}
+        </Grid>
+      </Box>
+    </Box>
   );
 };
 

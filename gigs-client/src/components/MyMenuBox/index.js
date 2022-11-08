@@ -4,6 +4,7 @@ import { Box, MenuItem,Fade, Menu} from '@mui/material';
 import React , { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { COLOR, PATH } from '../../utils/Constants';
+import MenuImg from '../../images/MenuBox.png';
 
 // TODO: 그냥 헤더에 합치기
 const MyMenuBox = () => {
@@ -42,7 +43,7 @@ const MyMenuBox = () => {
             p : 0,
           }}
         >
-          <img alt="menu_box" src="img/MenuBox.png" width="30px" height="30px"/>
+          <img alt="menu_box" src={MenuImg} width="30px" height="30px"/>
         </Box>
       </Box>
       <Menu
