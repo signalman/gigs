@@ -26,7 +26,8 @@ const Frame = () => {
         <Route exact path="/" element={<Main>메인</Main>} />
         <Route exact path="/stage" element={<Search target={SYMBOL.stage}></Search>} />
         <Route exact path="/star" element={<Search target={SYMBOL.star}></Search>} />
-        <Route path="/stages/:id" element={<Info />} />
+        <Route path="/stages/:id" element={<Info target={SYMBOL.stage} />} />
+        <Route path="/stars/:id" element={<Info target={SYMBOL.star} />} />
         <Route path="/review" element={<Main>이용 후기</Main>} />
       </Routes>
     </Box>
