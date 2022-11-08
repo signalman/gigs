@@ -7,12 +7,11 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = PostTimeValidator.class)
-public @interface PostTimeCheck {
+@Constraint(validatedBy = CloseTimeValidator.class)
+public @interface CloseTimeCheck {
 
-    String message() default "post time validation check";
+    String message() default "post close time validation check";
 
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
-
 }

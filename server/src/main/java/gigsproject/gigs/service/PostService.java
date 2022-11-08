@@ -1,9 +1,7 @@
 package gigsproject.gigs.service;
 
-import gigsproject.gigs.domain.Genre;
-import gigsproject.gigs.domain.Post;
-import gigsproject.gigs.domain.StageType;
-import gigsproject.gigs.domain.Star;
+import gigsproject.gigs.domain.*;
+import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.request.PostSave;
 import gigsproject.gigs.request.StageSearch;
@@ -26,6 +24,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PostService {
 
+    private final HostRepository hostRepository;
     private final PostRepository postRepository;
 
     /**포스트 등록
@@ -34,10 +33,9 @@ public class PostService {
     @Transactional
     public void write(PostSave postSave) {
 
-        Post post = Post.builder().build();
-
-        //PostGenre에 대한 필요성?? Genre 하나 Enum으로 사용하는 건?
-//        post.getPostGenres().add()
+        Host host = hostRepository.findById(postSave.getHost().getHostId())
+                .orElseThrow(() -> new RuntimeException());
+        Post post = host.createPost(postSave);
         postRepository.save(post);
     }
 

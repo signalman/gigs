@@ -1,6 +1,8 @@
 package gigsproject.gigs.request;
 
 import gigsproject.gigs.domain.Genre;
+import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.response.OpenTimeCheck;
 import lombok.*;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -15,8 +17,8 @@ import java.time.LocalTime;
 @Getter
 public class PostSave {
 
-//    @NotBlank  host 정보 프론트에서 받아와야 할듯
-//    private Host host;
+    @NotBlank
+    private Host host;
 
     @NotBlank(message = "원하는 장르를 입력해주세요.")
     private Genre genre;
@@ -27,9 +29,9 @@ public class PostSave {
     private LocalDate endDate;
 
     @NotBlank(message = "공연 끝 시간을 입력해주세요.")
-//    @PostTimeCheck
+    @OpenTimeCheck
     private LocalTime startTime;
     @NotBlank(message = "공연 끝 시간을 입력해주세요.")
-//    @PostTimeCheck
+//    @CloseTimeCheck
     private LocalTime endTime;
 }
