@@ -1,6 +1,8 @@
-import { Box, styled } from '@mui/material';
-import React from 'react';
+import { Box, Button, styled } from '@mui/material';
+import React, { useCallback } from 'react';
 // import KakaoBtn from '../../../public/img/kakao_login_button.png';
+import axios from 'axios';
+import { API } from '../../utils/Constants';
 
 const Container = styled(Box)((p) => ({
   width: '1200px',
@@ -16,11 +18,17 @@ const Container = styled(Box)((p) => ({
 const Main = ({
   children,
 }) => {
+  const handleClick = useCallback(async () => {
+    await axios.get(API.testApi);
+  }, []);
+
   return (
     <>
       <Container>
         {children}
-        <img src={"/img/kakao_login_button.png"} alt="asdf" />
+        <Button onClick={handleClick}>
+          api쏘기
+        </Button>
       </Container>
     </>
   );
