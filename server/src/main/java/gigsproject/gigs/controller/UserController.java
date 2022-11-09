@@ -44,5 +44,13 @@ public class UserController {
         response.setStatus(200);
     }
 
+    @GetMapping("/test/auth")
+    void test(Authentication authentication){
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        log.info("인증 객체 : {}", oAuth2User);
+        log.info("인증 객체 : {}", oAuth2User.getName());
+        log.info("인증 객체 : {}", oAuth2User.getAttributes());
+        log.info("인증 객체 : {}", oAuth2User.getAuthorities());
+    }
 
 }
