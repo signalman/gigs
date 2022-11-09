@@ -3,8 +3,9 @@
 import { Box, MenuItem,Fade, Menu, Dialog, DialogTitle, DialogContent, Button} from '@mui/material';
 import React , { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { COLOR, PATH } from '../../utils/Constants';
+import { COLOR, PATH, API } from '../../utils/Constants';
 import MenuImg from '../../images/MenuBox.png';
+import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
 
 /**
  * 헤더에 위치한 메뉴 버튼
@@ -82,7 +83,7 @@ const MyMenuBox = () => {
         </DialogTitle>
         <DialogContent sx={{ display:'flex', flexDirection:'column', }}>
           <a href={API.kakaoAuthorize}>
-            <img src={"/img/kakao_login_button.png"} alt="asdf"/>
+            <img src={KakaoLoginButtonImg} alt="asdf"/>
           </a>
           {/* <Button
             onClick={() => {
