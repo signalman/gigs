@@ -34,6 +34,7 @@ export const API = {
   ])}`,
   kakaoAuthorize: `http://localhost:8080/oauth2/authorization/kakao`,
   getUserName: (uuid) => `${BASE_URL}/signup${queryString([['uuid', uuid]])}`,
+  testApi: `${BASE_URL}/test/auth`,
 };
 
 export const PATH = {
