@@ -25,7 +25,7 @@ import static gigsproject.gigs.domain.StageType.*;
 public class InitUser {
     private final InitUserService initUserService;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         initUserService.init();
     }
@@ -51,7 +51,6 @@ public class InitUser {
                         .name("유저" + i)
                         .role(STAR)
                         .phone("01012345678")
-                        .password("ppwwee")
                         .address(address1)
                         .build();
                 em.persist(user);
@@ -210,7 +209,6 @@ public class InitUser {
                     .name("유저")
                     .role(HOST)
                     .phone("01012345678")
-                    .password("ppwwee")
                     .address(new Address("수원시", "팔달구", "인계동"))
                     .build();
             em.persist(user);
@@ -328,8 +326,6 @@ public class InitUser {
             LocalDate endDate5 = LocalDate.of(2022, 11, 15);
             LocalTime startTime5 = LocalTime.of(16, 0);
             LocalTime endTime5 = LocalTime.of(21, 0);
-
-
 
             Post post1 = Post.builder()
                     .host(host1)
