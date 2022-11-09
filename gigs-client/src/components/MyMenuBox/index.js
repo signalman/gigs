@@ -3,8 +3,8 @@
 import { Box, MenuItem,Fade, Menu, Dialog, DialogTitle, DialogContent, Button} from '@mui/material';
 import React , { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { API, COLOR, PATH } from '../../utils/Constants';
-import axios from 'axios';
+import { COLOR, PATH } from '../../utils/Constants';
+import MenuImg from '../../images/MenuBox.png';
 
 /**
  * 헤더에 위치한 메뉴 버튼
@@ -57,7 +57,7 @@ const MyMenuBox = () => {
             p : 0,
           }}
         >
-          <img alt="menu_box" src="img/MenuBox.png" width="30px" height="30px"/>
+          <img alt="menu_box" src={MenuImg} width="30px" height="30px"/>
         </Box>
       </Box>
       <Menu

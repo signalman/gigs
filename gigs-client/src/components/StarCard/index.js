@@ -9,6 +9,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { DEV } from '../../utils/Constants';
+import StarDummyImg from '../../images/star_tmp.jpg';
 
 const Line = styled(CardContent)((p) => ({
     height: "37.5px",
@@ -64,7 +65,7 @@ function StarCard({
             <CardMedia
                 component="img"
                 height="225"
-                image={DEV ? "img/star_tmp.jpg" : starImgUrl}
+                image={DEV ? StarDummyImg : starImgUrl}
                 alt="stars"
             />
     

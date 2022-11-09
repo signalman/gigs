@@ -3,7 +3,8 @@ import React from 'react';
 // import KakaoBtn from '../../../public/img/kakao_login_button.png';
 
 const Container = styled(Box)((p) => ({
-  width: '100%',
+  width: '1200px',
+  margin: '0 auto',
   height: '1500px', // 임시
   backgroundColor: 'pink',
 }));
