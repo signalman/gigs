@@ -5,6 +5,7 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersDay } from '@mui/x-date-pickers';
 import moment from 'moment';
+import { orange } from '@mui/material/colors';
 
 
 const Container = styled(Box)((p) => ({
@@ -18,6 +19,7 @@ const PostItem = styled(Box)((p) => ({
   width: '145px',
   height: '50px',
   border: '1px solid black',
+  backgroundColor: p.can ? 'orange' : 'white',
 }));
 
 /**
@@ -29,6 +31,12 @@ const Main = ({
 }) => {
   const [data, setData] = useState({
     posts: [
+      {
+        startDate: "2022-11-01",
+        //endDate
+        startTime: "12:00",
+        endTime: "14:00",
+      },
       {
         startDate: "2022-11-03",
         //endDate
@@ -69,9 +77,17 @@ const Main = ({
     const postsByDate = data.posts.filter(post => post.startDate === selectedDay.format("YYYY-MM-DD"));
     if(postsByDate.length > 0) {
       const unit = Number(postsByDate[0].endTime.substring(0, 2)) - Number(postsByDate[0].startTime.substring(0, 2));
+      let dataIdx = 0;
       let newTimeTable = [];
-      for(let i=0; i+unit<=24; i++) {
-        newTimeTable.push(i);
+      for(let i=0; i+unit<=24; i+=unit) {
+        const newTime = [];
+        newTime.push(i);
+        if(dataIdx < postsByDate.length && Number(postsByDate[dataIdx].startTime.substring(0, 2)) === i) {
+          newTime.push(true);
+          dataIdx++;
+        } 
+        else newTime.push(false);
+        newTimeTable.push(newTime);
       }
       setTimeTable(newTimeTable);
     } else {
@@ -103,11 +119,6 @@ const Main = ({
                 }}
                 renderInput={(params) => <TextField {...params} />}
                 renderDay={(days, selectedDays, pickerDayProps) => {
-                  // console.log(days);
-
-                  console.log(`${days.format("YYYY-MM-DD")}: ${!dataForCalendar[days.format("YYYY-MM-DD")]}`);
-
-                  // return (<PickersDay day={days} outsideCurrentMonth={days.month() !== selectedDays[0].month()} selected={selectedDays[0].isSame(days)} onDaySelect={() => {}} />)
                   return (
                     <Box sx={{ position: 'relative' }}>
                       <PickersDay {...pickerDayProps} />
@@ -130,8 +141,8 @@ const Main = ({
             }}
           >
             <Grid container spacing={'0px'} rowSpacing={'0px'}>
-              {timeTable?.map(item => (
-                <Grid key={item}><PostItem>{item}</PostItem></Grid>              
+              {timeTable?.map((item, i) => (
+                <Grid key={i}><PostItem can={item[1]}>{item[0]}</PostItem></Grid>              
               ))}
             </Grid>
           </Box>
