@@ -34,6 +34,8 @@ public class SecurityConfig{
                     .successHandler(oAuth2AuthenticationSuccessHandler)
                     .failureHandler(oAuth2AuthenticationFailureHandler)
                 .and()
+                    .logout()
+                .and()
                 .build();
     }
 

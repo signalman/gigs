@@ -29,10 +29,25 @@ public class OAuth2UserService extends DefaultOAuth2UserService { //return 한 �
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
+        log.info("userRequest: {}", userRequest);
+        log.info("토큰 밸류{}", userRequest.getAccessToken().getTokenValue());
+        log.info("토큰 스코프{}", userRequest.getAccessToken().getScopes());
+        log.info("토큰 타입{}", userRequest.getAccessToken().getTokenType());
+        log.info("토큰 expiresat{}", userRequest.getAccessToken().getExpiresAt());
+        log.info("issued At : {}", userRequest.getAccessToken().getIssuedAt());
+        log.info("{}", userRequest.getClientRegistration());
+        log.info("{}", userRequest.getAdditionalParameters());
+
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String uid = oAuth2User.getAttribute("id").toString();
+        log.info("유저객체 {}", oAuth2User);
+        log.info("권한 {}", oAuth2User.getAuthorities());
+        log.info("이름 {}", oAuth2User.getName());
+        log.info("속성 {}", oAuth2User.getAttributes());
+
 
         Map<String, Object> properties = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
+        log.info("properites: {}", properties);
         String name = (String) properties.get("nickname");
 
         User findUser = userRepository.findByUid(uid);
