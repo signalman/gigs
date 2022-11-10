@@ -1,5 +1,6 @@
 package gigsproject.gigs.domain;
 
+import gigsproject.gigs.request.PostSave;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,7 +30,6 @@ public class Post extends BaseTimeEntity{
 
     @OneToMany(mappedBy = "post") @Builder.Default
     private List<PostGenre> postGenres = new ArrayList<>();
-
 
     public void setHost(Host host) {
         this.host = host;
