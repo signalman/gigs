@@ -51,6 +51,7 @@ public class UserController {
         log.info("인증 객체 : {}", oAuth2User.getName());
         log.info("인증 객체 : {}", oAuth2User.getAttributes());
         log.info("인증 객체 : {}", oAuth2User.getAuthorities());
+
     }
 
 }
