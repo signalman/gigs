@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Map;
 
 
 @Component
@@ -22,25 +20,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private final UserRepository userRepository;
-    private final HttpSession httpSession;
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         //이미 회원인 사람.
+        log.info("이미 회원입니다. 자동로그인 진행합니다.");
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-
-        String uid = oAuth2User.getAttribute("id").toString();
-        Map<String, Object> properties = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
-        String name = (String) properties.get("nickname");
-
-        User findUser = userRepository.findByUid(uid);
-
-        String targetUrl = "http://localhost:3000";
-
-        log.info("이미 회원입니다.");
         response.sendRedirect("http://localhost:3000");
-        log.info("OAuthUser 속성: {}", oAuth2User.getAttributes());
 
     }
 }
