@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class SignUpForm {
 //    id, name, siDo, siGun, road, detail, phoneNumber, role
-    private String id;
+    private String uid;
     private String name;
     private String siDo;
     private String siGun;

@@ -24,7 +24,7 @@ public class UserService {
 
         //받아온 폼을 가지고 유저 저장.
         User user = User.builder()
-                .uid(signUpForm.getId())
+                .uid(signUpForm.getUid())
                 .name(signUpForm.getName())
                 .address(address)
                 .phone(signUpForm.getPhoneNumber())

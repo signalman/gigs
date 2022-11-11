@@ -33,8 +33,6 @@ public class UserController {
         request.getSession().removeAttribute(uuid);
         request.getSession().removeAttribute("uuid");
 
-        //TODO 여기서 log찍으면 두번 들어옴... 이유?
-
         return notSignedUser;
     }
 
@@ -56,8 +54,5 @@ public class UserController {
         log.info("인증 객체 : {}", oAuth2User.getAuthorities());
         Cookie cookie = new Cookie("dkf", "kdf");
         response.addCookie(cookie);
-
-
     }
-
 }
