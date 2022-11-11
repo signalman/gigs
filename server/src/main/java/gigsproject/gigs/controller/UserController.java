@@ -49,6 +49,9 @@ public class UserController {
         response.setStatus(200);
     }
 
+    /**
+     * 로그인 성공시 쿠키보내고 redirect 하는 컨트롤러
+     */
     @GetMapping("/wait")
     void waitLogin(HttpServletResponse response, Authentication authentication) throws IOException {
 
