@@ -54,3 +54,34 @@ export const COLOR = {
   blacky: "#404040",
   lightBlack: "#c0c0c0",
 }
+
+export const DUMMY = {
+  host: {
+    posts: [
+      {
+        startDate: "2022-11-01",
+        //endDate
+        startTime: "12:00",
+        endTime: "14:00",
+      },
+      {
+        startDate: "2022-11-03",
+        //endDate
+        startTime: "02:00",
+        endTime: "04:00",
+      },
+      {
+        startDate: "2022-11-03",
+        //endDate
+        startTime: "06:00",
+        endTime: "08:00",
+      },
+      {
+        startDate: "2022-11-04",
+        //endDate
+        startTime: "02:00",
+        endTime: "04:00",
+      },
+    ],
+  }
+}

@@ -7,7 +7,6 @@ import { PickersDay } from '@mui/x-date-pickers';
 import moment from 'moment';
 import { orange } from '@mui/material/colors';
 
-
 const Container = styled(Box)((p) => ({
   width: '1200px',
   margin: '0 auto',

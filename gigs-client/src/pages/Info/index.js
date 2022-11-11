@@ -1,13 +1,20 @@
-import { Box, Button, Typography, Rating, styled } from '@mui/material';
-import React, { useEffect } from 'react';
+import { Box, Button, Typography, Rating, styled, TextField, Grid } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import StageDummyImg from '../../images/stage_tmp.jpg';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { COLOR } from '../../utils/Constants';
+import { COLOR, DUMMY } from '../../utils/Constants';
 import StageDetailInfoBox from '../../components/StageDetailInfoBox';
 import ReviewBox from '../../components/ReviewBox';
+import {StaticDatePicker} from '@mui/x-date-pickers/StaticDatePicker';
+import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
+import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
+import { PickersDay } from '@mui/x-date-pickers';
+import moment from 'moment';
+import './style.css';
+import ReservationTable from './ReservationTable';
 
 const PostItemWrapper = styled(Box)((p) => ({
   width: '200px',
@@ -26,9 +33,44 @@ const Info = ({
 }) => {
   const location = useLocation();
 
-  useEffect(() => {
+  const [data, setDate] = useState(DUMMY.host);
+  const [selectedDay, setSelectedDay] = useState(moment());
+  const [dataForCalendar, setDataForCalendar] = useState({});
+  const [timeTable, setTimeTable] = useState([]);
 
-  }, []);
+  useEffect(() => {
+    const newDataForCalendar = {};
+
+    data?.posts.forEach(post => {
+      if(!newDataForCalendar[post.startDate]) newDataForCalendar[post.startDate] = 1;
+      else newDataForCalendar[post.startDate]++;
+    })
+
+    console.log(newDataForCalendar);
+    setDataForCalendar(newDataForCalendar);
+  }, [data]);
+
+  useEffect(() => {
+    const postsByDate = data.posts.filter(post => post.startDate === selectedDay.format("YYYY-MM-DD"));
+    if(postsByDate.length > 0) {
+      const unit = Number(postsByDate[0].endTime.substring(0, 2)) - Number(postsByDate[0].startTime.substring(0, 2));
+      let dataIdx = 0;
+      let newTimeTable = [];
+      for(let i=0; i+unit<=24; i+=unit) {
+        const newTime = [];
+        newTime.push(i);
+        if(dataIdx < postsByDate.length && Number(postsByDate[dataIdx].startTime.substring(0, 2)) === i) {
+          newTime.push(true);
+          dataIdx++;
+        } 
+        else newTime.push(false);
+        newTimeTable.push(newTime);
+      }
+      setTimeTable(newTimeTable);
+    } else {
+      setTimeTable([]);
+    }
+  }, [data, selectedDay]);
 
   return (
     <>
@@ -45,14 +87,14 @@ const Info = ({
           sx={{
             position: "relative",
             width: "100%",
-            height: "150px",
+            height: "100px",
           }}
         >
           <Typography
             sx={{
-              height: "150px",
-              lineHeight: "150px",
-              fontSize: "60px",
+              height: "100px",
+              lineHeight: "100px",
+              fontSize: "40px",
               fontWeight: "bold",
               color: COLOR.blacky,
             }}
@@ -64,7 +106,7 @@ const Info = ({
               position: 'absolute',
               left: 0,
               bottom: 0,
-              fontSize: '25px',
+              fontSize: '15px',
               color: COLOR.grey,
             }}
           >
@@ -74,16 +116,16 @@ const Info = ({
             sx={{
               position: 'absolute',
               right: 0,
-              top: 40,
-              width: '155px',
-              height: '100px',
+              top: 30,
+              width: '120px',
+              height: '80px',
             }}
           >
             <Button
               sx={{
                 width: '100%',
-                height: '60px',
-                fontSize: '25px',
+                height: '40px',
+                fontSize: '18px',
                 fontWeight: 'bold',
                 borderRadius: 3,
               }}
@@ -99,19 +141,76 @@ const Info = ({
               }}
             >
               <Rating
-                sx={{ width: `100px` }}
-                emptyIcon={<StarBorderIcon sx={{ width: `20px`, height: `20px` }}></StarBorderIcon>}
-                icon={<StarIcon sx={{ width: `20px`, height: `20px` }}></StarIcon>}
+                sx={{ width: `75px` }}
+                emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
+                icon={<StarIcon sx={{ width: `15px`, height: `15px` }}></StarIcon>}
                 value={3.6} precision={0.1} readOnly
               />
-              <Typography sx={{ height: '20px', lineHeight: '20px', }} fontSize="15px">{`(17)`}</Typography>
-              <ArrowForwardIosIcon sx={{ height: '15px' }} />
+              <Typography sx={{ height: '30px', lineHeight: '30px', }} fontSize="10px">{`(17)`}</Typography>
+              <ArrowForwardIosIcon sx={{ height: '10px' }} />
             </Box>
           </Box>
         </Box>
       </Box>
       <StageDetailInfoBox />
       <Box
+        sx={{
+          display: 'flex',
+          width: '1200px',
+          m: '0 auto',
+          mt: '25px',
+        }}
+      >
+        <Box
+          sx={{
+            width: 'calc(600px - 100px)',
+            margin: '50px',
+            border: '1px solid gray',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <LocalizationProvider dateAdapter={AdapterMoment}>
+            <StaticDatePicker
+              displayStaticWrapperAs="desktop"
+              value={selectedDay}
+              onChange={(e) => {
+                setSelectedDay(e);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+              renderDay={(days, selectedDays, pickerDayProps) => {
+                return (
+                  <Box sx={{ position: 'relative' }}>
+                    <PickersDay {...pickerDayProps} />
+                    {pickerDayProps.outsideCurrentMonth || !dataForCalendar[days.format("YYYY-MM-DD")] ? (<></>) : (
+                      <Box key={days._d} sx={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'red', width: '5px', height: '5px', borderRadius: '5px' }}>
+                      </Box>
+                    )}
+                    
+                  </Box>
+                )
+              }}
+            >
+
+            </StaticDatePicker>
+          </LocalizationProvider>
+        </Box>
+        <Box
+          sx={{
+            width: 'calc(600px - 100px)',
+            margin: '50px',
+            border: '1px solid gray',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          <Box sx={{ width: '480px', }}>
+            <ReservationTable timeTable={data?.posts.filter(post => post.startDate === selectedDay.format("YYYY-MM-DD"))} />
+          </Box>
+        </Box>
+      </Box>
+
+      {/* <Box
         sx={{
           m: '0 auto',
           mt: '50px',
@@ -150,7 +249,7 @@ const Info = ({
         <PostItemWrapper>
           <PostItem />
         </PostItemWrapper>
-      </Box>
+      </Box> */}
       {/* 소개글 */}
       <Box
         sx={{
