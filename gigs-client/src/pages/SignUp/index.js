@@ -35,9 +35,11 @@ const SignUp = (
 
   const getUserIdAndName = useCallback(async (uuid) => {
     const response = await axios.get(API.getUserName(uuid));
-    //console.log(response.data);
+
     setName(response.data.name);
-    setUid(response.data.id);
+    setUid(response.data.uid);
+    //console.log(uid)
+    //console.log(response.data)
   }, []);
 
 const location = useLocation();
@@ -55,11 +57,11 @@ const uuid = location.search.substring(6);
     };
 
     //console.log(data)
-    
+
     await axios.post(API.signUp(data), data)
     .then(function (response) {
       if (response.status === 200) {
-        navigate('/main')
+        //navigate('/main')
       }
     }).catch(function (err) {
       console.log(err);
