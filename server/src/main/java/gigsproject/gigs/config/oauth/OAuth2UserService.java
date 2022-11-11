@@ -30,7 +30,8 @@ public class OAuth2UserService extends DefaultOAuth2UserService { //return í•œ ê
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        String uid = oAuth2User.getAttribute("id").toString();
+        String regClient = userRequest.getClientRegistration().getClientName();
+        String uid = regClient + oAuth2User.getAttribute("id").toString();
 
         Map<String, Object> properties = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
         String name = (String) properties.get("nickname");

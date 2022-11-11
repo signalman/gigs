@@ -39,9 +39,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    void signUp(@RequestBody SignUpForm signUpForm, HttpServletResponse response, HttpServletRequest request){
+    void signUp(@RequestBody SignUpForm signUpForm, HttpServletResponse response){
 
-//        log.info("oAuth2User: {}", oAuth2User);
         userService.createUser(signUpForm);
         response.setStatus(200);
     }
@@ -50,7 +49,6 @@ public class UserController {
     void test(Authentication authentication, HttpServletRequest request, HttpServletResponse response){
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-
 
         log.info("인증 객체 : {}", oAuth2User);
         log.info("인증 객체 : {}", oAuth2User.getName());
