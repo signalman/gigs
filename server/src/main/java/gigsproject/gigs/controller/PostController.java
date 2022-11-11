@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
     private final PostService postService;
 
-    @PostMapping("/posts")
-    public void PostSave(@RequestBody PostSave postSave, Authentication authentication){
-            OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-    }
+//    @PostMapping("/posts")
+//    public void PostSave(@RequestBody PostSave postSave, Authentication authentication){
+//            OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+//
+//    }
 
 }

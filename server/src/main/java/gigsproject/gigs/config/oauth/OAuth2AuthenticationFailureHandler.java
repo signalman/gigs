@@ -33,8 +33,6 @@ public class OAuth2AuthenticationFailureHandler implements AuthenticationFailure
 
         //사용자 정보 세션에 저장된 상태.
         log.info("로그인 실패");
-        String errorMessage = URLEncoder.encode(exception.getMessage(), StandardCharsets.UTF_8) ;
-
         String UUID = session.getAttribute("uuid").toString();
         response.sendRedirect("http://localhost:3000/signup?uuid=" + UUID);
     }

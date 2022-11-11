@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,6 +26,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         //이미 회원인 사람.
         log.info("이미 회원입니다. 자동로그인 진행합니다.");
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        response.addCookie(new Cookie("hi", "hi"));
         response.sendRedirect("http://localhost:3000");
 
     }
