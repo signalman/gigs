@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    void signUp(@RequestBody SignUpForm signUpForm, HttpServletResponse response){
+    void signUp(@RequestBody SignUpForm signUpForm, HttpServletResponse response, HttpServletRequest request){
 
 //        log.info("oAuth2User: {}", oAuth2User);
         userService.createUser(signUpForm);

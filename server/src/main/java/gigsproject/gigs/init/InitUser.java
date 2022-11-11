@@ -39,10 +39,9 @@ public class InitUser {
         public void init() {
 
             //주소 더미데이터 생성
-            Address address1 = new Address("수원시", "장안구", "율전동");
-            Address address2 = new Address("서울시", "중구", "이태원동");
-            Address address3 = new Address("수원시", "영통구", "매탄동");
-            Address address4 = new Address("서울시", "동작구", "사당동");
+            Address address1 = new Address("경기도 수원시", "영통구", "경기도 수원시 영통구 매탄대로 21길 23", "313번지");
+            Address address2 = new Address("경기도 수원시", "권선구", "경기도 수원시 권선구 햇빛로 77길 11", "11동 220호");
+            Address address3 = new Address("경기도 용인시", "수지구", "경기도 용인시 수지구 풍덕천로 41길 5", "222동 333호");
 
             for (int i = 0; i < 100; i++) {
 
@@ -209,11 +208,11 @@ public class InitUser {
                     .name("유저")
                     .role(HOST)
                     .phone("01012345678")
-                    .address(new Address("수원시", "팔달구", "인계동"))
+                    .address(address2)
                     .build();
             em.persist(user);
 
-            Address stageAddress = new Address("수원시", "팔달구", "우만동");
+            Address stageAddress = address3;
             Host host1 = Host.builder()
                     .user(user)
                     .stageName("abc")
