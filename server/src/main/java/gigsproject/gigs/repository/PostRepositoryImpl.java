@@ -36,11 +36,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public Page<StageCard> getList(StageSearch stageSearch, Pageable pageable) {
-
-        QHost host = QHost.host;
-        List<Post> posts = jpaQueryFactory.select(post)
-                .from(post)
-                .join(post.host, host)
+        QPost post = QPost.post;
+        List<Host> hosts = jpaQueryFactory.selectFrom(host)
+                .join(host.posts, post)
                 .fetchJoin()
                 .where(
                         stageNameEq(stageSearch.getName()),
@@ -55,46 +53,45 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(post.postId.desc())
+                .orderBy(host.hostId.desc())
                 .fetch();
 
-        List<StageCard> content = posts.stream()
-                .map(post -> new StageCard(post))
+        List<StageCard> content = hosts.stream()
+                .map(h -> new StageCard(h))
                 .collect(Collectors.toList());
 
         JPAQuery<Long> countQuery = jpaQueryFactory
-                .select(post.count())
-                .from(post)
+                .select(host.count())
+                .from(host)
                 .where(
                         stageNameEq(stageSearch.getName()),
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
                         starAddressEq(stageSearch.getAddress()),
+                        stageAddressEq(stageSearch.getAddress()),
                         stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
                         stageTargetMinCountEq(stageSearch.getTargetMinCount())
-
                 );
-
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
     private Predicate stageTargetMinCountEq(Integer targetMinCount) {
-        return isNull(targetMinCount) ? null : post.host.targetNumber.goe(targetMinCount);
+        return isNull(targetMinCount) ? null : host.targetNumber.goe(targetMinCount);
     }
 
     private Predicate stageTargetAgeEq(Integer targetAge) {
-        return isNull(targetAge) ? null : post.host.targetAge.eq(targetAge);
+        return isNull(targetAge) ? null : host.targetAge.eq(targetAge);
     }
 
     private Predicate stageTargetGenderEq(Gender targetGender) {
-        return isNull(targetGender) ? null : post.host.targetGender.eq(targetGender);
+        return isNull(targetGender) ? null : host.targetGender.eq(targetGender);
     }
 
     private Predicate stageTypeEq(List<StageType> stageTypes) {
-        return isNull(stageTypes) ? null : post.host.stageType.in(stageTypes);
+        return isNull(stageTypes) ? null : host.stageType.in(stageTypes);
     }
 
     private Predicate stageGenreEq(List<Genre> genres) {
@@ -104,9 +101,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private Predicate starAddressEq(String address) {
         return hasText(address) ? host.user.address.cityName.eq(address) : null;
     }
+    private Predicate stageAddressEq(String address) {
+        return hasText(address) ? host.stageAddress.cityName.eq(address) : null;
+    }
 
     private Predicate stageNameEq(String name) {
-        return hasText(name) ? post.host.stageName.eq(name) : null;
+        return hasText(name) ? host.stageName.eq(name) : null;
     }
 
     private Predicate stageDateEq(String searchStartDate, String searchEndDate) {
