@@ -21,26 +21,24 @@ const SignUp = (
 
 ) => {
 
-const [name, setName] = useState("");
-const [id, setId] = useState("");
-const [address, setAddress] = useState("");
-const [detail, setDetail] = useState("");
-const [phoneNumber, setPhoneNumber] = useState("");
-const [siDo, setSiDo] = useState("");
-const [siGun, setSiGun] = useState("");
-const [road, setRoad] = useState("");
-const [role, setRole] = useState("");
+  const [name, setName] = useState("");
+  const [uid, setUid] = useState("");
+  const [address, setAddress] = useState("");
+  const [detail, setDetail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [siDo, setSiDo] = useState("");
+  const [siGun, setSiGun] = useState("");
+  const [road, setRoad] = useState("");
+  const [role, setRole] = useState("");
 
-const [openPostcode, setOpenPostcode] = useState(false);
+  const [openPostcode, setOpenPostcode] = useState(false);
 
-const getUserIdAndName = useCallback(async (uuid) => {
-const response = await axios.get(API.getUserName(uuid));
-
-console.log(response.data);
-setName(response.data.name);
-setId(response.data.id);
-}, []);
-
+  const getUserIdAndName = useCallback(async (uuid) => {
+    const response = await axios.get(API.getUserName(uuid));
+    //console.log(response.data);
+    setName(response.data.name);
+    setUid(response.data.id);
+  }, []);
 
 const location = useLocation();
 const navigate = useNavigate();
@@ -53,10 +51,11 @@ const uuid = location.search.substring(6);
 
   const onhandlePost = useCallback(async () => {
     const data = {
-      id, name, siDo, siGun, road, detail, phoneNumber, role
+      uid, name, siDo, siGun, road, detail, phoneNumber, role
     };
 
-    console.log(data)
+    //console.log(data)
+    
     await axios.post(API.signUp(data), data)
     .then(function (response) {
       if (response.status === 200) {
@@ -65,7 +64,7 @@ const uuid = location.search.substring(6);
     }).catch(function (err) {
       console.log(err);
     });
-  }, [id, name, siDo, siGun, road, detail, phoneNumber, role]);
+  }, [uid, name, siDo, siGun, road, detail, phoneNumber, role]);
 
   // const onhandlePost = async (data) => {
   //   const { name, id,  address, detail_Address, phoneNumber } = data;
@@ -84,8 +83,7 @@ const uuid = location.search.substring(6);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-
+    
     onhandlePost()
   }
 
@@ -105,12 +103,13 @@ const uuid = location.search.substring(6);
   }
 
   const clickStage = () => {
-    setRole('host')
+    setRole('HOST')
   }
 
   const clickStar = () => {
-    setRole('star')
+    setRole('STAR')
   }
+
   return (
     <Box component='form' onSubmit={handleSubmit} sx={{ flexGrow: 1, px: 3 }}>
       <Paper
@@ -144,7 +143,7 @@ const uuid = location.search.substring(6);
             InputProps={{
               readOnly: true,
             }}
-            value={id}
+            value={uid}
           />
         </Box>
         <Divider />
