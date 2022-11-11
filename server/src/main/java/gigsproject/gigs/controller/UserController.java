@@ -6,10 +6,12 @@ import gigsproject.gigs.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -17,11 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Map;
 
 
-@RestController
+//@RestController
 @Slf4j
 @RequiredArgsConstructor
+@RestController
 public class UserController {
     private final UserService userService;
     @GetMapping("/signup")
@@ -46,14 +51,22 @@ public class UserController {
 
     @GetMapping("/wait")
     void waitLogin(HttpServletResponse response, Authentication authentication) throws IOException {
+
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String userName = oAuth2User.getName();
-        Cookie cookie = new Cookie("userName", userName);
+        Map<String, Object> oAuth2UserAttributes = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
+        String userName = oAuth2UserAttributes.get("nickname").toString(); //'신호인'
+
+        Cookie cookie = new Cookie("userName", URLEncoder.encode(userName, "UTF-8"));
         cookie.setPath("/");
+        cookie.setDomain("localhost");
         response.addCookie(cookie);
+
         response.sendRedirect("http://localhost:3000");
     }
 
+    /**
+     * api테스트용.
+     */
     @GetMapping("/test/auth")
     void test(Authentication authentication, HttpServletRequest request, HttpServletResponse response){
 

@@ -22,11 +22,15 @@ public class SecurityConfig{
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         return http
                 .csrf().disable()
+                .cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+                .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS).permitAll().and()
+                .antMatchers("/mypage/**").authenticated()
+                .antMatchers("/posts/**").access("hasRole('ROLE_HOST')")
+                .anyRequest().permitAll()
+                .and()
                 .oauth2Login()
                     .userInfoEndpoint()
                     .userService(oauth2userService)

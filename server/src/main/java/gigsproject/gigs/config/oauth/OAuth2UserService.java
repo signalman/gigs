@@ -9,6 +9,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService { //return 한 �
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
         OAuth2User oAuth2User = super.loadUser(userRequest);
+
         String regClient = userRequest.getClientRegistration().getClientName();
         String uid = regClient + "_" + oAuth2User.getAttribute("id").toString();
 
@@ -37,6 +39,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService { //return 한 �
         String name = (String) properties.get("nickname");
 
         User findUser = userRepository.findByUid(uid);
+        OAuth2UserCustom oAuth2UserCustom = new OAuth2UserCustom(findUser , oAuth2User);
 
         if(isNull(findUser)){ //회원가입 안한 사용자.
             String UUID = randomUUID().toString();
@@ -45,7 +48,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService { //return 한 �
             session.setAttribute(UUID, notSignedUser);
             throw new InternalAuthenticationServiceException(name + "님은 회원가입을 하지 않으셨습니다.");
         }
-        session.setAttribute("user", new SessionUser(findUser));
-        return oAuth2User;
+        return oAuth2UserCustom;
     }
 }
