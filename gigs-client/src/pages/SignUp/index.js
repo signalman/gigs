@@ -56,12 +56,16 @@ const uuid = location.search.substring(6);
       uid, name, siDo, siGun, road, detail, phoneNumber, role
     };
 
-    //console.log(data)
-
+    console.log(data)
     await axios.post(API.signUp(data), data)
     .then(function (response) {
       if (response.status === 200) {
-        navigate('/main')
+          axios.get(API.getCookie()).then(function (response) {
+              console.log(response)
+          }).catch(function (err) {
+            console.log(err)
+          }) 
+        //navigate('/main')
       }
     }).catch(function (err) {
       console.log(err);
@@ -105,11 +109,11 @@ const uuid = location.search.substring(6);
   }
 
   const clickStage = () => {
-    setRole('HOST')
+    setRole('ROLE_HOST')
   }
 
   const clickStar = () => {
-    setRole('STAR')
+    setRole('ROLE_STAR')
   }
 
   return (
