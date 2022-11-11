@@ -61,7 +61,7 @@ const uuid = location.search.substring(6);
     await axios.post(API.signUp(data), data)
     .then(function (response) {
       if (response.status === 200) {
-        //navigate('/main')
+        navigate('/main')
       }
     }).catch(function (err) {
       console.log(err);
