@@ -33,7 +33,7 @@ public class UserService {
         userRepository.save(user);
 
 //        유저가 host를 선택했다면 host 테이블에도 저장.
-        if (signUpForm.getRole() == Role.HOST) {
+        if (signUpForm.getRole() == Role.ROLE_HOST) {
             Host host = Host.builder()
                     .user(user)
                     .build();

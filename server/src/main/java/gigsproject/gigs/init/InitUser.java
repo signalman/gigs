@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 import static gigsproject.gigs.domain.Gender.*;
 import static gigsproject.gigs.domain.Genre.*;
-import static gigsproject.gigs.domain.Role.HOST;
-import static gigsproject.gigs.domain.Role.STAR;
+import static gigsproject.gigs.domain.Role.ROLE_HOST;
+import static gigsproject.gigs.domain.Role.ROLE_STAR;
 import static gigsproject.gigs.domain.StageType.*;
 
 @Profile("local")
@@ -48,7 +48,7 @@ public class InitUser {
                 User user = User.builder()
                         .uid("uid" + i)
                         .name("유저" + i)
-                        .role(STAR)
+                        .role(ROLE_STAR)
                         .phone("01012345678")
                         .address(address1)
                         .build();
@@ -206,7 +206,7 @@ public class InitUser {
             User user = User.builder()
                     .uid("1234567")
                     .name("유저")
-                    .role(HOST)
+                    .role(ROLE_HOST)
                     .phone("01012345678")
                     .address(address2)
                     .build();
