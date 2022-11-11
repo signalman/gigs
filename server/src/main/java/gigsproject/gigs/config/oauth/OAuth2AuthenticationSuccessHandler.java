@@ -31,22 +31,13 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         /**
          * 여기서 바로 클라 홈으로 리다이렉트 시키는 것보다 중간 페이지를 두고 거기서 쿠키로 보내주는 것이 더 좋아보임.
          */
-
 //        response.sendRedirect("http://localhost:3000");
-
         response.sendRedirect("http://localhost:3000/wait");
-
         /**
-         *
          * server 쪽으로 /wait
-         *
          * 서버쪽에서 응답에 쿠키 내려줌.
          * 서버쪽에서 redirect:/
-         *
-         *
-         *
          */
-
     }
 }
 

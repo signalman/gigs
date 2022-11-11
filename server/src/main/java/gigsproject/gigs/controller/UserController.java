@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 
 @RestController
@@ -41,6 +42,16 @@ public class UserController {
 
         userService.createUser(signUpForm);
         response.setStatus(200);
+    }
+
+    @GetMapping("/wait")
+    void waitLogin(HttpServletResponse response, Authentication authentication) throws IOException {
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        String userName = oAuth2User.getName();
+        Cookie cookie = new Cookie("userName", userName);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+        response.sendRedirect("http://localhost:3000");
     }
 
     @GetMapping("/test/auth")
