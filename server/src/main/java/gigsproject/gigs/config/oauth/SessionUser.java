@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class SessionUser {
+public class SessionUser{
     private Long id;
     private String name;
 

@@ -99,7 +99,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private Predicate starAddressEq(String address) {
-        return hasText(address) ? host.user.address.cityName.eq(address) : null;
+        return hasText(address) ? host.user.address.siDo.eq(address) : null;
     }
     private Predicate stageAddressEq(String address) {
         return hasText(address) ? host.stageAddress.cityName.eq(address) : null;

@@ -32,9 +32,7 @@ public class OAuth2AuthenticationFailureHandler implements AuthenticationFailure
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
         //사용자 정보 세션에 저장된 상태.
-        log.info("로그인 실패");
-        String errorMessage = URLEncoder.encode(exception.getMessage(), StandardCharsets.UTF_8) ;
-
+        log.info("회원가입페이지로 이동합니다.");
         String UUID = session.getAttribute("uuid").toString();
         response.sendRedirect("http://localhost:3000/signup?uuid=" + UUID);
     }

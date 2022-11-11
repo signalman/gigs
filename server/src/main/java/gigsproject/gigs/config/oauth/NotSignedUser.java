@@ -5,12 +5,12 @@ import lombok.Getter;
 @Getter
 public class NotSignedUser {
 
-    private String id;
+    private String uid;
     private String uuid;
     private String name;
 
-    NotSignedUser(String id, String uuid, String name) {
-        this.id = id;
+    NotSignedUser(String uid, String uuid, String name) {
+        this.uid = uid;
         this.uuid = uuid;
         this.name = name;
     }

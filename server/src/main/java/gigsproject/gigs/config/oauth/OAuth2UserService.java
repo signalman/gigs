@@ -9,6 +9,7 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
@@ -29,28 +30,16 @@ public class OAuth2UserService extends DefaultOAuth2UserService { //return 한 �
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
-        log.info("userRequest: {}", userRequest);
-        log.info("토큰 밸류{}", userRequest.getAccessToken().getTokenValue());
-        log.info("토큰 스코프{}", userRequest.getAccessToken().getScopes());
-        log.info("토큰 타입{}", userRequest.getAccessToken().getTokenType());
-        log.info("토큰 expiresat{}", userRequest.getAccessToken().getExpiresAt());
-        log.info("issued At : {}", userRequest.getAccessToken().getIssuedAt());
-        log.info("{}", userRequest.getClientRegistration());
-        log.info("{}", userRequest.getAdditionalParameters());
-
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        String uid = oAuth2User.getAttribute("id").toString();
-        log.info("유저객체 {}", oAuth2User);
-        log.info("권한 {}", oAuth2User.getAuthorities());
-        log.info("이름 {}", oAuth2User.getName());
-        log.info("속성 {}", oAuth2User.getAttributes());
 
+        String regClient = userRequest.getClientRegistration().getClientName();
+        String uid = regClient + "_" + oAuth2User.getAttribute("id").toString();
 
         Map<String, Object> properties = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
-        log.info("properites: {}", properties);
         String name = (String) properties.get("nickname");
 
         User findUser = userRepository.findByUid(uid);
+        OAuth2UserCustom oAuth2UserCustom = new OAuth2UserCustom(findUser , oAuth2User);
 
         if(isNull(findUser)){ //회원가입 안한 사용자.
             String UUID = randomUUID().toString();
@@ -59,7 +48,6 @@ public class OAuth2UserService extends DefaultOAuth2UserService { //return 한 �
             session.setAttribute(UUID, notSignedUser);
             throw new InternalAuthenticationServiceException(name + "님은 회원가입을 하지 않으셨습니다.");
         }
-        session.setAttribute("user", new SessionUser(findUser));
-        return oAuth2User;
+        return oAuth2UserCustom;
     }
 }
