@@ -60,12 +60,12 @@ const uuid = location.search.substring(6);
     await axios.post(API.signUp(data), data)
     .then(function (response) {
       if (response.status === 200) {
-          axios.get('http://localhost:8080/wait').then(function (response) {
-              console.log(response)
-          }).catch(function (err) {
-            console.log(err)
-          }) 
-        // navigate('/main')
+          // axios.get('http://localhost:8080/wait').then(function (response) {
+          //     console.log(response)
+          // }).catch(function (err) {
+          //   console.log(err)
+          // }) 
+        navigate('/main')
       }
     }).catch(function (err) {
       console.log(err);
