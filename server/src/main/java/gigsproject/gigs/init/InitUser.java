@@ -25,7 +25,7 @@ import static gigsproject.gigs.domain.StageType.*;
 public class InitUser {
     private final InitUserService initUserService;
 
-//    @PostConstruct
+    @PostConstruct
     public void init() {
         initUserService.init();
     }
@@ -212,7 +212,9 @@ public class InitUser {
                     .build();
             em.persist(user);
 
+
             Address stageAddress = address3;
+
             Host host1 = Host.builder()
                     .user(user)
                     .stageName("abc")
@@ -295,6 +297,7 @@ public class InitUser {
                     .avgScore(4.3)
                     .reviewCount(22)
                     .build();
+
             em.persist(host1);
             em.persist(host2);
             em.persist(host3);

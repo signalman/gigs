@@ -5,6 +5,7 @@ import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.request.PostSave;
 import gigsproject.gigs.request.StageSearch;
+import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
 import gigsproject.gigs.response.StarCard;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class PostService {
     public void write(PostSave postSave) {
 
         Host host = hostRepository.findById(postSave.getHost().getHostId())
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new IllegalArgumentException("해당 호스트가 존재하지 않습니다."));
         Post post = host.createPost(postSave);
         postRepository.save(post);
     }
@@ -50,5 +51,13 @@ public class PostService {
         return postRepository.getList(stageSearch, pageable);
     }
 
+
+    public HostResponse findHost(Long hostId) {
+        Host host = hostRepository.findById(hostId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 호스트가 존재하지 않습니다."));
+        HostResponse hostResponse = new HostResponse(host);
+
+        return hostResponse;
+    }
 
 }
