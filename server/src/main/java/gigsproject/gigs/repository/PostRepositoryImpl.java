@@ -45,7 +45,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
-                        starAddressEq(stageSearch.getAddress()),
+                        stageAddressEq(stageSearch.getAddress()),
                         stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
@@ -68,7 +68,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
-                        starAddressEq(stageSearch.getAddress()),
                         stageAddressEq(stageSearch.getAddress()),
                         stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
@@ -98,9 +97,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return isNull(genres) ? null : post.postGenres.any().genre.in(genres);
     }
 
-    private Predicate starAddressEq(String address) {
-        return hasText(address) ? host.user.address.siDo.eq(address) : null;
-    }
     private Predicate stageAddressEq(String address) {
         return hasText(address) ? host.stageAddress.siDo.eq(address) : null;
     }
