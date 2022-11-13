@@ -1,4 +1,4 @@
-import { Box, Icon, styled, Typography } from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
 import React from 'react';
 import PhotoSizeSelectSmallIcon from '@mui/icons-material/PhotoSizeSelectSmall';
 import PeopleIcon from '@mui/icons-material/People';
@@ -28,7 +28,22 @@ const IconBox = styled(Box)(() => ({
   alignItems: 'center',
 }));
 
-const StageDetailInfoBox = () => {
+const IconStyle = { width: '30px', height: '30px' }
+
+const ItemContent = styled(Typography)((props) => ({ height: '50px', lineHeight: '50px', fontSize: '15px' }));
+
+const StageDetailInfoBox = ({
+  detailInfo,
+}) => {
+  const {
+    stageSize,
+    targetAge,
+    targetGender,
+    targetMinCount,
+    pay,
+    showCount,
+    stageType,
+  } = detailInfo;
   return (
     <Box
       sx={{
@@ -41,42 +56,36 @@ const StageDetailInfoBox = () => {
       <Line>
         <Item type='half'>
           <IconBox>
-            <PhotoSizeSelectSmallIcon sx={{ width: '30px', height: '30px' }} />
+            <PhotoSizeSelectSmallIcon sx={IconStyle} />
           </IconBox>
-          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>36m^2</Typography>
+          <ItemContent>{`${stageSize}m^2`}</ItemContent>
         </Item>
         <Item type='half'>
           <IconBox>
-            <PeopleIcon sx={{ width: '30px', height: '30px' }} />
+            <PeopleIcon sx={IconStyle} />
           </IconBox>
-          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>20대 여성 20인 이상</Typography>
+          <ItemContent>{`${targetAge}대 ${targetGender} ${targetMinCount}인 이상`}</ItemContent>
         </Item>
         <Item type='half'>
           <IconBox>
-            <LocalAtmIcon sx={{ width: '30px', height: '30px' }} />
+            <LocalAtmIcon sx={IconStyle} />
           </IconBox>
-          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>10만원 이상</Typography>
+          <ItemContent>{`${pay}원 이상`}</ItemContent>
         </Item>
       </Line>
       <Line>
         
         <Item type='half'>
           <IconBox>
-            <MicExternalOnIcon sx={{ width: '30px', height: '30px' }} />
+            <MicExternalOnIcon sx={IconStyle} />
           </IconBox>
-          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>100회 이상</Typography>
+          <ItemContent>{`${showCount}회 이상`}</ItemContent>
         </Item>
         <Item type='half'>
           <IconBox>
-            <LocationOnIcon sx={{ width: '30px', height: '30px' }} />
+            <LocationOnIcon sx={IconStyle} />
           </IconBox>
-          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>CAFE</Typography>
-        </Item>
-        <Item type='half'>
-          <IconBox>
-            <HeadsetMicIcon sx={{ width: '30px', height: '30px' }} />
-          </IconBox>
-          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>JAZZ / HIPHOP</Typography>
+          <ItemContent>{stageType}</ItemContent>
         </Item>
       </Line>
     </Box>
