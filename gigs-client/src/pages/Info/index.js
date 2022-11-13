@@ -9,6 +9,7 @@ import './style.css';
 import axios from 'axios';
 import ReservationBox from './ReservationBox';
 import InfoTitle from './InfoTitle';
+import Introduction from './Introduction';
 
 const Info = ({
   target,
@@ -28,7 +29,7 @@ const Info = ({
       case SYMBOL.star:
         break;
       case SYMBOL.stage:
-        // fetchHostInfo();
+        fetchHostInfo();
         break;
     }
   }, [target]);
@@ -57,27 +58,7 @@ const Info = ({
         <ReservationBox data={data} />
       ) : (<></>)}
       {/* 소개글 */}
-      <Box
-        sx={{
-          width: '1100px',
-          height: '500px',
-          m: '0 auto',
-          mt: '50px',
-          px: '50px',
-          boxShadow: `0 4px 4px ${COLOR.blacky}`,
-        }}
-      >
-        <Typography
-          sx={{
-            height: '50px',
-            lineHeight: '50px',
-            fontSize: '25px',
-            fontWeight: 'bold',
-          }}
-        >
-          소개글
-        </Typography>
-      </Box>
+      <Introduction introduction={data.stageInfo}/>
       {/* 리뷰 */}
       <ReviewBox />
     </>
