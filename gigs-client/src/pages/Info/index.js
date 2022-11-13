@@ -10,6 +10,7 @@ import axios from 'axios';
 import ReservationBox from './ReservationBox';
 import InfoTitle from './InfoTitle';
 import Introduction from './Introduction';
+import MapBox from './MapBox';
 
 const Info = ({
   target,
@@ -59,6 +60,7 @@ const Info = ({
       ) : (<></>)}
       {/* 소개글 */}
       <Introduction introduction={data.stageInfo}/>
+      <MapBox address={data.address} />
       {/* 리뷰 */}
       <ReviewBox />
     </>

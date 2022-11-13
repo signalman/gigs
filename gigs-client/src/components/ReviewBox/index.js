@@ -10,6 +10,7 @@ const ReviewBox = () => {
         width: '1200px',
         m: '0 auto',
         mt: '50px',
+        mb: '50px',
       }}
     >
       <Box
