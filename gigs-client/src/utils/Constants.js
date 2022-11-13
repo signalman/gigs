@@ -106,5 +106,6 @@ export const DUMMY = {
         genres: ['JAZZ'],
       },
     ],
+    stageInfo: "<h1>안녕하세요 카페 안녕입니다.</h1><p>방문해주셔서 <strong>감사</strong>합니다.</p>"
   }
 }
