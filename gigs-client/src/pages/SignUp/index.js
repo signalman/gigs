@@ -6,6 +6,7 @@ import { Cookies } from 'react-cookie';
 import axios from 'axios';
 import { API } from '../../utils/Constants';
 import { IMaskInput } from 'react-imask';
+import Swal from "sweetalert2";
 
 const style = {
   position: 'absolute',
@@ -35,18 +36,15 @@ const SignUp = (
 
   const getUserIdAndName = useCallback(async (uuid) => {
     const response = await axios.get(API.getUserName(uuid));
-
     setName(response.data.name);
     setUid(response.data.uid);
-    //console.log(uid)
-    //console.log(response.data)
   }, []);
 
-const location = useLocation();
-const navigate = useNavigate();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-useEffect(() => {
-const uuid = location.search.substring(6);
+  useEffect(() => {
+    const uuid = location.search.substring(6);
 
     getUserIdAndName(uuid);
   }, []);
@@ -56,40 +54,26 @@ const uuid = location.search.substring(6);
       uid, name, siDo, siGun, road, detail, phoneNumber, role
     };
 
-    console.log(data)
+    //console.log(data)
     await axios.post(API.signUp(data), data)
-    .then(function (response) {
-      if (response.status === 200) {
-          // axios.get('http://localhost:8080/wait').then(function (response) {
-          //     console.log(response)
-          // }).catch(function (err) {
-          //   console.log(err)
-          // }) 
-        navigate('/main')
-      }
-    }).catch(function (err) {
-      console.log(err);
-    });
+      .then(function (response) {
+        if (response.status === 200) {
+          Swal.fire({
+            icon: "success",
+            title: "회원가입 성공! \n로그인을 다시 해주세요.",
+            confirmButtonText: "확인"
+          })
+          navigate('/')
+          console.log(response)
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
   }, [uid, name, siDo, siGun, road, detail, phoneNumber, role]);
-
-  // const onhandlePost = async (data) => {
-  //   const { name, id,  address, detail_Address, phoneNumber } = data;
-  //   const postData = { name, address, detail_Address, phoneNumber };
-  //   console.log(postData)
-  //   await axios
-  //     .post('', postData)
-  //     .then(function (response) {
-  //       console.log(response, '성공');
-
-  //     })
-  //     .catch(function (err) {
-  //       console.log(err);
-  //     });
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     onhandlePost()
   }
 
@@ -170,6 +154,7 @@ const uuid = location.search.substring(6);
               />
             </Box>
           </Modal>
+          
           <TextField
             required
             variant="standard"
@@ -194,6 +179,7 @@ const uuid = location.search.substring(6);
         <Divider />
         <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 2, mt: 2 }}>
           <Typography sx={{ fontWeight: 'bold', mr: 1 }}>연락처</Typography>
+
           {/* <TextField
             required
             variant="standard"
@@ -202,6 +188,7 @@ const uuid = location.search.substring(6);
             setPhoneNumber(e.target.value);
           }}
           /> */}
+
           <IMaskInput
             mask="000-0000-0000"
             definitions={{
