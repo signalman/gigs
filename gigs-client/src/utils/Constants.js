@@ -63,6 +63,19 @@ export const COLOR = {
 
 export const DUMMY = {
   host: {
+    stageName: '카페 안녕',
+    stageSize: '35',
+    targetAge: '20',
+    targetGender: "WOMEN",
+    targetMinCount: "100",
+    pay: '100000',
+    stageType: 'BAR',
+    avgScore: '4.9',
+    showCount: '1000',
+    reviewCount: '55',
+    address: {
+      road: "경기도 수원시 영통구 중부대로246번길 48-7"
+    },
     posts: [
       {
         startDate: "2022-11-01",
