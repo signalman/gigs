@@ -10,19 +10,19 @@ import { COLOR } from '../../utils/Constants';
 
 const Line = styled(Box)((p) => ({
   width: '100%',
-  height: '100px',
+  height: '50px',
   display: 'flex',
 }));
 
 const Item = styled(Box)((p) => ({
-  width: p.type === 'half' ? '50%' : '100%',
-  height: '100px',
+  width: '400px',
+  height: '50px',
   display: 'flex',
 }));
 
 const IconBox = styled(Box)(() => ({
-  width: '100px',
-  height: '100px',
+  width: '50px',
+  height: '50px',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -34,50 +34,49 @@ const StageDetailInfoBox = () => {
       sx={{
         width: `1200px`,
         m: '0 auto',
-        mt: '50px',
-        boxShadow: `0 4px 4px ${COLOR.blacky}`
+        mt: '25px',
+        backgroundColor: COLOR.whity,
       }}
     >
       <Line>
         <Item type='half'>
           <IconBox>
-            <PhotoSizeSelectSmallIcon sx={{ width: '50px', height: '50px' }} />
+            <PhotoSizeSelectSmallIcon sx={{ width: '30px', height: '30px' }} />
           </IconBox>
-          <Typography sx={{ height: '100px', lineHeight: '100px', fontSize: '30px' }}>36m^2</Typography>
+          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>36m^2</Typography>
         </Item>
         <Item type='half'>
           <IconBox>
-            <PeopleIcon sx={{ width: '50px', height: '50px' }} />
+            <PeopleIcon sx={{ width: '30px', height: '30px' }} />
           </IconBox>
-          <Typography sx={{ height: '100px', lineHeight: '100px', fontSize: '30px' }}>20대 여성 20인 이상</Typography>
-        </Item>
-      </Line>
-      <Line>
-        <Item type='half'>
-          <IconBox>
-            <LocalAtmIcon sx={{ width: '50px', height: '50px' }} />
-          </IconBox>
-          <Typography sx={{ height: '100px', lineHeight: '100px', fontSize: '30px' }}>10만원 이상</Typography>
+          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>20대 여성 20인 이상</Typography>
         </Item>
         <Item type='half'>
           <IconBox>
-            <MicExternalOnIcon sx={{ width: '50px', height: '50px' }} />
+            <LocalAtmIcon sx={{ width: '30px', height: '30px' }} />
           </IconBox>
-          <Typography sx={{ height: '100px', lineHeight: '100px', fontSize: '30px' }}>100회 이상</Typography>
+          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>10만원 이상</Typography>
         </Item>
       </Line>
       <Line>
+        
         <Item type='half'>
           <IconBox>
-            <LocationOnIcon sx={{ width: '50px', height: '50px' }} />
+            <MicExternalOnIcon sx={{ width: '30px', height: '30px' }} />
           </IconBox>
-          <Typography sx={{ height: '100px', lineHeight: '100px', fontSize: '30px' }}>CAFE</Typography>
+          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>100회 이상</Typography>
         </Item>
         <Item type='half'>
           <IconBox>
-            <HeadsetMicIcon sx={{ width: '50px', height: '50px' }} />
+            <LocationOnIcon sx={{ width: '30px', height: '30px' }} />
           </IconBox>
-          <Typography sx={{ height: '100px', lineHeight: '100px', fontSize: '30px' }}>JAZZ / HIPHOP</Typography>
+          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>CAFE</Typography>
+        </Item>
+        <Item type='half'>
+          <IconBox>
+            <HeadsetMicIcon sx={{ width: '30px', height: '30px' }} />
+          </IconBox>
+          <Typography sx={{ height: '50px', lineHeight: '50px', fontSize: '15px' }}>JAZZ / HIPHOP</Typography>
         </Item>
       </Line>
     </Box>

@@ -33,6 +33,7 @@ export const API = {
     ['size', size],
     ['page', page],
   ])}`,
+  getHostInfo: (hostId) => `${BASE_URL}/stages/${hostId}`,
   kakaoAuthorize: `http://localhost:8080/oauth2/authorization/kakao`,
   getUserName: (uuid) => `${BASE_URL}/signup${queryString([['uuid', uuid]])}`,
   testApi: `${BASE_URL}/test/auth`,
@@ -58,4 +59,39 @@ export const COLOR = {
   grey: "#808080",
   blacky: "#404040",
   lightBlack: "#c0c0c0",
+}
+
+export const DUMMY = {
+  host: {
+    posts: [
+      {
+        startDate: "2022-11-01",
+        //endDate
+        startTime: "12:00",
+        endTime: "14:00",
+        genres: ['JAZZ'],
+      },
+      {
+        startDate: "2022-11-03",
+        //endDate
+        startTime: "02:00",
+        endTime: "04:00",
+        genres: ['HIPHOP'],
+      },
+      {
+        startDate: "2022-11-03",
+        //endDate
+        startTime: "06:00",
+        endTime: "08:00",
+        genres: ['JAZZ', 'HIPHOP'],
+      },
+      {
+        startDate: "2022-11-04",
+        //endDate
+        startTime: "02:00",
+        endTime: "04:00",
+        genres: ['JAZZ'],
+      },
+    ],
+  }
 }

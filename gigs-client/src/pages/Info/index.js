@@ -1,34 +1,39 @@
-import { Box, Button, Typography, Rating, styled } from '@mui/material';
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Box, Button, Typography, Rating, } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import StageDummyImg from '../../images/stage_tmp.jpg';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { COLOR } from '../../utils/Constants';
+import { API, COLOR, DUMMY, SYMBOL } from '../../utils/Constants';
 import StageDetailInfoBox from '../../components/StageDetailInfoBox';
 import ReviewBox from '../../components/ReviewBox';
-
-const PostItemWrapper = styled(Box)((p) => ({
-  width: '200px',
-  height: '200px',
-  padding: '20px',
-}));
-
-const PostItem = styled(Box)((p) => ({
-  width: '200px',
-  height: '200px',
-  border: '1px solid black',
-}));
+import './style.css';
+import axios from 'axios';
+import ReservationBox from './ReservationBox';
 
 const Info = ({
   target,
 }) => {
-  const location = useLocation();
+  const params = useParams();
+
+  const [data, setData] = useState(DUMMY.host);
+
+  const fetchHostInfo = useCallback(async () => {
+    const result = await axios.get(API.getHostInfo(params.id));
+    console.log(result.data);
+    setData(result.data);
+  })
 
   useEffect(() => {
-
-  }, []);
+    switch(target) {
+      case SYMBOL.star:
+        break;
+      case SYMBOL.stage:
+        // fetchHostInfo();
+        break;
+    }
+  }, [target]);
 
   return (
     <>
@@ -45,14 +50,14 @@ const Info = ({
           sx={{
             position: "relative",
             width: "100%",
-            height: "150px",
+            height: "100px",
           }}
         >
           <Typography
             sx={{
-              height: "150px",
-              lineHeight: "150px",
-              fontSize: "60px",
+              height: "100px",
+              lineHeight: "100px",
+              fontSize: "40px",
               fontWeight: "bold",
               color: COLOR.blacky,
             }}
@@ -64,7 +69,7 @@ const Info = ({
               position: 'absolute',
               left: 0,
               bottom: 0,
-              fontSize: '25px',
+              fontSize: '15px',
               color: COLOR.grey,
             }}
           >
@@ -74,16 +79,16 @@ const Info = ({
             sx={{
               position: 'absolute',
               right: 0,
-              top: 40,
-              width: '155px',
-              height: '100px',
+              top: 30,
+              width: '120px',
+              height: '80px',
             }}
           >
             <Button
               sx={{
                 width: '100%',
-                height: '60px',
-                fontSize: '25px',
+                height: '40px',
+                fontSize: '18px',
                 fontWeight: 'bold',
                 borderRadius: 3,
               }}
@@ -99,58 +104,23 @@ const Info = ({
               }}
             >
               <Rating
-                sx={{ width: `100px` }}
-                emptyIcon={<StarBorderIcon sx={{ width: `20px`, height: `20px` }}></StarBorderIcon>}
-                icon={<StarIcon sx={{ width: `20px`, height: `20px` }}></StarIcon>}
+                sx={{ width: `75px` }}
+                emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
+                icon={<StarIcon sx={{ width: `15px`, height: `15px` }}></StarIcon>}
                 value={3.6} precision={0.1} readOnly
               />
-              <Typography sx={{ height: '20px', lineHeight: '20px', }} fontSize="15px">{`(17)`}</Typography>
-              <ArrowForwardIosIcon sx={{ height: '15px' }} />
+              <Typography sx={{ height: '30px', lineHeight: '30px', }} fontSize="10px">{`(17)`}</Typography>
+              <ArrowForwardIosIcon sx={{ height: '10px' }} />
             </Box>
           </Box>
         </Box>
       </Box>
       <StageDetailInfoBox />
-      <Box
-        sx={{
-          m: '0 auto',
-          mt: '50px',
-          width: '1200px',
-          display: 'flex',
-          flexWrap: 'wrap',
-          boxShadow: `0 4px 4px ${COLOR.blacky}`,
-        }}
-      >
-        <PostItemWrapper>
-          <PostItem>
-
-          </PostItem>
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-      </Box>
+      {target === SYMBOL.stage ? (
+        <ReservationBox
+          data={data}
+        />
+      ) : (<></>)}
       {/* 소개글 */}
       <Box
         sx={{

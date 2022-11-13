@@ -166,7 +166,7 @@ const Search = ({
       const response = await axios.get(API.getStageCards(newConditions, newSort, PAGE_SIZE, 0));
 
       const data = response.data;
-      console.log(data.content[0])
+      console.log(data)
       setCards(data.content);
       setPage(1);
       setNextPage(!data.last);
