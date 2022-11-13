@@ -22,10 +22,4 @@ public class PostController {
             OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
             postService.write(postSave);
     }
-
-//    @GetMapping("/stages")
-//    public Page<StageCard> getList(@ModelAttribute StageSearch stageSearch, @PageableDefault(size = 10) Pageable pageable) {
-//        return postService.getList(stageSearch, pageable);
-//    }
-
 }

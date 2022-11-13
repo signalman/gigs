@@ -331,16 +331,14 @@ public class InitUser {
 
             Post post1 = Post.builder()
                     .host(host1)
-                    .startDate(startDate1)
-                    .endDate(endDate1)
+                    .date(startDate1)
                     .startTime(startTime1)
                     .endTime(endTime1)
                     .build();
             em.persist(post1);
             Post post2 = Post.builder()
                     .host(host1)
-                    .startDate(startDate2)
-                    .endDate(endDate2)
+                    .date(startDate2)
                     .startTime(startTime2)
                     .endTime(endTime2)
                     .build();
@@ -348,8 +346,7 @@ public class InitUser {
 
             Post post3 = Post.builder()
                     .host(host2)
-                    .startDate(startDate3)
-                    .endDate(endDate3)
+                    .date(startDate3)
                     .startTime(startTime4)
                     .endTime(endTime4)
                     .build();
@@ -357,8 +354,7 @@ public class InitUser {
 
             Post post4 = Post.builder()
                     .host(host3)
-                    .startDate(startDate3)
-                    .endDate(endDate3)
+                    .date(startDate3)
                     .startTime(startTime5)
                     .endTime(endTime5)
                     .build();
@@ -366,16 +362,14 @@ public class InitUser {
 
             Post post5 = Post.builder()
                     .host(host5)
-                    .startDate(startDate4)
-                    .endDate(endDate4)
+                    .date(startDate4)
                     .startTime(startTime4)
                     .endTime(endTime4)
                     .build();
             em.persist(post5);
             Post post6 = Post.builder()
                     .host(host4)
-                    .startDate(startDate1)
-                    .endDate(endDate1)
+                    .date(endDate1)
                     .startTime(startTime5)
                     .endTime(endTime5)
                     .build();
@@ -383,8 +377,7 @@ public class InitUser {
 
             Post post7 = Post.builder()
                     .host(host3)
-                    .startDate(startDate3)
-                    .endDate(endDate3)
+                    .date(endDate2)
                     .startTime(startTime5)
                     .endTime(endTime5)
                     .build();
@@ -392,8 +385,7 @@ public class InitUser {
 
             Post post8 = Post.builder()
                     .host(host5)
-                    .startDate(startDate3)
-                    .endDate(endDate3)
+                    .date(endDate3)
                     .startTime(startTime3)
                     .endTime(endTime3)
                     .build();
@@ -401,8 +393,7 @@ public class InitUser {
 
             Post post9 = Post.builder()
                     .host(host2)
-                    .startDate(startDate4)
-                    .endDate(endDate4)
+                    .date(endDate4)
                     .startTime(startTime4)
                     .endTime(endTime4)
                     .build();
@@ -410,8 +401,7 @@ public class InitUser {
 
             Post post10 = Post.builder()
                     .host(host2)
-                    .startDate(startDate1)
-                    .endDate(endDate1)
+                    .date(endDate5)
                     .startTime(startTime1)
                     .endTime(endTime1)
                     .build();
@@ -419,8 +409,7 @@ public class InitUser {
 
             Post post11 = Post.builder()
                     .host(host3)
-                    .startDate(startDate2)
-                    .endDate(endDate2)
+                    .date(startDate1)
                     .startTime(startTime4)
                     .endTime(endTime4)
                     .build();

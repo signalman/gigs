@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -31,8 +30,6 @@ import static org.springframework.util.StringUtils.hasText;
 public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
-
-    private final EntityManager em;
 
     @Override
     public Page<StageCard> getList(StageSearch stageSearch, Pageable pageable) {
@@ -112,19 +109,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         if (startDate == null) {
             if (endDate == null) {
-                // x <= <= x
                 return null;
             } else {
                 // x <=  <= o
-                return post.endDate.loe(endDate);
+                return post.date.loe(endDate);
             }
         } else {
             if (endDate == null) {
                 //o <=  <= x
-                return post.startDate.goe(startDate);
+                return post.date.goe(startDate);
             }
             //o <= <= o
-            return post.startDate.goe(startDate).and(post.endDate.loe(endDate));
+            return post.date.goe(startDate).and(post.date.loe(endDate));
         }
     }
 

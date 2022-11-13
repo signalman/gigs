@@ -22,8 +22,7 @@ public class Post extends BaseTimeEntity{
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "hostId")
     private Host host;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
 

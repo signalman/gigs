@@ -1,14 +1,19 @@
 package gigsproject.gigs.response;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import gigsproject.gigs.domain.*;
+import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
-@Getter
+@Data
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class HostResponse {
 
     private final Long hostId;
@@ -32,9 +37,9 @@ public class HostResponse {
     private Integer showCount;
     private Integer reviewCount;
 
+    private List<PostResponse> posts;
 
-    private List<Post> posts;
-    private List<PostGenreDto> genres;
+//    private List<PostGenreDto> genres;
 
 
     public HostResponse(Host host) {
@@ -56,6 +61,12 @@ public class HostResponse {
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
         this.reviewCount = isNull(host.getReviewCount()) ? 0 : host.getReviewCount();
+
         this.avgScore = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
+
+        this.posts = isNull(host.getPosts()) ? List.of() : host.getPosts().stream()
+                .map(post -> new PostResponse(post))
+                .collect(Collectors.toList());
+
     }
 }

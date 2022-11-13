@@ -41,15 +41,7 @@ public class PostService {
     }
 
 
-    /**
-     * 무대 찾기 서비스
-     * @param stageSearch
-     * @param pageable
-     * @return
-     */
-    public Page<StageCard> getList(StageSearch stageSearch, Pageable pageable) {
-        return postRepository.getList(stageSearch, pageable);
-    }
+
 
 
     public HostResponse findHost(Long hostId) {
