@@ -13,7 +13,7 @@ const ReservationTable = ({
 }) => {
 
   return (
-    <Grid container sx={{ width: '480px', }}>
+    <Grid container sx={{ width: '480px', boxShadow: '0 0 4px black', backgroundColor: 'white', minHeight: '380px' }}>
       {timeTable?.map((item) => (
         <ReservationItem key={`${item.date} ${item.startTime}`} data={item} />
       ))}

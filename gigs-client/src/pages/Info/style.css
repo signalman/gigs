@@ -2,11 +2,13 @@
 
 .MuiPickerStaticWrapper-content {
   width: 350px;
+  box-shadow: 0 0 4px black;
 }
 
 .css-epd502 {
   width: 350px !important;
-  margin: 0 !important; 
+  margin: 0 !important;
+  max-height: none !important;
 }
 
 .MuiDayPicker-slideTransition {
@@ -15,6 +17,7 @@
 
 .MuiCalendarPicker-root {
   width: 350px !important;
+  max-height: none !important;
 }
 
 .MuiPickersCalendarHeader-root {

@@ -1,76 +1,39 @@
-import { Box, Button, Typography, Rating, styled, TextField, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Box, Button, Typography, Rating, } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import StageDummyImg from '../../images/stage_tmp.jpg';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { COLOR, DUMMY } from '../../utils/Constants';
+import { API, COLOR, DUMMY, SYMBOL } from '../../utils/Constants';
 import StageDetailInfoBox from '../../components/StageDetailInfoBox';
 import ReviewBox from '../../components/ReviewBox';
-import {StaticDatePicker} from '@mui/x-date-pickers/StaticDatePicker';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import { PickersDay } from '@mui/x-date-pickers';
-import moment from 'moment';
 import './style.css';
-import ReservationTable from './ReservationTable';
-
-const PostItemWrapper = styled(Box)((p) => ({
-  width: '200px',
-  height: '200px',
-  padding: '20px',
-}));
-
-const PostItem = styled(Box)((p) => ({
-  width: '200px',
-  height: '200px',
-  border: '1px solid black',
-}));
+import axios from 'axios';
+import ReservationBox from './ReservationBox';
 
 const Info = ({
   target,
 }) => {
-  const location = useLocation();
+  const params = useParams();
 
-  const [data, setDate] = useState(DUMMY.host);
-  const [selectedDay, setSelectedDay] = useState(moment());
-  const [dataForCalendar, setDataForCalendar] = useState({});
-  const [timeTable, setTimeTable] = useState([]);
+  const [data, setData] = useState(DUMMY.host);
 
-  useEffect(() => {
-    const newDataForCalendar = {};
-
-    data?.posts.forEach(post => {
-      if(!newDataForCalendar[post.startDate]) newDataForCalendar[post.startDate] = 1;
-      else newDataForCalendar[post.startDate]++;
-    })
-
-    console.log(newDataForCalendar);
-    setDataForCalendar(newDataForCalendar);
-  }, [data]);
+  const fetchHostInfo = useCallback(async () => {
+    const result = await axios.get(API.getHostInfo(params.id));
+    console.log(result.data);
+    setData(result.data);
+  })
 
   useEffect(() => {
-    const postsByDate = data.posts.filter(post => post.startDate === selectedDay.format("YYYY-MM-DD"));
-    if(postsByDate.length > 0) {
-      const unit = Number(postsByDate[0].endTime.substring(0, 2)) - Number(postsByDate[0].startTime.substring(0, 2));
-      let dataIdx = 0;
-      let newTimeTable = [];
-      for(let i=0; i+unit<=24; i+=unit) {
-        const newTime = [];
-        newTime.push(i);
-        if(dataIdx < postsByDate.length && Number(postsByDate[dataIdx].startTime.substring(0, 2)) === i) {
-          newTime.push(true);
-          dataIdx++;
-        } 
-        else newTime.push(false);
-        newTimeTable.push(newTime);
-      }
-      setTimeTable(newTimeTable);
-    } else {
-      setTimeTable([]);
+    switch(target) {
+      case SYMBOL.star:
+        break;
+      case SYMBOL.stage:
+        // fetchHostInfo();
+        break;
     }
-  }, [data, selectedDay]);
+  }, [target]);
 
   return (
     <>
@@ -153,103 +116,11 @@ const Info = ({
         </Box>
       </Box>
       <StageDetailInfoBox />
-      <Box
-        sx={{
-          display: 'flex',
-          width: '1200px',
-          m: '0 auto',
-          mt: '25px',
-        }}
-      >
-        <Box
-          sx={{
-            width: 'calc(600px - 100px)',
-            margin: '50px',
-            border: '1px solid gray',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <LocalizationProvider dateAdapter={AdapterMoment}>
-            <StaticDatePicker
-              displayStaticWrapperAs="desktop"
-              value={selectedDay}
-              onChange={(e) => {
-                setSelectedDay(e);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-              renderDay={(days, selectedDays, pickerDayProps) => {
-                return (
-                  <Box sx={{ position: 'relative' }}>
-                    <PickersDay {...pickerDayProps} />
-                    {pickerDayProps.outsideCurrentMonth || !dataForCalendar[days.format("YYYY-MM-DD")] ? (<></>) : (
-                      <Box key={days._d} sx={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'red', width: '5px', height: '5px', borderRadius: '5px' }}>
-                      </Box>
-                    )}
-                    
-                  </Box>
-                )
-              }}
-            >
-
-            </StaticDatePicker>
-          </LocalizationProvider>
-        </Box>
-        <Box
-          sx={{
-            width: 'calc(600px - 100px)',
-            margin: '50px',
-            border: '1px solid gray',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Box sx={{ width: '480px', }}>
-            <ReservationTable timeTable={data?.posts.filter(post => post.startDate === selectedDay.format("YYYY-MM-DD"))} />
-          </Box>
-        </Box>
-      </Box>
-
-      {/* <Box
-        sx={{
-          m: '0 auto',
-          mt: '50px',
-          width: '1200px',
-          display: 'flex',
-          flexWrap: 'wrap',
-          boxShadow: `0 4px 4px ${COLOR.blacky}`,
-        }}
-      >
-        <PostItemWrapper>
-          <PostItem>
-
-          </PostItem>
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-        <PostItemWrapper>
-          <PostItem />
-        </PostItemWrapper>
-      </Box> */}
+      {target === SYMBOL.stage ? (
+        <ReservationBox
+          data={data}
+        />
+      ) : (<></>)}
       {/* 소개글 */}
       <Box
         sx={{
