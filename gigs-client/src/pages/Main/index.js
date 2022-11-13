@@ -1,24 +1,14 @@
-import { Box, TextField, styled, Grid } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import {StaticDatePicker} from '@mui/x-date-pickers/StaticDatePicker';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import { PickersDay } from '@mui/x-date-pickers';
-import moment from 'moment';
-import { orange } from '@mui/material/colors';
+import { Box, Button, styled } from '@mui/material';
+import React, { useCallback } from 'react';
+// import KakaoBtn from '../../../public/img/kakao_login_button.png';
+import axios from 'axios';
+import { API } from '../../utils/Constants';
 
 const Container = styled(Box)((p) => ({
   width: '1200px',
   margin: '0 auto',
   height: '1500px', // 임시
   backgroundColor: 'pink',
-}));
-
-const PostItem = styled(Box)((p) => ({
-  width: '145px',
-  height: '50px',
-  border: '1px solid black',
-  backgroundColor: p.can ? 'orange' : 'white',
 }));
 
 /**
@@ -28,124 +18,17 @@ const PostItem = styled(Box)((p) => ({
 const Main = ({
   children,
 }) => {
-  const [data, setData] = useState({
-    posts: [
-      {
-        startDate: "2022-11-01",
-        //endDate
-        startTime: "12:00",
-        endTime: "14:00",
-      },
-      {
-        startDate: "2022-11-03",
-        //endDate
-        startTime: "02:00",
-        endTime: "04:00",
-      },
-      {
-        startDate: "2022-11-03",
-        //endDate
-        startTime: "06:00",
-        endTime: "08:00",
-      },
-      {
-        startDate: "2022-11-04",
-        //endDate
-        startTime: "02:00",
-        endTime: "04:00",
-      },
-    ],
-  });
-  const [dataForCalendar, setDataForCalendar] = useState({});
-  const [timeTable, setTimeTable] = useState([]);
-  const [selectedDay, setSelectedDay] = useState(moment());
-
-  useEffect(() => {
-    const newDataForCalendar = {};
-
-    data?.posts.forEach(post => {
-      if(!newDataForCalendar[post.startDate]) newDataForCalendar[post.startDate] = 1;
-      else newDataForCalendar[post.startDate]++;
-    })
-
-    console.log(newDataForCalendar);
-    setDataForCalendar(newDataForCalendar);
-  }, [data]);
-
-  useEffect(() => {
-    const postsByDate = data.posts.filter(post => post.startDate === selectedDay.format("YYYY-MM-DD"));
-    if(postsByDate.length > 0) {
-      const unit = Number(postsByDate[0].endTime.substring(0, 2)) - Number(postsByDate[0].startTime.substring(0, 2));
-      let dataIdx = 0;
-      let newTimeTable = [];
-      for(let i=0; i+unit<=24; i+=unit) {
-        const newTime = [];
-        newTime.push(i);
-        if(dataIdx < postsByDate.length && Number(postsByDate[dataIdx].startTime.substring(0, 2)) === i) {
-          newTime.push(true);
-          dataIdx++;
-        } 
-        else newTime.push(false);
-        newTimeTable.push(newTime);
-      }
-      setTimeTable(newTimeTable);
-    } else {
-      setTimeTable([]);
-    }
-  }, [data, selectedDay]);
+  const handleClick = useCallback(async () => {
+    await axios.get(API.testApi);
+  }, []);
 
   return (
     <>
       <Container>
         {children}
-        <Box
-          sx={{
-            width: '1200px',
-            display: 'flex',
-          }}
-        >
-          <Box
-            sx={{
-              width: '600px',
-            }}
-          >
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-              <StaticDatePicker
-                displayStaticWrapperAs="desktop"
-                value={selectedDay}
-                onChange={(e) => {
-                  setSelectedDay(e);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-                renderDay={(days, selectedDays, pickerDayProps) => {
-                  return (
-                    <Box sx={{ position: 'relative' }}>
-                      <PickersDay {...pickerDayProps} />
-                      {pickerDayProps.outsideCurrentMonth || !dataForCalendar[days.format("YYYY-MM-DD")] ? (<></>) : (
-                        <Box sx={{ position: 'absolute', top: '8px', right: '8px', backgroundColor: 'red', width: '5px', height: '5px', borderRadius: '5px' }}>
-                        </Box>
-                      )}
-                      
-                    </Box>
-                  )
-                }}
-              >
-
-              </StaticDatePicker>
-            </LocalizationProvider>
-          </Box>
-          <Box
-            sx={{
-              width: '600px',
-            }}
-          >
-            <Grid container spacing={'0px'} rowSpacing={'0px'}>
-              {timeTable?.map((item, i) => (
-                <Grid key={i}><PostItem can={item[1]}>{item[0]}</PostItem></Grid>              
-              ))}
-            </Grid>
-          </Box>
-        </Box>
+        <Button onClick={handleClick}>
+          api쏘기
+        </Button>
       </Container>
     </>
   );

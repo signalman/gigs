@@ -1,7 +1,9 @@
 package gigsproject.gigs.response;
 
 import gigsproject.gigs.domain.*;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -10,9 +12,9 @@ import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
-@Data
+@Getter
 public class StageCard {
-    private Long postId;
+
     private Long hostId;
     private String imgUrl;
     private String stageName;
@@ -22,47 +24,43 @@ public class StageCard {
     private String targetGender;
     private Integer targetAge;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private LocalTime openTime;
+    private LocalTime closeTime;
 
     private Integer targetMinCount;
 
     private Integer pay;
     private StageType stageType;
-    private List<PostGenreDto> genres;
+//    private List<PostGenreDto> genres;
 
     private Double avgScore;
     private Integer showCount;
     private Integer reviewCount;
 
+    public StageCard(Host host) {
+        this.hostId = host.getHostId();
+        this.imgUrl = host.getImgs().isEmpty() ? "empty" : host.getImgs().get(0).getUrl();
+        this.stageSize = host.getStageSize();
+        this.stageName = host.getStageName();
+        this.address = host.getStageAddress();
+        this.targetGender = String.valueOf(host.getTargetGender());
+        this.targetAge = host.getTargetAge();
+        this.targetMinCount = host.getTargetNumber();
 
-    public StageCard(Post post) {
-        this.postId = post.getPostId();
-        this.hostId = post.getHost().getHostId();
-        this.imgUrl = post.getHost().getImgs().isEmpty() ? "" : post.getHost().getImgs().get(0).getUrl();
-        this.stageName = post.getHost().getStageName();
-        this.address = post.getHost().getStageAddress();
-        this.stageSize = post.getHost().getStageSize();
-        this.targetGender = String.valueOf(post.getHost().getTargetGender());
-        this.targetAge = post.getHost().getTargetAge();
-        this.targetMinCount = post.getHost().getTargetNumber();
+        this.openTime = isNull(host.getOpenTime()) ? null : LocalTime.from(host.getOpenTime());
+        this.closeTime = isNull(host.getCloseTime()) ? null : LocalTime.from(host.getCloseTime());
 
-        this.startDate = isNull(post.getStartDate()) ? null : LocalDate.from(post.getStartDate());
-        this.endDate = isNull(post.getEndDate()) ? null : LocalDate.from(post.getEndDate());
-        this.startTime = isNull(post.getStartTime()) ? null : LocalTime.from(post.getStartTime());
-        this.endTime = isNull(post.getEndTime()) ? null : LocalTime.from(post.getEndTime());
+        this.pay = host.getPay();
+        this.stageType = host.getStageType();
 
-        this.pay  = post.getHost().getPay();
-        this.stageType = post.getHost().getStageType();
+//        this.genres = host.getPosts().
+//        this.genres = post.getPostGenres().stream()
+//                .map(postGenre -> new PostGenreDto(postGenre))
+//                .collect(Collectors.toList());
 
-        this.genres = post.getPostGenres().stream()
-                .map(postGenre -> new PostGenreDto(postGenre))
-                .collect(Collectors.toList());
+        this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
+        this.reviewCount = isNull(host.getReviewCount()) ? 0 : host.getReviewCount();
+        this.avgScore = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 
-        this.showCount = isNull(post.getHost().getShowCount()) ? 0 : post.getHost().getShowCount();
-        this.reviewCount = isNull(post.getHost().getReviewCount()) ? 0 : post.getHost().getReviewCount();
-        this.avgScore = isNull(post.getHost().getAvgScore()) ? 0 : post.getHost().getAvgScore();
     }
 }

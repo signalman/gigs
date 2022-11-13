@@ -1,25 +1,40 @@
 // refactor 221103
 
-import { Box, MenuItem,Fade, Menu} from '@mui/material';
+import { Box, MenuItem,Fade, Menu, Dialog, DialogTitle, DialogContent, Button} from '@mui/material';
 import React , { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { COLOR, PATH } from '../../utils/Constants';
+import { COLOR, PATH, API } from '../../utils/Constants';
 import MenuImg from '../../images/MenuBox.png';
+import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
 
-// TODO: 그냥 헤더에 합치기
+/**
+ * 헤더에 위치한 메뉴 버튼
+ */
 const MyMenuBox = () => {
+  console.log(process.env);
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
+  const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
+
+  // 메뉴 버튼 클릭했을 때
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    const isLogin = false;
+    if(isLogin) setAnchorEl(event.currentTarget);
+    else {
+      setLoginDialogOpen(true);
+    }
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLoginDialogClose = () => {
+    setLoginDialogOpen(false);
+  }
 
   return (
     <>
@@ -58,6 +73,25 @@ const MyMenuBox = () => {
         
         <MenuItem onClick={() => {navigate('/logout'); handleClose()}}>로그아웃</MenuItem>
       </Menu>
+
+      <Dialog
+        open={isLoginDialogOpen}
+        onClose={handleLoginDialogClose}
+      >
+        <DialogTitle>
+          로그인 방법 선택
+        </DialogTitle>
+        <DialogContent sx={{ display:'flex', flexDirection:'column', }}>
+          <a href={API.kakaoAuthorize}>
+            <img src={KakaoLoginButtonImg} alt="asdf"/>
+          </a>
+          {/* <Button
+            onClick={() => {
+              
+            }}
+          ></Button> */}
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

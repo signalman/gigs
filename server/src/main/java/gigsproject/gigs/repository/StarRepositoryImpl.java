@@ -72,7 +72,7 @@ public class StarRepositoryImpl implements StarRepositoryCustom{
         return isNull(genres) ? null : star.starGenres.any().genre.in(genres);
     }
     private Predicate starAddressEq(String address) {
-        return hasText(address) ? star.user.address.cityName.eq(address) : null;
+        return hasText(address) ? star.user.address.siDo.eq(address) : null;
     }
     private Predicate starGenderEq(String gender) {
         return hasText(gender) ? star.gender.eq(Gender.valueOf(gender)) : null;

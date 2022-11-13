@@ -1,5 +1,5 @@
 package gigsproject.gigs.domain;
 
 public enum Role {
-    STAR, HOST
+    ROLE_STAR, ROLE_HOST
 }

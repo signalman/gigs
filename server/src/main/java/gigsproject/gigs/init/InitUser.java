@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 import static gigsproject.gigs.domain.Gender.*;
 import static gigsproject.gigs.domain.Genre.*;
-import static gigsproject.gigs.domain.Role.HOST;
-import static gigsproject.gigs.domain.Role.STAR;
+import static gigsproject.gigs.domain.Role.ROLE_HOST;
+import static gigsproject.gigs.domain.Role.ROLE_STAR;
 import static gigsproject.gigs.domain.StageType.*;
 
 @Profile("local")
@@ -39,19 +39,17 @@ public class InitUser {
         public void init() {
 
             //주소 더미데이터 생성
-            Address address1 = new Address("수원시", "장안구", "율전동");
-            Address address2 = new Address("서울시", "중구", "이태원동");
-            Address address3 = new Address("수원시", "영통구", "매탄동");
-            Address address4 = new Address("서울시", "동작구", "사당동");
+            Address address1 = new Address("경기도 수원시", "영통구", "경기도 수원시 영통구 매탄대로 21길 23", "313번지");
+            Address address2 = new Address("경기도 수원시", "권선구", "경기도 수원시 권선구 햇빛로 77길 11", "11동 220호");
+            Address address3 = new Address("경기도 용인시", "수지구", "경기도 용인시 수지구 풍덕천로 41길 5", "222동 333호");
 
             for (int i = 0; i < 100; i++) {
 
                 User user = User.builder()
                         .uid("uid" + i)
                         .name("유저" + i)
-                        .role(STAR)
+                        .role(ROLE_STAR)
                         .phone("01012345678")
-                        .password("ppwwee")
                         .address(address1)
                         .build();
                 em.persist(user);
@@ -208,14 +206,15 @@ public class InitUser {
             User user = User.builder()
                     .uid("1234567")
                     .name("유저")
-                    .role(HOST)
+                    .role(ROLE_HOST)
                     .phone("01012345678")
-                    .password("ppwwee")
-                    .address(new Address("수원시", "팔달구", "인계동"))
+                    .address(address2)
                     .build();
             em.persist(user);
 
-            Address stageAddress = new Address("수원시", "팔달구", "우만동");
+
+            Address stageAddress = address3;
+
             Host host1 = Host.builder()
                     .user(user)
                     .stageName("abc")
@@ -298,6 +297,7 @@ public class InitUser {
                     .avgScore(4.3)
                     .reviewCount(22)
                     .build();
+
             em.persist(host1);
             em.persist(host2);
             em.persist(host3);
@@ -328,8 +328,6 @@ public class InitUser {
             LocalDate endDate5 = LocalDate.of(2022, 11, 15);
             LocalTime startTime5 = LocalTime.of(16, 0);
             LocalTime endTime5 = LocalTime.of(21, 0);
-
-
 
             Post post1 = Post.builder()
                     .host(host1)

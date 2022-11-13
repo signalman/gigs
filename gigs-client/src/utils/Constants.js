@@ -5,6 +5,8 @@ const queryString = (arr) => arr.reduce((p, c, ci, a) => p + (c[1] !== 0 && !c[1
 export const DEV = true;
 
 export const API = {
+  signUp: () => `${BASE_URL}/signup`,
+  getCookie: () => `${BASE_URL}/wait`,
   getStarCards: ({name, stageTypes, genres, address, gender,}, sort, size, page) => `${BASE_URL}/stars${queryString([
     ['name', name],
     ['stageTypes', stageTypes?.join(',')],
@@ -31,6 +33,9 @@ export const API = {
     ['size', size],
     ['page', page],
   ])}`,
+  kakaoAuthorize: `http://localhost:8080/oauth2/authorization/kakao`,
+  getUserName: (uuid) => `${BASE_URL}/signup${queryString([['uuid', uuid]])}`,
+  testApi: `${BASE_URL}/test/auth`,
 };
 
 export const PATH = {
