@@ -1,6 +1,9 @@
 package gigsproject.gigs.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -10,15 +13,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Proposal {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long proposalId;
 
-    private Boolean type;
+    private Boolean type; //true: 스타->호스트   false: 호스트 -> 스타    현재는 스타->호스트만 구현한다.
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)  @JoinColumn(name = "hostId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "hostId")
     private Host host;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "starId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "starId")
     private Star star;
 
     private LocalDateTime createdAt;
