@@ -1,6 +1,7 @@
 package gigsproject.gigs.service;
 
 import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.request.StageSearch;
@@ -23,6 +24,7 @@ public class HostService {
 
     /**
      * 무대 찾기 서비스
+     *
      * @param stageSearch
      * @param pageable
      * @return
@@ -39,4 +41,7 @@ public class HostService {
         return hostResponse;
     }
 
+    public Host findByUser(User user) {
+        return hostRepository.findByUser(user);
+    }
 }

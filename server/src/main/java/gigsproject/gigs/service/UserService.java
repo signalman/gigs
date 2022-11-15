@@ -15,10 +15,7 @@ public class UserService {
     private final StarRepository starRepository;
     private final HostRepository hostRepository;
 
-    //todo - 주소 아직 구현안함. 이후 넣어줘야함.
-    public void createUser(SignUpForm signUpForm){
-        //    id, name, siDo, siGun, road, detail, phoneNumber, role
-
+    public void createUser(SignUpForm signUpForm) {
         //Address 객체 생성
         Address address = new Address(signUpForm.getSiDo(), signUpForm.getSiGun(), signUpForm.getRoad(), signUpForm.getDetail());
 
@@ -40,12 +37,13 @@ public class UserService {
             hostRepository.save(host);
         }
         //유저가 star를 선택했다면 star 테이블에도 저장.
-        else{
+        else {
             Star star = Star.builder()
                     .user(user)
                     .build();
             starRepository.save(star);
         }
-
     }
+
+
 }

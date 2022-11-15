@@ -1,6 +1,7 @@
 package gigsproject.gigs.service;
 
 import gigsproject.gigs.domain.Star;
+import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.StarRepository;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
@@ -16,7 +17,7 @@ import java.util.List;
 public class StarService {
     private final StarRepository starRepository;
 
-    public void createStars(Star star){
+    public void createStars(Star star) {
         starRepository.save(star);
     }
 
@@ -24,11 +25,15 @@ public class StarService {
         return starRepository.getReferenceById(id);
     }
 
-    public List<Star> findAll(){
+    public List<Star> findAll() {
         return starRepository.findAll();
     }
 
     public Page<StarCard> getStarCardListCond(StarSearch starSearch, Pageable pageable) {
         return starRepository.getStarCardListCond(starSearch, pageable);
+    }
+
+    public Star findByUser(User user) {
+        return starRepository.findByUser(user);
     }
 }
