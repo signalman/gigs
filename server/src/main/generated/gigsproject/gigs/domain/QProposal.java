@@ -26,7 +26,7 @@ public class QProposal extends EntityPathBase<Proposal> {
 
     public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
 
-    public final QHost host;
+    public final QPost post;
 
     public final NumberPath<Long> proposalId = createNumber("proposalId", Long.class);
 
@@ -58,7 +58,7 @@ public class QProposal extends EntityPathBase<Proposal> {
 
     public QProposal(Class<? extends Proposal> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.host = inits.isInitialized("host") ? new QHost(forProperty("host"), inits.get("host")) : null;
+        this.post = inits.isInitialized("post") ? new QPost(forProperty("post"), inits.get("post")) : null;
         this.star = inits.isInitialized("star") ? new QStar(forProperty("star"), inits.get("star")) : null;
     }
 

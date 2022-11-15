@@ -7,15 +7,15 @@ import java.time.LocalDateTime;
 
 @Data
 public class History {
-    private Long hostId;
+    private Long postId;
     private String stageName;
     private Long starId;
     private String starName;
     private LocalDateTime dateTime;
 
-    History(Proposal proposal) {
-        this.hostId = proposal.getHost().getHostId();
-        this.stageName = proposal.getHost().getStageName();
+    public History(Proposal proposal) {
+        this.postId = proposal.getPost().getPostId();
+        this.stageName = proposal.getPost().getHost().getStageName();
         this.starId = proposal.getStar().getStarId();
         this.starName = proposal.getStar().getName();
         this.dateTime = proposal.getShowStartTime();

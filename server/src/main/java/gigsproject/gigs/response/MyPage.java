@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.List;
 
+//todo
 @Data
 public class MyPage {
 
@@ -14,6 +15,17 @@ public class MyPage {
     List<History> histories;
 
     //받은 제안서 - 스타는 제안서 x
-    List<ProposalDto> proposalList;
+    List<ProposalDto> proposals;
+
+    public MyPage(UserDto user, List<History> histories, List<ProposalDto> proposals) {
+        this.user = user;
+        this.histories = histories;
+        this.proposals = proposals;
+    }
+
+    public MyPage(UserDto user, List<History> histories) {
+        this.user = user;
+        this.histories = histories;
+    }
 
 }
