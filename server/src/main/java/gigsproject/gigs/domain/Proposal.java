@@ -1,9 +1,6 @@
 package gigsproject.gigs.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,12 +9,14 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class Proposal {
     @Id
     @GeneratedValue
     private Long proposalId;
 
-    private Boolean type; //true: 스타->호스트   false: 호스트 -> 스타    현재는 스타->호스트만 구현한다.
+    //true: 스타->호스트   false: 호스트 -> 스타    현재는 스타->호스트만 구현한다.
+//    private Boolean type;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "postId")
@@ -31,7 +30,7 @@ public class Proposal {
 
     @Lob
     private String content;
-
+    
     private LocalDateTime showStartTime;
     private LocalDateTime showEndTime;
 
