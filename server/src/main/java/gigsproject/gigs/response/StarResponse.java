@@ -2,7 +2,6 @@ package gigsproject.gigs.response;
 
 import gigsproject.gigs.domain.Gender;
 import gigsproject.gigs.domain.Star;
-import gigsproject.gigs.domain.StarImg;
 import gigsproject.gigs.domain.StarStatus;
 import lombok.Data;
 
@@ -22,7 +21,7 @@ public class StarResponse {
 
     private List<StarStageTypeDto> starStageTypes;
     private List<StarGenreDto> starGenres;
-    private List<StarImg> starImgs;
+    private List<StarImgDto> starImgs;
     private List<ReviewDto> reviews;
     private List<ProposalDto> proposals;
 
@@ -38,7 +37,8 @@ public class StarResponse {
                 .map(s -> new StarStageTypeDto(s)).collect(Collectors.toList());
         this.starGenres = star.getStarGenres().stream()
                 .map(s -> new StarGenreDto(s)).collect(Collectors.toList());
-        this.starImgs = star.getStarImgs();
+        this.starImgs = star.getStarImgs().stream()
+                .map(i -> new StarImgDto(i)).collect(Collectors.toList());
         this.reviews = star.getReviews().stream()
                 .map(r -> new ReviewDto(r)).collect(Collectors.toList());
         this.proposals = star.getProposals().stream()

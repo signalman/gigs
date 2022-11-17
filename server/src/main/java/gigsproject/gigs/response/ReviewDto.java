@@ -3,9 +3,11 @@ package gigsproject.gigs.response;
 import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Review;
 import gigsproject.gigs.domain.Star;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class ReviewDto {
 
     private Long reviewId;
