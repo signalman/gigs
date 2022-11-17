@@ -38,8 +38,6 @@ public class QProposal extends EntityPathBase<Proposal> {
 
     public final QStar star;
 
-    public final BooleanPath type = createBoolean("type");
-
     public QProposal(String variable) {
         this(Proposal.class, forVariable(variable), INITS);
     }
