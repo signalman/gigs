@@ -74,8 +74,7 @@ public class Host extends BaseTimeEntity{
         Post post = Post.builder()
                 .host(this)
 //                .postGenres()
-                .startDate(postSave.getStartDate())
-                .endDate(postSave.getEndDate())
+                .date(postSave.getDate())
                 .startTime(postSave.getStartTime())
                 .endTime(postSave.getEndTime())
                 .build();

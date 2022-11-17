@@ -1,8 +1,10 @@
 import { Box, Button, styled } from '@mui/material';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 // import KakaoBtn from '../../../public/img/kakao_login_button.png';
 import axios from 'axios';
 import { API } from '../../utils/Constants';
+
+const {kakao} = window;
 
 const Container = styled(Box)((p) => ({
   width: '1200px',

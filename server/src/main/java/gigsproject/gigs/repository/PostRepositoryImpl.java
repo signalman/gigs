@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -32,8 +31,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    private final EntityManager em;
-
     @Override
     public Page<StageCard> getList(StageSearch stageSearch, Pageable pageable) {
         QPost post = QPost.post;
@@ -45,7 +42,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
-                        starAddressEq(stageSearch.getAddress()),
+                        stageAddressEq(stageSearch.getAddress()),
                         stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
@@ -68,7 +65,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
-                        starAddressEq(stageSearch.getAddress()),
                         stageAddressEq(stageSearch.getAddress()),
                         stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
@@ -98,9 +94,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return isNull(genres) ? null : post.postGenres.any().genre.in(genres);
     }
 
-    private Predicate starAddressEq(String address) {
-        return hasText(address) ? host.user.address.siDo.eq(address) : null;
-    }
     private Predicate stageAddressEq(String address) {
         return hasText(address) ? host.stageAddress.siDo.eq(address) : null;
     }
@@ -116,19 +109,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         if (startDate == null) {
             if (endDate == null) {
-                // x <= <= x
                 return null;
             } else {
                 // x <=  <= o
-                return post.endDate.loe(endDate);
+                return post.date.loe(endDate);
             }
         } else {
             if (endDate == null) {
                 //o <=  <= x
-                return post.startDate.goe(startDate);
+                return post.date.goe(startDate);
             }
             //o <= <= o
-            return post.startDate.goe(startDate).and(post.endDate.loe(endDate));
+            return post.date.goe(startDate).and(post.date.loe(endDate));
         }
     }
 

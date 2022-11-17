@@ -3,6 +3,7 @@ package gigsproject.gigs.controller;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
+import gigsproject.gigs.service.HostService;
 import gigsproject.gigs.service.PostService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class StageController {
 
-    private final PostService hostService;
+    private final HostService hostService;
     /**
      *  무대 검색
      */
