@@ -12,7 +12,6 @@ import Search from '../Search';
 import { SYMBOL } from '../../utils/Constants';
 import SignUp from '../SignUp';
 import Info from '../Info';
-import TmpPage from '../TmpPage';
 import MyPage from '../MyPage';
 
 /**
@@ -33,7 +32,6 @@ const Frame = () => {
         <Route path="/stars/:id" element={<Info target={SYMBOL.star} />} />
         <Route path="/review" element={<Main>이용 후기</Main>} />
         <Route path="/signup" element={<SignUp/>} />
-        <Route path="/wait" element={<TmpPage/>} />
         <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </Box>
