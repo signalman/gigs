@@ -13,6 +13,7 @@ import { SYMBOL } from '../../utils/Constants';
 import SignUp from '../SignUp';
 import Info from '../Info';
 import TmpPage from '../TmpPage';
+import MyPage from '../MyPage';
 
 /**
  * 헤더의 위치를 잡아주고 바디의 페이지를 라우팅해주는 페이지
@@ -33,6 +34,7 @@ const Frame = () => {
         <Route path="/review" element={<Main>이용 후기</Main>} />
         <Route path="/signup" element={<SignUp/>} />
         <Route path="/wait" element={<TmpPage/>} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </Box>
   </>
