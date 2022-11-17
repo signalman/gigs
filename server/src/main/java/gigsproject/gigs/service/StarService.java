@@ -5,6 +5,7 @@ import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.StarRepository;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
+import gigsproject.gigs.response.StarResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,4 +37,11 @@ public class StarService {
     public Star findByUser(User user) {
         return starRepository.findByUser(user);
     }
+
+    public StarResponse findById(Long id) {
+        Star star = starRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 스타가 존재하지 않습니다."));
+        return new StarResponse(star);
+    }
+
 }
