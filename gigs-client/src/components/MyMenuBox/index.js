@@ -1,15 +1,18 @@
 // refactor 221103
 
-import { Box, MenuItem,Fade, Menu, Dialog, DialogTitle, DialogContent, Button} from '@mui/material';
-import React , { useState } from 'react';
+import { Box, MenuItem, Fade, Menu, Dialog, DialogTitle, DialogContent, Button } from '@mui/material';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { COLOR, PATH, API } from '../../utils/Constants';
 import MenuImg from '../../images/MenuBox.png';
 import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
+import { useCookies } from 'react-cookie';
+import Swal from "sweetalert2";
 
 /**
  * 헤더에 위치한 메뉴 버튼
  */
+
 const MyMenuBox = () => {
   console.log(process.env);
   const navigate = useNavigate();
@@ -18,11 +21,24 @@ const MyMenuBox = () => {
   const open = Boolean(anchorEl);
 
   const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+
+  const menuCookie = useCookies('userName')
+  const [, , removeCookie] = useCookies('userName')
+  //console.log(menuCookie)
+  
+  useEffect(() => {
+    if (Object.keys(menuCookie[0]).length !== 0) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [menuCookie]);
 
   // 메뉴 버튼 클릭했을 때
   const handleClick = (event) => {
-    const isLogin = false;
-    if(isLogin) setAnchorEl(event.currentTarget);
+
+    if (isLogin) setAnchorEl(event.currentTarget);
     else {
       setLoginDialogOpen(true);
     }
@@ -55,10 +71,10 @@ const MyMenuBox = () => {
           sx={{
             width: '30px',
             height: '30px',
-            p : 0,
+            p: 0,
           }}
         >
-          <img alt="menu_box" src={MenuImg} width="30px" height="30px"/>
+          <img alt="menu_box" src={MenuImg} width="30px" height="30px" />
         </Box>
       </Box>
       <Menu
@@ -67,11 +83,25 @@ const MyMenuBox = () => {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        <MenuItem onClick={() => {navigate(PATH.myPage); handleClose()}}>내 정보</MenuItem>
+        <MenuItem onClick={() => { navigate(PATH.myPage); handleClose() }}>내 정보</MenuItem>
         {/* TODO: 포스트 등록과 로그아웃은 따로 모달로 처리 */}
-        <MenuItem onClick={() => {navigate('/posts'); handleClose()}}>포스트 등록</MenuItem>
-        
-        <MenuItem onClick={() => {navigate('/logout'); handleClose()}}>로그아웃</MenuItem>
+        <MenuItem onClick={() => { navigate('/posts'); handleClose() }}>포스트 등록</MenuItem>
+
+        <MenuItem onClick={() => {
+          Swal.fire({
+            icon: "question",
+            title: "로그아웃",
+            text: "로그아웃 하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonText: "예",
+            cancelButtonText: "아니요",
+          }).then((res) => {
+            if (res.isConfirmed) {
+              removeCookie('userName', { path: '/' })
+              window.location.replace('/')
+            }
+          }); handleClose()
+        }}>로그아웃</MenuItem>
       </Menu>
 
       <Dialog
@@ -81,9 +111,9 @@ const MyMenuBox = () => {
         <DialogTitle>
           로그인 방법 선택
         </DialogTitle>
-        <DialogContent sx={{ display:'flex', flexDirection:'column', }}>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', }}>
           <a href={API.kakaoAuthorize}>
-            <img src={KakaoLoginButtonImg} alt="asdf"/>
+            <img src={KakaoLoginButtonImg} alt="asdf" />
           </a>
           {/* <Button
             onClick={() => {
