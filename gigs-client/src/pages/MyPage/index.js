@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MyAccountBox from './MyAccountBox';
 import MyHistoryBox from './MyHistoryBox';
 import MyInfoBox from './MyInfoBox';
