@@ -6,18 +6,17 @@ import { COLOR } from '../../utils/Constants';
 const { kakao } = window;
 
 const Container = styled(Box)((props) => ({
-  width: '1180px',
-  height: '280px',
+  width: '480px',
+  height: '480px',
   margin: '0 auto',
-  marginTop: '25px',
   padding: '10px',
   boxShadow: '0 0 2px black',
 }));
 
 const NotFoundBox = styled(Box)((props) => ({
-  width: '1180px',
-  height: '280px',
-  lineHeight: '280px',
+  width: '480px',
+  height: '480px',
+  lineHeight: '480px',
   fontSize: '30px',
   color: COLOR.grey,
   textAlign: 'center',
@@ -76,8 +75,8 @@ const MapBox = ({
       <div
         id='kakao_map'
         style={{
-          width: '1180px',
-          height: isValidAddress ? '280px' : '0',
+          width: '480px',
+          height: isValidAddress ? '480px' : '0',
         }}
       ></div>
       {isValidAddress ? (<></>) : (

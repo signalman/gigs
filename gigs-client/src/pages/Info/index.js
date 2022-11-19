@@ -1,5 +1,5 @@
 import { Box, } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import StageDummyImg from '../../images/stage_tmp.jpg';
 import StarDummyImg from '../../images/star_tmp.jpg';
@@ -13,6 +13,7 @@ import Introduction from './Introduction';
 import MapBox from './MapBox';
 import { fetchHostInfo, fetchStarInfo } from '../../utils/Api';
 import StarDetailInfoBox from './StarDetailInfoBox';
+import SimpleEditTexetDialog from './dialogs/SimpleEditTextDialog';
 
 const Info = ({
   target,
@@ -20,6 +21,33 @@ const Info = ({
   const params = useParams();
 
   const [data, setData] = useState(DUMMY.host);
+
+  const [isEditAreaDialogOpen, setEditAreaDialogOpen] = useState(false);
+  const [isEditPayDialogOpen, setEditPayDialogOpen] = useState(false);
+
+  const handleEdit = useCallback((key) => {
+    return (value) => {
+      const newData = {...data}
+      newData[key] = value;
+      console.log(newData);
+    }
+  }, [data]);
+
+  const openEditAreaDialog = () => {
+    setEditAreaDialogOpen(true);
+  }
+
+  const handleEditAreaDialogClose = () => {
+    setEditAreaDialogOpen(false);
+  }
+  
+  const openEditPayDialog = () => {
+    setEditPayDialogOpen(true);
+  }
+
+  const handleEditPayDialogClose = () => {
+    setEditPayDialogOpen(false);
+  }
 
   useEffect(() => {
     switch(target) {
@@ -60,6 +88,8 @@ const Info = ({
             stageType: response.data.stageType,
           }
 
+          console.log(newData);
+
           setData(newData);
         });
         break;
@@ -72,42 +102,55 @@ const Info = ({
       <Box sx={{ width: '100%', height: '300px', overflow: 'hidden', display: 'flex', alignItems: 'center', }}>
         <img src={target === SYMBOL.stage ? StageDummyImg : StarDummyImg} alt="img" width="100%" />
       </Box>
+
       <InfoTitle titleInfo={{
         name: data.name,
         address: data.address,
         score: data.score,
         reviewCount: data.reviewCount,
       }} />
-      {target === SYMBOL.stage ? (
-        <StageDetailInfoBox detailInfo={{
-          stageSize: data?.stageSize,
-          targetAge: data?.targetAge,
-          targetGender: data?.targetGender,
-          targetMinCount: data?.targetMinCount,
-          pay: data?.pay,
-          showCount: data?.showCount,
-          stageType: data?.stageType,
-        }} />
-      ) : (
-        <StarDetailInfoBox detailInfo={{
-          genres: data.genres,
-          gender: data.gender,
-          memberNumber: data.memberNumber,
-          stageTypes: data.stageTypes,
-          showCount: data.showCount,
-        }} />
-      )} 
+
+      <Box sx={{ width: '1200px', display: 'flex', m: '0 auto', mt: '25px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
+        {target === SYMBOL.stage ? (
+          <StageDetailInfoBox
+            detailInfo={{
+              stageSize: data?.stageSize,
+              targetAge: data?.targetAge,
+              targetGender: data?.targetGender,
+              targetMinCount: data?.targetMinCount,
+              pay: data?.pay,
+              showCount: data?.showCount,
+              stageType: data?.stageType,
+            }}
+            openEditAreaDialog={openEditAreaDialog}
+            openEditPayDialog={openEditPayDialog}
+          />
+        ) : (
+          <StarDetailInfoBox detailInfo={{
+            genres: data.genres,
+            gender: data.gender,
+            memberNumber: data.memberNumber,
+            stageTypes: data.stageTypes,
+            showCount: data.showCount,
+          }} />
+        )} 
+
+        {target === SYMBOL.stage ? (
+          <MapBox address={data.address} />
+        ) : (<></>)}
+      </Box>
       
       {target === SYMBOL.stage ? (
         <ReservationBox data={data} />
       ) : (<></>)}
       {/* 소개글 */}
       <Introduction introduce={data.introduce}/>
-      {target === SYMBOL.stage ? (
-        <MapBox address={data.address} />
-      ) : (<></>)}
       {/* 리뷰 */}
       <ReviewBox />
+
+      {/* Dialogs */}
+      <SimpleEditTexetDialog open={isEditAreaDialogOpen} onClose={handleEditAreaDialogClose} title="면적 변경" type="number" onEdit={handleEdit("stageSize")}  />
+      <SimpleEditTexetDialog open={isEditPayDialogOpen} onClose={handleEditPayDialogClose} title="가격 변경" type="number" onEdit={handleEdit("pay")}  />
     </>
     
   );
