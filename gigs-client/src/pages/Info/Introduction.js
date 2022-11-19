@@ -26,14 +26,14 @@ const Content = styled(Box)((props) => ({
 }));
 
 const Introduction = ({
-  introduction,
+  introduce,
 }) => {
   return (
     <Container>
       <Title>
         소개글
       </Title>
-      <Content dangerouslySetInnerHTML={{__html: introduction}} />
+      <Content dangerouslySetInnerHTML={{__html: introduce}} />
     </Container>
   );
 };

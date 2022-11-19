@@ -59,13 +59,15 @@ const InfoTitle = ({
   const {
     name,
     address,
-    avgScore,
+    score,
     reviewCount,
   } = titleInfo;
+
+  console.log(titleInfo);
   return (
     <Container>
       <Name>{name}</Name>
-      <Address>{address.road}</Address>
+      <Address>{address ? `${address.siDo} ${address.siGun} ${address.road}` : ''}</Address>
       <ButtonBox>
         <ConnectButton variant='contained'>연결</ConnectButton>
         <RatingBox>
@@ -73,7 +75,7 @@ const InfoTitle = ({
             sx={{ width: `75px` }}
             emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
             icon={<StarIcon sx={{ width: `15px`, height: `15px` }}></StarIcon>}
-            value={Number(avgScore)} precision={0.1} readOnly
+            value={Number(score)} precision={0.1} readOnly
           />
           <ReviewCount fontSize="10px">{`(${reviewCount})`}</ReviewCount>
           <ArrowForwardIosIcon sx={{ height: '10px' }} />

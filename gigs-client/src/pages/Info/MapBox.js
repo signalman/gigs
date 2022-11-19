@@ -45,12 +45,10 @@ const MapBox = ({
     // 아직 지도가 로드되지 않았다면 실행 취소
     if(!map) return;
 
-    console.log(address.road);
-
     // 주소로 위치 검색
     const geocoder = new kakao.maps.services.Geocoder();
     console.log("Search!")
-    geocoder.addressSearch(address.road, (result, status) => {
+    geocoder.addressSearch(address?.road, (result, status) => {
       if(status === kakao.maps.services.Status.OK) {
         setValidAddress(true);
 
@@ -82,7 +80,7 @@ const MapBox = ({
           height: isValidAddress ? '280px' : '0',
         }}
       ></div>
-      {isValidAddress || (
+      {isValidAddress ? (<></>) : (
         <NotFoundBox>지도를 불러오는 중입니다...</NotFoundBox>
       )}
       
