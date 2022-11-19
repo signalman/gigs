@@ -11,6 +11,7 @@ import DetailInfoItem from './DetailInfoItem';
 const StageDetailInfoBox = ({
   detailInfo,
   openEditAreaDialog,
+  openEditTargetDialog,
   openEditPayDialog,
 }) => {
   const {
@@ -31,9 +32,9 @@ const StageDetailInfoBox = ({
       }}
     >
       <DetailInfoItem Icon={PhotoSizeSelectSmallIcon} onEdit={openEditAreaDialog} >{`${stageSize}m^2`}</DetailInfoItem>
-      <DetailInfoItem Icon={PeopleIcon}>{`${targetAge}대 ${targetGender} ${targetMinCount}인 이상`}</DetailInfoItem>
+      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditTargetDialog}>{`${targetAge}대 ${targetGender} ${targetMinCount}인 이상`}</DetailInfoItem>
       <DetailInfoItem Icon={LocalAtmIcon} onEdit={openEditPayDialog}>{`${pay}원 이상`}</DetailInfoItem>
-      <DetailInfoItem Icon={MicExternalOnIcon}>{`${showCount}회 이상`}</DetailInfoItem>
+      <DetailInfoItem Icon={MicExternalOnIcon} uneditable>{`${showCount}회 이상`}</DetailInfoItem>
       <DetailInfoItem Icon={LocationOnIcon}>{stageType}</DetailInfoItem>
     </Box>
   );

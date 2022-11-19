@@ -14,6 +14,8 @@ import MapBox from './MapBox';
 import { fetchHostInfo, fetchStarInfo } from '../../utils/Api';
 import StarDetailInfoBox from './StarDetailInfoBox';
 import SimpleEditTexetDialog from './dialogs/SimpleEditTextDialog';
+import EditTargetDialog from './dialogs/EditTargetDialog';
+import useDialog from '../../hooks/useDialog';
 
 const Info = ({
   target,
@@ -22,32 +24,21 @@ const Info = ({
 
   const [data, setData] = useState(DUMMY.host);
 
-  const [isEditAreaDialogOpen, setEditAreaDialogOpen] = useState(false);
-  const [isEditPayDialogOpen, setEditPayDialogOpen] = useState(false);
+  const [isEditAreaDialogOpen, openEditAreaDialog, closeEditAreaDialog] = useDialog();
+  const [isEditTargetDialogOpen, openEditTargetDialog, closeEditTargetDialog] = useDialog();
+  const [isEditPayDialogOpen, openEditPayDialog, closeEditPayDialog] = useDialog();
 
-  const handleEdit = useCallback((key) => {
-    return (value) => {
+  const handleEdit = useCallback((keys) => {
+    return (values) => {
       const newData = {...data}
-      newData[key] = value;
+
+      for(let i = 0; i < keys.length; i++) {
+        newData[keys[i]] = values[i];
+      }
+      
       console.log(newData);
     }
   }, [data]);
-
-  const openEditAreaDialog = () => {
-    setEditAreaDialogOpen(true);
-  }
-
-  const handleEditAreaDialogClose = () => {
-    setEditAreaDialogOpen(false);
-  }
-  
-  const openEditPayDialog = () => {
-    setEditPayDialogOpen(true);
-  }
-
-  const handleEditPayDialogClose = () => {
-    setEditPayDialogOpen(false);
-  }
 
   useEffect(() => {
     switch(target) {
@@ -123,6 +114,7 @@ const Info = ({
               stageType: data?.stageType,
             }}
             openEditAreaDialog={openEditAreaDialog}
+            openEditTargetDialog={openEditTargetDialog}
             openEditPayDialog={openEditPayDialog}
           />
         ) : (
@@ -149,8 +141,9 @@ const Info = ({
       <ReviewBox />
 
       {/* Dialogs */}
-      <SimpleEditTexetDialog open={isEditAreaDialogOpen} onClose={handleEditAreaDialogClose} title="면적 변경" type="number" onEdit={handleEdit("stageSize")}  />
-      <SimpleEditTexetDialog open={isEditPayDialogOpen} onClose={handleEditPayDialogClose} title="가격 변경" type="number" onEdit={handleEdit("pay")}  />
+      <SimpleEditTexetDialog open={isEditAreaDialogOpen} onClose={closeEditAreaDialog} title="면적 변경" type="number" onEdit={handleEdit(["stageSize"])}  />
+      <EditTargetDialog open={isEditTargetDialogOpen} onClose={closeEditTargetDialog} title="고객층 변경" onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />
+      <SimpleEditTexetDialog open={isEditPayDialogOpen} onClose={closeEditPayDialog} title="가격 변경" type="number" onEdit={handleEdit(["pay"])}  />
     </>
     
   );

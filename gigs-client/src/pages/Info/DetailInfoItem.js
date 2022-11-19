@@ -32,6 +32,7 @@ const ItemContent = styled(Typography)((props) => ({
 const DetailInfoItem = ({
   Icon,
   children,
+  uneditable,
   onEdit,
 }) => {
   return (
@@ -40,9 +41,11 @@ const DetailInfoItem = ({
         <Icon sx={IconStyle} />
       </IconBox>
       <ItemContent>{children}</ItemContent>
-      <IconBox onClick={() => onEdit()} sx={{ cursor: 'pointer', }}>
-        <EditIcon sx={IconStyle} />
-      </IconBox>
+      {uneditable ? (<></>) : (
+        <IconBox onClick={() => onEdit()} sx={{ cursor: 'pointer', }}>
+          <EditIcon sx={IconStyle} />
+        </IconBox>
+      )}
     </Container>
   );
 };

@@ -15,7 +15,7 @@ const SimpleEditTexetDialog = ({
   }
 
   const handleEditClick = useCallback(() => {
-    onEdit(text);
+    onEdit([text]);
     onClose();
   }, [text, onEdit, onClose]);
 
