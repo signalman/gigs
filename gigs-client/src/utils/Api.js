@@ -7,6 +7,15 @@ export const fetchMyPage = async (callback) => {
   callback(response);
 }
 
+export const toggleStarStatus = async (onSuccess, onError) => {
+  try {
+    const response = await ax.post("/mypage/status");
+    onSuccess(response);
+  } catch (err) {
+    onError(err);
+  }
+}
+
 export const fetchHostInfo = async (hostId, callback) => {
   const response = await ax.get(`/stages/${hostId}`);
   callback(response);
