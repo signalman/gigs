@@ -39,9 +39,9 @@ public class InitUser {
         public void init() {
 
             //주소 더미데이터 생성
-            Address address1 = new Address("경기도 수원시", "영통구", "경기도 수원시 영통구 매탄대로 21길 23", "313번지");
-            Address address2 = new Address("경기도 수원시", "권선구", "경기도 수원시 권선구 햇빛로 77길 11", "11동 220호");
-            Address address3 = new Address("경기도 용인시", "수지구", "경기도 용인시 수지구 풍덕천로 41길 5", "222동 333호");
+            Address address1 = new Address("경기도 수원시", "영통구", "매탄대로 21길 23", "313번지");
+            Address address2 = new Address("경기도 수원시", "권선구", "햇빛로 77길 11", "11동 220호");
+            Address address3 = new Address("경기도 용인시", "수지구", "풍덕천로 41길 5", "222동 333호");
 
             for (int i = 0; i < 100; i++) {
 
