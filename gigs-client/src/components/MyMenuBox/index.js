@@ -14,7 +14,6 @@ import Swal from "sweetalert2";
  */
 
 const MyMenuBox = () => {
-  console.log(process.env);
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);

@@ -7,12 +7,17 @@ const buttonStyle = {
   height: '40px',
 }
 
-const MyAccountBox = () => {
+const MyAccountBox = ({
+  user,
+}) => {
+  const { uid, name, address, phoneNumber, role } = user;
+
   return (
     <Box sx={{ width: '100%' }}>
-      <MyAccountItem></MyAccountItem>
-      <MyAccountItem></MyAccountItem>
-      <MyAccountItem></MyAccountItem>
+      <MyAccountItem title="유저 아이디">{uid}</MyAccountItem>
+      <MyAccountItem title="이름">{name}</MyAccountItem>
+      <MyAccountItem title="주소">{address?.road}</MyAccountItem>
+      <MyAccountItem title="연락처">{phoneNumber}</MyAccountItem>
       <Box sx={{
           width: '100%',
           height: '50px',

@@ -1,18 +1,29 @@
 import { Box } from '@mui/material';
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import MyAccountBox from './MyAccountBox';
 import MyHistoryBox from './MyHistoryBox';
 import MyInfoBox from './MyInfoBox';
 import MyPageItem from './MyPageItem';
 import MyProposalBox from './MyProposalBox';
+import { fetchMyPage } from '../../utils/Api';
 
 const MyPage = () => {
+  const [user, setUser] = useState({});
+
+  useEffect(() => {
+    fetchMyPage((response) => {
+      console.log(response);
+
+      setUser(response.data.user);
+    })
+  }, []);
+
   return (
     <Box sx={{ width: '1200px', margin: '0 auto', }}>
       <MyPageItem title="내 계정">
-        <MyAccountBox />
+        <MyAccountBox user={user} />
       </MyPageItem>
-      <MyPageItem title="내 무대">
+      <MyPageItem title={user.role === "ROLE_HOST" ? "내 무대" : (user.role === "ROLE_STAR" ? "내 스타" : "")}>
         <MyInfoBox />
       </MyPageItem>
       <MyPageItem title="공연 기록">
