@@ -8,11 +8,27 @@ import MenuImg from '../../images/MenuBox.png';
 import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
 import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
+import styled from '@emotion/styled';
+
+const Container = styled(Box)((props) => ({
+  width: '100px',
+  height: '30px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  cursor: 'pointer',
+  fontSize: '14px',
+}));
+
+const MenuIconBox = styled(Box)((props) => ({
+  width: '30px',
+  height: '30px',
+  padding: 0,
+}));
 
 /**
  * 헤더에 위치한 메뉴 버튼
  */
-
 const MyMenuBox = () => {
   const navigate = useNavigate();
 
@@ -53,29 +69,14 @@ const MyMenuBox = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          width: '75px',
-          height: '30px',
-          border: `2px solid ${COLOR.lightBlack}`,
-          borderRadius: '40px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          cursor: 'pointer',
-        }}
-        onClick={handleClick}
-      >
-        <Box
-          sx={{
-            width: '30px',
-            height: '30px',
-            p: 0,
-          }}
-        >
-          <img alt="menu_box" src={MenuImg} width="30px" height="30px" />
-        </Box>
-      </Box>
+      <Container onClick={handleClick}>
+        {isLogin ? (
+          <MenuIconBox><img alt="menu_box" src={MenuImg} width="30px" height="30px" /></MenuIconBox>
+        ) : (
+          '로그인 / 회원가입'
+        )}
+      </Container>
+
       <Menu
         anchorEl={anchorEl}
         open={open}
@@ -99,7 +100,8 @@ const MyMenuBox = () => {
               removeCookie('userName', { path: '/' })
               window.location.replace('/')
             }
-          }); handleClose()
+          });
+          handleClose();
         }}>로그아웃</MenuItem>
       </Menu>
 
