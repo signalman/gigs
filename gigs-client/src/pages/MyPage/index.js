@@ -15,7 +15,7 @@ const MyPage = () => {
     fetchMyPage((response) => {
       console.log(response);
 
-      setUser({...response.data.user, roleId: response.data.roleId});
+      setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false});
     })
   }, []);
 
@@ -25,7 +25,7 @@ const MyPage = () => {
         <MyAccountBox user={user} />
       </MyPageItem>
       <MyPageItem title={user.role === "ROLE_HOST" ? "내 무대" : (user.role === "ROLE_STAR" ? "내 스타" : "")}>
-        {user.role === "ROLE_STAR" ? (<MyStarStatusSwitch />) : (<></>)}
+        {user.role === "ROLE_STAR" ? (<MyStarStatusSwitch status={user.status} />) : (<></>)}
         <MyInfoBox role={user.role} roleId={user.roleId} />
       </MyPageItem>
       <MyPageItem title="공연 기록">

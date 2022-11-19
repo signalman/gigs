@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Switch } from '@mui/material';
 import React, { useState } from 'react';
+import { toggleStarStatus } from '../../utils/Api';
 import { COLOR } from '../../utils/Constants';
 
 const Container = styled(Box)((props) => ({
@@ -13,12 +14,21 @@ const Container = styled(Box)((props) => ({
   alignItems: 'center',
 }));
 
-const MyStarStatusSwitch = () => {
-  const [isActive, setActive] = useState(false);
+const MyStarStatusSwitch = ({
+  status,
+}) => {
+  const [isActive, setActive] = useState(status);
 
   const handleActiveChange = (e) => {
-    setActive(e.target.checked);
-  }
+    toggleStarStatus(
+      (response) => {
+        setActive(e.target.checked);
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
+  };
 
   return (
     <Container>
