@@ -22,7 +22,7 @@ const MyStarStatusSwitch = ({
   const handleActiveChange = (e) => {
     toggleStarStatus(
       (response) => {
-        setActive(e.target.checked);
+        setActive(!e.target.checked);
       },
       (err) => {
         console.log(err);
@@ -32,7 +32,7 @@ const MyStarStatusSwitch = ({
 
   return (
     <Container>
-      <Switch value={isActive} onChange={handleActiveChange} />
+      <Switch checked={isActive} onChange={handleActiveChange} />
       <Box sx={{ height: '50px', lineHeight: '50px', fontWeight: 'bold', color: isActive ? COLOR.blacky : COLOR.grey, }}>
         {isActive ? '공연 찾는 중...' : '공연을 찾고 있지 않습니다'}
       </Box>      
