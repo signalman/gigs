@@ -88,13 +88,17 @@ public class UserController {
         if (loginUser.getRole() == Role.ROLE_STAR) { //로그인 한 유저가 스타
             Star loginStar = starService.findByUser(loginUser);
             List<History> histories = proposalService.findStarHistory(loginStar.getStarId());
-            MyPage starMyPage = new MyPage(user, histories);
+            Long starId = loginStar.getStarId();
+            String starImgUrl = loginStar.getStarImgs().isEmpty() ? "" : loginStar.getStarImgs().get(0).getUrl();
+            MyPage starMyPage = new MyPage(user, starId, starImgUrl, histories);
             return starMyPage;
         }//로그인 한 유저가 호스트
         Host loginHost = hostService.findByUser(loginUser);
         List<History> histories = proposalService.findHostHistory(loginHost.getHostId());
         List<ProposalDto> proposals = proposalService.findNotCompProposals(loginHost.getHostId());
-        MyPage hostMyPage = new MyPage(user, histories, proposals);
+        Long hostId = loginHost.getHostId();
+        String stageImgUrl = loginHost.getImgs().isEmpty() ? "" : loginHost.getImgs().get(0).getUrl();
+        MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, histories, proposals);
         return hostMyPage;
     }
 
