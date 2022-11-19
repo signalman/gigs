@@ -87,7 +87,6 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
 
     @Override
     public void updateStatus(Long id) {
-
         queryFactory
                 .update(star)
                 .set(star.status,
