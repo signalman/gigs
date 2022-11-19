@@ -3,7 +3,7 @@ package gigsproject.gigs.repository;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.CaseBuilder;
+import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.StarSearch;
@@ -62,6 +62,8 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
     }
 
     private static BooleanExpression isStarActive() {
+        EnumPath<StarStatus> status = star.status;
+        status.toString().equals("ACTIVE");
         return star.status.eq(ACTIVE);
     }
 
@@ -85,16 +87,26 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
         return hasText(gender) ? star.gender.eq(Gender.valueOf(gender)) : null;
     }
 
+    //todo - enum으로 enum조회시 문제있음.
     @Override
     public void updateStatus(Long id) {
-        queryFactory
-                .update(star)
-                .set(star.status,
-                        new CaseBuilder()
-                                .when(star.status.eq(ACTIVE))
-                                .then(INACTIVE)
-                                .otherwise(ACTIVE)
-                )
-                .where(star.starId.eq(id));
+        StarStatus starStatus = queryFactory
+                .select(star.status)
+                .from(star)
+                .where(star.starId.eq(id))
+                .fetchOne();
+        if (starStatus.equals(ACTIVE)) {
+            queryFactory
+                    .update(star)
+                    .set(star.status, INACTIVE)
+                    .where(star.starId.eq(id))
+                    .execute();
+        } else {
+            queryFactory
+                    .update(star)
+                    .set(star.status, ACTIVE)
+                    .where(star.starId.eq(id))
+                    .execute();
+        }
     }
 }
