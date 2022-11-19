@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
 import React from 'react';
 import StageImg from '../../images/stage_tmp.jpg';
+import StarImg from '../../images/star_tmp.jpg';
 import {COLOR} from '../../utils/Constants';
+import {useNavigate} from 'react-router-dom';
 
 const ImgBox = styled(Box)((props) => ({
   width: `100%`,
@@ -19,14 +21,24 @@ const buttonStyle = {
   fontWeight: 'bold',
 }
 
-const MyInfoBox = () => {
+const MyInfoBox = ({
+  role,
+  roleId,
+}) => {
+  const navigate = useNavigate();
+  const isHost = role === 'ROLE_HOST';
+
+  const handleInfoClick = () => {
+    navigate(`/${isHost ? 'stages' : 'stars'}/${roleId}`);
+  }
+
   return (
     <Box sx={{ width: '100%' }}>
       <ImgBox>
-        <img src={StageImg} alt="stage_img" width="100%" height='300px' />
+        <img src={isHost ? StageImg : StarImg} alt="stage_img" width="100%" height='300px' />
       </ImgBox>
       <Box sx={{ width: '100%', display: 'flex', height: '50px', justifyContent: 'center' }}>
-        <Button sx={buttonStyle} >상세 보기</Button>
+        <Button sx={buttonStyle} onClick={handleInfoClick} >상세 보기</Button>
       </Box>
     </Box>
   );

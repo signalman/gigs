@@ -6,7 +6,7 @@ const MyPageItem = ({
   children,
 }) => {
   return (
-    <Box sx={{ width: '100%', marginBottom: '50px', }}>
+    <Box sx={{ width: '100%', marginBottom: '50px', position: 'relative', }}>
       <Box
         sx={{
           width: '100%',

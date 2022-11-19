@@ -6,6 +6,7 @@ import MyInfoBox from './MyInfoBox';
 import MyPageItem from './MyPageItem';
 import MyProposalBox from './MyProposalBox';
 import { fetchMyPage } from '../../utils/Api';
+import MyStarStatusSwitch from './MyStarStatusSwitch';
 
 const MyPage = () => {
   const [user, setUser] = useState({});
@@ -14,7 +15,7 @@ const MyPage = () => {
     fetchMyPage((response) => {
       console.log(response);
 
-      setUser(response.data.user);
+      setUser({...response.data.user, roleId: response.data.roleId});
     })
   }, []);
 
@@ -24,7 +25,8 @@ const MyPage = () => {
         <MyAccountBox user={user} />
       </MyPageItem>
       <MyPageItem title={user.role === "ROLE_HOST" ? "내 무대" : (user.role === "ROLE_STAR" ? "내 스타" : "")}>
-        <MyInfoBox />
+        {user.role === "ROLE_STAR" ? (<MyStarStatusSwitch />) : (<></>)}
+        <MyInfoBox role={user.role} roleId={user.roleId} />
       </MyPageItem>
       <MyPageItem title="공연 기록">
         <MyHistoryBox />
