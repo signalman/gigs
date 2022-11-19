@@ -44,4 +44,7 @@ public class StarService {
         return new StarResponse(star);
     }
 
+    public void updateStatus(Long id) {
+        starRepository.updateStatus(id);
+    }
 }

@@ -2,10 +2,7 @@ package gigsproject.gigs.controller;
 
 import gigsproject.gigs.config.oauth.NotSignedUser;
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
-import gigsproject.gigs.domain.Host;
-import gigsproject.gigs.domain.Role;
-import gigsproject.gigs.domain.Star;
-import gigsproject.gigs.domain.User;
+import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.SignUpForm;
 import gigsproject.gigs.response.History;
 import gigsproject.gigs.response.MyPage;
@@ -79,7 +76,6 @@ public class UserController {
         response.sendRedirect("http://localhost:3000");
     }
 
-    //todo
     @GetMapping("/mypage")
     MyPage myPage(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
 
@@ -90,7 +86,8 @@ public class UserController {
             List<History> histories = proposalService.findStarHistory(loginStar.getStarId());
             Long starId = loginStar.getStarId();
             String starImgUrl = loginStar.getStarImgs().isEmpty() ? "" : loginStar.getStarImgs().get(0).getUrl();
-            MyPage starMyPage = new MyPage(user, starId, starImgUrl, histories);
+            StarStatus status = loginStar.getStatus();
+            MyPage starMyPage = new MyPage(user, starId, status, starImgUrl, histories);
             return starMyPage;
         }//로그인 한 유저가 호스트
         Host loginHost = hostService.findByUser(loginUser);
@@ -100,6 +97,18 @@ public class UserController {
         String stageImgUrl = loginHost.getImgs().isEmpty() ? "" : loginHost.getImgs().get(0).getUrl();
         MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, histories, proposals);
         return hostMyPage;
+    }
+
+    @PostMapping("/mypage/status")
+    void updateStarStatus(HttpServletResponse response, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+        try {
+            User user = oAuth2UserCustom.getUser();
+            Star star = starService.findByUser(user);
+            starService.updateStatus(star.getStarId());
+            response.setStatus(200);
+        } catch (Exception e) {
+            response.setStatus(404);
+        }
     }
 
     /**
