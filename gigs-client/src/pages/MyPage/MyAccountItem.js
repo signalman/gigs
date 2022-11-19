@@ -15,7 +15,10 @@ const Content = styled(Box)((props) => ({
   lineHeight: '50px',
 }));
 
-const MyAccountItem = () => {
+const MyAccountItem = ({
+  title,
+  children,
+}) => {
   return (
     <Box
       sx={{
@@ -24,8 +27,8 @@ const MyAccountItem = () => {
         display: 'flex',
       }}
     >
-      <Title>Email</Title>
-      <Content>ektto1041@naver.com</Content>
+      <Title>{title}</Title>
+      <Content>{children}</Content>
     </Box>
   );
 };
