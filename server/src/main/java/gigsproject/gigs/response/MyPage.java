@@ -1,5 +1,6 @@
 package gigsproject.gigs.response;
 
+import gigsproject.gigs.domain.StarStatus;
 import lombok.Data;
 
 import java.util.List;
@@ -17,13 +18,15 @@ public class MyPage {
     //이미지
     String imgUrl;
 
+    String status;
+
     //공연기록
     List<History> histories;
 
     //받은 제안서 - 스타는 제안서 x
     List<ProposalDto> proposals;
 
-    public MyPage(UserDto user, Long id, String imgUrl, List<History> histories, List<ProposalDto> proposals) {
+    public MyPage(UserDto user, Long id, String imgUrl, List<History> histories, List<ProposalDto> proposals) { //호스트일때 생성자
         this.user = user;
         this.roleId = id;
         this.imgUrl = imgUrl;
@@ -31,9 +34,10 @@ public class MyPage {
         this.proposals = proposals;
     }
 
-    public MyPage(UserDto user, Long id, String imgUrl, List<History> histories) {
+    public MyPage(UserDto user, Long id, StarStatus status, String imgUrl, List<History> histories) { //스타일때 생성자
         this.user = user;
         this.roleId = id;
+        this.status = status.name();
         this.imgUrl = imgUrl;
         this.histories = histories;
     }

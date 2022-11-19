@@ -40,6 +40,7 @@ public class UserService {
         else {
             Star star = Star.builder()
                     .user(user)
+                    .status(StarStatus.INACTIVE)
                     .build();
             starRepository.save(star);
         }

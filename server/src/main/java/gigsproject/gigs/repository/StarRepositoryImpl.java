@@ -3,6 +3,7 @@ package gigsproject.gigs.repository;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.StarSearch;
@@ -17,15 +18,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static gigsproject.gigs.domain.QStar.star;
-import static gigsproject.gigs.domain.StarStatus.*;
+import static gigsproject.gigs.domain.StarStatus.ACTIVE;
+import static gigsproject.gigs.domain.StarStatus.INACTIVE;
 import static java.util.Objects.isNull;
-import static org.springframework.util.StringUtils.*;
+import static org.springframework.util.StringUtils.hasText;
 
 @Repository
-public class StarRepositoryImpl implements StarRepositoryCustom{
+public class StarRepositoryImpl implements StarRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-    public StarRepositoryImpl(EntityManager em){
+
+    public StarRepositoryImpl(EntityManager em) {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
@@ -65,18 +68,34 @@ public class StarRepositoryImpl implements StarRepositoryCustom{
     private Predicate starNameEq(String name) {
         return hasText(name) ? star.name.eq(name) : null;
     }
+
     private Predicate starStageTypesEq(List<StageType> stages) {
         return isNull(stages) ? null : star.starStageTypes.any().stageType.in(stages);
     }
+
     private Predicate starGenresEq(List<Genre> genres) {//락.인디.R&B
         return isNull(genres) ? null : star.starGenres.any().genre.in(genres);
     }
+
     private Predicate starAddressEq(String address) {
         return hasText(address) ? star.user.address.siDo.eq(address) : null;
     }
+
     private Predicate starGenderEq(String gender) {
         return hasText(gender) ? star.gender.eq(Gender.valueOf(gender)) : null;
     }
 
+    @Override
+    public void updateStatus(Long id) {
 
+        queryFactory
+                .update(star)
+                .set(star.status,
+                        new CaseBuilder()
+                                .when(star.status.eq(ACTIVE))
+                                .then(INACTIVE)
+                                .otherwise(ACTIVE)
+                )
+                .where(star.starId.eq(id));
+    }
 }
