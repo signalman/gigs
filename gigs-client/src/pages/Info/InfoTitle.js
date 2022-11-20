@@ -62,8 +62,6 @@ const InfoTitle = ({
     score,
     reviewCount,
   } = titleInfo;
-
-  console.log(titleInfo);
   return (
     <Container>
       <Name>{name}</Name>
