@@ -13,6 +13,7 @@ const StageDetailInfoBox = ({
   openEditAreaDialog,
   openEditTargetDialog,
   openEditPayDialog,
+  openEditStageTypeDialog,
 }) => {
   const {
     stageSize,
@@ -35,7 +36,7 @@ const StageDetailInfoBox = ({
       <DetailInfoItem Icon={PeopleIcon} onEdit={openEditTargetDialog}>{`${targetAge}대 ${targetGender} ${targetMinCount}인 이상`}</DetailInfoItem>
       <DetailInfoItem Icon={LocalAtmIcon} onEdit={openEditPayDialog}>{`${pay}원 이상`}</DetailInfoItem>
       <DetailInfoItem Icon={MicExternalOnIcon} uneditable>{`${showCount}회 이상`}</DetailInfoItem>
-      <DetailInfoItem Icon={LocationOnIcon}>{stageType}</DetailInfoItem>
+      <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypeDialog}>{stageType}</DetailInfoItem>
     </Box>
   );
 };

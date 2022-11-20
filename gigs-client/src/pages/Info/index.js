@@ -16,6 +16,7 @@ import StarDetailInfoBox from './StarDetailInfoBox';
 import SimpleEditTexetDialog from './dialogs/SimpleEditTextDialog';
 import EditTargetDialog from './dialogs/EditTargetDialog';
 import useDialog from '../../hooks/useDialog';
+import SelectOneDialog from './dialogs/SelectOneDialog';
 
 const Info = ({
   target,
@@ -27,6 +28,7 @@ const Info = ({
   const [isEditAreaDialogOpen, openEditAreaDialog, closeEditAreaDialog] = useDialog();
   const [isEditTargetDialogOpen, openEditTargetDialog, closeEditTargetDialog] = useDialog();
   const [isEditPayDialogOpen, openEditPayDialog, closeEditPayDialog] = useDialog();
+  const [isEditStageTypeDialogOpen, openEditStageTypeDialog, closeEditStageTypeDialog] = useDialog();
 
   const handleEdit = useCallback((keys) => {
     return (values) => {
@@ -116,6 +118,7 @@ const Info = ({
             openEditAreaDialog={openEditAreaDialog}
             openEditTargetDialog={openEditTargetDialog}
             openEditPayDialog={openEditPayDialog}
+            openEditStageTypeDialog={openEditStageTypeDialog}
           />
         ) : (
           <StarDetailInfoBox detailInfo={{
@@ -143,7 +146,8 @@ const Info = ({
       {/* Dialogs */}
       <SimpleEditTexetDialog open={isEditAreaDialogOpen} onClose={closeEditAreaDialog} title="면적 변경" type="number" onEdit={handleEdit(["stageSize"])}  />
       <EditTargetDialog open={isEditTargetDialogOpen} onClose={closeEditTargetDialog} title="고객층 변경" onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />
-      <SimpleEditTexetDialog open={isEditPayDialogOpen} onClose={closeEditPayDialog} title="가격 변경" type="number" onEdit={handleEdit(["pay"])}  />
+      <SimpleEditTexetDialog open={isEditPayDialogOpen} onClose={closeEditPayDialog} title="가격 변경" type="number" onEdit={handleEdit(["pay"])} />
+      <SelectOneDialog open={isEditStageTypeDialogOpen} onClose={closeEditStageTypeDialog} title="무대 종류 변경" items={DUMMY.stageTypes} onEdit={handleEdit(["stageType"])} />
     </>
     
   );

@@ -7,8 +7,6 @@ const EditTargetDialog = ({
   title,
   onEdit,
 }) => {
-  console.log(onEdit);
-
   const [targetAge, setTargetAge] = useState("all");
   const [targetGender, setTargetGender] = useState("MIXED");
   const [targetMinCount, setTargetMinCount] = useState(0);
