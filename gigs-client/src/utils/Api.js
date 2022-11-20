@@ -21,6 +21,10 @@ export const fetchHostInfo = async (hostId, callback) => {
   callback(response);
 }
 
+export const updateHostInfo = async (stageId, data) => ax.put(`/stages/${stageId}`, data);
+
+export const updateStarInfo = async (starId, data) => ax.put(`/stars/${starId}`, data);
+
 export const fetchStarInfo = async (starId, callback) => {
   const response = await ax.get(`/stars/${starId}`);
   callback(response);

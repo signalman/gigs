@@ -11,7 +11,7 @@ import ReservationBox from './ReservationBox';
 import InfoTitle from './InfoTitle';
 import Introduction from './Introduction';
 import MapBox from './MapBox';
-import { fetchHostInfo, fetchStarInfo } from '../../utils/Api';
+import { fetchHostInfo, fetchStarInfo, updateHostInfo } from '../../utils/Api';
 import StarDetailInfoBox from './StarDetailInfoBox';
 import SimpleEditTexetDialog from './dialogs/SimpleEditTextDialog';
 import EditTargetDialog from './dialogs/EditTargetDialog';
@@ -32,17 +32,35 @@ const Info = ({
   const [isEditStageTypeDialogOpen, openEditStageTypeDialog, closeEditStageTypeDialog] = useDialog();
   const [isEditIntroduceDialogOpen, openEditIntroduceDialog, closeEditIntroduceDialog] = useDialog();
 
+  const updateInfo = useCallback(async (newData) => {
+    let response;
+
+    try {
+      switch(target) {
+        case SYMBOL.stage:
+          response = await updateHostInfo(data.stageId, newData);
+          break;
+        case SYMBOL.star:
+          response = await updateStarInfo(data.starId, newData);
+          break;
+        default:
+      }
+
+      console.log(response);
+      setData(newData);
+    } catch(err) {
+      console.log(err);
+    }
+  }, [data]);
+
   const handleEdit = useCallback((keys) => {
     return (values) => {
       const newData = {...data}
-
-      for(let i = 0; i < keys.length; i++) {
-        newData[keys[i]] = values[i];
-      }
-      
+      for(let i = 0; i < keys.length; i++) {newData[keys[i]] = values[i];}
       console.log(newData);
+      updateInfo(newData);
     }
-  }, [data]);
+  }, [target, data]);
 
   useEffect(() => {
     switch(target) {
