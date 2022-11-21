@@ -7,6 +7,7 @@ export const DEV = true;
 export const API = {
   signUp: () => `${BASE_URL}/signup`,
   getCookie: () => `${BASE_URL}/wait`,
+  logOut: () => `${BASE_URL}/logout`,
   getStarCards: ({name, stageTypes, genres, address, gender,}, sort, size, page) => `${BASE_URL}/stars${queryString([
     ['name', name],
     ['stageTypes', stageTypes?.join(',')],
