@@ -23,9 +23,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
-import java.util.Map;
 
 
 //@RestController
@@ -62,13 +60,12 @@ public class UserController {
      * 로그인 성공시 쿠키보내고 redirect 하는 컨트롤러
      */
     @GetMapping("/wait")
-    void waitLogin(HttpServletResponse response, Authentication authentication) throws IOException {
+    void waitLogin(HttpServletResponse response, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) throws IOException {
 
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        Map<String, Object> oAuth2UserAttributes = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
-        String userName = oAuth2UserAttributes.get("nickname").toString(); //'신호인'
+        User user = oAuth2UserCustom.getUser();
+        Long userId = user.getUserId();
 
-        Cookie cookie = new Cookie("userName", URLEncoder.encode(userName, "UTF-8"));
+        Cookie cookie = new Cookie("userId", userId.toString());
         cookie.setPath("/");
         cookie.setDomain("localhost");
         response.addCookie(cookie);
