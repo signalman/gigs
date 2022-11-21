@@ -9,6 +9,7 @@ import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
 import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
+import axios from 'axios';
 
 const Container = styled(Box)((props) => ({
   width: '100px',
@@ -67,6 +68,19 @@ const MyMenuBox = () => {
     setLoginDialogOpen(false);
   }
 
+  const handleLogOut = async () => {
+    await axios.get('http://localhost:8080/logout')
+      .then(function (response) {
+        if (response.status === 200) {
+          removeCookie('userName', { path: '/' })   
+          window.location.replace('/')
+          console.log(response)
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+  };
+
   return (
     <>
       <Container onClick={handleClick}>
@@ -97,8 +111,7 @@ const MyMenuBox = () => {
             cancelButtonText: "아니요",
           }).then((res) => {
             if (res.isConfirmed) {
-              removeCookie('userName', { path: '/' })
-              window.location.replace('/')
+              handleLogOut();
             }
           });
           handleClose();
