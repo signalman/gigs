@@ -5,6 +5,7 @@ import { COLOR } from '../../utils/Constants';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Container = styled(Box)((props) => ({
   width: '1200px',
@@ -19,6 +20,15 @@ const Name = styled(Typography)((props) => ({
   fontSize: "40px",
   fontWeight: "bold",
   color: COLOR.blacky,
+  display: 'flex',
+}));
+
+const EditIconBox = styled(Box)((props) => ({
+  width: '50px',
+  height: '50px',
+  alignSelf: 'center',
+  display: 'flex',
+  cursor: 'pointer',
 }));
 
 const Address = styled(Typography)((props) => ({
@@ -51,10 +61,14 @@ const RatingBox = styled(Box)((props) => ({
   height: '40px',
 }));
 
-const ReviewCount = styled(Typography)((props) => ({ height: '30px', lineHeight: '30px', })); 
+const ReviewCount = styled(Typography)((props) => ({
+  height: '30px',
+  lineHeight: '30px',
+}));
 
 const InfoTitle = ({
   titleInfo,
+  openEditNameDialog,
 }) => {
   const {
     name,
@@ -64,7 +78,12 @@ const InfoTitle = ({
   } = titleInfo;
   return (
     <Container>
-      <Name>{name}</Name>
+      <Name>
+        {name || '이름을 입력해주세요.'}
+        <EditIconBox onClick={() => openEditNameDialog()}>
+          <EditIcon sx={{ m: '10px', width: '30px', height: '30px', }} />
+        </EditIconBox>
+      </Name>
       <Address>{address ? `${address.siDo} ${address.siGun} ${address.road}` : ''}</Address>
       <ButtonBox>
         <ConnectButton variant='contained'>연결</ConnectButton>

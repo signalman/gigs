@@ -26,6 +26,7 @@ const Info = ({
 
   const [data, setData] = useState(DUMMY.host);
 
+  const editNameDialog = useDialog();
   const editAreaDialog = useDialog();
   const editTargetDialog = useDialog();
   const editPayDialog = useDialog();
@@ -63,6 +64,7 @@ const Info = ({
   }, [data, updateInfo]);
 
   useEffect(() => {
+    editNameDialog.initialize([data.name]);
     editAreaDialog.initialize([data.stageSize]);
     editTargetDialog.initialize([data.targetAge, data.targetGender, data.targetMinCount]);
     editPayDialog.initialize([data.pay]);
@@ -124,12 +126,15 @@ const Info = ({
         <img src={target === SYMBOL.stage ? StageDummyImg : StarDummyImg} alt="img" width="100%" />
       </Box>
 
-      <InfoTitle titleInfo={{
-        name: data.name,
-        address: data.address,
-        score: data.score,
-        reviewCount: data.reviewCount,
-      }} />
+      <InfoTitle
+        titleInfo={{
+          name: data.name,
+          address: data.address,
+          score: data.score,
+          reviewCount: data.reviewCount,
+        }}
+        openEditNameDialog={editNameDialog.open}
+      />
 
       <Box sx={{ width: '1200px', display: 'flex', m: '0 auto', mt: '25px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
         {target === SYMBOL.stage ? (
@@ -172,6 +177,7 @@ const Info = ({
       <ReviewBox />
 
       {/* Dialogs */}
+      <SimpleEditTexetDialog open={editNameDialog.isOpen} onClose={editNameDialog.close} title="이름 변경" type="text" values={editNameDialog.values} setValues={editNameDialog.setValues} onEdit={handleEdit(["name"])}  />
       <SimpleEditTexetDialog open={editAreaDialog.isOpen} onClose={editAreaDialog.close} title="면적 변경" type="number" values={editAreaDialog.values} setValues={editAreaDialog.setValues} onEdit={handleEdit(["stageSize"])}  />
       <EditTargetDialog open={editTargetDialog.isOpen} onClose={editTargetDialog.close} title="고객층 변경" values={editTargetDialog.values} setValues={editTargetDialog.setValues} onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />
       <SimpleEditTexetDialog open={editPayDialog.isOpen} onClose={editPayDialog.close} title="가격 변경" type="number" values={editPayDialog.values} setValues={editPayDialog.setValues} onEdit={handleEdit(["pay"])} />
