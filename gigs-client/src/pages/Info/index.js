@@ -19,6 +19,7 @@ import useDialog from '../../hooks/useDialog';
 import SelectOneDialog from './dialogs/SelectOneDialog';
 import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
 import SelectAllDialog from './dialogs/SelectAllDialog';
+import EditMemberDialog from './dialogs/EditMemberDialog';
 
 const Info = ({
   target,
@@ -36,6 +37,7 @@ const Info = ({
   const editIntroduceDialog = useDialog();
 
   const editGenresDialog = useDialog();
+  const editMemberDialog = useDialog();
   const editStageTypesDialog = useDialog();
 
   const updateInfo = useCallback(async (newData) => {
@@ -78,6 +80,7 @@ const Info = ({
     editIntroduceDialog.initialize([data.introduce]);
 
     editGenresDialog.initialize([data.genres?.map(genre => genre.genreName)]);
+    editMemberDialog.initialize([data.gender, data.memberNumber]);
     editStageTypesDialog.initialize([data.stageTypes?.map(stageType => stageType.stageTypeName)]);
   }, [data]);
 
@@ -174,6 +177,7 @@ const Info = ({
               showCount: data.showCount,
             }}
             openEditGenresDialog={editGenresDialog.open}
+            openEditMemberDialog={editMemberDialog.open}
             openEditStageTypesDialog={editStageTypesDialog.open}
           />
         )} 
@@ -201,6 +205,7 @@ const Info = ({
       </>) :
         target === SYMBOL.star ? (<>
           <SelectAllDialog open={editGenresDialog.isOpen} onClose={editGenresDialog.close} title="장르 변경" items={DUMMY.genres} values={editGenresDialog.values} setValues={editGenresDialog.setValues} onEdit={handleEdit(["genres"])} />
+          <EditMemberDialog open={editMemberDialog.isOpen} onClose={editMemberDialog.close} title="멤버 구성 변경" values={editMemberDialog.values} setValues={editMemberDialog.setValues} onEdit={handleEdit(["gender", "memberNumber"])}  />
           <SelectAllDialog open={editStageTypesDialog.isOpen} onClose={editStageTypesDialog.close} title="선호 무대 종류 변경" items={DUMMY.stageTypes} values={editStageTypesDialog.values} setValues={editStageTypesDialog.setValues} onEdit={handleEdit(["stageTypes"])} />
         </>) : (<></>)
       }

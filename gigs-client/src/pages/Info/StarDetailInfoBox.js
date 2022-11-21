@@ -10,6 +10,7 @@ import DetailInfoItem from './DetailInfoItem';
 const StarDetailInfoBox = ({
   detailInfo,
   openEditGenresDialog,
+  openEditMemberDialog,
   openEditStageTypesDialog,
 }) => {
   const {
@@ -28,7 +29,7 @@ const StarDetailInfoBox = ({
       }}
     >
       <DetailInfoItem Icon={HeadsetMicIcon} onEdit={openEditGenresDialog} >{genres?.map(genre => genre.genreName).join(', ')}</DetailInfoItem>
-      <DetailInfoItem Icon={PeopleIcon}>{`${gender} ${memberNumber}인`}</DetailInfoItem>
+      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditMemberDialog} >{`${gender} ${memberNumber}인`}</DetailInfoItem>
       <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypesDialog} >{stageTypes?.map(stageType => stageType.stageTypeName).join(', ')}</DetailInfoItem>
       <DetailInfoItem Icon={MicExternalOnIcon} uneditable >{`${showCount}회 이상`}</DetailInfoItem>
     </Box>
