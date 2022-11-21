@@ -18,8 +18,8 @@ const IconBox = styled(Box)(() => ({
 }));
 
 const IconStyle = {
-  width: '30px',
-  height: '30px'
+  width: '20px',
+  height: '20px'
 };
 
 const ItemContent = styled(Typography)((props) => ({

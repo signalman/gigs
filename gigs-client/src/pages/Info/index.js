@@ -18,6 +18,7 @@ import EditTargetDialog from './dialogs/EditTargetDialog';
 import useDialog from '../../hooks/useDialog';
 import SelectOneDialog from './dialogs/SelectOneDialog';
 import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
+import SelectAllDialog from './dialogs/SelectAllDialog';
 
 const Info = ({
   target,
@@ -27,11 +28,15 @@ const Info = ({
   const [data, setData] = useState(DUMMY.host);
 
   const editNameDialog = useDialog();
+  // const editAddressDialog = useDialog(); // TODO: 우편번호 API 로 구현
   const editAreaDialog = useDialog();
   const editTargetDialog = useDialog();
   const editPayDialog = useDialog();
   const editStageTypeDialog = useDialog();
   const editIntroduceDialog = useDialog();
+
+  const editGenresDialog = useDialog();
+  const editStageTypesDialog = useDialog();
 
   const updateInfo = useCallback(async (newData) => {
     let response;
@@ -65,11 +70,15 @@ const Info = ({
 
   useEffect(() => {
     editNameDialog.initialize([data.name]);
+
     editAreaDialog.initialize([data.stageSize]);
     editTargetDialog.initialize([data.targetAge, data.targetGender, data.targetMinCount]);
     editPayDialog.initialize([data.pay]);
     editStageTypeDialog.initialize([data.stageType]);
     editIntroduceDialog.initialize([data.introduce]);
+
+    editGenresDialog.initialize([data.genres?.map(genre => genre.genreName)]);
+    editStageTypesDialog.initialize([data.stageTypes?.map(stageType => stageType.stageTypeName)]);
   }, [data]);
 
   useEffect(() => {
@@ -89,6 +98,8 @@ const Info = ({
             stageTypes: response.data.starStageTypes,
             showCount: response.data?.showCount,
           }
+
+          console.log(newData);
           
           setData(newData);
         });
@@ -154,13 +165,17 @@ const Info = ({
             openEditStageTypeDialog={editStageTypeDialog.open}
           />
         ) : (
-          <StarDetailInfoBox detailInfo={{
-            genres: data.genres,
-            gender: data.gender,
-            memberNumber: data.memberNumber,
-            stageTypes: data.stageTypes,
-            showCount: data.showCount,
-          }} />
+          <StarDetailInfoBox
+            detailInfo={{
+              genres: data.genres,
+              gender: data.gender,
+              memberNumber: data.memberNumber,
+              stageTypes: data.stageTypes,
+              showCount: data.showCount,
+            }}
+            openEditGenresDialog={editGenresDialog.open}
+            openEditStageTypesDialog={editStageTypesDialog.open}
+          />
         )} 
 
         {target === SYMBOL.stage ? (
@@ -178,10 +193,18 @@ const Info = ({
 
       {/* Dialogs */}
       <SimpleEditTexetDialog open={editNameDialog.isOpen} onClose={editNameDialog.close} title="이름 변경" type="text" values={editNameDialog.values} setValues={editNameDialog.setValues} onEdit={handleEdit(["name"])}  />
-      <SimpleEditTexetDialog open={editAreaDialog.isOpen} onClose={editAreaDialog.close} title="면적 변경" type="number" values={editAreaDialog.values} setValues={editAreaDialog.setValues} onEdit={handleEdit(["stageSize"])}  />
-      <EditTargetDialog open={editTargetDialog.isOpen} onClose={editTargetDialog.close} title="고객층 변경" values={editTargetDialog.values} setValues={editTargetDialog.setValues} onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />
-      <SimpleEditTexetDialog open={editPayDialog.isOpen} onClose={editPayDialog.close} title="가격 변경" type="number" values={editPayDialog.values} setValues={editPayDialog.setValues} onEdit={handleEdit(["pay"])} />
-      <SelectOneDialog open={editStageTypeDialog.isOpen} onClose={editStageTypeDialog.close} title="무대 종류 변경" items={DUMMY.stageTypes} values={editStageTypeDialog.values} setValues={editStageTypeDialog.setValues} onEdit={handleEdit(["stageType"])} />
+      {target === SYMBOL.stage ? (<>
+        <SimpleEditTexetDialog open={editAreaDialog.isOpen} onClose={editAreaDialog.close} title="면적 변경" type="number" values={editAreaDialog.values} setValues={editAreaDialog.setValues} onEdit={handleEdit(["stageSize"])}  />
+        <EditTargetDialog open={editTargetDialog.isOpen} onClose={editTargetDialog.close} title="고객층 변경" values={editTargetDialog.values} setValues={editTargetDialog.setValues} onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />
+        <SimpleEditTexetDialog open={editPayDialog.isOpen} onClose={editPayDialog.close} title="가격 변경" type="number" values={editPayDialog.values} setValues={editPayDialog.setValues} onEdit={handleEdit(["pay"])} />
+        <SelectOneDialog open={editStageTypeDialog.isOpen} onClose={editStageTypeDialog.close} title="무대 종류 변경" items={DUMMY.stageTypes} values={editStageTypeDialog.values} setValues={editStageTypeDialog.setValues} onEdit={handleEdit(["stageType"])} />
+      </>) :
+        target === SYMBOL.star ? (<>
+          <SelectAllDialog open={editGenresDialog.isOpen} onClose={editGenresDialog.close} title="장르 변경" items={DUMMY.genres} values={editGenresDialog.values} setValues={editGenresDialog.setValues} onEdit={handleEdit(["genres"])} />
+          <SelectAllDialog open={editStageTypesDialog.isOpen} onClose={editStageTypesDialog.close} title="선호 무대 종류 변경" items={DUMMY.stageTypes} values={editStageTypesDialog.values} setValues={editStageTypesDialog.setValues} onEdit={handleEdit(["stageTypes"])} />
+        </>) : (<></>)
+      }
+
       {editIntroduceDialog.isOpen ? (<EditIntroduceDialog open={editIntroduceDialog.isOpen} onClose={editIntroduceDialog.close} title="소개글 수정" values={editIntroduceDialog.values} onEdit={handleEdit(["introduce"])} />) : (<></>)}
       
     </>

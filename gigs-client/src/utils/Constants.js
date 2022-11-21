@@ -109,4 +109,5 @@ export const DUMMY = {
     stageInfo: "<h1>안녕하세요 카페 안녕입니다.</h1><p>방문해주셔서 <strong>감사</strong>합니다.</p>"
   },
   stageTypes: ["CAFE", "BAR", "RESTAURANT", "SCHOOL"],
+  genres: ["DANCE", "SESSION", "ROCK", "HIPHOP", "INDIE", "JAZZ", "POP"],
 }

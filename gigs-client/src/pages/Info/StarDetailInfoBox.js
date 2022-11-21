@@ -9,6 +9,8 @@ import DetailInfoItem from './DetailInfoItem';
 
 const StarDetailInfoBox = ({
   detailInfo,
+  openEditGenresDialog,
+  openEditStageTypesDialog,
 }) => {
   const {
     genres,
@@ -25,10 +27,10 @@ const StarDetailInfoBox = ({
         backgroundColor: COLOR.whity,
       }}
     >
-      <DetailInfoItem Icon={HeadsetMicIcon}>{genres?.map(genre => genre.genreName).join(', ')}</DetailInfoItem>
+      <DetailInfoItem Icon={HeadsetMicIcon} onEdit={openEditGenresDialog} >{genres?.map(genre => genre.genreName).join(', ')}</DetailInfoItem>
       <DetailInfoItem Icon={PeopleIcon}>{`${gender} ${memberNumber}인`}</DetailInfoItem>
-      <DetailInfoItem Icon={LocationOnIcon}>{stageTypes?.map(stageType => stageType.stageTypeName).join(', ')}</DetailInfoItem>
-      <DetailInfoItem Icon={MicExternalOnIcon}>{`${showCount}회 이상`}</DetailInfoItem>
+      <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypesDialog} >{stageTypes?.map(stageType => stageType.stageTypeName).join(', ')}</DetailInfoItem>
+      <DetailInfoItem Icon={MicExternalOnIcon} uneditable >{`${showCount}회 이상`}</DetailInfoItem>
     </Box>
   );
 };
