@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Data
 public class StarResponse {
+    private Long userId;
     private Long starId;
     private String name;
     private Gender gender;
@@ -26,6 +27,7 @@ public class StarResponse {
     private List<ProposalDto> proposals;
 
     public StarResponse(Star star) {
+        this.userId = star.getUser().getUserId();
         this.starId = star.getStarId();
         this.name = star.getName();
         this.gender = star.getGender();
