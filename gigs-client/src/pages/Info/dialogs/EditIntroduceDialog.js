@@ -7,6 +7,7 @@ const EditIntroduceDialog = ({
   open,
   onClose,
   title,
+  values,
   onEdit,
 }) => {
   const editor = useRef();
@@ -29,7 +30,7 @@ const EditIntroduceDialog = ({
         <Box sx={{ width: '1000px'}}>
           <SunEditor
             lang="ko"
-            defaultValue={"<p></p>"}
+            defaultValue={values[0]}
             height="400px"
             getSunEditorInstance={(sunEditor) => {editor.current = sunEditor}}
             setOptions={{

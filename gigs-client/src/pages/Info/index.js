@@ -11,7 +11,7 @@ import ReservationBox from './ReservationBox';
 import InfoTitle from './InfoTitle';
 import Introduction from './Introduction';
 import MapBox from './MapBox';
-import { fetchHostInfo, fetchStarInfo, updateHostInfo } from '../../utils/Api';
+import { fetchHostInfo, fetchStarInfo, updateHostInfo, updateStarInfo } from '../../utils/Api';
 import StarDetailInfoBox from './StarDetailInfoBox';
 import SimpleEditTexetDialog from './dialogs/SimpleEditTextDialog';
 import EditTargetDialog from './dialogs/EditTargetDialog';
@@ -26,11 +26,11 @@ const Info = ({
 
   const [data, setData] = useState(DUMMY.host);
 
-  const [isEditAreaDialogOpen, openEditAreaDialog, closeEditAreaDialog] = useDialog();
-  const [isEditTargetDialogOpen, openEditTargetDialog, closeEditTargetDialog] = useDialog();
-  const [isEditPayDialogOpen, openEditPayDialog, closeEditPayDialog] = useDialog();
-  const [isEditStageTypeDialogOpen, openEditStageTypeDialog, closeEditStageTypeDialog] = useDialog();
-  const [isEditIntroduceDialogOpen, openEditIntroduceDialog, closeEditIntroduceDialog] = useDialog();
+  const editAreaDialog = useDialog();
+  const editTargetDialog = useDialog();
+  const editPayDialog = useDialog();
+  const editStageTypeDialog = useDialog();
+  const editIntroduceDialog = useDialog();
 
   const updateInfo = useCallback(async (newData) => {
     let response;
@@ -51,7 +51,7 @@ const Info = ({
     } catch(err) {
       console.log(err);
     }
-  }, [data]);
+  }, [target, data]);
 
   const handleEdit = useCallback((keys) => {
     return (values) => {
@@ -60,7 +60,15 @@ const Info = ({
       console.log(newData);
       updateInfo(newData);
     }
-  }, [target, data]);
+  }, [data, updateInfo]);
+
+  useEffect(() => {
+    editAreaDialog.initialize([data.stageSize]);
+    editTargetDialog.initialize([data.targetAge, data.targetGender, data.targetMinCount]);
+    editPayDialog.initialize([data.pay]);
+    editStageTypeDialog.initialize([data.stageType]);
+    editIntroduceDialog.initialize([data.introduce]);
+  }, [data]);
 
   useEffect(() => {
     switch(target) {
@@ -135,10 +143,10 @@ const Info = ({
               showCount: data?.showCount,
               stageType: data?.stageType,
             }}
-            openEditAreaDialog={openEditAreaDialog}
-            openEditTargetDialog={openEditTargetDialog}
-            openEditPayDialog={openEditPayDialog}
-            openEditStageTypeDialog={openEditStageTypeDialog}
+            openEditAreaDialog={editAreaDialog.open}
+            openEditTargetDialog={editTargetDialog.open}
+            openEditPayDialog={editPayDialog.open}
+            openEditStageTypeDialog={editStageTypeDialog.open}
           />
         ) : (
           <StarDetailInfoBox detailInfo={{
@@ -159,16 +167,17 @@ const Info = ({
         <ReservationBox data={data} />
       ) : (<></>)}
       {/* 소개글 */}
-      <Introduction openEditIntroduceDialog={openEditIntroduceDialog} introduce={data.introduce}/>
+      <Introduction openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
       {/* 리뷰 */}
       <ReviewBox />
 
       {/* Dialogs */}
-      <SimpleEditTexetDialog open={isEditAreaDialogOpen} onClose={closeEditAreaDialog} title="면적 변경" type="number" onEdit={handleEdit(["stageSize"])}  />
-      <EditTargetDialog open={isEditTargetDialogOpen} onClose={closeEditTargetDialog} title="고객층 변경" onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />
-      <SimpleEditTexetDialog open={isEditPayDialogOpen} onClose={closeEditPayDialog} title="가격 변경" type="number" onEdit={handleEdit(["pay"])} />
-      <SelectOneDialog open={isEditStageTypeDialogOpen} onClose={closeEditStageTypeDialog} title="무대 종류 변경" items={DUMMY.stageTypes} onEdit={handleEdit(["stageType"])} />
-      <EditIntroduceDialog open={isEditIntroduceDialogOpen} onClose={closeEditIntroduceDialog} title="소개글 수정" onEdit={handleEdit(["introduce"])} />
+      <SimpleEditTexetDialog open={editAreaDialog.isOpen} onClose={editAreaDialog.close} title="면적 변경" type="number" values={editAreaDialog.values} setValues={editAreaDialog.setValues} onEdit={handleEdit(["stageSize"])}  />
+      <EditTargetDialog open={editTargetDialog.isOpen} onClose={editTargetDialog.close} title="고객층 변경" values={editTargetDialog.values} setValues={editTargetDialog.setValues} onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />
+      <SimpleEditTexetDialog open={editPayDialog.isOpen} onClose={editPayDialog.close} title="가격 변경" type="number" values={editPayDialog.values} setValues={editPayDialog.setValues} onEdit={handleEdit(["pay"])} />
+      <SelectOneDialog open={editStageTypeDialog.isOpen} onClose={editStageTypeDialog.close} title="무대 종류 변경" items={DUMMY.stageTypes} values={editStageTypeDialog.values} setValues={editStageTypeDialog.setValues} onEdit={handleEdit(["stageType"])} />
+      {editIntroduceDialog.isOpen ? (<EditIntroduceDialog open={editIntroduceDialog.isOpen} onClose={editIntroduceDialog.close} title="소개글 수정" values={editIntroduceDialog.values} onEdit={handleEdit(["introduce"])} />) : (<></>)}
+      
     </>
     
   );

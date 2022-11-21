@@ -1,25 +1,24 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import React, { useCallback } from 'react';
 import CategoryItem from '../../../components/CategoryItem';
 
 const SelectOneDialog = ({
   open,
   onClose,
   title,
+  values,
+  setValues,
   onEdit,
   items,
 }) => {
-  // const [items, setItems] = useState([]);
-  const [selectedItem, setSelectedItem] = useState('');
-
   const handleItemClick = (item) => {
-    setSelectedItem(item);
+    setValues([item]);
   }
 
   const handleEditClick = useCallback(() => {
-    onEdit([selectedItem]);
+    onEdit(values);
     onClose();
-  }, [selectedItem, onEdit, onClose]);
+  }, [values, onEdit, onClose]);
 
   return (
     <Dialog
@@ -32,7 +31,7 @@ const SelectOneDialog = ({
       <DialogContent>
         <Box sx={{ display: 'flex', width: '500px', flexWrap: 'wrap', alignContent: 'flex-start' }}>
           {items?.map(item => (
-            <CategoryItem key={item} selected={selectedItem === item} selectItem={handleItemClick}>{item}</CategoryItem>
+            <CategoryItem key={item} selected={values[0] === item} selectItem={handleItemClick}>{item}</CategoryItem>
           ))}
         </Box>
       </DialogContent>

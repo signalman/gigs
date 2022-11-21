@@ -1,36 +1,39 @@
 import { Button, Select, MenuItem, Typography, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 const EditTargetDialog = ({
   open,
   onClose,
   title,
+  values,
+  setValues,
   onEdit,
 }) => {
-  const [targetAge, setTargetAge] = useState("all");
-  const [targetGender, setTargetGender] = useState("MIXED");
-  const [targetMinCount, setTargetMinCount] = useState(0);
-
   // 관객 나이대 변경 시
-  const handleTargetAgeChange = (e) => {
-    setTargetAge(e.target.value);
-  };
+  const handleTargetAgeChange = useCallback((e) => {
+    const newValues = [...values];
+    newValues[0] = e.target.value;
+    setValues(newValues);
+  }, [values, setValues]); 
 
   // 관객 성별 변경 시
-  const handleTargetGenderChange = (e) => {
-    setTargetGender(e.target.value);
-  };
+  const handleTargetGenderChange = useCallback((e) => {
+    const newValues = [...values];
+    newValues[1] = e.target.value;
+    setValues(newValues);
+  }, [values, setValues]);
 
   // 관객 최소 수 변경 시
-  const handleTargetMinCountChange = (e) => {
-    const count = Number(e.target.value); 
-    setTargetMinCount(count < 0 ? 0 : count);
-  };
+  const handleTargetMinCountChange = useCallback((e) => {
+    const newValues = [...values];
+    newValues[2] = e.target.value < 0 ? 0 : e.target.value;
+    setValues(newValues);
+  }, [values, setValues]);
 
   const handleEditClick = useCallback(() => {
-    onEdit([targetAge, targetGender, targetMinCount]);
+    onEdit(values);
     onClose();
-  }, [targetAge, targetGender, targetMinCount, onEdit, onClose]);
+  }, [values, onEdit, onClose]);
 
   return (
     <Dialog
@@ -47,7 +50,7 @@ const EditTargetDialog = ({
             height: '30px',
           }}
           variant='standard'
-          value={targetAge}
+          value={values[0]}
           onChange={handleTargetAgeChange}
         >
           <MenuItem value='all'>-</MenuItem>
@@ -65,7 +68,7 @@ const EditTargetDialog = ({
             ml: `20px`,
           }}
           variant='standard'
-          value={targetGender}
+          value={values[1]}
           onChange={handleTargetGenderChange}
         >
           <MenuItem value='MIXED'>모두</MenuItem>
@@ -81,7 +84,7 @@ const EditTargetDialog = ({
           }}
           type='number'
           variant='standard'
-          value={targetMinCount}
+          value={values[2]}
           onChange={handleTargetMinCountChange}
         ></TextField>
         <Typography sx={{ lineHeight: '30px', }}>

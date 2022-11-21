@@ -1,23 +1,23 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 
 const SimpleEditTexetDialog = ({
   open,
   onClose,
   title,
   type,
+  values,
+  setValues,
   onEdit,
 }) => {
-  const [text, setText] = useState('');
-
   const handleTextChange = (e) => {
-    setText(e.target.value);
+    setValues([e.target.value]);
   }
 
   const handleEditClick = useCallback(() => {
-    onEdit([text]);
+    onEdit(values);
     onClose();
-  }, [text, onEdit, onClose]);
+  }, [values, onEdit, onClose]);
 
   return (
     <Dialog
@@ -29,7 +29,7 @@ const SimpleEditTexetDialog = ({
       </DialogTitle>
       <DialogContent>
         <TextField
-          value={text}
+          value={values[0]}
           onChange={handleTextChange}
           type={type}
         />
