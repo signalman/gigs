@@ -98,17 +98,14 @@ public class UserController {
 
     @PostMapping("/mypage/status")
     void updateStarStatus(HttpServletResponse response, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
-//        try {
-        User user = oAuth2UserCustom.getUser();
-        Star star = starService.findByUser(user);
-        starService.updateStatus(star.getStarId());
-        response.setStatus(200);
-        log.info("1111111");
-//        } catch (Exception e) {
-//            response.setStatus(404);
-        log.info("22222");
-//        }
-        log.info("33333");
+        try {
+            User user = oAuth2UserCustom.getUser();
+            Star star = starService.findByUser(user);
+            starService.updateStatus(star.getStarId());
+            response.setStatus(200);
+        } catch (Exception e) {
+            response.setStatus(404);
+        }
     }
 
     /**
