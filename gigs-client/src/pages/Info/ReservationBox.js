@@ -61,8 +61,6 @@ const ReservationBox = ({
       else newDataForCalendar[post.date]++;
     })
 
-    console.log(newDataForCalendar);
-
     setDataForCalendar(newDataForCalendar);
   }, [posts]);
 

@@ -31,7 +31,6 @@ const Info = ({
   const [data, setData] = useState(DUMMY.host);
   const [posts, setPosts] = useState(DUMMY.host.posts);
   const editable = Number(cookies.userId) === data.userId;
-  console.log(`editable: ${editable}`);
 
   const editNameDialog = useDialog();
   // const editAddressDialog = useDialog(); // TODO: 우편번호 API 로 구현
@@ -49,8 +48,10 @@ const Info = ({
     const response = await fetchStarInfo(params.id);
 
     const newData = {
+      userId: response.data.userId,
+      starId: response.data.starId,
+
       name: response.data.name,
-      // address: '',
       score: response.data.score,
       reviewCount: response.data.reviews?.length,
       introduce: response.data.introduce,
@@ -71,6 +72,9 @@ const Info = ({
     const response = await fetchHostInfo(params.id);
 
     const newData = {
+      userId: response.data.userId,
+      hostId: response.data.hostId,
+
       name: response.data.name,
       address: response.data.address,
       score: response.data.score,
@@ -86,9 +90,12 @@ const Info = ({
       stageType: response.data.stageType,
     }
 
+    console.log(`호스트 검색 결과:`);
     console.log(newData);
+    console.log(response.data.posts);
 
     setData(newData);
+    setPosts(response.data.posts);
   }, [params]);
 
   const updateInfo = useCallback(async (newData) => {

@@ -27,6 +27,7 @@ const Item = styled(Box)((p) => ({
   height: "100%",
   width: p.type === "half" ? "50%" : "100%",
   alignItems: 'center',
+  // overflow: 'hidden',
 }));
 
 const IconBox = styled(Box)((p) => ({
@@ -37,32 +38,40 @@ const IconBox = styled(Box)((p) => ({
   alignItems: 'center',
 }));
 
+const Content = styled(Box)((props) => ({
+  width: '232.5px',
+  height: '275.px',
+  fontSize: props.fontSize || '14px',
+}));
+
 
 function StageCard({
-  hostId,
-  stageName,
-  avgScore,
-  address,
-  stageSize,
-  startTime,
-  endTime,
-  showCount,
-  pay,
-  stageImgUrl,
-  genres,
-  stageType,
-  reviewCount,
-  targetAge,
-  targetGender,
-  targetMinCount,
+  cardData,
 }) {
+  const {
+    hostId,
+    name,
+    score,
+    address,
+    stageSize,
+    openTime,
+    closeTime,
+    showCount,
+    pay,
+    stageImgUrl,
+    stageType,
+    reviewCount,
+    targetAge,
+    targetGender,
+    targetMinCount,
+  } = cardData;
+
   const navigate = useNavigate();
 
   return (
     <Card
       sx={{
         width: "300px",
-        height: "487.5px",
         borderRadius: "50px",
         boxShadow: "0 4px 4px #808080",
         cursor: "pointer",
@@ -82,16 +91,16 @@ function StageCard({
     
       <Line>
         <Item type="half" sx={{ pl: "20px", }} >
-          <Typography>{stageName}</Typography>
+          <Typography>{name}</Typography>
         </Item>
         <Item type="half" sx={{ justifyContent: 'end', pr: "20px" }}>
           <Rating
             sx={{ width: `75px` }}
             emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
             icon={<StarIcon sx={{ width: `15px`, height: `15px` }}></StarIcon>}
-            defaultValue={avgScore} precision={0.1} readOnly
+            defaultValue={score} precision={0.1} readOnly
           />
-          <Typography fontSize=".7rem">({reviewCount})</Typography>
+          <Typography fontSize="11px">({reviewCount})</Typography>
         </Item>
       </Line>
       
@@ -100,7 +109,7 @@ function StageCard({
           <IconBox>
             <MapIcon sx={{ width: "20px", height: "20px", }} />
           </IconBox>
-          <Typography fontSize=".9rem">{`${address.addressName} ${address.cityName} ${address.countryName}`}</Typography>
+          <Content>{`${address.siDo} ${address.siGun} ${address.road} ${address.detail}`}</Content>
         </Item>
       </Line>
       
@@ -124,7 +133,7 @@ function StageCard({
           <IconBox>
             <AccessTimeIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".8rem">{startTime} ~ {endTime}</Typography>
+          <Typography fontSize=".8rem">{openTime} ~ {closeTime}</Typography>
         </Item>
         <Item type="half" sx={{ px: '15px' }}>
           <IconBox>
@@ -147,15 +156,6 @@ function StageCard({
           </IconBox>
           <Typography fontSize=".9rem">{stageType}</Typography>
         </Item>
-      </Line>
-
-      <Line>
-          <Item sx={{ px: '15px' }}>
-              <IconBox>
-                  <HeadsetMicIcon sx={{ width: "20px", height: "20px", }} />
-              </IconBox>
-              <Typography fontSize=".9rem">{genres?.reduce((prev, cur) => (prev + ` / ${cur.genreName}`), "").substring(3)}</Typography>
-          </Item>
       </Line>
     </Card>
   )

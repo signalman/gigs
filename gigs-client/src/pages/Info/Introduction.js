@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react';
-import { COLOR } from '../../utils/Constants';
+import { COLOR, ifNull } from '../../utils/Constants';
 import EditIcon from '@mui/icons-material/Edit';
 
 const Container = styled(Box)((props) => ({
@@ -13,7 +13,7 @@ const Container = styled(Box)((props) => ({
   boxShadow: `0 2px 2px ${COLOR.blacky}`,
 }));
 
-const Title = styled(Typography)((props) => ({
+const Title = styled(Box)((props) => ({
   height: '50px',
   lineHeight: '50px',
   fontSize: '20px',
@@ -50,7 +50,7 @@ const Introduction = ({
           </EditIconBox>
         ) : (<></>)}
       </Title>
-      <Content dangerouslySetInnerHTML={{__html: introduce}} />
+      <Content dangerouslySetInnerHTML={{__html: ifNull(introduce, '', '', '<p>소개글을 작성해주세요.</p>')}} />
     </Container>
   );
 };

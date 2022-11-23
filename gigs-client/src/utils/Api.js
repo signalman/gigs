@@ -98,7 +98,8 @@ export const fetchStarInfo = async (starId) => ax.get(`/stars/${starId}`);
  * @param {String} hostId 수정하려는 호스트의 id
  * @param {{}} data 수정하려는 데이터
  */
-export const updateHostInfo = async (hostId, data) => ax.put(`/stages/${hostId}`, data);
+// export const updateHostInfo = async (hostId, data) => ax.put(`/stages/${hostId}`, data);
+export const updateHostInfo = async (hostId, data) => ax.put(`/stages`, data);
 
 /**
  * 스타 상세 정보를 수정하는 API
