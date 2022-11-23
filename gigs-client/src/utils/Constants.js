@@ -1,43 +1,9 @@
 const BASE_URL = "";
 
-const queryString = (arr) => arr.reduce((p, c, ci, a) => p + (c[1] !== 0 && !c[1] ? '' : `${c[0]}=${c[1]}` + `${ci === a.length-1 ? '' : '&'}`), '?');
-
 export const DEV = true;
 
-export const API = {
-  signUp: () => `${BASE_URL}/signup`,
-  getCookie: () => `${BASE_URL}/wait`,
-  logOut: () => `${BASE_URL}/logout`,
-  getStarCards: ({name, stageTypes, genres, address, gender,}, sort, size, page) => `${BASE_URL}/stars${queryString([
-    ['name', name],
-    ['stageTypes', stageTypes?.join(',')],
-    ['genres', genres?.join(',')],
-    ['address', address],
-    ['gender', gender],
-    ['sort', sort],
-    ['size', size],
-    ['page', page],
-  ])}`,
-  getStageCards: ({name, stageTypes, genres, address, targetAge, targetGender, targetMinCount, startDate, endDate, startTime, endTime}, sort, size, page) => `${BASE_URL}/stages${queryString([
-    ['name', name],
-    ['stageTypes', stageTypes?.join(',')],
-    ['genres', genres?.join(',')],
-    ['address', address],
-    ['targetAge', targetAge],
-    ['targetGender', targetGender],
-    ['targetMinCount', targetMinCount],
-    ['startDate', startDate],
-    ['endDate', endDate],
-    ['startTime', startTime],
-    ['endTime', endTime],
-    ['sort', sort],
-    ['size', size],
-    ['page', page],
-  ])}`,
-  getHostInfo: (hostId) => `${BASE_URL}/stages/${hostId}`,
+export const URL = {
   kakaoAuthorize: `http://localhost:8080/oauth2/authorization/kakao`,
-  getUserName: (uuid) => `${BASE_URL}/signup${queryString([['uuid', uuid]])}`,
-  testApi: `${BASE_URL}/test/auth`,
 };
 
 export const PATH = {

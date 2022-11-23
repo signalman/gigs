@@ -26,10 +26,6 @@ const Main = ({
 
   const [text, setText] = useState("");
 
-  const handleClick = useCallback(async () => {
-    await axios.get(API.testApi);
-  }, []);
-
   return (
     <>
       <Container>
