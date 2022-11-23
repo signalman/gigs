@@ -32,9 +32,10 @@ const DeleteIcon = styled(RemoveCircleIcon)((props) => ({
 
 const ReservationItem = ({
   data,
+  onDeletePost,
   editable,
 }) => {
-  const { startDate, startTime, endTime, genres } = data;
+  const { postId, startTime, endTime, genres } = data;
 
   return (
     <Grid item>
@@ -46,7 +47,7 @@ const ReservationItem = ({
           <Box key={genre} sx={{ textAlign: 'center', fontSize: '14px', fontWeight: 'bold'}}>{genre}</Box>
         ))}
         {editable ? (
-          <DeleteIcon onClick={(e) => {e.stopPropagation(); console.log('DELETE')}} />
+          <DeleteIcon onClick={(e) => {e.stopPropagation(); onDeletePost(postId); }} />
         ) : (<></>)}
       </Box>
     </Grid>

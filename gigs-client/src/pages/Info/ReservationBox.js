@@ -4,10 +4,11 @@ import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import { PickersDay } from '@mui/x-date-pickers';
 import styled from '@emotion/styled';
 import { Box, TextField } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { COLOR } from '../../utils/Constants';
 import ReservationTable from './ReservationTable';
 import moment from 'moment';
+import { deletePost } from '../../utils/Api';
 
 const Container = styled(Box)(() => ({
   width: '1200px',
@@ -47,11 +48,20 @@ const Content = styled(Box)((props) => ({
 
 const ReservationBox = ({
   posts,
+  setPosts,
   editable,
 }) => {
   const [selectedDay, setSelectedDay] = useState(moment());
   const [dataForCalendar, setDataForCalendar] = useState({});
 
+  const handleDeletePostClick = useCallback(async (postId) => {
+    const response = await deletePost(postId);
+
+    console.log('포스트 삭제 결과:')
+    console.log(response);
+
+    setPosts(posts?.filter(post => post.postId !== postId));
+  }, [posts, setPosts]);
 
   useEffect(() => {
     const newDataForCalendar = {};
@@ -102,7 +112,7 @@ const ReservationBox = ({
         <Content>
           {dataForCalendar[selectedDay.format("YYYY-MM-DD")] > 0 ? (
             <Box sx={{ width: '480px', }}>
-              <ReservationTable timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} editable={editable} />
+              <ReservationTable timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} onDeletePost={handleDeletePostClick} editable={editable} />
             </Box>
           ) : (
             <Box sx={{ width: '480px', height: '380px', lineHeight: '380px', color: COLOR.grey, textAlign: 'center', fontSize: '20px' }}>

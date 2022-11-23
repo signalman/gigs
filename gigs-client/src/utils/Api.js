@@ -107,3 +107,9 @@ export const updateHostInfo = async (hostId, data) => ax.put(`/stages`, data);
  * @param {{}} data 수정하려는 데이터
  */
 export const updateStarInfo = async (starId, data) => ax.put(`/stars/${starId}`, data);
+
+/**
+ * 포스트 하나를 삭제하는 API
+ * @param {String} postId 삭제하려는 포스트의 id
+ */
+export const deletePost = (postId) => ax.delete(`/posts/${postId}`);
