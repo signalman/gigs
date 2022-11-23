@@ -36,6 +36,7 @@ const EditIconBox = styled(Box)((props) => ({
 }));
 
 const Introduction = ({
+  editable,
   openEditIntroduceDialog,
   introduce,
 }) => {
@@ -43,9 +44,11 @@ const Introduction = ({
     <Container>
       <Title>
         소개글
-        <EditIconBox onClick={() => openEditIntroduceDialog()}>
-          <EditIcon sx={{ m: '10px', }} />
-        </EditIconBox>
+        {editable ? (
+          <EditIconBox onClick={() => openEditIntroduceDialog()}>
+            <EditIcon sx={{ m: '10px', }} />
+          </EditIconBox>
+        ) : (<></>)}
       </Title>
       <Content dangerouslySetInnerHTML={{__html: introduce}} />
     </Container>

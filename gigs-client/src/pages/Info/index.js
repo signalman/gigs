@@ -20,13 +20,18 @@ import SelectOneDialog from './dialogs/SelectOneDialog';
 import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
 import SelectAllDialog from './dialogs/SelectAllDialog';
 import EditMemberDialog from './dialogs/EditMemberDialog';
+import { useCookies } from 'react-cookie';
 
 const Info = ({
   target,
 }) => {
   const params = useParams();
+  const [cookies, setCookie, removeCookie] = useCookies(['userId']);
 
   const [data, setData] = useState(DUMMY.host);
+  const [posts, setPosts] = useState(DUMMY.host.posts);
+  const editable = Number(cookies.userId) === data.userId;
+  console.log(`editable: ${editable}`);
 
   const editNameDialog = useDialog();
   // const editAddressDialog = useDialog(); // TODO: 우편번호 API 로 구현
@@ -71,6 +76,7 @@ const Info = ({
   }, [data, updateInfo]);
 
   useEffect(() => {
+    // dialog settings
     editNameDialog.initialize([data.name]);
 
     editAreaDialog.initialize([data.stageSize]);
@@ -89,17 +95,20 @@ const Info = ({
       case SYMBOL.star:
         fetchStarInfo(params.id, (response) => {
           const newData = {
-            name: response.data.name,
-            // address: '',
-            score: response.data.score,
-            reviewCount: response.data.reviews?.length,
-            introduce: response.data.introduce,
+            userId: response.data.userId,
+            starId: response.data.starId,
 
-            genres: response.data.starGenres,
-            gender: response.data.gender,
-            memberNumber: response.data.memberNumber,
-            stageTypes: response.data.starStageTypes,
-            showCount: response.data?.showCount,
+            name: response.data.name || "",
+            // address: '',
+            score: response.data.score || '0',
+            reviewCount: response.data.reviews?.length || 0,
+            introduce: response.data.introduce || '',
+
+            genres: response.data.starGenres || [],
+            gender: response.data.gender || 'MIXED',
+            memberNumber: response.data.memberNumber || '0',
+            stageTypes: response.data.starStageTypes || [],
+            showCount: response.data?.showCount || '0',
           }
 
           console.log(newData);
@@ -110,7 +119,9 @@ const Info = ({
       case SYMBOL.stage:
         fetchHostInfo(params.id, (response) => {
           const newData = {
-            name: response.data.name,
+            userId: response.data.userId || 756,
+
+            name: response.data.name || "",
             address: response.data.address,
             score: response.data.score,
             reviewCount: response.data.reviews?.length,
@@ -125,9 +136,12 @@ const Info = ({
             stageType: response.data.stageType,
           }
 
+          console.log('호스트 정보:')
           console.log(newData);
+          console.log(response.data.posts);
 
           setData(newData);
+          setPosts(response.data.posts);
         });
         break;
       default:
@@ -148,6 +162,7 @@ const Info = ({
           reviewCount: data.reviewCount,
         }}
         openEditNameDialog={editNameDialog.open}
+        editable={editable}
       />
 
       <Box sx={{ width: '1200px', display: 'flex', m: '0 auto', mt: '25px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
@@ -162,6 +177,7 @@ const Info = ({
               showCount: data?.showCount,
               stageType: data?.stageType,
             }}
+            editable={editable}
             openEditAreaDialog={editAreaDialog.open}
             openEditTargetDialog={editTargetDialog.open}
             openEditPayDialog={editPayDialog.open}
@@ -176,6 +192,7 @@ const Info = ({
               stageTypes: data.stageTypes,
               showCount: data.showCount,
             }}
+            editable={editable}
             openEditGenresDialog={editGenresDialog.open}
             openEditMemberDialog={editMemberDialog.open}
             openEditStageTypesDialog={editStageTypesDialog.open}
@@ -188,10 +205,10 @@ const Info = ({
       </Box>
       
       {target === SYMBOL.stage ? (
-        <ReservationBox data={data} />
+        <ReservationBox posts={posts} editable={editable} />
       ) : (<></>)}
       {/* 소개글 */}
-      <Introduction openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
+      <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
       {/* 리뷰 */}
       <ReviewBox />
 

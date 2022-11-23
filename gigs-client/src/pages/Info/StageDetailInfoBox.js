@@ -14,6 +14,7 @@ const StageDetailInfoBox = ({
   openEditTargetDialog,
   openEditPayDialog,
   openEditStageTypeDialog,
+  editable,
 }) => {
   const {
     stageSize,
@@ -32,11 +33,11 @@ const StageDetailInfoBox = ({
         backgroundColor: COLOR.whity,
       }}
     >
-      <DetailInfoItem Icon={PhotoSizeSelectSmallIcon} onEdit={openEditAreaDialog} >{`${stageSize}m^2`}</DetailInfoItem>
-      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditTargetDialog}>{`${targetAge}대 ${targetGender} ${targetMinCount}인 이상`}</DetailInfoItem>
-      <DetailInfoItem Icon={LocalAtmIcon} onEdit={openEditPayDialog}>{`${pay}원 이상`}</DetailInfoItem>
-      <DetailInfoItem Icon={MicExternalOnIcon} uneditable>{`${showCount}회 이상`}</DetailInfoItem>
-      <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypeDialog}>{stageType}</DetailInfoItem>
+      <DetailInfoItem Icon={PhotoSizeSelectSmallIcon} onEdit={openEditAreaDialog} editable={editable} >{`${stageSize}m^2`}</DetailInfoItem>
+      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditTargetDialog} editable={editable}>{`${targetAge}대 ${targetGender} ${targetMinCount}인 이상`}</DetailInfoItem>
+      <DetailInfoItem Icon={LocalAtmIcon} onEdit={openEditPayDialog} editable={editable}>{`${pay}원 이상`}</DetailInfoItem>
+      <DetailInfoItem Icon={MicExternalOnIcon} editable={false}>{`${showCount}회 이상`}</DetailInfoItem>
+      <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypeDialog} editable={editable}>{stageType}</DetailInfoItem>
     </Box>
   );
 };

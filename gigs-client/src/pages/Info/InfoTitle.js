@@ -69,6 +69,7 @@ const ReviewCount = styled(Typography)((props) => ({
 const InfoTitle = ({
   titleInfo,
   openEditNameDialog,
+  editable,
 }) => {
   const {
     name,
@@ -80,9 +81,11 @@ const InfoTitle = ({
     <Container>
       <Name>
         {name || '이름을 입력해주세요.'}
-        <EditIconBox onClick={() => openEditNameDialog()}>
-          <EditIcon sx={{ m: '10px', width: '30px', height: '30px', }} />
-        </EditIconBox>
+        {editable ? (
+          <EditIconBox onClick={() => openEditNameDialog()}>
+            <EditIcon sx={{ m: '10px', width: '30px', height: '30px', }} />
+          </EditIconBox>
+        ) : (<></>)}
       </Name>
       <Address>{address ? `${address.siDo} ${address.siGun} ${address.road}` : ''}</Address>
       <ButtonBox>
