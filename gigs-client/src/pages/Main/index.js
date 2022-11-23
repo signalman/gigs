@@ -1,18 +1,15 @@
-import { Box, Button, styled } from '@mui/material';
-import React, { useCallback, useRef, useState } from 'react';
-// import KakaoBtn from '../../../public/img/kakao_login_button.png';
-import axios from 'axios';
-import { API } from '../../utils/Constants';
-import SunEditor from 'suneditor-react';
-import 'suneditor/dist/css/suneditor.min.css';
-
-const {kakao} = window;
+import { Box, styled } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { COLOR } from '../../utils/Constants';
 
 const Container = styled(Box)((p) => ({
-  width: '1200px',
+  width: '100vw',
   margin: '0 auto',
-  height: '1500px', // 임시
-  backgroundColor: 'pink',
+  height: '100vh', // 임시
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'relative',
 }));
 
 /**
@@ -22,35 +19,61 @@ const Container = styled(Box)((p) => ({
 const Main = ({
   children,
 }) => {
-  const editor = useRef();
+  const [count, setCount] = useState(100000);
 
-  const [text, setText] = useState("");
+  useEffect(() => {
+    const counter = setInterval(() => {
+      setCount(count + 1000);
+    }, 3000);
+
+    return () => {
+      clearInterval(counter);
+    }
+  }, [count]);
 
   return (
     <>
       <Container>
-        {children}
-        <SunEditor
-          lang="ko"
-          defaultValue={text}
-          onChange={(content) => {setText(content)}}
-          getSunEditorInstance={(sunEditor) => {editor.current = sunEditor}}
-          setOptions={{
-            buttonList: [
-              ['fontSize', 'align'],
-              // ['paragraphStyle', 'blockquote'],
-              ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
-              ['fontColor', 'hiliteColor', 'textStyle'],
-              ['removeFormat'],
-              ['outdent', 'indent'],
-              // ['align', 'horizontalRule', 'list', 'lineHeight'],
-            ]
-          }}
-        />
-        <Button onClick={() => {
-          console.log(`text: ${text}`)
-          console.log(editor.current.getContents());
-        }} >하하</Button>
+        <img style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          zIndex: -100,
+          opacity: .5,
+        }} src="https://cdn-afpnk.nitrocdn.com/BgEWMcOYKEoUiTnQXhfKSvRSdRITWbgr/assets/static/optimized/rev-e48f82d/wp-content/uploads/2021/06/Musician-Image.png" alt="iimg" />
+        <Box sx={{display: 'flex', flexDirection: 'column',}}>
+          <Box sx={{fontSize: '40px', alignSelf: 'flex-start', mb: '20px'}}><span style={{fontStyle: 'italic', fontWeight: 'bold', color: COLOR.main}}>gigs</span>는 현재</Box>
+          <Box sx={{fontSize: '80px', fontWeight: 'bold', alignSelf: 'center', mb: '20px'}}>{count}명의</Box>
+          <Box sx={{fontSize: '40px', alignSelf: 'flex-end'}}>스타와 함께 하고 있습니다!</Box>
+          <Box
+            sx={{
+              display: 'flex',
+              width: '220px',
+              height: '70px',
+              mt: '30px',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '25px',
+              fontWeight: 'bold',
+              alignSelf: 'center',
+              backgroundColor: `${COLOR.main}00`,
+              // color: COLOR.main,
+              boxShadow: 0,
+              borderRadius: '25px',
+              cursor: 'pointer',
+              userSelect: 'none',
+              transition: '.5s ease-out',
+              '&:hover': {
+                backgroundColor: `${COLOR.main}`,
+                boxShadow: `0 0 8px ${COLOR.blacky}`,
+                color: 'white',
+              }
+            }}
+            onClick={() => {alert('뻥이야')}}
+          >
+            지금 바로 가입하기
+          </Box>
+        </Box>
       </Container>
     </>
   );
