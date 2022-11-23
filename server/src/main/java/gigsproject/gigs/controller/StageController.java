@@ -47,7 +47,7 @@ public class StageController {
      *  호스트 등록 + 수정 (동일)
      */
     @PutMapping("/stages")
-    public void create(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
+    public String create(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
                        @ModelAttribute StageForm stageForm,
                        HttpServletResponse response) throws IOException {
         User user = oAuth2UserCustom.getUser();
@@ -58,6 +58,8 @@ public class StageController {
 
         String redirecturl = "/stages/" + hostId;
         response.sendRedirect(redirecturl);
+
+        return "수정완료";
     }
 
 }
