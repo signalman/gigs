@@ -1,14 +1,9 @@
 package gigsproject.gigs.response;
 
 import gigsproject.gigs.domain.*;
-import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -17,7 +12,7 @@ public class StageCard {
 
     private Long hostId;
     private String imgUrl;
-    private String stageName;
+    private String name;
     private Address address;
 
     private Double stageSize;
@@ -33,7 +28,7 @@ public class StageCard {
     private StageType stageType;
 //    private List<PostGenreDto> genres;
 
-    private Double avgScore;
+    private Double score;
     private Integer showCount;
     private Integer reviewCount;
 
@@ -41,7 +36,7 @@ public class StageCard {
         this.hostId = host.getHostId();
         this.imgUrl = host.getImgs().isEmpty() ? "empty" : host.getImgs().get(0).getUrl();
         this.stageSize = host.getStageSize();
-        this.stageName = host.getStageName();
+        this.name = host.getStageName();
         this.address = host.getStageAddress();
         this.targetGender = String.valueOf(host.getTargetGender());
         this.targetAge = host.getTargetAge();
@@ -60,7 +55,7 @@ public class StageCard {
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
         this.reviewCount = isNull(host.getReviewCount()) ? 0 : host.getReviewCount();
-        this.avgScore = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
+        this.score = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 
     }
 }

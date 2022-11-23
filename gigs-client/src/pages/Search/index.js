@@ -2,12 +2,12 @@
 
 import { Box, CircularProgress, Grid, MenuItem, Select } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { API, DEV, SYMBOL } from '../../utils/Constants';
-import axios from 'axios';
+import { DEV, SYMBOL } from '../../utils/Constants';
 import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import StarCard from '../../components/StarCard';
 import StageCard from '../../components/StageCard';
+import { fetchHostList, fetchStarList } from '../../utils/Api';
 
 // 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
@@ -105,7 +105,8 @@ const Search = ({
     newSort = newSort || sort;
 
     try {
-      const response = await axios.get(API.getStarCards(newConditions, newSort, PAGE_SIZE, 0));
+      const response = await fetchStarList(newConditions, newSort, 15, 0);
+      // const response = await axios.get(API.getStarCards(newConditions, newSort, PAGE_SIZE, 0));
 
       const data = response.data;
       console.log(data);
@@ -131,7 +132,8 @@ const Search = ({
    */
   const fetchDataForStarPaging = useCallback(async () => {
     try {
-      const response = await axios.get(API.getStarCards(conditions, sort, PAGE_SIZE, page));
+      const response = await fetchStarList(conditions, sort, PAGE_SIZE, page);
+
       const data = response.data;
       setCards([...cards, ...data.content]);
       setPage(page+1);
@@ -163,7 +165,7 @@ const Search = ({
     newSort = newSort || sort;
 
     try {
-      const response = await axios.get(API.getStageCards(newConditions, newSort, PAGE_SIZE, 0));
+      const response = await fetchHostList(newConditions, newSort, 15, 0);
 
       const data = response.data;
       console.log(data)
@@ -189,7 +191,7 @@ const Search = ({
    */
   const fetchDataForStagePaging = useCallback(async () => {
     try {
-      const response = await axios.get(API.getStageCards(conditions, sort, PAGE_SIZE, page));
+      const response = await fetchHostList(conditions, sort, PAGE_SIZE, page);
 
       const data = response.data;
       setCards([...cards, ...data.content]);
@@ -221,8 +223,10 @@ const Search = ({
         break;
       case SYMBOL.stage:
         fetchDataForStage();
+        break;
+      default:
     }
-  }, [target]);
+  }, [target, fetchDataForStar, fetchDataForStage]);
 
   // 무한 스크롤 이벤트 등록
   useEffect(() => {
@@ -253,9 +257,11 @@ const Search = ({
           break;
         case SYMBOL.stage:
           fetchDataForStagePaging();
+          break;
+        default:
       }
     } else if(!hasNextPage) setFetching(false);
-  }, [isFetching, hasNextPage, target]);
+  }, [isFetching, hasNextPage, fetchDataForStarPaging, fetchDataForStagePaging, target]);
 
   // 정렬 변경 시
   const handleSortChange = useCallback((e) => {
@@ -272,9 +278,10 @@ const Search = ({
       case SYMBOL.stage:
         fetchDataForStage(conditions, newSort);
         break;
+      default:
     }
 
-  }, [target, conditions]);
+  }, [target, conditions, fetchDataForStar, fetchDataForStage]);
 
   return (
     <Box

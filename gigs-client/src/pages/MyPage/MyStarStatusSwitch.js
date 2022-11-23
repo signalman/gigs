@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Switch } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { toggleStarStatus } from '../../utils/Api';
 import { COLOR } from '../../utils/Constants';
 
@@ -19,16 +19,17 @@ const MyStarStatusSwitch = ({
 }) => {
   const [isActive, setActive] = useState(status);
 
-  const handleActiveChange = (e) => {
-    toggleStarStatus(
-      (response) => {
-        setActive(!e.target.checked);
-      },
-      (err) => {
-        console.log(err);
-      }
-    )
-  };
+  const handleActiveChange = useCallback(async (e) => {
+    try {
+      const response = await toggleStarStatus();
+      console.log('토글 API 결과:')
+      console.log(response);
+
+      setActive(!e.target.checked);
+    } catch(err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <Container>

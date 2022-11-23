@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Box, Typography } from '@mui/material';
 import React from 'react';
 import { COLOR } from '../../utils/Constants';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Container = styled(Box)((props) => ({
   width: '1100px',
@@ -17,7 +18,8 @@ const Title = styled(Typography)((props) => ({
   lineHeight: '50px',
   fontSize: '20px',
   fontWeight: 'bold',
-  borderBottom: '1px solid black'
+  borderBottom: '1px solid black',
+  position: 'relative',
 }));
 
 const Content = styled(Box)((props) => ({
@@ -25,13 +27,25 @@ const Content = styled(Box)((props) => ({
   paddingBottom: '25px',
 }));
 
+const EditIconBox = styled(Box)((props) => ({
+  position: 'absolute',
+  top: 0, right: 0,
+  width: '50px',
+  height: '50px',
+  cursor: 'pointer',
+}));
+
 const Introduction = ({
+  openEditIntroduceDialog,
   introduce,
 }) => {
   return (
     <Container>
       <Title>
         소개글
+        <EditIconBox onClick={() => openEditIntroduceDialog()}>
+          <EditIcon sx={{ m: '10px', }} />
+        </EditIconBox>
       </Title>
       <Content dangerouslySetInnerHTML={{__html: introduce}} />
     </Container>

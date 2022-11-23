@@ -1,10 +1,8 @@
 package gigsproject.gigs.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import gigsproject.gigs.domain.*;
 import lombok.Data;
-import lombok.Getter;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -16,12 +14,14 @@ import static java.util.Objects.isNull;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class HostResponse {
 
+    private Long userId; //수정 권한을 위해
+
     private final Long hostId;
     private List<StageImg> imgUrl;
-    private String stageName;
+    private String name;
     private final Address address;
     private StageType stageType;
-    private String stageInfo;
+    private String introduce;
 
     private Double stageSize;
     private String targetGender;
@@ -33,9 +33,9 @@ public class HostResponse {
     private Integer targetMinCount;
 
     private Integer pay;
-    private Double avgScore;
+    private Double score;
     private Integer showCount;
-    private Integer reviewCount;
+    private List<Review> reviews;
 
     private List<PostResponse> posts;
 
@@ -43,9 +43,10 @@ public class HostResponse {
 
 
     public HostResponse(Host host) {
+        this.userId = host.getUser().getUserId();
         this.hostId = host.getHostId();
-        this.stageName = host.getStageName();
-        this.stageInfo = host.getStageInfo();
+        this.name = host.getStageName();
+        this.introduce = host.getStageInfo();
         this.imgUrl = host.getImgs().isEmpty() ? List.of() : host.getImgs();
         this.stageSize = host.getStageSize();
         this.address = host.getStageAddress();
@@ -60,9 +61,9 @@ public class HostResponse {
         this.stageType = host.getStageType();
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
-        this.reviewCount = isNull(host.getReviewCount()) ? 0 : host.getReviewCount();
+        this.reviews = isNull(host.getReviews()) ? List.of() : host.getReviews();
 
-        this.avgScore = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
+        this.score = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 
         this.posts = isNull(host.getPosts()) ? List.of() : host.getPosts().stream()
                 .map(post -> new PostResponse(post))

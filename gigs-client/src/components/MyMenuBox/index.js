@@ -1,14 +1,15 @@
 // refactor 221103
 
 import { Box, MenuItem, Fade, Menu, Dialog, DialogTitle, DialogContent } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { COLOR, PATH, API } from '../../utils/Constants';
+import { PATH, URL, } from '../../utils/Constants';
 import MenuImg from '../../images/MenuBox.png';
 import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
 import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
+import { logout } from '../../utils/Api';
 
 const Container = styled(Box)((props) => ({
   width: '100px',
@@ -38,11 +39,12 @@ const MyMenuBox = () => {
   const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
 
-  const menuCookie = useCookies('userName')
-  const [, , removeCookie] = useCookies('userName')
-  //console.log(menuCookie)
-  
+  const menuCookie = useCookies('userId')
+  // const [, , removeCookie] = useCookies('userId')
+  // console.log(menuCookie[0])
+
   useEffect(() => {
+    // 조건문 length 말고 다른 것 있을까요?
     if (Object.keys(menuCookie[0]).length !== 0) {
       setIsLogin(true);
     } else {
@@ -66,6 +68,25 @@ const MyMenuBox = () => {
   const handleLoginDialogClose = () => {
     setLoginDialogOpen(false);
   }
+
+  const handleLogOut = useCallback(async () => {
+    try {
+      const response = await logout();
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "로그아웃 하였습니다",
+          confirmButtonText: "확인"
+        }).then(() => {
+          // TODO
+          window.location.replace('/')
+        })
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <>
@@ -97,8 +118,7 @@ const MyMenuBox = () => {
             cancelButtonText: "아니요",
           }).then((res) => {
             if (res.isConfirmed) {
-              removeCookie('userName', { path: '/' })
-              window.location.replace('/')
+              handleLogOut();
             }
           });
           handleClose();
@@ -113,7 +133,7 @@ const MyMenuBox = () => {
           로그인 방법 선택
         </DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', }}>
-          <a href={API.kakaoAuthorize}>
+          <a href={URL.kakaoAuthorize}>
             <img src={KakaoLoginButtonImg} alt="asdf" />
           </a>
           {/* <Button

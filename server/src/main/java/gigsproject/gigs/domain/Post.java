@@ -31,14 +31,19 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<PostGenre> postGenres = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post")
+    @Builder.Default
+    private List<Proposal> proposals = new ArrayList<>();
+
     public void setHost(Host host) {
         this.host = host;
         host.getPosts().add(this);
     }
 
-    @OneToMany(mappedBy = "post")
-    @Builder.Default
-    private List<Proposal> proposals = new ArrayList<>();
+    public void setPostGenres(PostGenre genre) {
+        postGenres.add(genre);
+        genre.setPost(this);
+    }
 
 
 }
