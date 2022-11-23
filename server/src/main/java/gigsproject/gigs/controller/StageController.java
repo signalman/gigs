@@ -46,7 +46,7 @@ public class StageController {
     /**
      *  호스트 등록 + 수정 (동일)
      */
-    @PostMapping("/stages")
+    @PutMapping("/stages")
     public void create(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
                        @ModelAttribute StageForm stageForm,
                        HttpServletResponse response) throws IOException {

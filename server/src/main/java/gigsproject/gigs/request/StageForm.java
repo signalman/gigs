@@ -4,12 +4,14 @@ import gigsproject.gigs.domain.Address;
 import gigsproject.gigs.domain.Gender;
 import gigsproject.gigs.domain.StageImg;
 import gigsproject.gigs.domain.StageType;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalTime;
 import java.util.List;
 
 @Data
+@Builder
 public class StageForm {
 
 

@@ -18,6 +18,7 @@ public class PostController {
     public void PostSave(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
                          @RequestBody PostForm postForm) {
         User user = oAuth2UserCustom.getUser();
+
         if (user.getRole() != Role.ROLE_HOST) {
             throw new IllegalArgumentException("호스트가 아닙니다.");
         }

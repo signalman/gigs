@@ -59,6 +59,10 @@ public class Host extends BaseTimeEntity{
     @OneToMany(mappedBy = "host", cascade = ALL) @Builder.Default
     private final List<StageImg> imgs = new ArrayList<>();
 
+    @OneToMany(mappedBy = "host")
+    @Builder.Default
+    private List<Review> reviews = new ArrayList<>();
+
     public Host edit(StageForm stageForm) {
         stageName = stageForm.getStageName();
         stageInfo = stageForm.getStageInfo();
@@ -86,14 +90,19 @@ public class Host extends BaseTimeEntity{
 
         }
 
+        Genre genre = postForm.getGenre();
+        PostGenre postGenre = PostGenre.builder()
+                .genre(genre)
+                .build();
 
         Post post = Post.builder()
                 .host(this)
-//                .postGenres()
                 .date(postForm.getDate())
                 .startTime(postForm.getStartTime())
                 .endTime(postForm.getEndTime())
                 .build();
+
+        post.setPostGenres(postGenre);
         return post;
     }
 }
