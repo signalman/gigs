@@ -45,6 +45,52 @@ const Info = ({
   const editMemberDialog = useDialog();
   const editStageTypesDialog = useDialog();
 
+  const getStarInfo = useCallback(async () => {
+    const response = await fetchStarInfo(params.id);
+
+    const newData = {
+      name: response.data.name,
+      // address: '',
+      score: response.data.score,
+      reviewCount: response.data.reviews?.length,
+      introduce: response.data.introduce,
+
+      genres: response.data.starGenres,
+      gender: response.data.gender,
+      memberNumber: response.data.memberNumber,
+      stageTypes: response.data.starStageTypes,
+      showCount: response.data?.showCount,
+    }
+
+    console.log(newData);
+    
+    setData(newData);
+  }, [params]);
+
+  const getHostInfo = useCallback(async () => {
+    const response = await fetchHostInfo(params.id);
+
+    const newData = {
+      name: response.data.name,
+      address: response.data.address,
+      score: response.data.score,
+      reviewCount: response.data.reviews?.length,
+      introduce: response.data.introduce,
+
+      stageSize: response.data.stageSize,
+      targetAge: response.data.targetAge,
+      targetGender: response.data.targetGender,
+      targetMinCount: response.data.targetMinCount,
+      pay: response.data.pay,
+      showCount: response.data.showCount,
+      stageType: response.data.stageType,
+    }
+
+    console.log(newData);
+
+    setData(newData);
+  }, [params]);
+
   const updateInfo = useCallback(async (newData) => {
     let response;
 
@@ -93,60 +139,14 @@ const Info = ({
   useEffect(() => {
     switch(target) {
       case SYMBOL.star:
-        fetchStarInfo(params.id, (response) => {
-          const newData = {
-            userId: response.data.userId,
-            starId: response.data.starId,
-
-            name: response.data.name || "",
-            // address: '',
-            score: response.data.score || '0',
-            reviewCount: response.data.reviews?.length || 0,
-            introduce: response.data.introduce || '',
-
-            genres: response.data.starGenres || [],
-            gender: response.data.gender || 'MIXED',
-            memberNumber: response.data.memberNumber || '0',
-            stageTypes: response.data.starStageTypes || [],
-            showCount: response.data?.showCount || '0',
-          }
-
-          console.log(newData);
-          
-          setData(newData);
-        });
+        getStarInfo();
         break;
       case SYMBOL.stage:
-        fetchHostInfo(params.id, (response) => {
-          const newData = {
-            userId: response.data.userId || 756,
-
-            name: response.data.name || "",
-            address: response.data.address,
-            score: response.data.score,
-            reviewCount: response.data.reviews?.length,
-            introduce: response.data.introduce,
-
-            stageSize: response.data.stageSize,
-            targetAge: response.data.targetAge,
-            targetGender: response.data.targetGender,
-            targetMinCount: response.data.targetMinCount,
-            pay: response.data.pay,
-            showCount: response.data.showCount,
-            stageType: response.data.stageType,
-          }
-
-          console.log('호스트 정보:')
-          console.log(newData);
-          console.log(response.data.posts);
-
-          setData(newData);
-          setPosts(response.data.posts);
-        });
+        getHostInfo();
         break;
       default:
     }
-  }, [params, target]);
+  }, [target, getStarInfo, getHostInfo]);
 
   return (
     <>

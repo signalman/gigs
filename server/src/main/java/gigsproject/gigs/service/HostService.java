@@ -4,6 +4,7 @@ import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
+import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
@@ -43,5 +44,12 @@ public class HostService {
 
     public Host findByUser(User user) {
         return hostRepository.findByUser(user);
+    }
+
+    @Transactional
+    public Long edit(User user, StageForm stageForm) {
+        Host host = findByUser(user);
+        Host edit = host.edit(stageForm);
+        return host.getHostId();
     }
 }

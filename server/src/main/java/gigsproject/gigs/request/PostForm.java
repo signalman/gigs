@@ -2,8 +2,6 @@ package gigsproject.gigs.request;
 
 import gigsproject.gigs.domain.Genre;
 import gigsproject.gigs.domain.Host;
-import gigsproject.gigs.response.CloseTimeCheck;
-import gigsproject.gigs.response.OpenTimeCheck;
 import lombok.*;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -16,7 +14,7 @@ import java.time.LocalTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class PostSave {
+public class PostForm {
 
     @NotBlank
     private Host host;
@@ -28,10 +26,8 @@ public class PostSave {
     private LocalDate date;
 
     @NotBlank(message = "공연 끝 시간을 입력해주세요.")
-    @OpenTimeCheck
     private LocalTime startTime;
     @NotBlank(message = "공연 끝 시간을 입력해주세요.")
-    @CloseTimeCheck
     private LocalTime endTime;
 
 

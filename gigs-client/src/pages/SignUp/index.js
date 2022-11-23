@@ -2,11 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Button, TextField, Typography, Paper, Divider, Modal } from '@mui/material';
 import DaumPostCode from 'react-daum-postcode';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Cookies } from 'react-cookie';
-import axios from 'axios';
-import { API } from '../../utils/Constants';
 import { IMaskInput } from 'react-imask';
 import Swal from "sweetalert2";
+import { fetchUserNameAndUid, signUp } from '../../utils/Api';
 
 const style = {
   position: 'absolute',
@@ -35,7 +33,7 @@ const SignUp = (
   const [openPostcode, setOpenPostcode] = useState(false);
 
   const getUserIdAndName = useCallback(async (uuid) => {
-    const response = await axios.get(API.getUserName(uuid));
+    const response = await fetchUserNameAndUid(uuid);
     setName(response.data.name);
     setUid(response.data.uid);
   }, []);
@@ -47,7 +45,7 @@ const SignUp = (
     const uuid = location.search.substring(6);
 
     getUserIdAndName(uuid);
-  }, []);
+  }, [getUserIdAndName, location]);
 
   const onhandlePost = useCallback(async () => {
     const data = {
@@ -55,21 +53,22 @@ const SignUp = (
     };
 
     //console.log(data)
-    await axios.post(API.signUp(data), data)
-      .then(function (response) {
-        if (response.status === 200) {
-          Swal.fire({
-            icon: "success",
-            title: "회원가입 성공! \n로그인을 다시 해주세요.",
-            confirmButtonText: "확인"
-          })
-          navigate('/')
-          console.log(response)
-        }
-      }).catch(function (err) {
-        console.log(err);
-      });
-  }, [uid, name, siDo, siGun, road, detail, phoneNumber, role]);
+    try {
+      const response = await signUp(data);
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "회원가입 성공! \n로그인을 다시 해주세요.",
+          confirmButtonText: "확인"
+        })
+        navigate('/')
+        console.log(response)
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }, [uid, name, siDo, siGun, road, detail, phoneNumber, role, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

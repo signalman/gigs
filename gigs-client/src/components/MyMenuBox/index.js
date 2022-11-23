@@ -1,16 +1,15 @@
 // refactor 221103
 
 import { Box, MenuItem, Fade, Menu, Dialog, DialogTitle, DialogContent } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { COLOR, PATH, API } from '../../utils/Constants';
+import { PATH, URL, } from '../../utils/Constants';
 import MenuImg from '../../images/MenuBox.png';
 import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
 import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
-import axios from 'axios';
-import SelectInput from '@mui/material/Select/SelectInput';
+import { logout } from '../../utils/Api';
 
 const Container = styled(Box)((props) => ({
   width: '100px',
@@ -70,23 +69,24 @@ const MyMenuBox = () => {
     setLoginDialogOpen(false);
   }
 
-  const handleLogOut = async () => {
-    await axios.get(API.logOut())
-      .then(function (response) {
-        if (response.status === 200) {
-          Swal.fire({
-            icon: "success",
-            title: "로그아웃 하였습니다",
-            confirmButtonText: "확인"
-          }).then(() => {
-            window.location.replace('/')
-          })
-          // console.log(response)
-        }
-      }).catch(function (err) {
-        console.log(err);
-      });
-  };
+  const handleLogOut = useCallback(async () => {
+    try {
+      const response = await logout();
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "로그아웃 하였습니다",
+          confirmButtonText: "확인"
+        }).then(() => {
+          // TODO
+          window.location.replace('/')
+        })
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  }, []);
 
   return (
     <>
@@ -133,7 +133,7 @@ const MyMenuBox = () => {
           로그인 방법 선택
         </DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', }}>
-          <a href={API.kakaoAuthorize}>
+          <a href={URL.kakaoAuthorize}>
             <img src={KakaoLoginButtonImg} alt="asdf" />
           </a>
           {/* <Button

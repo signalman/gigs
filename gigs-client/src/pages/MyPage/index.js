@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import MyAccountBox from './MyAccountBox';
 import MyHistoryBox from './MyHistoryBox';
 import MyInfoBox from './MyInfoBox';
@@ -11,13 +11,15 @@ import MyStarStatusSwitch from './MyStarStatusSwitch';
 const MyPage = () => {
   const [user, setUser] = useState({});
 
-  useEffect(() => {
-    fetchMyPage((response) => {
-      console.log(response);
+  const getMyPage = useCallback(async () => {
+    const response = await fetchMyPage();
 
-      setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false});
-    })
+    setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false});
   }, []);
+
+  useEffect(() => {
+    getMyPage();
+  }, [getMyPage]);
 
   return (
     <Box sx={{ width: '1200px', margin: '0 auto', }}>
