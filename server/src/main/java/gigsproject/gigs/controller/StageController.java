@@ -48,18 +48,14 @@ public class StageController {
      */
     @PutMapping("/stages")
     public String create(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
-                       @ModelAttribute StageForm stageForm,
-                       HttpServletResponse response) throws IOException {
+                       @ModelAttribute StageForm stageForm) throws IOException {
         User user = oAuth2UserCustom.getUser();
         if (user.getRole() != Role.ROLE_HOST) {
             throw new IllegalArgumentException("호스트가 아닙니다.");
         }
         Long hostId = hostService.edit(user, stageForm);
 
-        String redirecturl = "/stages/" + hostId;
-        response.sendRedirect(redirecturl);
-
-        return "수정완료";
+        return hostId + ": 수정완료";
     }
 
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -78,18 +79,37 @@ public class ExceptionController {
     }
 
     /**
-     * 그외 에러들 (발견되면 처리 필요)
+     * 지원하지 않은 HTTP method 호출 할 경우 발생
      */
-    @ExceptionHandler(Exception.class)
-    protected ErrorResponse exceptionHandler(Exception e) {
-        log.error("handleEntityNotFoundException : {}" , e.getMessage());
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    protected ErrorResponse httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e) {
+        log.error("******************HttpRequestMethodNotSupportedException!!!******************");
+
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(e.getMessage())
-                .statusCode("500")
+                .statusCode("405")
                 .build();
 
-        errorResponse.addValidation("500", "Internal Server Error");
+        errorResponse.addValidation("405", "Method Not Allowed");
 
         return errorResponse;
     }
+
+    /**
+     * 그외 에러들 (발견되는대로 처리)
+     */
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(Exception.class)
+//    protected ErrorResponse exceptionHandler(Exception e) {
+//        log.error("handleEntityNotFoundException : {}" , e.getMessage());
+//        ErrorResponse errorResponse = ErrorResponse.builder()
+//                .message(e.getMessage())
+//                .statusCode("500")
+//                .build();
+//
+//        errorResponse.addValidation("500", "Internal Server Error");
+//
+//        return errorResponse;
+//    }
 }

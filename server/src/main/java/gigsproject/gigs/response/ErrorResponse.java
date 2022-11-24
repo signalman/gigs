@@ -3,12 +3,14 @@ package gigsproject.gigs.response;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
 @Builder
+@Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponse {
 

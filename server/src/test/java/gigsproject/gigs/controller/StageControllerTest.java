@@ -6,7 +6,7 @@ import gigsproject.gigs.domain.Role;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.request.StageForm;
-import org.aspectj.lang.annotation.Before;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,13 +16,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,6 +39,9 @@ class StageControllerTest {
     HostRepository hostRepository;
     @Autowired
     EntityManager em;
+
+    private Host host;
+    private User user;
 
 
     /**
@@ -65,20 +68,29 @@ class StageControllerTest {
      */
     @BeforeEach
     void setup() {
-        User user = User.builder()
+        user = User.builder()
                 .name("test")
                 .role(Role.ROLE_HOST)
                 .build();
         em.persist(user);
 
+        host = Host.builder()
+                .user(user)
+                .stageName("기존 제목")
+                .build();
+
+        em.persist(host);
+
     }
 
     @Test
     @DisplayName("무대 수정 테스트")
-    @WithMockUser(username = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-//    @WithUserDetails(value = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
-    void save () throws Exception{
+    @WithMockUser(username = "test", roles = {"admin"}, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    void save() throws Exception {
         //given
+
+        Host host = hostRepository.findByUser(user);
+
         StageForm stageForm = StageForm.builder()
                 .stageName("수정된 이름입니다.")
                 .stageInfo("수정된 내용입니다.")
@@ -86,12 +98,15 @@ class StageControllerTest {
         String request = objectMapper.writeValueAsString(stageForm);
 
         //expected
-        mockMvc.perform(post("/stages")
+        MvcResult mvcResult = mockMvc.perform(put("/stages")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                 .andExpect(status().isOk())
-                .andDo(print());
+                .andDo(print())
+                .andReturn();
 
+        String content = mvcResult.getResponse().getContentAsString();
+        Assertions.assertThat(content).isEqualTo(host.getHostId() + ": 수정완료");
 
     }
 }
