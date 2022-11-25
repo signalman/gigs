@@ -112,16 +112,14 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
     }
 
     @Override
-    public void editStar(StarEdit starEdit, Long starId) {
+    public void editStar(StarEdit starEdit) {
         queryFactory
                 .update(star)
                 .set(star.name, starEdit.getName())
                 .set(star.gender, starEdit.getGender())
-                .set(star.starGenres, starEdit.getGenres())
-                .set(star.starStageTypes, starEdit.getStageTypes())
                 .set(star.introduce, starEdit.getIntroduce())
                 .set(star.memberNumber, starEdit.getMemberNumber())
-                .where(star.starId.eq(starId))
+                .where(star.starId.eq(starEdit.getStarId()))
                 .execute();
     }
 }

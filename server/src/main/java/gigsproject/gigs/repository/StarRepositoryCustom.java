@@ -12,5 +12,5 @@ public interface StarRepositoryCustom {
 
     void updateStatus(Long id);
 
-    void editStar(StarEdit starEdit, Long starId);
+    void editStar(StarEdit starEdit);
 }

@@ -30,12 +30,12 @@ public class StarController {
         return starService.findById(starId);
     }
 
+    // TODO: 2022-11-25 - path-variable에서 그냥 /stars로 수정해야함.
     @PutMapping("/stars/{starId}")
-    public void update(@RequestBody StarEdit starEdit, @PathVariable Long starId) {
-        //장르, 성별, 멤버, 선호 무대, 스타이름, 소개글
-        log.info("통과했습니다.");
-        starService.editStar(starEdit, starId);
+    public void update(@RequestBody StarEdit starEdit) {
 
+        //장르, 성별, 멤버, 선호 무대, 스타이름, 소개글
+        starService.editStar(starEdit);
     }
 
 }
