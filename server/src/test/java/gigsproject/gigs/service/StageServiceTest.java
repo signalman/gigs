@@ -45,6 +45,7 @@ public class StageServiceTest {
         host = Host.builder()
                 .user(user)
                 .stageName("기존 제목")
+                .pay(1000)
                 .build();
 
         em.persist(host);
@@ -53,21 +54,23 @@ public class StageServiceTest {
 
     @Test
     @DisplayName("무대 등록 + 수정 테스트")
-    @WithMockUser(username = "test1", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+//    @WithMockUser(username = "test1", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void hostSave() throws Exception {
         //given
         StageForm stageForm = StageForm.builder()
-                .stageName("수정된 이름입니다.")
-                .stageInfo("수정된 내용입니다.")
+                .name("수정된 이름입니다.")
+                .introduce("수정된 내용입니다.")
+                .pay(1)
                 .build();
 
         //expected
+        assertThat(host.getPay()).isEqualTo(1000);
         Long edit = hostService.edit(user, stageForm);
 
         assertThat(edit).isEqualTo(host.getHostId());
-
         HostResponse response = hostService.findHost(edit);
         assertThat(response.getName()).isEqualTo("수정된 이름입니다.");
+        assertThat(response.getPay()).isEqualTo(1);
     }
 
     @Test

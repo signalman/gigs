@@ -6,17 +6,20 @@ import gigsproject.gigs.domain.StageImg;
 import gigsproject.gigs.domain.StageType;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalTime;
 import java.util.List;
 
-@Data
 @Builder
+@Getter
+@Setter
 public class StageForm {
 
-
-    private String stageName;
-    private String stageInfo;
+    private Long hostId;
+    private String name;
+    private String introduce;
 
     private LocalTime openTime;
     private LocalTime closeTime;
@@ -30,7 +33,7 @@ public class StageForm {
 
     private Gender targetGender;
     private Integer targetAge;
-    private Integer targetNumber;
+    private Integer targetMinCount;
 
     private Integer showCount;
     private Integer reviewCount;

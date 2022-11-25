@@ -56,10 +56,10 @@ const Info = ({
       reviewCount: response.data.reviews?.length,
       introduce: response.data.introduce,
 
-      genres: response.data.starGenres,
+      genres: response.data.starGenres?.map(genre => genre.genreName),
       gender: response.data.gender,
       memberNumber: response.data.memberNumber,
-      stageTypes: response.data.starStageTypes,
+      stageTypes: response.data.starStageTypes?.map(stageType => stageType.stageTypeName),
       showCount: response.data?.showCount,
     }
 
@@ -138,9 +138,9 @@ const Info = ({
     editStageTypeDialog.initialize([data.stageType]);
     editIntroduceDialog.initialize([data.introduce]);
 
-    editGenresDialog.initialize([data.genres?.map(genre => genre.genreName)]);
+    editGenresDialog.initialize([data.genres]);
     editMemberDialog.initialize([data.gender, data.memberNumber]);
-    editStageTypesDialog.initialize([data.stageTypes?.map(stageType => stageType.stageTypeName)]);
+    editStageTypesDialog.initialize([data.stageTypes]);
   }, [data]);
 
   useEffect(() => {
