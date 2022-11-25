@@ -5,7 +5,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import MicExternalOnIcon from '@mui/icons-material/MicExternalOn';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { COLOR } from '../../utils/Constants';
+import { COLOR, ifNull } from '../../utils/Constants';
 import DetailInfoItem from './DetailInfoItem';
 
 const StageDetailInfoBox = ({
@@ -14,6 +14,7 @@ const StageDetailInfoBox = ({
   openEditTargetDialog,
   openEditPayDialog,
   openEditStageTypeDialog,
+  editable,
 }) => {
   const {
     stageSize,
@@ -32,11 +33,11 @@ const StageDetailInfoBox = ({
         backgroundColor: COLOR.whity,
       }}
     >
-      <DetailInfoItem Icon={PhotoSizeSelectSmallIcon} onEdit={openEditAreaDialog} >{`${stageSize}m^2`}</DetailInfoItem>
-      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditTargetDialog}>{`${targetAge}대 ${targetGender} ${targetMinCount}인 이상`}</DetailInfoItem>
-      <DetailInfoItem Icon={LocalAtmIcon} onEdit={openEditPayDialog}>{`${pay}원 이상`}</DetailInfoItem>
-      <DetailInfoItem Icon={MicExternalOnIcon} uneditable>{`${showCount}회 이상`}</DetailInfoItem>
-      <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypeDialog}>{stageType}</DetailInfoItem>
+      <DetailInfoItem Icon={PhotoSizeSelectSmallIcon} onEdit={openEditAreaDialog} editable={editable} >{ifNull(stageSize, '', 'm^2')}</DetailInfoItem>
+      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditTargetDialog} editable={editable}>{((targetAge || targetAge === '0') && targetGender && (targetMinCount || targetMinCount === '0')) ? `${targetAge}대 ${targetGender} ${targetMinCount}인 이상` : '데이터를 추가해주세요.'}</DetailInfoItem>
+      <DetailInfoItem Icon={LocalAtmIcon} onEdit={openEditPayDialog} editable={editable}>{ifNull((pay), '', '원 이상')}</DetailInfoItem>
+      <DetailInfoItem Icon={MicExternalOnIcon} editable={false}>{`${showCount}회 이상`}</DetailInfoItem>
+      <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypeDialog} editable={editable}>{ifNull(stageType)}</DetailInfoItem>
     </Box>
   );
 };
