@@ -13,9 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.TestExecutionEvent;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,32 +44,12 @@ class StageControllerTest {
     @Autowired
     EntityManager em;
 
+    @MockBean
+    UserDetailsService userDetailsService;
+
     private Host host;
     private User user;
 
-
-    /**
-     * "hostId": 761,
-     * "imgUrl": "empty",
-     * "name": "qweryy",
-     * "address": {
-     * "siDo": "경기도 용인시",
-     * "siGun": "수지구",
-     * "road": "경기도 용인시 수지구 풍덕천로 41길 5",
-     * "detail": "222동 333호"
-     * },
-     * "stageSize": 70,
-     * "targetGender": "WOMEN",
-     * "targetAge": 30,
-     * "openTime": "17:00:00",
-     * "closeTime": "23:00:00",
-     * "targetMinCount": 30,
-     * "pay": 50000,
-     * "stageType": "BAR",
-     * "score": 4.3,
-     * "showCount": 46,
-     * "reviewCount": 22
-     */
     @BeforeEach
     void setup() {
         user = User.builder()
@@ -85,15 +69,15 @@ class StageControllerTest {
 
     @Test
     @DisplayName("무대 수정 테스트")
-    @WithMockUser(username = "test", roles = {"admin"}, setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void save() throws Exception {
         //given
-
+        UserDetails userDetails = userDetailsService.loadUserByUsername("test");
         Host host = hostRepository.findByUser(user);
 
         StageForm stageForm = StageForm.builder()
-                .stageName("수정된 이름입니다.")
-                .stageInfo("수정된 내용입니다.")
+                .name("수정된 이름입니다.")
+                .introduce("수정된 내용입니다.")
                 .build();
         String request = objectMapper.writeValueAsString(stageForm);
 

@@ -16,7 +16,7 @@ import java.time.LocalTime;
 @Getter
 public class PostForm {
 
-    @NotBlank
+//    @NotBlank
     private Host host;
 
     @NotBlank(message = "원하는 장르를 입력해주세요.")
