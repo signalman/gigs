@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
 import CategoryItem from '../CategoryItem';
+import { posts } from '../../utils/Api'
 
 const Item = styled(Box)((p) => ({
     width: p.type === 'half' ? '50%' : '100%',
@@ -25,12 +26,15 @@ const ItemName = styled(Box)(() => ({
 const PostEnroll = () => {
     const [open, setOpen] = useState(false);
     const [writing, setWriting] = useState('');
-    const [postDate, setPostDate] = useState(moment());
+    const [postDate, setPostDate] = useState(moment().format("YYYY-MM-DD"));
     const [startTime, setStartTime] = useState('00');
     const [endTime, setEndTime] = useState('00');
     const [genres, setGenres] = useState([]);
     const [selectedGenres, setSelectedGenres] = useState({});
     const [stageItems, setStageItems] = useState('');
+
+    const [postGenres, setPostGenres] = useState([]);
+
     useEffect(() => {
         setGenres("DANCE, SESSION, ROCK, HIPHOP, INDIE, JAZZ, POP".split(", "));
     }, []);
@@ -45,6 +49,13 @@ const PostEnroll = () => {
 
     const selectGenre = useCallback((genre) => {
         setSelectedGenres({ ...selectedGenres, [genre]: !selectedGenres[genre] });
+        if (!selectedGenres[genre] === true) {
+            console.log(genre)
+            setPostGenres(postGenres => [...postGenres, genre])
+        }
+        else if(!selectedGenres[genre] === false) {
+            setPostGenres(postGenres.filter(pGenre => pGenre !== genre))
+        }
     }, [selectedGenres]);
 
     const handleOpen = () => {
@@ -55,13 +66,20 @@ const PostEnroll = () => {
         setOpen(false);
     }
 
-    const handleSubmit = () => {
-        console.log(postDate.format("YYYY-MM-DD"))
+    const handleSubmit = async () => {
+        console.log(postDate)
         console.log(startTime)
         console.log(endTime)
-        console.log(selectedGenres)
         console.log(stageItems)
         console.log(writing)
+        console.log(postGenres)
+
+        const data = { date: postDate, startTime : {hour:1,minute:20 ,second:20 ,nano:0}, endTime: {hour : 12, minute:30, second:30,nano:0} ,genre: "DANCE"}
+        console.log(data)
+        const response = await posts(data)
+        console.log(response)
+        // const data = {postDate,startTime,endTime}
+        // const response = await posts(data)
     }
 
     return (
@@ -80,7 +98,7 @@ const PostEnroll = () => {
                             <DatePicker
                                 value={postDate}
                                 onChange={(e) => {
-                                    setPostDate(e)
+                                    setPostDate(e.format("YYYY-MM-DD"))
                                 }}
                                 renderInput={(params) => <TextField
                                     InputProps={{

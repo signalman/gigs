@@ -10,6 +10,7 @@ import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
 import { logout } from '../../utils/Api';
+import PostEnroll from '../PostEnroll';
 
 const Container = styled(Box)((props) => ({
   width: '100px',
@@ -106,7 +107,7 @@ const MyMenuBox = () => {
       >
         <MenuItem onClick={() => { navigate(PATH.myPage); handleClose() }}>내 정보</MenuItem>
         {/* TODO: 포스트 등록과 로그아웃은 따로 모달로 처리 */}
-        <MenuItem onClick={() => { navigate('/posts'); handleClose() }}>포스트 등록</MenuItem>
+        <MenuItem onClick={() => {}}><PostEnroll/></MenuItem>
 
         <MenuItem onClick={() => {
           Swal.fire({
