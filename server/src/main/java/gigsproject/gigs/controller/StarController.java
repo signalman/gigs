@@ -1,5 +1,6 @@
 package gigsproject.gigs.controller;
 
+import gigsproject.gigs.request.StarEdit;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
 import gigsproject.gigs.response.StarResponse;
@@ -8,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -30,6 +28,14 @@ public class StarController {
     @GetMapping("/stars/{starId}")
     public StarResponse starInfo(@PathVariable Long starId) {
         return starService.findById(starId);
+    }
+
+    // TODO: 2022-11-25 - path-variable에서 그냥 /stars로 수정해야함.
+    @PutMapping("/stars/{starId}")
+    public void update(@RequestBody StarEdit starEdit) {
+
+        //장르, 성별, 멤버, 선호 무대, 스타이름, 소개글
+        starService.editStar(starEdit);
     }
 
 }

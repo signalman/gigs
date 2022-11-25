@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
@@ -24,6 +23,7 @@ import static gigsproject.gigs.domain.StageType.*;
 @RequiredArgsConstructor
 public class InitUser {
     private final InitUserService initUserService;
+
 
 //    @PostConstruct
 //    public void init() {

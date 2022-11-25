@@ -2,6 +2,7 @@ package gigsproject.gigs.repository;
 
 import gigsproject.gigs.domain.Star;
 import gigsproject.gigs.domain.User;
+import gigsproject.gigs.request.StarEdit;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
 import org.springframework.data.domain.Page;
@@ -16,4 +17,5 @@ public interface StarRepository extends JpaRepository<Star, Long>, StarRepositor
 
     Star findByUser(User user);
 
+    void editStar(StarEdit starEdit);
 }

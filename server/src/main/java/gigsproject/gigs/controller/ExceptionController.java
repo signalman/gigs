@@ -104,7 +104,7 @@ public class ExceptionController {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     protected ErrorResponse exceptionHandler(Exception e) {
-        log.error("handleEntityNotFoundException : {}" , e.getMessage());
+        log.error("handleEntityNotFoundException : {}", e.getMessage());
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(e.getMessage())
                 .statusCode("500")

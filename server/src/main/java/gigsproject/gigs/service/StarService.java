@@ -1,12 +1,15 @@
 package gigsproject.gigs.service;
 
-import gigsproject.gigs.domain.Star;
-import gigsproject.gigs.domain.User;
+import gigsproject.gigs.domain.*;
+import gigsproject.gigs.repository.StarGenreRepository;
 import gigsproject.gigs.repository.StarRepository;
+import gigsproject.gigs.repository.StarStageTypeRepository;
+import gigsproject.gigs.request.StarEdit;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
 import gigsproject.gigs.response.StarResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,8 +19,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class StarService {
     private final StarRepository starRepository;
+    private final StarGenreRepository starGenreRepository;
+    private final StarStageTypeRepository starStageTypeRepository;
 
     public void createStars(Star star) {
         starRepository.save(star);
@@ -48,5 +54,56 @@ public class StarService {
     @Transactional
     public void updateStatus(Long id) {
         starRepository.updateStatus(id);
+    }
+
+    @Transactional
+    public void editStar(StarEdit starEdit) {
+        Long starId = starEdit.getStarId();
+
+        Star findStar = starRepository.findById(starId).orElseThrow(
+                () -> new IllegalArgumentException("해당 스타가 없습니다.")
+        );
+
+        //스타 장르 지우기
+        starGenreRepository.deleteAllByStar(findStar);
+
+        //스타 장르 삽입
+        if (starEdit.getGenres() != null) {
+            List<Genre> genres = starEdit.getGenres();
+            for (Genre genre : genres) {
+                StarGenre starGenre = StarGenre.builder()
+                        .genre(genre)
+                        .star(findStar)
+                        .build();
+                starGenreRepository.save(starGenre);
+            }
+        }
+
+        //스타 스테이지 타입 지우기
+        starStageTypeRepository.deleteAllByStar(findStar);
+
+        //스타 스테이지 타입 삽입
+        if (starEdit.getStageTypes() != null) {
+            List<StageType> stageTypes = starEdit.getStageTypes();
+            for (StageType stageType : stageTypes) {
+                StarStageType starStageType = StarStageType.builder()
+                        .stageType(stageType)
+                        .star(findStar)
+                        .build();
+                starStageTypeRepository.save(starStageType);
+            }
+        }
+        //스타 엔티티 수정
+        starRepository.editStar(starEdit);
+        log.info("이름: {}", starEdit.getName());
+        log.info("성별: {}", starEdit.getGender());
+        log.info("소개글: {}", starEdit.getIntroduce());
+    }
+
+    public Star findStarById(Long starId) {
+        Star star = starRepository.findById(starId).orElseThrow(
+                () -> new IllegalArgumentException("해당 스타가 존재하지 않습니다.")
+        );
+        return star;
     }
 }

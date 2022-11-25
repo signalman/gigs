@@ -6,6 +6,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.EnumPath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import gigsproject.gigs.domain.*;
+import gigsproject.gigs.request.StarEdit;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
 import org.springframework.data.domain.Page;
@@ -108,5 +109,17 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
                     .where(star.starId.eq(id))
                     .execute();
         }
+    }
+
+    @Override
+    public void editStar(StarEdit starEdit) {
+        queryFactory
+                .update(star)
+                .set(star.name, starEdit.getName())
+                .set(star.gender, starEdit.getGender())
+                .set(star.introduce, starEdit.getIntroduce())
+                .set(star.memberNumber, starEdit.getMemberNumber())
+                .where(star.starId.eq(starEdit.getStarId()))
+                .execute();
     }
 }
