@@ -12,6 +12,7 @@ const StarDetailInfoBox = ({
   openEditGenresDialog,
   openEditMemberDialog,
   openEditStageTypesDialog,
+  editable,
 }) => {
   const {
     genres,
@@ -28,10 +29,10 @@ const StarDetailInfoBox = ({
         backgroundColor: COLOR.whity,
       }}
     >
-      <DetailInfoItem Icon={HeadsetMicIcon} onEdit={openEditGenresDialog} >{genres?.map(genre => genre.genreName).join(', ')}</DetailInfoItem>
-      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditMemberDialog} >{`${gender} ${memberNumber}인`}</DetailInfoItem>
-      <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypesDialog} >{stageTypes?.map(stageType => stageType.stageTypeName).join(', ')}</DetailInfoItem>
-      <DetailInfoItem Icon={MicExternalOnIcon} uneditable >{`${showCount}회 이상`}</DetailInfoItem>
+      <DetailInfoItem Icon={HeadsetMicIcon} onEdit={openEditGenresDialog} editable={editable} >{genres?.map(genre => genre.genreName).join(', ')}</DetailInfoItem>
+      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditMemberDialog} editable={editable} >{`${gender} ${memberNumber}인`}</DetailInfoItem>
+      <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypesDialog} editable={editable} >{stageTypes?.map(stageType => stageType.stageTypeName).join(', ')}</DetailInfoItem>
+      <DetailInfoItem Icon={MicExternalOnIcon} editable={false} >{`${showCount}회 이상`}</DetailInfoItem>
     </Box>
   );
 };

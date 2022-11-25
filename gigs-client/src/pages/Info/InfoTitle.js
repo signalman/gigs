@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Box, Button, Typography, Rating } from '@mui/material';
+import { Box, Button, Rating } from '@mui/material';
 import React from 'react';
 import { COLOR } from '../../utils/Constants';
 import StarIcon from '@mui/icons-material/Star';
@@ -14,7 +14,7 @@ const Container = styled(Box)((props) => ({
   position: 'relative',
 }));
 
-const Name = styled(Typography)((props) => ({
+const Name = styled(Box)((props) => ({
   height: "100px",
   lineHeight: "100px",
   fontSize: "40px",
@@ -31,7 +31,7 @@ const EditIconBox = styled(Box)((props) => ({
   cursor: 'pointer',
 }));
 
-const Address = styled(Typography)((props) => ({
+const Address = styled(Box)((props) => ({
   position: 'absolute',
   left: 0,
   bottom: 0,
@@ -61,7 +61,8 @@ const RatingBox = styled(Box)((props) => ({
   height: '40px',
 }));
 
-const ReviewCount = styled(Typography)((props) => ({
+const ReviewCount = styled(Box)((props) => ({
+  fontSize: '10px',
   height: '30px',
   lineHeight: '30px',
 }));
@@ -69,6 +70,7 @@ const ReviewCount = styled(Typography)((props) => ({
 const InfoTitle = ({
   titleInfo,
   openEditNameDialog,
+  editable,
 }) => {
   const {
     name,
@@ -79,12 +81,14 @@ const InfoTitle = ({
   return (
     <Container>
       <Name>
-        {name || '이름을 입력해주세요.'}
-        <EditIconBox onClick={() => openEditNameDialog()}>
-          <EditIcon sx={{ m: '10px', width: '30px', height: '30px', }} />
-        </EditIconBox>
+        {name ? name : '이름을 입력해주세요.'}
+        {editable ? (
+          <EditIconBox onClick={() => openEditNameDialog()}>
+            <EditIcon sx={{ m: '10px', width: '30px', height: '30px', }} />
+          </EditIconBox>
+        ) : (<></>)}
       </Name>
-      <Address>{address ? `${address.siDo} ${address.siGun} ${address.road}` : ''}</Address>
+      <Address>{address ? `${address.siDo} ${address.siGun} ${address.road}` : '주소를 입력해주세요.'}</Address>
       <ButtonBox>
         <ConnectButton variant='contained'>연결</ConnectButton>
         <RatingBox>
@@ -94,7 +98,7 @@ const InfoTitle = ({
             icon={<StarIcon sx={{ width: `15px`, height: `15px` }}></StarIcon>}
             value={Number(score)} precision={0.1} readOnly
           />
-          <ReviewCount fontSize="10px">{`(${reviewCount})`}</ReviewCount>
+          <ReviewCount>{`(${reviewCount})`}</ReviewCount>
           <ArrowForwardIosIcon sx={{ height: '10px' }} />
         </RatingBox>
       </ButtonBox>
