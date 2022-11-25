@@ -30,7 +30,10 @@ const MenuIconBox = styled(Box)((props) => ({
 /**
  * 헤더에 위치한 메뉴 버튼
  */
-const MyMenuBox = () => {
+const MyMenuBox = ({
+  matches,
+  setOpen,
+}) => {
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -90,7 +93,7 @@ const MyMenuBox = () => {
 
   return (
     <>
-      <Container onClick={handleClick}>
+      <Container onClick={!matches ? handleClick : () => {setOpen(true)}}>
         {isLogin ? (
           <MenuIconBox><img alt="menu_box" src={MenuImg} width="30px" height="30px" /></MenuIconBox>
         ) : (
