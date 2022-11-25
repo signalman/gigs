@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static javax.persistence.CascadeType.ALL;
 
 @Builder
@@ -82,14 +83,17 @@ public class Host extends BaseTimeEntity{
     public Post createPost(PostForm postForm) {
 
         //시간 제약 조건 수행
-        if (postForm.getStartTime().isBefore(this.openTime)) {
-            throw new IllegalArgumentException("무대 오픈 시간보다 빠를 수 없습니다.");
+        if (this.openTime != null) {
+            if (postForm.getStartTime().isBefore(this.openTime)) {
+                throw new IllegalArgumentException("무대 오픈 시간보다 빠를 수 없습니다.");
+            }
         }
-        if (postForm.getEndTime().isAfter(this.closeTime)) {
-            throw new IllegalArgumentException("무대 클로즈 시간보다 빠를 수 없습니다.");
+        if (this.closeTime != null) {
+            if (postForm.getEndTime().isAfter(this.closeTime)) {
+                throw new IllegalArgumentException("무대 클로즈 시간보다 빠를 수 없습니다.");
 
+            }
         }
-
         Genre genre = postForm.getGenre();
         PostGenre postGenre = PostGenre.builder()
                 .genre(genre)

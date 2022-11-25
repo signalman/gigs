@@ -98,7 +98,8 @@ export const fetchStarInfo = async (starId) => ax.get(`/stars/${starId}`);
  * @param {String} hostId 수정하려는 호스트의 id
  * @param {{}} data 수정하려는 데이터
  */
-export const updateHostInfo = async (hostId, data) => ax.put(`/stages/${hostId}`, data);
+// export const updateHostInfo = async (hostId, data) => ax.put(`/stages/${hostId}`, data);
+export const updateHostInfo = async (hostId, data) => ax.put(`/stages`, data);
 
 /**
  * 스타 상세 정보를 수정하는 API
@@ -106,3 +107,9 @@ export const updateHostInfo = async (hostId, data) => ax.put(`/stages/${hostId}`
  * @param {{}} data 수정하려는 데이터
  */
 export const updateStarInfo = async (starId, data) => ax.put(`/stars/${starId}`, data);
+
+/**
+ * 포스트 하나를 삭제하는 API
+ * @param {String} postId 삭제하려는 포스트의 id
+ */
+export const deletePost = (postId) => ax.delete(`/posts/${postId}`);

@@ -9,6 +9,7 @@ import {
   Route,
 } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { CookiesProvider } from 'react-cookie';
 
 const theme = createTheme({
   palette: {
@@ -33,11 +34,13 @@ root.render(
   // https://ko.reactjs.org/docs/strict-mode.html
 
   <ThemeProvider theme={theme}>
-    <Router>
-      <Routes>
-        <Route path='/*' element={<Frame />} />
-      </Routes>
-    </Router>
+    <CookiesProvider>
+      <Router>
+        <Routes>
+          <Route path='/*' element={<Frame />} />
+        </Routes>
+      </Router>
+    </CookiesProvider>
   </ThemeProvider>
 
 );
