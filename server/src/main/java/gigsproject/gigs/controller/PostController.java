@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class PostController {
@@ -16,7 +18,7 @@ public class PostController {
 
     @PostMapping("/posts")
     public void PostSave(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
-                         @RequestBody PostForm postForm) {
+                         @RequestBody @Valid PostForm postForm) {
         User user = oAuth2UserCustom.getUser();
 
         if (user.getRole() != Role.ROLE_HOST) {

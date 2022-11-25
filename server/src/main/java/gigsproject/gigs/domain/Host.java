@@ -65,8 +65,8 @@ public class Host extends BaseTimeEntity{
     private List<Review> reviews = new ArrayList<>();
 
     public Host edit(StageForm stageForm) {
-        stageName = stageForm.getStageName();
-        stageInfo = stageForm.getStageInfo();
+        stageName = stageForm.getName();
+        stageInfo = stageForm.getIntroduce();
         openTime = stageForm.getOpenTime();
         closeTime = stageForm.getCloseTime();
         stageType = stageForm.getStageType();
@@ -74,8 +74,8 @@ public class Host extends BaseTimeEntity{
         stageAddress = stageForm.getStageAddress();
         targetGender = stageForm.getTargetGender();
         targetAge = stageForm.getTargetAge();
-        targetNumber = stageForm.getTargetNumber();
-
+        targetNumber = stageForm.getTargetMinCount();
+        stageSize = stageForm.getStageSize();
         return this;
     }
 
