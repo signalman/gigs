@@ -9,11 +9,15 @@ import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -21,6 +25,7 @@ public class HostService {
 
     private final HostRepository hostRepository;
     private final PostRepository postRepository;
+    private final EntityManager em;
 
 
     /**
@@ -49,7 +54,9 @@ public class HostService {
     @Transactional
     public Long edit(User user, StageForm stageForm) {
         Host host = findByUser(user);
+        log.info("***************stage form : {}***************", stageForm.getPay());
         Host edit = host.edit(stageForm);
-        return host.getHostId();
+        log.info("******************host : {} , edit : {}******************", host.getPay(), edit.getPay());
+        return edit.getHostId();
     }
 }
