@@ -46,6 +46,8 @@ public class QHost extends EntityPathBase<Host> {
 
     public final NumberPath<Integer> reviewCount = createNumber("reviewCount", Integer.class);
 
+    public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);
+
     public final NumberPath<Integer> showCount = createNumber("showCount", Integer.class);
 
     public final QAddress stageAddress;

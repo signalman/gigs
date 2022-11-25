@@ -3,6 +3,7 @@ package gigsproject.gigs.service;
 import gigsproject.gigs.domain.Star;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.StarRepository;
+import gigsproject.gigs.request.StarEdit;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
 import gigsproject.gigs.response.StarResponse;
@@ -48,5 +49,9 @@ public class StarService {
     @Transactional
     public void updateStatus(Long id) {
         starRepository.updateStatus(id);
+    }
+
+    public void editStar(StarEdit starEdit, Long starId) {
+        starRepository.editStar(starEdit, starId);
     }
 }
