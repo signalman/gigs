@@ -345,22 +345,7 @@ const Search = ({
                 />
               ) : (
                 <StageCard
-                  hostId={card.hostId}
-                  stageName={card.stageName}
-                  avgScore={card.avgScore}
-                  address={card.address}
-                  stageSize={card.stageSize}
-                  startTime={card.startTime}
-                  endTime={card.endTime}
-                  showCount={card.showCount}
-                  pay={card.pay}
-                  stageImgUrl={card.stageImgUrl}
-                  genres={card.genres}
-                  stageType={card.stageType}
-                  reviewCount={card.reviewCount}
-                  targetAge={card.targetAge}
-                  targetGender={card.targetGender}
-                  targetMinCount={card.targetMinCount}
+                  cardData={card}
                 />
               )}
             </Grid>  

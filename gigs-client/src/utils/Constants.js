@@ -2,6 +2,10 @@ const BASE_URL = "";
 
 export const DEV = true;
 
+export const ifNull = (val, prefix='', suffix='', msg='데이터를 추가해주세요.') => {
+  return (val || val === '0') ? `${prefix}${val}${suffix}` : msg;
+}
+
 export const URL = {
   kakaoAuthorize: `http://localhost:8080/oauth2/authorization/kakao`,
 };

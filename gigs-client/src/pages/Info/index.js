@@ -20,13 +20,17 @@ import SelectOneDialog from './dialogs/SelectOneDialog';
 import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
 import SelectAllDialog from './dialogs/SelectAllDialog';
 import EditMemberDialog from './dialogs/EditMemberDialog';
+import { useCookies } from 'react-cookie';
 
 const Info = ({
   target,
 }) => {
   const params = useParams();
+  const [cookies, setCookie, removeCookie] = useCookies(['userId']);
 
   const [data, setData] = useState(DUMMY.host);
+  const [posts, setPosts] = useState(DUMMY.host.posts);
+  const editable = Number(cookies.userId) === data.userId;
 
   const editNameDialog = useDialog();
   // const editAddressDialog = useDialog(); // TODO: 우편번호 API 로 구현
@@ -44,8 +48,10 @@ const Info = ({
     const response = await fetchStarInfo(params.id);
 
     const newData = {
+      userId: response.data.userId,
+      starId: response.data.starId,
+
       name: response.data.name,
-      // address: '',
       score: response.data.score,
       reviewCount: response.data.reviews?.length,
       introduce: response.data.introduce,
@@ -66,6 +72,9 @@ const Info = ({
     const response = await fetchHostInfo(params.id);
 
     const newData = {
+      userId: response.data.userId,
+      hostId: response.data.hostId,
+
       name: response.data.name,
       address: response.data.address,
       score: response.data.score,
@@ -81,9 +90,12 @@ const Info = ({
       stageType: response.data.stageType,
     }
 
+    console.log(`호스트 검색 결과:`);
     console.log(newData);
+    console.log(response.data.posts);
 
     setData(newData);
+    setPosts(response.data.posts);
   }, [params]);
 
   const updateInfo = useCallback(async (newData) => {
@@ -117,6 +129,7 @@ const Info = ({
   }, [data, updateInfo]);
 
   useEffect(() => {
+    // dialog settings
     editNameDialog.initialize([data.name]);
 
     editAreaDialog.initialize([data.stageSize]);
@@ -156,6 +169,7 @@ const Info = ({
           reviewCount: data.reviewCount,
         }}
         openEditNameDialog={editNameDialog.open}
+        editable={editable}
       />
 
       <Box sx={{ width: '1200px', display: 'flex', m: '0 auto', mt: '25px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
@@ -170,6 +184,7 @@ const Info = ({
               showCount: data?.showCount,
               stageType: data?.stageType,
             }}
+            editable={editable}
             openEditAreaDialog={editAreaDialog.open}
             openEditTargetDialog={editTargetDialog.open}
             openEditPayDialog={editPayDialog.open}
@@ -184,6 +199,7 @@ const Info = ({
               stageTypes: data.stageTypes,
               showCount: data.showCount,
             }}
+            editable={editable}
             openEditGenresDialog={editGenresDialog.open}
             openEditMemberDialog={editMemberDialog.open}
             openEditStageTypesDialog={editStageTypesDialog.open}
@@ -196,10 +212,10 @@ const Info = ({
       </Box>
       
       {target === SYMBOL.stage ? (
-        <ReservationBox data={data} />
+        <ReservationBox posts={posts} setPosts={setPosts} editable={editable} />
       ) : (<></>)}
       {/* 소개글 */}
-      <Introduction openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
+      <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
       {/* 리뷰 */}
       <ReviewBox />
 
