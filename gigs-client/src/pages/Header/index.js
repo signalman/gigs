@@ -1,12 +1,21 @@
 // refactor 221103
 
-import { Box, styled, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
 import MyMenuBox from '../../components/MyMenuBox';
-import { PATH } from '../../utils/Constants';
+import { BP, PATH } from '../../utils/Constants';
 import LogoImg from '../../images/gigs_logo_tmp.png';
+import styled from '@emotion/styled';
+
+const Container = styled(Box)((props) => ({
+  width: '100%',
+  height: '100px',
+  backgroundColor: 'white',
+  boxShadow: '0 0 4px black',
+  zIndex: 100,
+}));
 
 const SmallBox = styled(Box)((p) => ({
   width: '250px',
@@ -26,13 +35,7 @@ const Header = () => {
 
   return (
   <>
-    <Box sx ={{
-      width: '100%',
-      height: '100px',
-      backgroundColor: 'white',
-      boxShadow: '0 0 4px black',
-      zIndex: 100,
-    }}>
+    <Container>
       <Box sx={{
         margin: "0 auto",
         width: '1200px',
@@ -68,7 +71,7 @@ const Header = () => {
           <MyMenuBox />
         </SmallBox>
       </Box>
-    </Box>
+    </Container>
   </>
   );
 }

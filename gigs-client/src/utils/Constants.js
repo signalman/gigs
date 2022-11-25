@@ -2,6 +2,8 @@ const BASE_URL = "";
 
 export const DEV = true;
 
+export const BP = ['480px', '768px', '1280px'];
+
 export const URL = {
   kakaoAuthorize: `http://localhost:8080/oauth2/authorization/kakao`,
 };

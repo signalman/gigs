@@ -15,7 +15,15 @@ const theme = createTheme({
     primary: {
       main: "#D046D2",
     },
-  }
+  },
+  breakpoints: {
+    values: {
+      mobile: 0,
+      tablet: 640,
+      laptop: 1024,
+      desktop: 1200,
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
