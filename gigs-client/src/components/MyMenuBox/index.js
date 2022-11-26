@@ -84,7 +84,7 @@ const MyMenuBox = () => {
           window.location.replace('/')
         })
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }, []);
@@ -107,7 +107,7 @@ const MyMenuBox = () => {
       >
         <MenuItem onClick={() => { navigate(PATH.myPage); handleClose() }}>내 정보</MenuItem>
         {/* TODO: 포스트 등록과 로그아웃은 따로 모달로 처리 */}
-        <MenuItem onClick={() => {}}><PostEnroll/></MenuItem>
+        <MenuItem> <PostEnroll /> </MenuItem>
 
         <MenuItem onClick={() => {
           Swal.fire({

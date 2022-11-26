@@ -33,7 +33,7 @@ const PostEnroll = () => {
     const [selectedGenres, setSelectedGenres] = useState({});
     const [stageItems, setStageItems] = useState('');
 
-    const [postGenres, setPostGenres] = useState([]);
+    const [postGenre, setPostGenre] = useState('');
 
     useEffect(() => {
         setGenres("DANCE, SESSION, ROCK, HIPHOP, INDIE, JAZZ, POP".split(", "));
@@ -48,18 +48,15 @@ const PostEnroll = () => {
     }
 
     const selectGenre = useCallback((genre) => {
-        setSelectedGenres({ ...selectedGenres, [genre]: !selectedGenres[genre] });
+        setSelectedGenres({ [genre]: !selectedGenres[genre] });
         if (!selectedGenres[genre] === true) {
-            console.log(genre)
-            setPostGenres(postGenres => [...postGenres, genre])
-        }
-        else if(!selectedGenres[genre] === false) {
-            setPostGenres(postGenres.filter(pGenre => pGenre !== genre))
+            setPostGenre(genre)
         }
     }, [selectedGenres]);
 
     const handleOpen = () => {
         setOpen(true);
+        console.log("helo")
     }
 
     const handleClose = () => {
@@ -67,26 +64,18 @@ const PostEnroll = () => {
     }
 
     const handleSubmit = async () => {
-        console.log(postDate)
-        console.log(startTime)
-        console.log(endTime)
-        console.log(stageItems)
-        console.log(writing)
-        console.log(postGenres)
-
-        const data = { date: postDate, startTime : {hour:1,minute:20 ,second:20 ,nano:0}, endTime: {hour : 12, minute:30, second:30,nano:0} ,genre: "DANCE"}
-        console.log(data)
+        const data = { date: postDate, endTime: `${endTime}:00:00`, startTime: `${startTime}:00:00`, genre: postGenre }
+        // console.log(data)
         const response = await posts(data)
         console.log(response)
-        // const data = {postDate,startTime,endTime}
-        // const response = await posts(data)
     }
 
     return (
         <>
-            <Button varitant="contained" onClick={handleOpen}>
+            <a onClick={handleOpen}>
                 포스트 등록
-            </Button>
+            </a>
+
             <Dialog fullWidth maxWidth='md' open={open} onClose={handleClose}>
                 <DialogTitle sx={{ fontWeight: 'bold', textAlign: 'center' }}>포스트 등록</DialogTitle>
                 <DialogContent sx={{ fontWeight: 'bold', fontSize: 18 }}>
@@ -156,7 +145,7 @@ const PostEnroll = () => {
                         </Box>
                     </Item>
                 </ProposalContent>
-                <ProposalContent title={'무대소품'}>
+                {/* <ProposalContent title={'무대소품'}>
                     <Box sx={{ width: 550 }}>
                         <TextField
                             autoFocus
@@ -180,7 +169,7 @@ const PostEnroll = () => {
                             }}
                         />
                     </Box>
-                </ProposalContent>
+                </ProposalContent> */}
                 <DialogActions sx={{ justifyContent: 'center' }}>
                     <Button variant="contained" onClick={handleClose}>닫기</Button>
                     <Button variant="contained"
