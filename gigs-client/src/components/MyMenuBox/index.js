@@ -5,7 +5,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PATH, URL, } from '../../utils/Constants';
 import MenuImg from '../../images/MenuBox.png';
-import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
 import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
@@ -68,10 +67,6 @@ const MyMenuBox = ({
     setAnchorEl(null);
   };
 
-  const handleLoginDialogClose = () => {
-    setLoginDialogOpen(false);
-  }
-
   const handleLogOut = useCallback(async () => {
     try {
       const response = await logout();
@@ -127,25 +122,6 @@ const MyMenuBox = ({
           handleClose();
         }}>로그아웃</MenuItem>
       </Menu>
-
-      <Dialog
-        open={isLoginDialogOpen}
-        onClose={handleLoginDialogClose}
-      >
-        <DialogTitle>
-          로그인 방법 선택
-        </DialogTitle>
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', }}>
-          <a href={URL.kakaoAuthorize}>
-            <img src={KakaoLoginButtonImg} alt="asdf" />
-          </a>
-          {/* <Button
-            onClick={() => {
-              
-            }}
-          ></Button> */}
-        </DialogContent>
-      </Dialog>
     </>
   );
 };

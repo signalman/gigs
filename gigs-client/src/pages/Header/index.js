@@ -1,16 +1,17 @@
 // refactor 221103
 
-import { Box, Button, Drawer, useTheme } from '@mui/material';
+import { Box, Button, Dialog, DialogContent, DialogTitle, Drawer, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
 import MyMenuBox from '../../components/MyMenuBox';
-import { BP, COLOR, PATH } from '../../utils/Constants';
+import { BP, COLOR, PATH, URL } from '../../utils/Constants';
 import LogoImg from '../../images/gigs_logo_tmp.png';
 import styled from '@emotion/styled';
 import {useMediaQuery} from '@mui/material';
 import { flexbox } from '@mui/system';
 import Profile from './Profile';
+import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
 
 const containerStyle = {
   width: '100%',
@@ -45,10 +46,16 @@ const smallBoxStyle = {
     l: '20%',
     d: '250px',
   },
+  boxSizing: 'border-box',
   minWidth: '150px',
   height: '100%',
   display: 'flex',
-  justifyContent: 'center',
+  justifyContent: {
+    m: 'flex-end',
+    t: 'flex-end',
+    l: 'center',
+    d: 'center',
+  },
   alignItems: 'center',
 };
 
@@ -90,9 +97,14 @@ const Header = () => {
   const pathname = location.pathname;
   const navigate = useNavigate();
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.down('l'));
+  const mdl = useMediaQuery(theme.breakpoints.down('l'));
 
+  const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
   const [isOpen, setOpen] = useState(false);
+
+  const handleLoginDialogClose = () => {
+    setLoginDialogOpen(false);
+  }
 
   return (
   <>
@@ -100,10 +112,10 @@ const Header = () => {
       <Box sx={contentStyle}>
         <Box sx={smallBoxStyle}>
           <Button onClick={() => navigate(PATH.main)}>
-            <img alt="gigs_logo" src={LogoImg} width="150px" height={matches ? '50px' : '100px'}/>
+            <img alt="gigs_logo" src={LogoImg} width={mdl ? '75px' : '150px'} height={mdl ? '50px' : '100px'}/>
           </Button>
         </Box>
-        {matches ? (<></>) : (
+        {mdl ? (<></>) : (
           <Box sx={buttonBoxStyle}>
             <HeaderBtn
               isClicked={pathname === PATH.searchStage}
@@ -120,18 +132,21 @@ const Header = () => {
           </Box>
         )} 
         
-        <Profile />
+        <Box sx={{...smallBoxStyle, px: mdl ? 0 : '50px'}}>
+          <Profile mdl={mdl} onMenuClick={() => setOpen(true)} onLoginClick={() => {setLoginDialogOpen(true);}} />  
+        </Box>
         {/* <Box sx={smallBoxStyle}>
           <MyMenuBox matches={matches} setOpen={setOpen} />
         </Box> */}
       </Box>
     </Box>
-    {matches ? (
+    {mdl ? (
       <Drawer
         anchor='right'
         open={isOpen}
         onClose={() => {setOpen(false)}}
       >
+        <Profile fixed onMenuClick={() => setOpen(true)} onLoginClick={() => {setLoginDialogOpen(true);}} />  
         <Box sx={drawerButtonBoxStyle}>
           <Button sx={drawerButtonStyle}
             onClick={() => {navigate(PATH.searchStage);}}  
@@ -145,6 +160,25 @@ const Header = () => {
         </Box>
       </Drawer>
     ) : (<></>)}
+
+    <Dialog
+      open={isLoginDialogOpen}
+      onClose={handleLoginDialogClose}
+    >
+      <DialogTitle>
+        로그인 방법 선택
+      </DialogTitle>
+      <DialogContent sx={{ display: 'flex', flexDirection: 'column', }}>
+        <a href={URL.kakaoAuthorize}>
+          <img src={KakaoLoginButtonImg} alt="asdf" />
+        </a>
+        {/* <Button
+          onClick={() => {
+            
+          }}
+        ></Button> */}
+      </DialogContent>
+    </Dialog>
   </>
   );
 }
