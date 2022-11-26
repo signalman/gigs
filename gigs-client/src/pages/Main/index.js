@@ -1,7 +1,6 @@
 import { Box, styled } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { COLOR } from '../../utils/Constants';
-import PostEnroll from '../../components/PostEnroll';
 
 const Container = styled(Box)((p) => ({
   width: '100vw',
@@ -34,7 +33,6 @@ const Main = ({
 
   return (
     <>
-    <PostEnroll/>
       <Container>
         <img style={{
           position: 'absolute',
