@@ -54,9 +54,13 @@ public class HostService {
     @Transactional
     public Long edit(User user, StageForm stageForm) {
         Host host = findByUser(user);
-        log.info("***************stage form : {}***************", stageForm.getPay());
         Host edit = host.edit(stageForm);
-        log.info("******************host : {} , edit : {}******************", host.getPay(), edit.getPay());
         return edit.getHostId();
+    }
+
+    public Long delete(User user) {
+        StageForm stageForm = StageForm.builder()
+                .build();
+        return edit(user, stageForm);
     }
 }

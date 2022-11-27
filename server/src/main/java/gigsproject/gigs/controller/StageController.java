@@ -31,8 +31,6 @@ import java.io.IOException;
 public class StageController {
 
     private final HostService hostService;
-    private final UserRepository userRepository;
-
 
     /**
      * 무대 검색
@@ -67,4 +65,14 @@ public class StageController {
         return hostId + ": 수정완료";
     }
 
+    @DeleteMapping("/stages")
+    public String delete(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) throws IOException {
+        User user = oAuth2UserCustom.getUser();
+        if (user.getRole() != Role.ROLE_HOST) {
+            throw new IllegalArgumentException("호스트가 아닙니다.");
+        }
+
+        Long delete = hostService.delete(user);
+        return delete + ": 삭제 완료";
+    }
 }
