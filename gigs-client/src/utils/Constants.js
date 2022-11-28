@@ -82,3 +82,23 @@ export const DUMMY = {
   stageTypes: ["CAFE", "BAR", "RESTAURANT", "SCHOOL"],
   genres: ["DANCE", "SESSION", "ROCK", "HIPHOP", "INDIE", "JAZZ", "POP"],
 }
+
+export const ENUM = {
+  MIXED: '혼성',
+  ALL: '모두',
+  MEN: '남성',
+  WOMEN: '여성',
+
+  CAFE: '카페',
+  BAR: '바',
+  RESTAURANT: '레스토랑',
+  SCHOOL: '학교',
+
+  DANCE: '댄스',
+  SESSION: '세션',
+  ROCK: '락',
+  HIPHOP: '힙합',
+  INDIE: '인디',
+  JAZZ: '재즈',
+  POP: '팝',
+}
