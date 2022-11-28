@@ -21,6 +21,7 @@ import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
 import SelectAllDialog from './dialogs/SelectAllDialog';
 import EditMemberDialog from './dialogs/EditMemberDialog';
 import { useCookies } from 'react-cookie';
+import ImageBox from './ImageBox';
 
 const Info = ({
   target,
@@ -216,6 +217,8 @@ const Info = ({
       ) : (<></>)}
       {/* 소개글 */}
       <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
+      {/* 이미지 */}
+      <ImageBox />
       {/* 리뷰 */}
       <ReviewBox />
 
