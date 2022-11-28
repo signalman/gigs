@@ -8,7 +8,7 @@ import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { DEV } from '../../utils/Constants';
+import { DEV, ENUM } from '../../utils/Constants';
 import StarDummyImg from '../../images/star_tmp.jpg';
 
 const Line = styled(CardContent)((p) => ({
@@ -47,11 +47,12 @@ function StarCard({
 }) {
   const navigate = useNavigate();
 
+  console.log(avgScore);
+
     return (
         <Card
             sx={{
                 width: "300px",
-                height: "450px",
                 borderRadius: "50px",
                 boxShadow: "0 4px 4px #808080",
                 cursor: "pointer",
@@ -78,18 +79,9 @@ function StarCard({
                         sx={{ width: `75px` }}
                         emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
                         icon={<StarIcon sx={{ width: `15px`, height: `15px` }}></StarIcon>}
-                        value={avgScore} precision={0.1} readOnly
+                        value={Number(avgScore)} precision={0.1} readOnly
                     />
-                    <Typography fontSize=".7rem">({reviewCount})</Typography>
-                </Item>
-            </Line>
-            
-            <Line>
-                <Item sx={{ px: '15px' }}>
-                    <IconBox>
-                        <MapIcon sx={{ width: "20px", height: "20px", }} />
-                    </IconBox>
-                    <Typography fontSize=".9rem">{`${address.addressName} ${address.cityName} ${address.countryName}`}</Typography>
+                    <Typography fontSize="11px">({reviewCount})</Typography>
                 </Item>
             </Line>
             
@@ -98,13 +90,13 @@ function StarCard({
                     <IconBox>
                         <PeopleIcon sx={{ width: '20px', height: '20px', }} />
                     </IconBox>
-                    <Typography fontSize=".9rem">{memberNumber}인 {gender}</Typography>
+                    <Typography fontSize="12px">{memberNumber}인 {ENUM[gender]}</Typography>
                 </Item>
                 <Item type="half" sx={{ px: '15px' }}>
                     <IconBox>
                         <MicExternalOnIcon sx={{ width: '20px', height: '20px', }} />
                     </IconBox>
-                    <Typography fontSize=".9rem">{showCount}회</Typography>
+                    <Typography fontSize="12px">{showCount}회</Typography>
                 </Item>
             </Line>
 
@@ -113,7 +105,7 @@ function StarCard({
                     <IconBox>
                         <HeadsetMicIcon sx={{ width: "20px", height: "20px", }} />
                     </IconBox>
-                    <Typography fontSize=".9rem">{genres?.reduce((prev, cur) => (prev + ` / ${cur.genreName}`), "").substring(3)}</Typography>
+                    <Typography fontSize="12px">{genres?.reduce((prev, cur) => (prev + ` / ${ENUM[cur.genreName]}`), "").substring(3)}</Typography>
                 </Item>
             </Line>
 
@@ -122,7 +114,7 @@ function StarCard({
                     <IconBox>
                         <LocationOnIcon sx={{ width: "20px", height: "20px", }} />
                     </IconBox>
-                    <Typography fontSize=".9rem">{starStageTypes?.reduce((prev, cur) => (prev + ` / ${cur.stageTypeName}`), "").substring(3)}</Typography>
+                    <Typography fontSize="12px">{starStageTypes?.reduce((prev, cur) => (prev + ` / ${ENUM[cur.stageTypeName]}`), "").substring(3)}</Typography>
                 </Item>
             </Line>
         </Card>
