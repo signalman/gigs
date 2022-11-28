@@ -10,14 +10,13 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class StageImg {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long stageImgId;
 
     private String url;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "hostId")
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "hostId")
     private Host host;
-
-
-
 }
