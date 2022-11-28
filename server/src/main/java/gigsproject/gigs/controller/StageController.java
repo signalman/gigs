@@ -1,5 +1,6 @@
 package gigsproject.gigs.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
 import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Role;
@@ -65,6 +66,12 @@ public class StageController {
         return hostId + ": 수정완료";
     }
 
+    /**
+     * 무대 삭제 기능 (조회 x, 다시 빈 객체로 남아 있음)
+     * @param oAuth2UserCustom
+     * @return
+     * @throws IOException
+     */
     @DeleteMapping("/stages")
     public String delete(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) throws IOException {
         User user = oAuth2UserCustom.getUser();
@@ -72,7 +79,7 @@ public class StageController {
             throw new IllegalArgumentException("호스트가 아닙니다.");
         }
 
-        Long delete = hostService.delete(user);
-        return delete + ": 삭제 완료";
+        hostService.delete(user);
+        return "삭제 완료";
     }
 }
