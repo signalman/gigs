@@ -1,9 +1,13 @@
 package gigsproject.gigs.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.domain.Post;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
+import gigsproject.gigs.repository.UserRepository;
 import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -54,9 +59,20 @@ public class HostService {
     @Transactional
     public Long edit(User user, StageForm stageForm) {
         Host host = findByUser(user);
-        log.info("***************stage form : {}***************", stageForm.getPay());
         Host edit = host.edit(stageForm);
-        log.info("******************host : {} , edit : {}******************", host.getPay(), edit.getPay());
         return edit.getHostId();
     }
+
+    @Transactional
+    public void delete(User user) {
+        StageForm stageForm = StageForm.builder()
+                .build();
+
+        Host host = findByUser(user);
+        host.edit(stageForm);
+
+        List<Post> posts = host.getPosts();
+        postRepository.deleteAll(posts);
+    }
+
 }
