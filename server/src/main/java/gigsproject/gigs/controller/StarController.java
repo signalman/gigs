@@ -38,4 +38,7 @@ public class StarController {
         starService.editStar(starEdit);
     }
 
+//    @PutMapping("/stars/image")
+//    public void updateImage(@)
+
 }

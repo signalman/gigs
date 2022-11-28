@@ -1,14 +1,13 @@
 package gigsproject.gigs.response;
 
-import com.querydsl.core.annotations.QueryProjection;
-import gigsproject.gigs.domain.*;
-import lombok.*;
+import gigsproject.gigs.domain.Address;
+import gigsproject.gigs.domain.Star;
+import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.Objects.isNull;
 
 @Data
 public class StarCard {
@@ -23,15 +22,16 @@ public class StarCard {
     private List<StarStageTypeDto> starStageTypes;  //스타스테이지타입
     private Double avgScore;     //스타
     private Integer reviewCount;  //리뷰
-    public StarCard(Star star){
+
+    public StarCard(Star star) {
         this.starId = star.getStarId();
-        this.starImgUrl =  star.getStarImgs().isEmpty() ?  "" :  star.getStarImgs().get(0).getUrl();
+        this.starImgUrl = star.getStarImgs().isEmpty() ? "" : star.getStarImgs().get(0).getUrl();
         this.starName = star.getName();
         this.address = star.getUser().getAddress();
         this.gender = star.getGender().name();
         this.memberNumber = star.getMemberNumber();
-        this.showCount = star.getShowCount();
-        this.avgScore = star.getScore();
+        this.showCount = isNull(star.getShowCount()) ? 0 : star.getShowCount();
+        this.avgScore = isNull(star.getScore()) ? 0 : star.getScore();
         this.reviewCount = Long.valueOf(star.getReviews().stream().count()).intValue();
         this.genres = star.getStarGenres().stream()
                 .map(starGenre -> new StarGenreDto(starGenre))
