@@ -108,7 +108,7 @@ export const updateHostInfo = async (hostId, data) => ax.put(`/stages`, data);
  */
 export const updateStarInfo = async (starId, data) => ax.put(`/stars/${starId}`, data);
 
-export const updateImage = async(data) => ax.put(``,data);
+export const updateImage = async(data) => ax.post(`/stars/rep-image`,data);
 
 /**
  * 포스트 하나를 삭제하는 API

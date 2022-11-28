@@ -36,7 +36,9 @@ const UploadImg = ({
         if (image.img_file) {
             const formData = new FormData();
             formData.append('file', image.img_file);
-            //const response = await updateImage(formData)
+            console.log(formData)
+            console.log(image.img_file)
+            const response = await updateImage(formData)
         }
         else {
             alert("사진을 등록하세요")
