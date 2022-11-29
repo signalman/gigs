@@ -28,7 +28,6 @@ public class Star extends BaseTimeEntity {
     private StarStatus status;
     private Double score;
     private String repImg;
-
     /**
      * 양방향 연관관계 추가
      */

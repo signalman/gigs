@@ -14,5 +14,5 @@ public interface StarRepositoryCustom {
 
     void editStar(StarEdit starEdit);
 
-    void editStarImg(Long starId, String repImg);
+    void editStarImg(Long starId, String url);
 }

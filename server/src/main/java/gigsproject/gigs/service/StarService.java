@@ -104,7 +104,8 @@ public class StarService {
         return star;
     }
 
-    public void editStarImg(Long starId, String repImg) {
-        starRepository.editStarImg(starId, repImg);
+    @Transactional
+    public void editStarImg(Long starId, String url) {
+        starRepository.editStarImg(starId, url);
     }
 }
