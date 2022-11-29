@@ -44,6 +44,7 @@ public class UserService {
                     .repImg("")
                     .gender(Gender.DEFAULT)
                     .memberNumber(1)
+                    .showCount(0)
                     .build();
             starRepository.save(star);
             StarStageType starStageType = StarStageType.builder()
