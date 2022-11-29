@@ -124,10 +124,10 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
     }
 
     @Override
-    public void editStarImg(Long starId, String repImg) {
+    public void editStarImg(Long starId, String url) {
         queryFactory
                 .update(star)
-                .set(star.repImg, repImg)
+                .set(star.repImg, url)
                 .where(star.starId.eq(starId))
                 .execute();
     }
