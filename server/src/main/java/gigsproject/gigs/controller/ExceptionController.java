@@ -101,17 +101,17 @@ public class ExceptionController {
     /**
      * 그외 에러들 (발견되는대로 처리)
      */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    protected ErrorResponse exceptionHandler(Exception e) {
-        log.error("handleEntityNotFoundException : {}", e.getMessage());
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .message(e.getMessage())
-                .statusCode("500")
-                .build();
-
-        errorResponse.addValidation("500", "Internal Server Error");
-
-        return errorResponse;
-    }
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    @ExceptionHandler(Exception.class)
+//    protected ErrorResponse exceptionHandler(Exception e) {
+//        log.error("handleEntityNotFoundException : {}", e.getMessage());
+//        ErrorResponse errorResponse = ErrorResponse.builder()
+//                .message(e.getMessage())
+//                .statusCode("500")
+//                .build();
+//
+//        errorResponse.addValidation("500", "Internal Server Error");
+//
+//        return errorResponse;
+//    }
 }
