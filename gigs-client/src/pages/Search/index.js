@@ -226,7 +226,7 @@ const Search = ({
         break;
       default:
     }
-  }, [target, fetchDataForStar, fetchDataForStage]);
+  }, [target]);
 
   // 무한 스크롤 이벤트 등록
   useEffect(() => {
@@ -261,7 +261,7 @@ const Search = ({
         default:
       }
     } else if(!hasNextPage) setFetching(false);
-  }, [isFetching, hasNextPage, fetchDataForStarPaging, fetchDataForStagePaging, target]);
+  }, [isFetching, hasNextPage, target]);
 
   // 정렬 변경 시
   const handleSortChange = useCallback((e) => {

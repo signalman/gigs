@@ -18,7 +18,7 @@ public class PostController {
 
     @PostMapping("/posts")
     public void PostSave(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
-                         @RequestBody @Valid PostForm postForm) {
+                         @RequestBody PostForm postForm) {
         User user = oAuth2UserCustom.getUser();
 
         if (user.getRole() != Role.ROLE_HOST) {
@@ -33,7 +33,13 @@ public class PostController {
 //    }
 
     @DeleteMapping("/posts/{postId}")
-    public String delete(@PathVariable Long postId) {
+    public String delete(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
+            @PathVariable Long postId) {
+        User user = oAuth2UserCustom.getUser();
+
+        if (user.getRole() != Role.ROLE_HOST) {
+            throw new IllegalArgumentException("호스트가 아닙니다.");
+        }
         postService.delete(postId);
         return "삭제 완료";
     }

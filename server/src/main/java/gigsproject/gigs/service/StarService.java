@@ -95,9 +95,6 @@ public class StarService {
         }
         //스타 엔티티 수정
         starRepository.editStar(starEdit);
-        log.info("이름: {}", starEdit.getName());
-        log.info("성별: {}", starEdit.getGender());
-        log.info("소개글: {}", starEdit.getIntroduce());
     }
 
     public Star findStarById(Long starId) {
@@ -105,5 +102,9 @@ public class StarService {
                 () -> new IllegalArgumentException("해당 스타가 존재하지 않습니다.")
         );
         return star;
+    }
+
+    public void editStarImg(Long starId, String repImg) {
+        starRepository.editStarImg(starId, repImg);
     }
 }

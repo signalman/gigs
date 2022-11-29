@@ -18,7 +18,7 @@ public class Post extends BaseTimeEntity {
     @GeneratedValue
     private Long postId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "hostId")
     private Host host;
 
@@ -27,7 +27,7 @@ public class Post extends BaseTimeEntity {
     private LocalTime endTime;
 
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     @Builder.Default
     private List<PostGenre> postGenres = new ArrayList<>();
 
