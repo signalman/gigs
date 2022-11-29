@@ -103,4 +103,8 @@ public class StarService {
         );
         return star;
     }
+
+    public void editStarImg(Long starId, String repImg) {
+        starRepository.editStarImg(starId, repImg);
+    }
 }

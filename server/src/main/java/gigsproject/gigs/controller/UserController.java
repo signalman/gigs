@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -81,11 +83,12 @@ public class UserController {
             Star loginStar = starService.findByUser(loginUser);
             List<History> histories = proposalService.findStarHistory(loginStar.getStarId());
             Long starId = loginStar.getStarId();
-            String starImgUrl = loginStar.getStarImgs().isEmpty() ? "" : loginStar.getStarImgs().get(0).getUrl();
+            String starImgUrl = isNull(loginStar.getRepImg()) ? "" : loginStar.getRepImg();
             StarStatus status = loginStar.getStatus();
             MyPage starMyPage = new MyPage(user, starId, status, starImgUrl, histories);
             return starMyPage;
         }//로그인 한 유저가 호스트
+        //todo - 대표이미지 어떻게 할껀지?
         Host loginHost = hostService.findByUser(loginUser);
         List<History> histories = proposalService.findHostHistory(loginHost.getHostId());
         List<ProposalDto> proposals = proposalService.findNotCompProposals(loginHost.getHostId());

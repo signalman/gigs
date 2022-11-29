@@ -1,6 +1,7 @@
 package gigsproject.gigs.controller;
 
 import gigsproject.gigs.request.StarEdit;
+import gigsproject.gigs.request.StarRepImgEdit;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
 import gigsproject.gigs.response.StarResponse;
@@ -37,8 +38,10 @@ public class StarController {
         //장르, 성별, 멤버, 선호 무대, 스타이름, 소개글
         starService.editStar(starEdit);
     }
-
-//    @PutMapping("/stars/image")
-//    public void updateImage(@)
+    
+    @PostMapping("/stars/rep-image")
+    public void updateImage(@RequestBody StarRepImgEdit starRepImgEdit) {
+        starService.editStarImg(starRepImgEdit.getStarId(), starRepImgEdit.getRepImg());
+    }
 
 }
