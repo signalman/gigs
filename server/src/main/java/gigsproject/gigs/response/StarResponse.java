@@ -19,6 +19,7 @@ public class StarResponse {
     private Integer showCount;
     private StarStatus status;
     private Double score;
+    private String repImg;
 
     private List<StarStageTypeDto> starStageTypes;
     private List<StarGenreDto> starGenres;
@@ -35,6 +36,7 @@ public class StarResponse {
         this.introduce = star.getIntroduce();
         this.showCount = star.getShowCount();
         this.score = star.getScore();
+        this.repImg = star.getRepImg();
         this.starStageTypes = star.getStarStageTypes().stream()
                 .map(s -> new StarStageTypeDto(s)).collect(Collectors.toList());
         this.starGenres = star.getStarGenres().stream()

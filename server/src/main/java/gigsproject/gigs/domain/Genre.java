@@ -7,5 +7,6 @@ public enum Genre {
     HIPHOP,
     INDIE,
     JAZZ,
-    POP
+    POP,
+    DEFAULT
 }
