@@ -1,8 +1,8 @@
-// refactor 221102
+// refactor 221102 / 30
 
 import { Box, CircularProgress, Grid, MenuItem, Select } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { DEV, SYMBOL } from '../../utils/Constants';
+import { SYMBOL } from '../../utils/Constants';
 import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import StarCard from '../../components/StarCard';
@@ -12,58 +12,6 @@ import { fetchHostList, fetchStarList } from '../../utils/Api';
 // 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
 
-const starDummy = (() => {
-  let id = 0;
-  return () => ({
-    starId: id++,
-    starName: "Oasis",
-    avgScore: 2.4,
-    address: "경기도 수원시 영통구",
-    memberNumber: 3,
-    gender: "남성",
-    showCount: id,
-    starImgUrl: "img/star_tmp.jpg",
-    genres:[
-      {starGenreId : 1, genreName : "팝송"},
-      {starGenreId : 2, genreName : "발라드"}
-    ],
-    starStageTypes:[
-      {starStageTypeId: 1, stageTypeName : "카페"},
-      {starStageTypeId : 2, stageTypeName : "길거리"}
-    ],
-    reviewCount: 15,
-  });
-})();
-
-const stageDummy = (() => {
-  let id = 0;
-  return () => ({
-    hostId: id++,
-    stageName: "스타벅스",
-    avgScore: 4.1,
-    address: {
-      addressName: "경기도",
-      cityName: "수원시",
-      countryName: "영통구",
-    },
-    stageSize: 34,
-    targetAge: 20,
-    targetGender: "WOMEN",
-    targetMinCount: 40,
-    startTime: "10:00",
-    endTime: "22:00",
-    showCount: id,
-    pay: 10,
-    stageImgUrl: "img/stage_tmp.jpg",
-    genres:[
-      {stageGenreId : 1, genreName : "팝송"},
-      {stageGenreId : 2, genreName : "발라드"},
-      {stageGenreId : 3, genreName : "랩"}],
-    stageType: "카페",
-    reviewCount: 10,
-  });
-})();
-
 const debounce = (callback, limit) => {
   let timeout;
   return (...args) => {
@@ -72,6 +20,21 @@ const debounce = (callback, limit) => {
       callback.apply(this, args);
     }, limit);
   }
+};
+
+const sortBoxStyle = {
+  width: '100%',
+  height: '50px',
+  display: 'flex',
+  position: 'relative',
+};
+
+const sortSelectStyle = {
+  position: 'absolute',
+  right: 15,
+  top: 0,
+  width: '100px',
+  height: '30px',
 };
 
 /**
@@ -114,13 +77,7 @@ const Search = ({
       setPage(1);
       setNextPage(!data.last);
     } catch (e) {
-      if(DEV) {
-        setCards([starDummy(), starDummy(), starDummy(), starDummy(), starDummy(), starDummy(),]);
-        setPage(1);
-        setNextPage(true);
-      } else {
-        // TODO: 예외 처리
-      }
+      console.log(e);
     } finally {
       setProgress(false);
     }
@@ -140,14 +97,7 @@ const Search = ({
       setFetching(false);
       setNextPage(!data.last);
     } catch (e) {
-      if(DEV) {
-        setCards([...cards, starDummy(), starDummy(), starDummy(), starDummy(), starDummy(), starDummy(),]);
-        setPage(page+1);
-        setFetching(false);
-        setNextPage(true);
-      } else {
-        // TODO: 예외 처리
-      }
+      console.log(e);
     } finally {
       setProgress(false);
     }
@@ -173,13 +123,7 @@ const Search = ({
       setPage(1);
       setNextPage(!data.last);
     } catch (e) {
-      if(DEV) {
-        setCards([stageDummy(), stageDummy(), stageDummy(), stageDummy(), stageDummy(), stageDummy(),]);
-        setPage(1);
-        setNextPage(true);
-      } else {
-        // TODO: 예외 처리
-      }
+      console.log(e);
     } finally {
       setProgress(false);
     }
@@ -199,14 +143,7 @@ const Search = ({
       setFetching(false);
       setNextPage(!data.last);
     } catch (e) {
-      if(DEV) {
-        setCards([...cards, stageDummy(), stageDummy(), stageDummy(), stageDummy(), stageDummy(), stageDummy(),]);
-        setPage(page+1);
-        setFetching(false);
-        setNextPage(true);
-      } else {
-        // TODO: 예외 처리
-      }
+      console.log(e);
     } finally {
       setProgress(false);
     }
@@ -261,7 +198,7 @@ const Search = ({
         default:
       }
     } else if(!hasNextPage) setFetching(false);
-  }, [isFetching, hasNextPage, target]);
+  }, [isFetching]);
 
   // 정렬 변경 시
   const handleSortChange = useCallback((e) => {
@@ -284,34 +221,15 @@ const Search = ({
   }, [target, conditions, fetchDataForStar, fetchDataForStage]);
 
   return (
-    <Box
-      sx={{
-        width: `1200px`,
-        m: '0 auto',
-      }}
-    >
-      <Box
-        sx={{ width: '100%', my: `25px`}}>
+    <Box sx={{ width: `1200px`, m: '0 auto', }}>
+      <Box sx={{ width: '100%', my: `25px`}}>
         {target === SYMBOL.star ?
         (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />) :
         (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />)}
       </Box>
-      <Box
-        sx={{
-          width: '100%',
-          height: '50px',
-          display: 'flex',
-          position: 'relative',
-        }}
-      >
+      <Box sx={sortBoxStyle}>
         <Select
-          sx={{
-            position: 'absolute',
-            right: 15,
-            top: 0,
-            width: '100px',
-            height: '30px',
-          }}
+          sx={sortSelectStyle}
           variant='standard'
           value={sort}
           onChange={handleSortChange}
@@ -321,32 +239,14 @@ const Search = ({
           <MenuItem value='reviewDesc'>리뷰순</MenuItem>
         </Select>
       </Box>
-      <Box
-        sx={{
-          width: '100%',
-        }}
-      >
+      <Box sx={{ width: '100%', }}>
         <Grid container spacing={'75px'} rowSpacing={'25px'} sx={{ pl: '75px', mb: '25px' }}>
           {cards?.map((card, i) => (
             <Grid item key={i}>
               {target === SYMBOL.star ? (
-                <StarCard
-                  starId={card.starId}
-                  starName={card.starName}
-                  avgScore={card.avgScore}
-                  address={card.address}
-                  memberNumber={card.memberNumber}
-                  gender={card.gender}
-                  showCount={card.showCount}
-                  genres={card.genres}
-                  starStageTypes={card.starStageTypes}
-                  starImgUrl={card.starImgUrl}
-                  reviewCount={card.reviewCount}
-                />
+                <StarCard card={card} />
               ) : (
-                <StageCard
-                  cardData={card}
-                />
+                <StageCard cardData={card} />
               )}
             </Grid>  
           ))}
