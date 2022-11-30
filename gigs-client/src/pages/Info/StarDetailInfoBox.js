@@ -30,7 +30,7 @@ const StarDetailInfoBox = ({
       }}
     >
       <DetailInfoItem Icon={HeadsetMicIcon} onEdit={openEditGenresDialog} editable={editable} >{genres?.length > 0 ? (genres?.map(genre => genre).join(', ')) : '데이터를 추가해주세요.'}</DetailInfoItem>
-      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditMemberDialog} editable={editable} >{(gender && (memberNumber || Number(memberNumber) === 0)) ? `${gender} ${memberNumber}인` : '데이터를 추가해주세요.'}</DetailInfoItem>
+      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditMemberDialog} editable={editable} >{(gender !== 'DEFAULT' && (memberNumber || Number(memberNumber) === 0)) ? `${gender} ${memberNumber}인` : '데이터를 추가해주세요.'}</DetailInfoItem>
       <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypesDialog} editable={editable} >{stageTypes?.length > 0 ? stageTypes?.map(stageType => stageType).join(', ') : '데이터를 추가해주세요.'}</DetailInfoItem>
       <DetailInfoItem Icon={MicExternalOnIcon} editable={false} >{`${showCount}회 이상`}</DetailInfoItem>
     </Box>
