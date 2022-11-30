@@ -40,6 +40,9 @@ public class UserService {
         else {
             Star star = Star.builder()
                     .user(user)
+                    .name("")
+                    .score(0D)
+                    .introduce("")
                     .status(StarStatus.INACTIVE)
                     .repImg("")
                     .gender(Gender.DEFAULT)
