@@ -36,6 +36,11 @@ export const signUp = (signUpData) => ax.post('/signup', signUpData);
 export const fetchMyPage = () => ax.get('/mypage');
 
 /**
+ * 마이 페이지 접속 시 유저 정보 가져오는 API
+ */
+export const posts = (postsData) => ax.post('/posts',postsData);
+
+/**
  * 로그아웃 API
  */
 export const logout = () => ax.get(`/logout`);
@@ -107,6 +112,8 @@ export const updateHostInfo = async (hostId, data) => ax.put(`/stages`, data);
  * @param {{}} data 수정하려는 데이터
  */
 export const updateStarInfo = async (starId, data) => ax.put(`/stars/${starId}`, data);
+
+export const updateImage = async(data) => ax.post(`/stars/rep-image`,data);
 
 /**
  * 포스트 하나를 삭제하는 API

@@ -9,7 +9,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.isNull;
 import static javax.persistence.CascadeType.ALL;
 
 @Builder
@@ -22,11 +21,11 @@ public class Host extends BaseTimeEntity{
     @GeneratedValue
     private Long hostId;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany(mappedBy = "host") @Builder.Default
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL) @Builder.Default
     private final List<Post> posts = new ArrayList<>();
 
 
@@ -60,7 +59,7 @@ public class Host extends BaseTimeEntity{
     @OneToMany(mappedBy = "host", cascade = ALL) @Builder.Default
     private final List<StageImg> imgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "host")
+    @OneToMany(mappedBy = "host", cascade = ALL)
     @Builder.Default
     private List<Review> reviews = new ArrayList<>();
 

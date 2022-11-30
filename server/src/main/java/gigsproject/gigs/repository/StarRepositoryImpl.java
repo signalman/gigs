@@ -122,4 +122,13 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
                 .where(star.starId.eq(starEdit.getStarId()))
                 .execute();
     }
+
+    @Override
+    public void editStarImg(Long starId, String url) {
+        queryFactory
+                .update(star)
+                .set(star.repImg, url)
+                .where(star.starId.eq(starId))
+                .execute();
+    }
 }
