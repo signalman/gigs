@@ -50,16 +50,16 @@ public class UserService {
                     .showCount(0)
                     .build();
             starRepository.save(star);
-            StarStageType starStageType = StarStageType.builder()
-                    .star(star)
-                    .stageType(StageType.DEFAULT)
-                    .build();
-            starStageTypeRepository.save(starStageType);
-            StarGenre starGenre = StarGenre.builder()
-                    .star(star)
-                    .genre(Genre.DEFAULT)
-                    .build();
-            starGenreRepository.save(starGenre);
+//            StarStageType starStageType = StarStageType.builder()
+//                    .star(star)
+//                    .stageType(StageType.DEFAULT)
+//                    .build();
+//            starStageTypeRepository.save(starStageType);
+//            StarGenre starGenre = StarGenre.builder()
+//                    .star(star)
+//                    .genre(Genre.DEFAULT)
+//                    .build();
+//            starGenreRepository.save(starGenre);
         }
     }
 }
