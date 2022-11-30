@@ -93,7 +93,7 @@ public class UserController {
         List<History> histories = proposalService.findHostHistory(loginHost.getHostId());
         List<ProposalDto> proposals = proposalService.findNotCompProposals(loginHost.getHostId());
         Long hostId = loginHost.getHostId();
-        String stageImgUrl = loginHost.getImgs().isEmpty() ? "" : loginHost.getImgs().get(0).getUrl();
+        String stageImgUrl = isNull(loginHost.getRepImg()) ? "" : loginHost.getRepImg();
         MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, histories, proposals);
         return hostMyPage;
     }

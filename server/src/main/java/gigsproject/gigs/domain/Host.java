@@ -55,7 +55,7 @@ public class Host extends BaseTimeEntity{
     private Integer reviewCount;
     private Double avgScore;
 
-
+    private String repImg;
     @OneToMany(mappedBy = "host", cascade = ALL) @Builder.Default
     private final List<StageImg> imgs = new ArrayList<>();
 
@@ -107,5 +107,9 @@ public class Host extends BaseTimeEntity{
 
         post.setPostGenres(postGenre);
         return post;
+    }
+
+    public void changeRepImg(String repImg) {
+        this.repImg = repImg;
     }
 }
