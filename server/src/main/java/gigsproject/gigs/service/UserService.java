@@ -40,6 +40,9 @@ public class UserService {
         else {
             Star star = Star.builder()
                     .user(user)
+                    .name("")
+                    .score(0D)
+                    .introduce("")
                     .status(StarStatus.INACTIVE)
                     .repImg("")
                     .gender(Gender.DEFAULT)
@@ -47,16 +50,16 @@ public class UserService {
                     .showCount(0)
                     .build();
             starRepository.save(star);
-            StarStageType starStageType = StarStageType.builder()
-                    .star(star)
-                    .stageType(StageType.DEFAULT)
-                    .build();
-            starStageTypeRepository.save(starStageType);
-            StarGenre starGenre = StarGenre.builder()
-                    .star(star)
-                    .genre(Genre.DEFAULT)
-                    .build();
-            starGenreRepository.save(starGenre);
+//            StarStageType starStageType = StarStageType.builder()
+//                    .star(star)
+//                    .stageType(StageType.DEFAULT)
+//                    .build();
+//            starStageTypeRepository.save(starStageType);
+//            StarGenre starGenre = StarGenre.builder()
+//                    .star(star)
+//                    .genre(Genre.DEFAULT)
+//                    .build();
+//            starGenreRepository.save(starGenre);
         }
     }
 }
