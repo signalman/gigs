@@ -75,4 +75,9 @@ public class HostService {
         postRepository.deleteAll(posts);
     }
 
+    @Transactional
+    public void editRepImg(Long hostId, String repImg) {
+        Host host = hostRepository.findById(hostId).orElseThrow(() -> new IllegalArgumentException("해당 호스트 x"));
+        host.changeRepImg(repImg);
+    }
 }
