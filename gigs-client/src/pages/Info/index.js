@@ -31,6 +31,7 @@ const Info = ({
 
   const [data, setData] = useState(DUMMY.host);
   const [posts, setPosts] = useState(DUMMY.host.posts);
+  const [images, setImages] = useState([]);
   const editable = Number(cookies.userId) === data.userId;
 
   const editNameDialog = useDialog();
@@ -48,10 +49,14 @@ const Info = ({
   const getStarInfo = useCallback(async () => {
     const response = await fetchStarInfo(params.id);
 
+    console.log('# 스타 상세 정보');
+    console.log(response);
+
     const newData = {
       userId: response.data.userId,
       starId: response.data.starId,
 
+      repImg: response.data.repImg,
       name: response.data.name,
       score: response.data.score,
       reviewCount: response.data.reviews?.length,
@@ -63,19 +68,22 @@ const Info = ({
       stageTypes: response.data.starStageTypes?.map(stageType => stageType.stageTypeName),
       showCount: response.data?.showCount,
     }
-
-    console.log(newData);
     
     setData(newData);
+    setImages(response.data.starImgs);
   }, [params]);
 
   const getHostInfo = useCallback(async () => {
     const response = await fetchHostInfo(params.id);
 
+    console.log(`# 호스트 상세 정보`);
+    console.log(response);
+
     const newData = {
       userId: response.data.userId,
       hostId: response.data.hostId,
 
+      // repImg: response.data.repImg,
       name: response.data.name,
       address: response.data.address,
       score: response.data.score,
@@ -91,12 +99,10 @@ const Info = ({
       stageType: response.data.stageType,
     }
 
-    console.log(`호스트 검색 결과:`);
-    console.log(newData);
-    console.log(response.data.posts);
-
     setData(newData);
     setPosts(response.data.posts);
+    // TODO imgUrl -> ?
+    setImages(response.data.imgUrl);
   }, [params]);
 
   const updateInfo = useCallback(async (newData) => {
@@ -218,7 +224,7 @@ const Info = ({
       {/* 소개글 */}
       <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
       {/* 이미지 */}
-      <ImageBox />
+      <ImageBox images={images} editable={editable} />
       {/* 리뷰 */}
       <ReviewBox />
 

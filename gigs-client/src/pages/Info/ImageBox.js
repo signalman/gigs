@@ -61,10 +61,10 @@ const IconButton = styled(Box)((props) => ({
 }));
 
 const ImageBox = ({
-  posts,
-  setPosts,
+  images,
   editable,
 }) => {
+  const [selectedImage, setSelectedImage] = useState(-1);
   
 
   return (
@@ -81,7 +81,13 @@ const ImageBox = ({
         <Content>
           <Box sx={{ width: '500px', }}>
             <Box sx={{ width: '500px', height: '500px', display: 'flex', alignItems: 'center', }}>
-              <img src={StageImg} alt="stage_img" width='100%' />
+              {selectedImage === -1 ? (
+                <Box sx={{ width: '500px', height: '500px', lineHeight: '500px', textAlign: 'center', color: COLOR.grey, fontSize: '20px', }}>
+                  선택한 이미지가 없습니다.
+                </Box>
+              ) : (
+                <img src={StageImg} alt="stage_img" width='100%' />
+              )}
             </Box>
             <Box sx={{ m: '0 auto', boxShadow: '0 0 4px grey', display: 'flex', backgroundColor: 'white', width: '80px', borderRadius: '10px', overflow: 'hidden' }}>
               <IconButton size='40px'>
@@ -95,16 +101,9 @@ const ImageBox = ({
         </Content>
         <Content>
           <Box sx={{ width: '500px', backgroundColor: 'white', minHeight: '500px', display: 'flex', flexWrap: 'wrap', alignContent: 'flex-start', }}>
-            <ImageItem />
-            <ImageItem />
-            <ImageItem />
-            <ImageItem />
-            <ImageItem />
-            <ImageItem />
-            <ImageItem />
-            <ImageItem />
-            <ImageItem />
-            <ImageItem />
+            {images?.map(image => (
+              <ImageItem key={image.imgId} />              
+            ))}
             <IconButton size='100px'>
               <AddAPhotoIcon sx={{ width: '50px', height: '50px' }} />
             </IconButton>
