@@ -21,6 +21,7 @@ import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
 import SelectAllDialog from './dialogs/SelectAllDialog';
 import EditMemberDialog from './dialogs/EditMemberDialog';
 import { useCookies } from 'react-cookie';
+import UploadImg from '../../components/UploadImg';
 
 const Info = ({
   target,
@@ -157,8 +158,9 @@ const Info = ({
 
   return (
     <>
-      <Box sx={{ width: '100%', height: '300px', overflow: 'hidden', display: 'flex', alignItems: 'center', }}>
-        <img src={target === SYMBOL.stage ? StageDummyImg : StarDummyImg} alt="img" width="100%" />
+      <Box sx={{ width: '100%', height: '300px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent:'center' }}>
+        {/* <img src={target === SYMBOL.stage ? StageDummyImg : StarDummyImg} alt="img" width="100%" /> */}
+        <UploadImg img={target === SYMBOL.stage ? StageDummyImg : StarDummyImg}/>
       </Box>
 
       <InfoTitle

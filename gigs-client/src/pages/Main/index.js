@@ -34,7 +34,6 @@ const Main = ({
 
   return (
     <>
-      <UploadImg/>
       <Container>
         <img style={{
           position: 'absolute',
