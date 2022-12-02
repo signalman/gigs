@@ -88,13 +88,13 @@ const UploadImg = ({ img
             const formData = new FormData();
             const imgArray = []
             console.log(subDataImage)
-            formData.append('file',subDataImage);
+            // formData.append('file', subDataImage);
 
-            // for (let i = 0; i < subDataImage.length; i += 1) {
-            //     formData.append(`file${i}`, subDataImage[i].img_file)
-            //     imgArray.push(subDataImage[i].img_file)
-            //     console.log(subDataImage[i].img_file)
-            // }
+            for (let i = 0; i < subDataImage.length; i += 1) {
+                formData.append('files', subDataImage[i].img_file)
+                // imgArray.push(subDataImage[i].img_file)
+                console.log(subDataImage[i].img_file)
+            }
             console.log(formData)
             console.log(imgArray)
             //const response = await updateImage(formData)
@@ -103,6 +103,25 @@ const UploadImg = ({ img
         else {
             alert("사진을 등록하세요")
         }
+    }
+
+    const deleteSubImage = () => {
+        Swal.fire({
+            icon: "question",
+            title: "삭제",
+            text: "대표 이미지를 삭제하시겠습니까?",
+            showCancelButton: true,
+            confirmButtonText: "예",
+            cancelButtonText: "아니요",
+        }).then(async (res) => {
+            if (res.isConfirmed) {
+                setImage({
+                    img_file: "",
+                    preview_URL: defaultImage
+                })
+                const response = await deleteRepImage()
+            }
+        });
     }
 
     return (
@@ -143,7 +162,16 @@ const UploadImg = ({ img
                 </Box>
                 <Box sx={{ ml: 10 }}>
                     {subDataImage.length !== 0 ? (subDataImage.map((img) => {
-                        return <img style={{ width: '100px', height: '100px' }} src={img.preview_URL} key={img} />
+                        return (
+                            <Box sx={{ display: 'flex' }}>
+                                <img style={{ width: '50px', height: '50px' }} src={img.preview_URL} key={img} ></img>
+                                <Button
+                                    sx={{}}
+                                    onClick={() => { console.log() }}
+                                >삭제
+                                </Button>
+                            </Box>
+                        )
                     }))
                         : <></>}
                     <input type="file"
@@ -169,7 +197,7 @@ const UploadImg = ({ img
                         <Button
                             sx={{ mr: 2 }}
                             variant="contained"
-                            onClick={() => {}}
+                            onClick={() => { }}
                         > 여러 이미지 중 선택 삭제는 아직..
                         </Button>
                     </Box>
