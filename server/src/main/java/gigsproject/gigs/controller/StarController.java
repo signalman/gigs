@@ -99,6 +99,9 @@ public class StarController {
 
     @DeleteMapping("/stars/images/{imageId}")
     public void deleteImage(@RequestParam Long imageId) {
+
+        StarImg findImg = starImgService.findById(imageId);
+        awsS3Service.deleteImage(findImg.getUrl());
         starImgService.deleteImg(imageId);
     }
 

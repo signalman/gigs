@@ -14,6 +14,12 @@ public class StarImgService {
         starImgRepository.save(starImg);
     }
 
+    public StarImg findById(Long id) {
+        return starImgRepository.findById(id).orElseThrow(() -> {
+            throw new IllegalArgumentException("이미지가 존재하지 않습니다.");
+        });
+    }
+
     public void deleteImg(Long id) {
         starImgRepository.deleteById(id);
     }
