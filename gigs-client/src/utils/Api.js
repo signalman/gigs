@@ -118,6 +118,9 @@ export const updateRepImage = async(data) => ax.post(`/stars/rep-image`,data);
 export const updateSubImage = async(data) => ax.post(`/stars/images`,data);
 
 export const deleteRepImage = async() => ax.delete(`/stars/rep-image`);
+
+export const deleteSSubImage = async(imageId) => ax.delete(`/stars/images/${imageId}`)
+
 /**
  * 포스트 하나를 삭제하는 API
  * @param {String} postId 삭제하려는 포스트의 id

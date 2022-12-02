@@ -1,7 +1,7 @@
 import { Button, Box } from '@mui/material';
 import React, { useCallback, useState, useRef } from 'react';
 import defaultImage from '../../images/default-image.jpg'
-import { updateRepImage, updateSubImage, deleteRepImage } from '../../utils/Api';
+import { updateRepImage, updateSubImage, deleteRepImage, deleteSSubImage } from '../../utils/Api';
 import Swal from "sweetalert2";
 
 const UploadImg = ({ img
@@ -15,6 +15,7 @@ const UploadImg = ({ img
     const [subDataImage, setSubDataImage] = useState([]);
 
     const [subImage, setSubImage] = useState({
+        id:0,
         img_file: "",
         preview_URL: img
     });
@@ -41,10 +42,12 @@ const UploadImg = ({ img
             URL.revokeObjectURL(subImage.preview_URL);
             const preview_URL = URL.createObjectURL(e.target.files[0]);
             setSubImage(() => ({
+                id: subImage.id + 1,
                 img_file: e.target.files[0],
                 preview_URL: preview_URL
             }))
             setSubDataImage((p) => ([...p, {
+                id: subImage.id,
                 img_file: e.target.files[0],
                 preview_URL: preview_URL
             }]))
@@ -66,6 +69,25 @@ const UploadImg = ({ img
                     preview_URL: defaultImage
                 })
                 const response = await deleteRepImage()
+            }
+        });
+    }
+
+    const deleteSubImage = (id) => {
+        Swal.fire({
+            icon: "question",
+            title: "삭제",
+            text: `이미지를 삭제하시겠습니까?`,
+            showCancelButton: true,
+            confirmButtonText: "예",
+            cancelButtonText: "아니요",
+        }).then(async (res) => {
+            if (res.isConfirmed) {
+                const tmpData = subDataImage.filter((it) => it.id !== id)
+                setSubDataImage(tmpData)
+                const response = await deleteSSubImage(id)
+                console.log(subDataImage)
+                console.log(response)
             }
         });
     }
@@ -103,25 +125,6 @@ const UploadImg = ({ img
         else {
             alert("사진을 등록하세요")
         }
-    }
-
-    const deleteSubImage = () => {
-        Swal.fire({
-            icon: "question",
-            title: "삭제",
-            text: "대표 이미지를 삭제하시겠습니까?",
-            showCancelButton: true,
-            confirmButtonText: "예",
-            cancelButtonText: "아니요",
-        }).then(async (res) => {
-            if (res.isConfirmed) {
-                setImage({
-                    img_file: "",
-                    preview_URL: defaultImage
-                })
-                const response = await deleteRepImage()
-            }
-        });
     }
 
     return (
@@ -164,10 +167,10 @@ const UploadImg = ({ img
                     {subDataImage.length !== 0 ? (subDataImage.map((img) => {
                         return (
                             <Box sx={{ display: 'flex' }}>
-                                <img style={{ width: '50px', height: '50px' }} src={img.preview_URL} key={img} ></img>
+                                <img style={{ width: '50px', height: '50px' }} src={img.preview_URL} key={img.id} ></img>
                                 <Button
                                     sx={{}}
-                                    onClick={() => { console.log() }}
+                                    onClick={() => { deleteSubImage(img.id) }}
                                 >삭제
                                 </Button>
                             </Box>
