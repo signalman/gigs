@@ -68,6 +68,19 @@ public class StarController {
 
     }
 
+    @DeleteMapping("/stars/rep-image")
+    public void deleteRepImage(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+        User user = oAuth2UserCustom.getUser();
+        Star star = starService.findByUser(user);
+
+        String repImgUrl = star.getRepImg();
+        if (!repImgUrl.equals("")) {
+            awsS3Service.deleteImage(repImgUrl);
+        }
+        String newRepImgUrl = "";
+        starService.editStarImg(star.getStarId(), newRepImgUrl);
+    }
+
     @PostMapping("/stars/images")
     public void updateImages(@RequestParam(name = "files") List<MultipartFile> multipartFiles, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
