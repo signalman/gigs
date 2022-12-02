@@ -1,31 +1,22 @@
 package gigsproject.gigs.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
-import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Role;
 import gigsproject.gigs.domain.User;
-import gigsproject.gigs.repository.HostRepository;
-import gigsproject.gigs.repository.UserRepository;
 import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageRepImgEdit;
 import gigsproject.gigs.request.StageSearch;
-import gigsproject.gigs.request.StarRepImgEdit;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
 import gigsproject.gigs.service.HostService;
-import gigsproject.gigs.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
@@ -91,13 +82,13 @@ public class StageController {
         hostService.editRepImg(stageRepImgEdit.getHostId(), stageRepImgEdit.getRepImg());
     }
 
-    @PostMapping("/stars/images")
-    public void addImg() {
-//        hostService.addImgs
-    }
-
-    @DeleteMapping("/stars/images/{imageId}")
-    public void deleteImg(@PathVariable Long imageId) {
-
-    }
+//    @PostMapping("/stars/images")
+//    public void addImg() {
+////        hostService.addImgs
+//    }
+//
+//    @DeleteMapping("/stars/images/{imageId}")
+//    public void deleteImg(@PathVariable Long imageId) {
+//
+//    }
 }

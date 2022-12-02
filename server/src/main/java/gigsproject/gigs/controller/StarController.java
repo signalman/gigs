@@ -2,6 +2,7 @@ package gigsproject.gigs.controller;
 
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
 import gigsproject.gigs.domain.Star;
+import gigsproject.gigs.domain.StarImg;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.request.StarEdit;
 import gigsproject.gigs.request.StarSearch;
@@ -67,24 +68,20 @@ public class StarController {
 
     }
 
-    //    @PostMapping("/stars/images")
-//    public void updateImages(@RequestParam(name = "img-file") List<MultipartFile> multipartFiles, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
-//        User user = oAuth2UserCustom.getUser();
-//        Star star = starService.findByUser(user);
-//
-//        List<String> files = awsS3Service.uploadImages(multipartFiles);
-//
-//        for (String imgUrl : files) {
-//            StarImg starImg = StarImg.builder()
-//                    .star(star)
-//                    .url(imgUrl)
-//                    .build();
-//            starImgService.save(starImg);
-//        }
-//    }
     @PostMapping("/stars/images")
-    public void updateImages(List<MultipartFile> multipartFiles) {
-        log.info("{}", multipartFiles);
+    public void updateImages(@RequestParam(name = "files") List<MultipartFile> multipartFiles, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+        User user = oAuth2UserCustom.getUser();
+        Star star = starService.findByUser(user);
+
+        List<String> files = awsS3Service.uploadImages(multipartFiles);
+
+        for (String imgUrl : files) {
+            StarImg starImg = StarImg.builder()
+                    .star(star)
+                    .url(imgUrl)
+                    .build();
+            starImgService.save(starImg);
+        }
     }
 
     @DeleteMapping("/stars/images/{imageId}")
