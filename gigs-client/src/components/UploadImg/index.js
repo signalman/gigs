@@ -87,15 +87,18 @@ const UploadImg = ({ img
         if (subDataImage.length !== 0) {
             const formData = new FormData();
             const imgArray = []
-            for (let i = 0; i < subDataImage.length; i += 1) {
-                formData.append(`file${i}`, subDataImage[i].img_file)
-                imgArray.push(subDataImage[i].img_file)
-                console.log(subDataImage[i].img_file)
-            }
+            console.log(subDataImage)
+            formData.append('file',subDataImage);
+
+            // for (let i = 0; i < subDataImage.length; i += 1) {
+            //     formData.append(`file${i}`, subDataImage[i].img_file)
+            //     imgArray.push(subDataImage[i].img_file)
+            //     console.log(subDataImage[i].img_file)
+            // }
             console.log(formData)
             console.log(imgArray)
             //const response = await updateImage(formData)
-            const response = await updateSubImage(imgArray)
+            const response = await updateSubImage(formData)
         }
         else {
             alert("사진을 등록하세요")
