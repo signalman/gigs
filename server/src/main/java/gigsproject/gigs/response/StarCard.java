@@ -1,6 +1,5 @@
 package gigsproject.gigs.response;
 
-import gigsproject.gigs.domain.Address;
 import gigsproject.gigs.domain.Star;
 import lombok.Data;
 
@@ -14,7 +13,6 @@ public class StarCard {
     private Long starId;        //스타
     private String starImgUrl;   //스타이미지
     private String starName;      //스타
-    private Address address;    //유저
     private String gender;       //스타
     private Integer memberNumber;  //스타
     private Integer showCount;   //스타
@@ -27,7 +25,6 @@ public class StarCard {
         this.starId = star.getStarId();
         this.starImgUrl = isNull(star.getRepImg()) ? "" : star.getRepImg();
         this.starName = star.getName();
-        this.address = star.getUser().getAddress();
         this.gender = star.getGender().name();
         this.memberNumber = star.getMemberNumber();
         this.showCount = isNull(star.getShowCount()) ? 0 : star.getShowCount();

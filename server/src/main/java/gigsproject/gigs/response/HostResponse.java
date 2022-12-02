@@ -1,7 +1,10 @@
 package gigsproject.gigs.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import gigsproject.gigs.domain.*;
+import gigsproject.gigs.domain.Address;
+import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.domain.Review;
+import gigsproject.gigs.domain.StageType;
 import lombok.Data;
 
 import java.time.LocalTime;
@@ -17,7 +20,9 @@ public class HostResponse {
     private Long userId; //수정 권한을 위해
 
     private final Long hostId;
-    private List<StageImg> imgUrl;
+    private List<StageImgDto> stageImgs;
+    private String repImg;
+
     private String name;
     private final Address address;
     private StageType stageType;
@@ -39,15 +44,11 @@ public class HostResponse {
 
     private List<PostResponse> posts;
 
-//    private List<PostGenreDto> genres;
-
-
     public HostResponse(Host host) {
         this.userId = host.getUser().getUserId();
         this.hostId = host.getHostId();
         this.name = host.getStageName();
         this.introduce = host.getStageInfo();
-        this.imgUrl = host.getImgs().isEmpty() ? List.of() : host.getImgs();
         this.stageSize = host.getStageSize();
         this.address = host.getStageAddress();
         this.targetGender = String.valueOf(host.getTargetGender());
@@ -68,6 +69,10 @@ public class HostResponse {
         this.posts = isNull(host.getPosts()) ? List.of() : host.getPosts().stream()
                 .map(post -> new PostResponse(post))
                 .collect(Collectors.toList());
+
+        this.repImg = host.getRepImg();
+        this.stageImgs = host.getImgs().stream()
+                .map(i -> new StageImgDto(i)).collect(Collectors.toList());
 
     }
 }
