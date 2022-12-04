@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import StageDummyImg from '../../images/stage_tmp.jpg';
 import StarDummyImg from '../../images/star_tmp.jpg';
-import { DUMMY, SYMBOL } from '../../utils/Constants';
+import { COLOR, DUMMY, IMG, SYMBOL } from '../../utils/Constants';
 import StageDetailInfoBox from './StageDetailInfoBox';
 import ReviewBox from '../../components/ReviewBox';
 import './style.css';
@@ -24,6 +24,7 @@ import { useCookies } from 'react-cookie';
 import UploadRepImage from '../../components/UploadImg/UploadRepImage';
 import UploadSubImages from '../../components/UploadImg/UploadSubImages';
 import ImageBox from './ImageBox';
+import RepImgBox from './RepImgBox';
 
 const Info = ({
   target,
@@ -58,7 +59,8 @@ const Info = ({
       userId: response.data.userId,
       starId: response.data.starId,
 
-      repImg: response.data.repImg,
+      repImg: IMG(response.data.repImg),
+      // repImg: 'https://media.istockphoto.com/id/1211547141/photo/modern-restaurant-interior-design.jpg?s=612x612&w=0&k=20&c=CvJmHwNNwfFzVjj1_cX9scwYsl4mnVO8XFPi0LQMTsw=',
       name: response.data.name,
       score: response.data.score,
       reviewCount: response.data.reviews?.length,
@@ -139,6 +141,10 @@ const Info = ({
     }
   }, [data, updateInfo]);
 
+  const handleEditRepImg = useCallback((url) => {
+    setData({...data, repImg: url});
+  }, [data]);
+
   useEffect(() => {
     // dialog settings
     editNameDialog.initialize([data.name]);
@@ -168,11 +174,9 @@ const Info = ({
 
   return (
     <>
-      <Box sx={{ width: '100%', height: '300px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent:'center' }}>
-        {/* <img src={target === SYMBOL.stage ? StageDummyImg : StarDummyImg} alt="img" width="100%" /> */}
-        <UploadRepImage img={target === SYMBOL.stage ? StageDummyImg : data.starRepImg}/>
-        <UploadSubImages img={target === SYMBOL.stage ? StageDummyImg : data.starImgs}/>
-      </Box>
+      <RepImgBox repImg={data.repImg} editable={editable} handleEditRepImg={handleEditRepImg} />
+      {/* <UploadRepImage img={target === SYMBOL.stage ? StageDummyImg : data.starRepImg}/>
+      <UploadSubImages img={target === SYMBOL.stage ? StageDummyImg : data.starImgs}/> */}
 
       <InfoTitle
         titleInfo={{
