@@ -1,29 +1,22 @@
 package gigsproject.gigs.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
-import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Role;
 import gigsproject.gigs.domain.User;
-import gigsproject.gigs.repository.HostRepository;
-import gigsproject.gigs.repository.UserRepository;
 import gigsproject.gigs.request.StageForm;
+import gigsproject.gigs.request.StageRepImgEdit;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
 import gigsproject.gigs.service.HostService;
-import gigsproject.gigs.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
@@ -50,12 +43,12 @@ public class StageController {
     }
 
     /**
-     *  호스트 등록 + 수정 (동일)
+     * 호스트 등록 + 수정 (동일)
      */
     @PutMapping("/stages")
     public String create(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
                          @RequestBody StageForm stageForm
-                         ) throws IOException {
+    ) throws IOException {
 
         User user = oAuth2UserCustom.getUser();
         if (user.getRole() != Role.ROLE_HOST) {
@@ -68,6 +61,7 @@ public class StageController {
 
     /**
      * 무대 삭제 기능 (조회 x, 다시 빈 객체로 남아 있음)
+     *
      * @param oAuth2UserCustom
      * @return
      * @throws IOException
@@ -82,4 +76,19 @@ public class StageController {
         hostService.delete(user);
         return "삭제 완료";
     }
+
+    @PostMapping("/stages/rep-image")
+    public void updateRepImage(@RequestBody StageRepImgEdit stageRepImgEdit) {
+        hostService.editRepImg(stageRepImgEdit.getHostId(), stageRepImgEdit.getRepImg());
+    }
+
+//    @PostMapping("/stars/images")
+//    public void addImg() {
+////        hostService.addImgs
+//    }
+//
+//    @DeleteMapping("/stars/images/{imageId}")
+//    public void deleteImg(@PathVariable Long imageId) {
+//
+//    }
 }
