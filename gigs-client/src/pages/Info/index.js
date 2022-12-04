@@ -21,7 +21,8 @@ import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
 import SelectAllDialog from './dialogs/SelectAllDialog';
 import EditMemberDialog from './dialogs/EditMemberDialog';
 import { useCookies } from 'react-cookie';
-import UploadImg from '../../components/UploadImg';
+import UploadRepImage from '../../components/UploadImg/UploadRepImage';
+import UploadSubImages from '../../components/UploadImg/UploadSubImages';
 
 const Info = ({
   target,
@@ -47,7 +48,6 @@ const Info = ({
 
   const getStarInfo = useCallback(async () => {
     const response = await fetchStarInfo(params.id);
-
     const newData = {
       userId: response.data.userId,
       starId: response.data.starId,
@@ -62,6 +62,8 @@ const Info = ({
       memberNumber: response.data.memberNumber,
       stageTypes: response.data.starStageTypes?.map(stageType => stageType.stageTypeName),
       showCount: response.data?.showCount,
+      starRepImg: response.data.repImg,
+      starImgs: response.data.starImgs
     }
 
     console.log(newData);
@@ -160,7 +162,8 @@ const Info = ({
     <>
       <Box sx={{ width: '100%', height: '300px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent:'center' }}>
         {/* <img src={target === SYMBOL.stage ? StageDummyImg : StarDummyImg} alt="img" width="100%" /> */}
-        <UploadImg img={target === SYMBOL.stage ? StageDummyImg : StarDummyImg}/>
+        <UploadRepImage img={target === SYMBOL.stage ? StageDummyImg : data.starRepImg}/>
+        <UploadSubImages img={target === SYMBOL.stage ? StageDummyImg : data.starImgs}/>
       </Box>
 
       <InfoTitle
