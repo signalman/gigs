@@ -106,7 +106,7 @@ const ImageBox = ({
       console.log(response)
 
       // 보여지는 이미지 수정
-      handleEditImgs(files?.map(file => URL.createObjectURL(file)));
+      handleEditImgs(response.data);
     } catch (err) {
       console.log(err);
     }

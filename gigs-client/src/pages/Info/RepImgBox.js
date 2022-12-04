@@ -51,7 +51,7 @@ const RepImgBox = ({
       console.log(response);
 
       // 보여지는 이미지 수정
-      handleEditRepImg(URL.createObjectURL(e.target.files[0]));
+      handleEditRepImg(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -59,22 +59,22 @@ const RepImgBox = ({
 
   return (
     <Box sx={containerStyle}>
+      {editable ? (
+        <input type="file"
+        accept='image/*'
+        onChange={updateRepImg}
+        ref={repImgInput}
+        style={{ display: "none" }}
+      />
+      ) : (<></>)}
       {repImg ? (
         editable ? (
-          <>
-            <input type="file"
-              accept='image/*'
-              onChange={updateRepImg}
-              ref={repImgInput}
-              style={{ display: "none" }}
-            />
-            <img src={repImg} alt="repImg" width="100%" style={repImgStyle} onClick={() => repImgInput.current.click()} />
-          </>
+          <img src={repImg} alt="repImg" width="100%" style={repImgStyle} onClick={() => repImgInput.current.click()} />
         ) : (
           <img src={repImg} alt="repImg" width="100%" />
         )
       ) : (
-        <Box sx={repImgMsgStyle}>
+        <Box sx={repImgMsgStyle} onClick={editable ? (() => repImgInput.current.click()) : null}>
           대표 이미지를 등록해주세요.
         </Box>
       )}

@@ -140,16 +140,15 @@ const Info = ({
   }, [data, updateInfo]);
 
   const handleEditRepImg = useCallback((url) => {
-    setData({...data, repImg: url});
+    setData({...data, repImg: IMG(url)});
   }, [data]);
 
   const handleDeleteImg = useCallback((imgId) => {
     setImages(images.filter(img => img.imgId !== imgId));
   }, [images]);
 
-  const handleEditImgs = useCallback((urls) => {
-    console.log([...images, ...urls?.map(url => ({imgId: 123, url: url}))]);
-    setImages([...images, ...urls?.map(url => ({imgId: 123, url: url}))]);
+  const handleEditImgs = useCallback((imgs) => {
+    setImages(imgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
   }, [images,]);
 
   useEffect(() => {
