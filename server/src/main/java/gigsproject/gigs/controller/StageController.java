@@ -82,15 +82,13 @@ public class StageController {
         hostService.editRepImg(stageRepImgEdit.getHostId(), stageRepImgEdit.getRepImg());
     }
 
-    @PostMapping("/stars/images")
-    public void addImg() {
-//        hostService.addImgs
-    }
-
-    @DeleteMapping("/stars/images/{imageId}")
-    public void deleteImg(@PathVariable Long imageId) {
-
-    }
-
-
+//    @PostMapping("/stars/images")
+//    public void addImg() {
+////        hostService.addImgs
+//    }
+//
+//    @DeleteMapping("/stars/images/{imageId}")
+//    public void deleteImg(@PathVariable Long imageId) {
+//
+//    }
 }
