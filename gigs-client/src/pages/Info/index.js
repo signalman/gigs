@@ -71,12 +71,10 @@ const Info = ({
       memberNumber: response.data.memberNumber,
       stageTypes: response.data.starStageTypes?.map(stageType => stageType.stageTypeName),
       showCount: response.data?.showCount,
-      starRepImg: response.data.repImg,
-      starImgs: response.data.starImgs
     }
     
     setData(newData);
-    setImages(response.data.starImgs);
+    setImages(response.data.starImgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
   }, [params]);
 
   const getHostInfo = useCallback(async () => {
@@ -144,6 +142,15 @@ const Info = ({
   const handleEditRepImg = useCallback((url) => {
     setData({...data, repImg: url});
   }, [data]);
+
+  const handleDeleteImg = useCallback((imgId) => {
+    setImages(images.filter(img => img.imgId !== imgId));
+  }, [images]);
+
+  const handleEditImgs = useCallback((urls) => {
+    console.log([...images, ...urls?.map(url => ({imgId: 123, url: url}))]);
+    setImages([...images, ...urls?.map(url => ({imgId: 123, url: url}))]);
+  }, [images,]);
 
   useEffect(() => {
     // dialog settings
@@ -234,7 +241,7 @@ const Info = ({
       {/* 소개글 */}
       <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
       {/* 이미지 */}
-      <ImageBox images={images} editable={editable} />
+      <ImageBox images={images} editable={editable} handleEditImgs={handleEditImgs} handleDeleteImg={handleDeleteImg} />
       {/* 리뷰 */}
       <ReviewBox />
 

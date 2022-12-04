@@ -111,15 +111,15 @@ export const updateHostInfo = async (hostId, data) => ax.put(`/stages`, data);
  * @param {String} starId 수정하려는 스타의 id
  * @param {{}} data 수정하려는 데이터
  */
-export const updateStarInfo = async (starId, data) => ax.put(`/stars/${starId}`, data);
+export const updateStarInfo = (starId, data) => ax.put(`/stars/${starId}`, data);
 
-export const updateRepImage = async(data) => ax.post(`/stars/rep-image`,data);
+export const updateRepImage = (data) => ax.post(`/stars/rep-image`,data);
 
-export const updateSubImage = async(data) => ax.post(`/stars/images`,data);
+export const updateSubImage = (data) => ax.post(`/stars/images`,data);
 
-export const deleteRepImage = async() => ax.delete(`/stars/rep-image`);
+export const deleteRepImage = () => ax.delete(`/stars/rep-image`);
 
-export const deleteSSubImage = async(imageId) => ax.delete(`/stars/images/${imageId}`)
+export const deleteImage = (imageId) => ax.delete(`/stars/images/${imageId}`)
 
 /**
  * 포스트 하나를 삭제하는 API

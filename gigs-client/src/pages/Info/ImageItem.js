@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import { Box, Grid } from '@mui/material';
 import React from 'react';
 import { COLOR } from '../../utils/Constants';
-import StageImg from '../../images/stage_tmp.jpg';
-import StarImg from '../../images/star_tmp.jpg';
 
 const Item = styled(Box)((props) => ({
   position: 'absolute',
@@ -23,11 +21,15 @@ const Item = styled(Box)((props) => ({
   }
 }));
 
-const ImageItem = () => {
+const ImageItem = ({
+  image,
+  onImgClick,
+}) => {
+  const {imgId, url} = image;
   return (
-    <Box sx={{ width: '100px', height: '100px', position: 'relative'}}>
+    <Box sx={{ width: '100px', height: '100px', position: 'relative'}} onClick={() => onImgClick(imgId)}>
       <Item>
-        <img src={StageImg} alt="stageImg" width='100%' />
+        <img src={url} alt="stageImg" width='100%' />
       </Item>
     </Box>
   );
