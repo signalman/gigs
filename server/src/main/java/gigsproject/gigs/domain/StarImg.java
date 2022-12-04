@@ -10,10 +10,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class StarImg {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long starImgId;
     private String url;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL) @JoinColumn(name = "starId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "starId")
     private Star star;
 
     public void setStar(Star star) {

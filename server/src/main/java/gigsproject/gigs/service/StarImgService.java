@@ -4,6 +4,7 @@ import gigsproject.gigs.domain.StarImg;
 import gigsproject.gigs.repository.StarImgRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public class StarImgService {
         });
     }
 
+    @Transactional
     public void deleteImg(Long id) {
         starImgRepository.deleteById(id);
     }
