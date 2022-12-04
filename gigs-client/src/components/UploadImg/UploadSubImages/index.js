@@ -1,6 +1,6 @@
 import { Button, Box } from '@mui/material';
 import React, { useCallback, useState, useRef, useEffect } from 'react';
-import { updateSubImage, deleteSSubImage } from '../../../utils/Api';
+import { updateSubImage, deleteImage } from '../../../utils/Api';
 import Swal from "sweetalert2";
 
 const UploadSubImages = ({ img
@@ -59,7 +59,7 @@ const UploadSubImages = ({ img
                 console.log(tmpData)
                 setSubDataImage(tmpData)
                 subImage.id = subImage.id - 1
-                const response = await deleteSSubImage(id)
+                const response = await deleteImage(id)
                 //console.log(subDataImage)
                 // console.log(subImage)
                 console.log(response)

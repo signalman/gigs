@@ -102,3 +102,5 @@ export const ENUM = {
   JAZZ: '재즈',
   POP: '팝',
 }
+
+export const IMG = (img) => img ? `https://gigs-bucket.s3.ap-northeast-2.amazonaws.com/${img}` : '';

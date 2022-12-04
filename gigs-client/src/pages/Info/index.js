@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import StageDummyImg from '../../images/stage_tmp.jpg';
 import StarDummyImg from '../../images/star_tmp.jpg';
-import { DUMMY, SYMBOL } from '../../utils/Constants';
+import { COLOR, DUMMY, IMG, SYMBOL } from '../../utils/Constants';
 import StageDetailInfoBox from './StageDetailInfoBox';
 import ReviewBox from '../../components/ReviewBox';
 import './style.css';
@@ -23,6 +23,8 @@ import EditMemberDialog from './dialogs/EditMemberDialog';
 import { useCookies } from 'react-cookie';
 import UploadRepImage from '../../components/UploadImg/UploadRepImage';
 import UploadSubImages from '../../components/UploadImg/UploadSubImages';
+import ImageBox from './ImageBox';
+import RepImgBox from './RepImgBox';
 
 const Info = ({
   target,
@@ -32,6 +34,7 @@ const Info = ({
 
   const [data, setData] = useState(DUMMY.host);
   const [posts, setPosts] = useState(DUMMY.host.posts);
+  const [images, setImages] = useState([]);
   const editable = Number(cookies.userId) === data.userId;
 
   const editNameDialog = useDialog();
@@ -48,10 +51,16 @@ const Info = ({
 
   const getStarInfo = useCallback(async () => {
     const response = await fetchStarInfo(params.id);
+
+    console.log('# 스타 상세 정보');
+    console.log(response);
+
     const newData = {
       userId: response.data.userId,
       starId: response.data.starId,
 
+      repImg: IMG(response.data.repImg),
+      // repImg: 'https://media.istockphoto.com/id/1211547141/photo/modern-restaurant-interior-design.jpg?s=612x612&w=0&k=20&c=CvJmHwNNwfFzVjj1_cX9scwYsl4mnVO8XFPi0LQMTsw=',
       name: response.data.name,
       score: response.data.score,
       reviewCount: response.data.reviews?.length,
@@ -62,22 +71,23 @@ const Info = ({
       memberNumber: response.data.memberNumber,
       stageTypes: response.data.starStageTypes?.map(stageType => stageType.stageTypeName),
       showCount: response.data?.showCount,
-      starRepImg: response.data.repImg,
-      starImgs: response.data.starImgs
     }
-
-    console.log(newData);
     
     setData(newData);
+    setImages(response.data.starImgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
   }, [params]);
 
   const getHostInfo = useCallback(async () => {
     const response = await fetchHostInfo(params.id);
 
+    console.log(`# 호스트 상세 정보`);
+    console.log(response);
+
     const newData = {
       userId: response.data.userId,
       hostId: response.data.hostId,
 
+      // repImg: response.data.repImg,
       name: response.data.name,
       address: response.data.address,
       score: response.data.score,
@@ -93,12 +103,10 @@ const Info = ({
       stageType: response.data.stageType,
     }
 
-    console.log(`호스트 검색 결과:`);
-    console.log(newData);
-    console.log(response.data.posts);
-
     setData(newData);
     setPosts(response.data.posts);
+    // TODO imgUrl -> ?
+    setImages(response.data.imgUrl);
   }, [params]);
 
   const updateInfo = useCallback(async (newData) => {
@@ -131,6 +139,18 @@ const Info = ({
     }
   }, [data, updateInfo]);
 
+  const handleEditRepImg = useCallback((url) => {
+    setData({...data, repImg: IMG(url)});
+  }, [data]);
+
+  const handleDeleteImg = useCallback((imgId) => {
+    setImages(images.filter(img => img.imgId !== imgId));
+  }, [images]);
+
+  const handleEditImgs = useCallback((imgs) => {
+    setImages(imgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
+  }, [images,]);
+
   useEffect(() => {
     // dialog settings
     editNameDialog.initialize([data.name]);
@@ -160,11 +180,9 @@ const Info = ({
 
   return (
     <>
-      <Box sx={{ width: '100%', height: '300px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent:'center' }}>
-        {/* <img src={target === SYMBOL.stage ? StageDummyImg : StarDummyImg} alt="img" width="100%" /> */}
-        <UploadRepImage img={target === SYMBOL.stage ? StageDummyImg : data.starRepImg}/>
-        <UploadSubImages img={target === SYMBOL.stage ? StageDummyImg : data.starImgs}/>
-      </Box>
+      <RepImgBox repImg={data.repImg} editable={editable} handleEditRepImg={handleEditRepImg} />
+      {/* <UploadRepImage img={target === SYMBOL.stage ? StageDummyImg : data.starRepImg}/>
+      <UploadSubImages img={target === SYMBOL.stage ? StageDummyImg : data.starImgs}/> */}
 
       <InfoTitle
         titleInfo={{
@@ -221,6 +239,8 @@ const Info = ({
       ) : (<></>)}
       {/* 소개글 */}
       <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
+      {/* 이미지 */}
+      <ImageBox images={images} editable={editable} handleEditImgs={handleEditImgs} handleDeleteImg={handleDeleteImg} />
       {/* 리뷰 */}
       <ReviewBox />
 
