@@ -126,3 +126,9 @@ export const deleteImage = (imageId) => ax.delete(`/stars/images/${imageId}`)
  * @param {String} postId 삭제하려는 포스트의 id
  */
 export const deletePost = (postId) => ax.delete(`/posts/${postId}`);
+
+/**
+ * 제안서 작성 폼을 가져오는 API
+ * @param {String} postId 제안서 작성 폼을 가져오려는 포스트의 id
+ */
+export const getProposalFormById = (postId) => ax.get(`/posts/${postId}`);
