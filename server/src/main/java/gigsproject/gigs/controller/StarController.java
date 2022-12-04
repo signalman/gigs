@@ -7,6 +7,7 @@ import gigsproject.gigs.domain.User;
 import gigsproject.gigs.request.StarEdit;
 import gigsproject.gigs.request.StarSearch;
 import gigsproject.gigs.response.StarCard;
+import gigsproject.gigs.response.StarImgDto;
 import gigsproject.gigs.response.StarResponse;
 import gigsproject.gigs.service.AwsS3Service;
 import gigsproject.gigs.service.StarImgService;
@@ -15,12 +16,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -52,7 +55,7 @@ public class StarController {
     }
 
     @PostMapping("/stars/rep-image")
-    public void updateImage(@RequestParam(name = "file") MultipartFile multipartFile, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) throws IOException {
+    public ResponseEntity<String> updateImage(@RequestParam(name = "file") MultipartFile multipartFile, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) throws IOException {
         User user = oAuth2UserCustom.getUser();
         Star star = starService.findByUser(user);
         //저장된 이미지를 s3에서 지우고
@@ -64,8 +67,7 @@ public class StarController {
         String newRepImgUrl = awsS3Service.uploadImage(multipartFile);
         //그 이미지 주소를 db에 저장한다.
         starService.editStarImg(star.getStarId(), newRepImgUrl);
-        log.info("{}", newRepImgUrl);
-
+        return ResponseEntity.ok().body(newRepImgUrl);
     }
 
     @DeleteMapping("/stars/rep-image")
@@ -82,7 +84,7 @@ public class StarController {
     }
 
     @PostMapping("/stars/images")
-    public void updateImages(@RequestParam(name = "files") List<MultipartFile> multipartFiles, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+    public ResponseEntity<List<StarImgDto>> updateImages(@RequestParam(name = "files") List<MultipartFile> multipartFiles, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
         Star star = starService.findByUser(user);
 
@@ -95,10 +97,13 @@ public class StarController {
                     .build();
             starImgService.save(starImg);
         }
+        List<StarImg> starImgs = star.getStarImgs();
+        List<StarImgDto> imgs = starImgs.stream().map(starImg -> new StarImgDto(starImg)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(imgs);
     }
 
     @DeleteMapping("/stars/images/{imageId}")
-    public void deleteImage(@RequestParam Long imageId) {
+    public void deleteImage(@PathVariable Long imageId) {
 
         StarImg findImg = starImgService.findById(imageId);
         awsS3Service.deleteImage(findImg.getUrl());
