@@ -1,13 +1,11 @@
 import styled from '@emotion/styled';
-import { Box, Grid, TextField } from '@mui/material';
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { Box, } from '@mui/material';
+import React, { useState, useCallback, useRef } from 'react';
 import { COLOR } from '../../utils/Constants';
-import StageImg from '../../images/stage_tmp.jpg';
 import ImageItem from './ImageItem';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
-import { deleteImage, updateSubImage } from '../../utils/Api';
+import { addImages, deleteImage } from '../../utils/Api';
 
 const Container = styled(Box)(() => ({
   width: '1200px',
@@ -101,7 +99,7 @@ const ImageBox = ({
     files?.forEach(file => formData.append('files', file));
 
     try {
-      const response = await updateSubImage(formData)
+      const response = await addImages(formData)
       console.log('# 이미지 업로드 결과');
       console.log(response)
 

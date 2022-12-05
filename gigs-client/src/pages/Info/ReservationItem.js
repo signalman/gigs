@@ -34,12 +34,13 @@ const ReservationItem = ({
   data,
   onDeletePost,
   editable,
+  onClickPost,
 }) => {
   const { postId, startTime, endTime, genres } = data;
 
   return (
     <Grid item>
-      <Box sx={wrapperStyle} onClick={(() => {console.log("ITEM")})} >
+      <Box sx={wrapperStyle} onClick={(() => onClickPost(postId))} >
         {/* <Box sx={{ textAlign: 'center', fontSize: '9px', color: COLOR.blacky }} >{startDate}</Box> */}
         <Box sx={{ textAlign: 'center', fontSize: '12px' }} >{startTime} 부터</Box>
         <Box sx={{ textAlign: 'center', fontSize: '12px', mb: '5px' }} >{endTime} 까지</Box>

@@ -1,9 +1,7 @@
 import { Box, } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import StageDummyImg from '../../images/stage_tmp.jpg';
-import StarDummyImg from '../../images/star_tmp.jpg';
-import { COLOR, DUMMY, IMG, SYMBOL } from '../../utils/Constants';
+import { DUMMY, IMG, SYMBOL } from '../../utils/Constants';
 import StageDetailInfoBox from './StageDetailInfoBox';
 import ReviewBox from '../../components/ReviewBox';
 import './style.css';
@@ -21,10 +19,9 @@ import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
 import SelectAllDialog from './dialogs/SelectAllDialog';
 import EditMemberDialog from './dialogs/EditMemberDialog';
 import { useCookies } from 'react-cookie';
-import UploadRepImage from '../../components/UploadImg/UploadRepImage';
-import UploadSubImages from '../../components/UploadImg/UploadSubImages';
 import ImageBox from './ImageBox';
 import RepImgBox from './RepImgBox';
+import WriteProposalDialog from '../../components/WriteProposal';
 
 const Info = ({
   target,
@@ -109,6 +106,7 @@ const Info = ({
     setImages(response.data.imgUrl);
   }, [params]);
 
+  // 정보 수정 후 새 데이터로 기존 데이터를 업데이트 하는 함수
   const updateInfo = useCallback(async (newData) => {
     let response;
 
@@ -130,6 +128,7 @@ const Info = ({
     }
   }, [target, data]);
 
+  // 정보 수정 시 어떤 정보를 무엇으로 바꿀 지 결정해주는 함수를 반환하는 함수
   const handleEdit = useCallback((keys) => {
     return (values) => {
       const newData = {...data}
@@ -139,14 +138,17 @@ const Info = ({
     }
   }, [data, updateInfo]);
 
+  // 대표 이미지 수정이 끝난 후
   const handleEditRepImg = useCallback((url) => {
     setData({...data, repImg: IMG(url)});
   }, [data]);
 
+  // 일반 이미지 삭제가 끝난 후
   const handleDeleteImg = useCallback((imgId) => {
     setImages(images.filter(img => img.imgId !== imgId));
   }, [images]);
 
+  // 일반 이미지 추가가 끝난 후
   const handleEditImgs = useCallback((imgs) => {
     setImages(imgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
   }, [images,]);

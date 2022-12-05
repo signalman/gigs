@@ -113,12 +113,27 @@ export const updateHostInfo = async (hostId, data) => ax.put(`/stages`, data);
  */
 export const updateStarInfo = (starId, data) => ax.put(`/stars/${starId}`, data);
 
-export const updateRepImage = (data) => ax.post(`/stars/rep-image`,data);
+/**
+ * 대표이미지를 변경하는 API
+ * @param {FormData} formData file: 대표 이미지
+ */
+export const updateRepImage = (formData) => ax.post(`/stars/rep-image`, formData);
 
-export const updateSubImage = (data) => ax.post(`/stars/images`,data);
+/**
+ * 여러 이미지를 추가하는 API
+ * @param {FormData} data files: 업로드할 이미지들
+ */
+export const addImages = (data) => ax.post(`/stars/images`,data);
 
+/**
+ * 대표 이미지를 삭제하는 API
+ */
 export const deleteRepImage = () => ax.delete(`/stars/rep-image`);
 
+/**
+ * 이미지를 하나 삭제하는 API
+ * @param {Number} imageId 삭제하려는 이미지의 id
+ */
 export const deleteImage = (imageId) => ax.delete(`/stars/images/${imageId}`)
 
 /**
@@ -126,3 +141,15 @@ export const deleteImage = (imageId) => ax.delete(`/stars/images/${imageId}`)
  * @param {String} postId 삭제하려는 포스트의 id
  */
 export const deletePost = (postId) => ax.delete(`/posts/${postId}`);
+
+/**
+ * 제안서 작성 폼을 가져오는 API
+ * @param {String} postId 제안서 작성 폼을 가져오려는 포스트의 id
+ */
+export const getProposalFormById = (postId) => ax.get(`/posts/${postId}`);
+
+/**
+ * 제안서를 등록하는 API
+ * @param {{postId: Number, starId: Number, content: String}} proposalData 제안서에 포함된 내용
+ */
+export const createProposal = (proposalData) => ax.post(`/posts/${proposalData.postId}`, proposalData);
