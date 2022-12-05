@@ -28,9 +28,8 @@ const ReservationTable = ({
       setWriteProposalDialogOpen(true);
     } catch (err) {
       console.log(err);
-      setSelectedPost({ name: 'park' });
+      setSelectedPost({ err: err.response.data });
       setWriteProposalDialogOpen(true);
-
     }
   }, []);
 
