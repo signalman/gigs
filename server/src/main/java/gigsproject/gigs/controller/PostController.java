@@ -41,6 +41,6 @@ public class PostController {
             throw new IllegalArgumentException("호스트가 아닙니다.");
         }
         postService.delete(postId);
-        return "삭제 완료";
+        return "";
     }
 }
