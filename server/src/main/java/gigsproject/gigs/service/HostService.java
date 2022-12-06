@@ -1,13 +1,10 @@
 package gigsproject.gigs.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Post;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
-import gigsproject.gigs.repository.UserRepository;
 import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
@@ -18,9 +15,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -30,8 +29,7 @@ public class HostService {
 
     private final HostRepository hostRepository;
     private final PostRepository postRepository;
-    private final EntityManager em;
-
+    private final AwsS3Service awsS3Service;
 
     /**
      * 무대 찾기 서비스
@@ -76,8 +74,26 @@ public class HostService {
     }
 
     @Transactional
-    public void editRepImg(Long hostId, String repImg) {
-        Host host = hostRepository.findById(hostId).orElseThrow(() -> new IllegalArgumentException("해당 호스트 x"));
-        host.changeRepImg(repImg);
+    public String editRepImg(User user, MultipartFile repImg) {
+        Host host = findByUser(user);
+        String repImgUrl = host.getRepImg();
+        if (!repImgUrl.equals("")) {
+            awsS3Service.deleteImage(repImgUrl);
+        }
+        String newRepImgUrl = awsS3Service.uploadImage(repImg);
+        host.setRepImg(newRepImgUrl);
+        log.info("****대표 이미지 수정 완료 : {}", newRepImgUrl);
+        return newRepImgUrl;
+    }
+
+    @Transactional
+    public Map<Long, String> uploadImgs(User user, List<MultipartFile> multipartFileList) {
+        Host host = findByUser(user);
+
+        List<String> strings = awsS3Service.uploadImages(multipartFileList);
+        //host.imgs 에 추가
+        Map<Long, String> imgUrlMap = new HashMap<>();
+
+        return imgUrlMap;
     }
 }

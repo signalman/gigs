@@ -4,7 +4,6 @@ import gigsproject.gigs.config.oauth.OAuth2UserCustom;
 import gigsproject.gigs.domain.Role;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.request.StageForm;
-import gigsproject.gigs.request.StageRepImgEdit;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
@@ -16,8 +15,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -72,23 +75,43 @@ public class StageController {
         if (user.getRole() != Role.ROLE_HOST) {
             throw new IllegalArgumentException("호스트가 아닙니다.");
         }
-
         hostService.delete(user);
-        return "삭제 완료";
+        return "";
     }
 
+    /**
+     * 이미지 추가
+     *
+     * @return
+     */
+    @PostMapping("/stages/images")
+    public Map<Long, String> uploadImg(List<MultipartFile> multipartFileList, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+        User user = oAuth2UserCustom.getUser();
+        if (user.getRole() != Role.ROLE_HOST) {
+            throw new IllegalArgumentException("호스트가 아닙니다.");
+        }
+        return hostService.uploadImgs(user, multipartFileList);
+    }
+
+    /**
+     * 이미지 삭제
+     * @param imageId
+     */
+    @DeleteMapping("/stages/images/{imageId}")
+    public void deleteImg(@PathVariable Long imageId) {
+
+    }
+
+    /**
+     * 대표 이미지 변경
+     */
     @PostMapping("/stages/rep-image")
-    public void updateRepImage(@RequestBody StageRepImgEdit stageRepImgEdit) {
-        hostService.editRepImg(stageRepImgEdit.getHostId(), stageRepImgEdit.getRepImg());
-    }
+    public String updateRepImage(@RequestParam(name = "file") MultipartFile multipartFile, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom ) {
+        User user = oAuth2UserCustom.getUser();
+        if (user.getRole() != Role.ROLE_HOST) {
+            throw new IllegalArgumentException("호스트가 아닙니다.");
+        }
 
-//    @PostMapping("/stars/images")
-//    public void addImg() {
-////        hostService.addImgs
-//    }
-//
-//    @DeleteMapping("/stars/images/{imageId}")
-//    public void deleteImg(@PathVariable Long imageId) {
-//
-//    }
+        return hostService.editRepImg(user, multipartFile);
+    }
 }

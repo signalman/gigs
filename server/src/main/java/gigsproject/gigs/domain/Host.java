@@ -109,7 +109,7 @@ public class Host extends BaseTimeEntity{
         return post;
     }
 
-    public void changeRepImg(String repImg) {
+    public void setRepImg(String repImg) {
         this.repImg = repImg;
     }
 }
