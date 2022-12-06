@@ -115,4 +115,12 @@ public class StageController {
         return hostService.editRepImg(user, multipartFile);
     }
 
+    /**
+     * 대표 이미지 삭제
+     */
+    @DeleteMapping("/stages/rep-image")
+    public void deleteRepImage(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+        User user = oAuth2UserCustom.getUser();
+        hostService.deleteRepImage(user);
+    }
 }

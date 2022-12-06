@@ -87,9 +87,17 @@ public class HostService {
             awsS3Service.deleteImage(repImgUrl);
         }
         String newRepImgUrl = awsS3Service.uploadImage(repImg);
+
         host.setRepImg(newRepImgUrl);
-        log.info("****대표 이미지 수정 완료 : {}", newRepImgUrl);
-        return newRepImgUrl;
+
+        StageImg stageImg = StageImg.builder()
+                .host(host)
+                .url(newRepImgUrl)
+                .build();
+        StageImg save = stageImgRepository.save(stageImg);
+
+        log.info("****대표 이미지 수정 완료 url : {}", save.getUrl());
+        return save.getUrl();
     }
 
     @Transactional
@@ -115,5 +123,21 @@ public class HostService {
         StageImg stageImg = stageImgRepository.findById(imageId).orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다."));
         awsS3Service.deleteImage(stageImg.getUrl());
         stageImgRepository.delete(stageImg);
+    }
+
+    @Transactional
+    public void deleteRepImage(User user) {
+        Host host = findByUser(user);
+
+        String repImg = host.getRepImg();
+        if (!repImg.equals("")) {
+            awsS3Service.deleteImage(repImg);
+        }
+        StageImg stageImg = stageImgRepository.findByUrl(repImg)
+                .orElseThrow(() -> new IllegalArgumentException("해당 무대 이미지가 존재하지 않습니다."));
+
+        stageImgRepository.delete(stageImg);
+
+        host.setRepImg("");
     }
 }
