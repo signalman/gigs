@@ -37,11 +37,6 @@ public class PostController {
         postService.write(user, postForm);
     }
 
-//    @PatchMapping("/posts/{postId}")
-//    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit postEdit) {
-//        postService.edit(postId, postEdit);
-//    }
-
     @DeleteMapping("/posts/{postId}")
     public String delete(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
                          @PathVariable Long postId) {

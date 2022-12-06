@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,18 +94,19 @@ public class StageController {
 
     /**
      * 이미지 삭제
+     *
      * @param imageId
      */
     @DeleteMapping("/stages/images/{imageId}")
     public void deleteImg(@PathVariable Long imageId) {
-
+        hostService.deleteImage(imageId);
     }
 
     /**
      * 대표 이미지 변경
      */
     @PostMapping("/stages/rep-image")
-    public String updateRepImage(@RequestParam(name = "file") MultipartFile multipartFile, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom ) {
+    public String updateRepImage(@RequestParam(name = "file") MultipartFile multipartFile, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
         if (user.getRole() != Role.ROLE_HOST) {
             throw new IllegalArgumentException("호스트가 아닙니다.");
@@ -114,4 +114,5 @@ public class StageController {
 
         return hostService.editRepImg(user, multipartFile);
     }
+
 }

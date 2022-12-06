@@ -2,13 +2,16 @@ package gigsproject.gigs.service;
 
 import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Post;
+import gigsproject.gigs.domain.StageImg;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
+import gigsproject.gigs.repository.StageImgRepository;
 import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
+import gigsproject.gigs.response.StageImgDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,6 +33,7 @@ public class HostService {
     private final HostRepository hostRepository;
     private final PostRepository postRepository;
     private final AwsS3Service awsS3Service;
+    private final StageImgRepository stageImgRepository;
 
     /**
      * 무대 찾기 서비스
@@ -73,6 +77,8 @@ public class HostService {
         postRepository.deleteAll(posts);
     }
 
+    //대표 이미지를 따로 등록하는 것 vs 업로드한 이미지 중에 대표이미지를 선택하는 것
+    //후자면 로직 변경 필요
     @Transactional
     public String editRepImg(User user, MultipartFile repImg) {
         Host host = findByUser(user);
@@ -88,12 +94,26 @@ public class HostService {
 
     @Transactional
     public Map<Long, String> uploadImgs(User user, List<MultipartFile> multipartFileList) {
+        List<String> urls = awsS3Service.uploadImages(multipartFileList);
+
         Host host = findByUser(user);
 
-        List<String> strings = awsS3Service.uploadImages(multipartFileList);
-        //host.imgs 에 추가
         Map<Long, String> imgUrlMap = new HashMap<>();
-
+        for (String url : urls) {
+            StageImg stageImg = StageImg.builder()
+                    .host(host)
+                    .url(url)
+                    .build();
+            StageImg save = stageImgRepository.save(stageImg);
+            imgUrlMap.put(save.getStageImgId(), url);
+        }
         return imgUrlMap;
+    }
+
+    @Transactional
+    public void deleteImage(Long imageId) {
+        StageImg stageImg = stageImgRepository.findById(imageId).orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다."));
+        awsS3Service.deleteImage(stageImg.getUrl());
+        stageImgRepository.delete(stageImg);
     }
 }
