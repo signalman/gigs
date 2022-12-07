@@ -20,6 +20,8 @@ public class PostResponse {
     private LocalTime startTime;
     private LocalTime endTime;
 
+    private boolean isSigned;
+
     private List<PostGenreDto> postGenres;
 
 
@@ -29,6 +31,7 @@ public class PostResponse {
         date = post.getDate();
         startTime = post.getStartTime();
         endTime = post.getEndTime();
+        isSigned = post.isSigned();
 
         this.postGenres = isNull(post.getPostGenres())? List.of() : post.getPostGenres().stream()
                 .map(postGenre -> new PostGenreDto(postGenre))

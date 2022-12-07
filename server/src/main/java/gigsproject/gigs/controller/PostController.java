@@ -66,6 +66,14 @@ public class PostController {
         }
         Star star = starService.findByUser(user);
         Post post = postService.findById(postId);
+        try {
+            if (post.isSigned()) {
+                throw new IllegalArgumentException("This post already signed.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
         ProposalResponse proposalResponse = new ProposalResponse(star.getStarId(), post.getPostId(), star.getName(), post.getHost().getStageName(), post.getDate(), post.getStartTime(), post.getEndTime());
         return ResponseEntity.ok().body(proposalResponse);
     }

@@ -35,6 +35,8 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<Proposal> proposals = new ArrayList<>();
 
+    private boolean isSigned = false;
+
     public void setHost(Host host) {
         this.host = host;
         host.getPosts().add(this);
