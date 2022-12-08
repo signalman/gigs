@@ -44,6 +44,8 @@ public class QHost extends EntityPathBase<Host> {
 
     public final ListPath<Post, QPost> posts = this.<Post, QPost>createList("posts", Post.class, QPost.class, PathInits.DIRECT2);
 
+    public final StringPath repImg = createString("repImg");
+
     public final NumberPath<Integer> reviewCount = createNumber("reviewCount", Integer.class);
 
     public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);

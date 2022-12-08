@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Box } from '@mui/material';
 import React from 'react';
 import StageImg from '../../images/stage_tmp.jpg';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const ImgBox = styled(Box)((props) => ({
   width: '25px',
@@ -19,21 +20,37 @@ const NameBox = styled(Box)((props) => ({
   fontWeight: 'bold',
 }));
 
-const MiniProfile = () => {
+const MiniProfile = ({
+  repImg,
+  name,
+  width,
+}) => {
   return (
     <Box
       sx={{
         display: 'flex',
-        width: '200px',
+        width: `${(width || 175) + 25}px`,
         height: '50px',
       }}
     >
-      <ImgBox>
-        <img src={StageImg} alt="stage_img" width='25px' height='25px' />
-      </ImgBox>
-      <NameBox>
-        카페 안녕
-      </NameBox>
+      {name ? (
+        <>
+          <ImgBox>
+          {repImg ? (
+            <img src={repImg ? repImg : StageImg} alt="stage_img" width='25px' height='25px' />
+          ) : (
+            <AccountCircleIcon sx={{ width: '25px', height: '25px', }} />
+          )}
+          </ImgBox>
+          <NameBox>
+            {name}
+          </NameBox>
+        </>
+      ) : (
+        <Box sx={{ justifySelf: 'center', lineHeight: '50px', fontWeight: 'bold' }}>
+          정보가 없습니다
+        </Box>
+      )}
     </Box>
   );
 };

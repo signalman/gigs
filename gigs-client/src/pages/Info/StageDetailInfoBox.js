@@ -34,7 +34,7 @@ const StageDetailInfoBox = ({
       }}
     >
       <DetailInfoItem Icon={PhotoSizeSelectSmallIcon} onEdit={openEditAreaDialog} editable={editable} >{ifNull(stageSize, '', 'm^2')}</DetailInfoItem>
-      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditTargetDialog} editable={editable}>{((targetAge || targetAge === '0') && targetGender && (targetMinCount || targetMinCount === '0')) ? `${targetAge}대 ${targetGender} ${targetMinCount}인 이상` : '데이터를 추가해주세요.'}</DetailInfoItem>
+      <DetailInfoItem Icon={PeopleIcon} onEdit={openEditTargetDialog} editable={editable}>{((targetAge || Number(targetAge) === 0) && targetGender !== 'DEFAULT' && (targetMinCount || Number(targetMinCount) === 0)) ? `${targetAge}대 ${targetGender} ${targetMinCount}인 이상` : '데이터를 추가해주세요.'}</DetailInfoItem>
       <DetailInfoItem Icon={LocalAtmIcon} onEdit={openEditPayDialog} editable={editable}>{ifNull((pay), '', '원 이상')}</DetailInfoItem>
       <DetailInfoItem Icon={MicExternalOnIcon} editable={false}>{`${showCount}회 이상`}</DetailInfoItem>
       <DetailInfoItem Icon={LocationOnIcon} onEdit={openEditStageTypeDialog} editable={editable}>{ifNull(stageType)}</DetailInfoItem>

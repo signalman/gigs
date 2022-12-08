@@ -1,9 +1,7 @@
 package gigsproject.gigs.service;
 
 import gigsproject.gigs.domain.*;
-import gigsproject.gigs.repository.HostRepository;
-import gigsproject.gigs.repository.StarRepository;
-import gigsproject.gigs.repository.UserRepository;
+import gigsproject.gigs.repository.*;
 import gigsproject.gigs.request.SignUpForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +12,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final StarRepository starRepository;
     private final HostRepository hostRepository;
+    private final StarStageTypeRepository starStageTypeRepository;
+    private final StarGenreRepository starGenreRepository;
 
     public void createUser(SignUpForm signUpForm) {
         //Address 객체 생성
@@ -40,11 +40,16 @@ public class UserService {
         else {
             Star star = Star.builder()
                     .user(user)
+                    .name("")
+                    .score(0D)
+                    .introduce("")
                     .status(StarStatus.INACTIVE)
+                    .repImg("")
+                    .gender(Gender.DEFAULT)
+                    .memberNumber(1)
+                    .showCount(0)
                     .build();
             starRepository.save(star);
         }
     }
-
-
 }

@@ -40,6 +40,8 @@ public class QStar extends EntityPathBase<Star> {
 
     public final ListPath<Proposal, QProposal> proposals = this.<Proposal, QProposal>createList("proposals", Proposal.class, QProposal.class, PathInits.DIRECT2);
 
+    public final StringPath repImg = createString("repImg");
+
     public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);
 
     public final NumberPath<Double> score = createNumber("score", Double.class);

@@ -30,7 +30,6 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/mypage/**").authenticated()
-                .antMatchers("/posts/**").access("hasRole('ROLE_HOST')")
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()

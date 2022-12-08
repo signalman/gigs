@@ -15,6 +15,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.TestExecutionEvent;
@@ -44,35 +46,30 @@ class StageControllerTest {
     @Autowired
     EntityManager em;
 
-    @MockBean
-    UserDetailsService userDetailsService;
-
     private Host host;
     private User user;
 
     @BeforeEach
     void setup() {
         user = User.builder()
-                .name("test")
+                .name("user")
                 .role(Role.ROLE_HOST)
                 .build();
         em.persist(user);
-
+        String uid = user.getUid();
         host = Host.builder()
                 .user(user)
                 .stageName("기존 제목")
                 .build();
 
         em.persist(host);
-
     }
 
     @Test
     @DisplayName("무대 수정 테스트")
-    @WithUserDetails(value = "test", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithMockUser(value = "user", roles = "HOST", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void save() throws Exception {
-        //given
-        UserDetails userDetails = userDetailsService.loadUserByUsername("test");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Host host = hostRepository.findByUser(user);
 
         StageForm stageForm = StageForm.builder()

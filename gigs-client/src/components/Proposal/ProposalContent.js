@@ -10,18 +10,18 @@ const Title = styled(Box)((props) => ({
 }));
 
 const Content = styled(Box)((props) => ({
-  width: '180px',
   minHeight: '50px',
 }));
 
 const ProposalContent = ({
   title,
   children,
+  width,
 }) => {
   return (
     <Box
       sx={{
-        width: '260px',
+        width: `${80 + (width || 180)}px`,
         display: 'flex',
         maring: '0 auto',
       }}

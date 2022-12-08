@@ -8,6 +8,8 @@ import lombok.Data;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.isNull;
+
 @Data
 public class StarResponse {
     private Long userId;
@@ -19,6 +21,7 @@ public class StarResponse {
     private Integer showCount;
     private StarStatus status;
     private Double score;
+    private String repImg;
 
     private List<StarStageTypeDto> starStageTypes;
     private List<StarGenreDto> starGenres;
@@ -35,10 +38,9 @@ public class StarResponse {
         this.introduce = star.getIntroduce();
         this.showCount = star.getShowCount();
         this.score = star.getScore();
-        this.starStageTypes = star.getStarStageTypes().stream()
-                .map(s -> new StarStageTypeDto(s)).collect(Collectors.toList());
-        this.starGenres = star.getStarGenres().stream()
-                .map(s -> new StarGenreDto(s)).collect(Collectors.toList());
+        this.repImg = star.getRepImg();
+        this.starStageTypes = isNull(star.getStarStageTypes()) ? List.of() : star.getStarStageTypes().stream().map(s -> new StarStageTypeDto(s)).collect(Collectors.toList());
+        this.starGenres = isNull(star.getStarGenres()) ? List.of() : star.getStarGenres().stream().map(s -> new StarGenreDto(s)).collect(Collectors.toList());
         this.starImgs = star.getStarImgs().stream()
                 .map(i -> new StarImgDto(i)).collect(Collectors.toList());
         this.reviews = star.getReviews().stream()

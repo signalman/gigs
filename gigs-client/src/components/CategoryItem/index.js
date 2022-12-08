@@ -2,7 +2,7 @@
 
 import { Box } from '@mui/system';
 import React from 'react';
-import { COLOR } from '../../utils/Constants';
+import { COLOR, ENUM } from '../../utils/Constants';
 
 const CategoryItem = ({
   children,
@@ -27,7 +27,7 @@ const CategoryItem = ({
         }}
         onClick={() => selectItem(children)}
       >
-        {children}
+        {ENUM[children]}
       </Box>
     </>
   );

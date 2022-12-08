@@ -78,7 +78,6 @@ public class StageServiceTest {
     void postSave () throws Exception{
         //given
         PostForm postForm = PostForm.builder()
-                .host(host)
                 .genre(Genre.ROCK)
                 .date(LocalDate.of(2022, 11, 25))
                 .startTime(LocalTime.NOON)

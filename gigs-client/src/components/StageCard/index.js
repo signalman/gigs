@@ -13,7 +13,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import PhotoSizeSelectSmallIcon from '@mui/icons-material/PhotoSizeSelectSmall';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { DEV } from '../../utils/Constants';
+import { DEV, ENUM } from '../../utils/Constants';
 import StageDummyImg from '../../images/stage_tmp.jpg';
 
 const Line = styled(CardContent)((p) => ({
@@ -44,6 +44,10 @@ const Content = styled(Box)((props) => ({
   fontSize: props.fontSize || '14px',
 }));
 
+const formatTime = (time) => {
+  const arr = time?.split(':');
+  return arr ? `${arr[0]}시 ${arr[1]}분` : '';
+} 
 
 function StageCard({
   cardData,
@@ -65,7 +69,7 @@ function StageCard({
     targetGender,
     targetMinCount,
   } = cardData;
-
+  
   const navigate = useNavigate();
 
   return (
@@ -109,7 +113,7 @@ function StageCard({
           <IconBox>
             <MapIcon sx={{ width: "20px", height: "20px", }} />
           </IconBox>
-          <Content>{`${address.siDo} ${address.siGun} ${address.road} ${address.detail}`}</Content>
+          <Typography sx={{ width: '232.5px' }} fontSize='13px'>{`${address.siDo} ${address.siGun} ${address.road} ${address.detail}`}</Typography>
         </Item>
       </Line>
       
@@ -118,13 +122,16 @@ function StageCard({
           <IconBox>
             <PhotoSizeSelectSmallIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".9rem">{stageSize}m^2</Typography>
+          <Typography fontSize="12px">{stageSize}m^2</Typography>
         </Item>
         <Item type="half" sx={{ px: '15px' }}>
           <IconBox>
             <PeopleIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".8rem">{targetAge}대 {targetGender} {targetMinCount}인 이상</Typography>
+          <Box>
+            <Typography fontSize="12px">{targetAge}대 {ENUM[targetGender]}</Typography>
+            <Typography fontSize="12px">{targetMinCount}인 이상</Typography>
+          </Box>
         </Item>
       </Line>
 
@@ -133,13 +140,17 @@ function StageCard({
           <IconBox>
             <AccessTimeIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".8rem">{openTime} ~ {closeTime}</Typography>
+          <Box>
+            <Typography fontSize="12px">{formatTime(openTime)} ~</Typography>
+            <Typography fontSize="12px">{formatTime(closeTime)}</Typography>
+          </Box>
+          
         </Item>
         <Item type="half" sx={{ px: '15px' }}>
           <IconBox>
             <MicExternalOnIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".9rem">{showCount}회 이상</Typography>
+          <Typography fontSize="12px">{showCount}회 이상</Typography>
         </Item>
       </Line>
 
@@ -148,13 +159,13 @@ function StageCard({
           <IconBox>
             <LocalAtmIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".9rem">{pay}원 이상</Typography>
+          <Typography fontSize="12px">{pay}원 이상</Typography>
         </Item>
         <Item type="half" sx={{ px: '15px' }}>
           <IconBox>
             <LocationOnIcon sx={{ width: '20px', height: '20px', }} />
           </IconBox>
-          <Typography fontSize=".9rem">{stageType}</Typography>
+          <Typography fontSize="12px">{ENUM[stageType]}</Typography>
         </Item>
       </Line>
     </Card>
