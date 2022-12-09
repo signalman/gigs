@@ -113,7 +113,7 @@ function StageCard({
           <IconBox>
             <MapIcon sx={{ width: "20px", height: "20px", }} />
           </IconBox>
-          <Typography sx={{ width: '232.5px' }} fontSize='13px'>{`${address.siDo} ${address.siGun} ${address.road} ${address.detail}`}</Typography>
+          <Typography sx={{ width: '232.5px' }} fontSize='13px'>{`${address?.siDo} ${address?.siGun} ${address?.road} ${address?.detail}`}</Typography>
         </Item>
       </Line>
       
