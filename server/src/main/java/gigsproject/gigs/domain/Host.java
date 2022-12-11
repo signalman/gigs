@@ -36,9 +36,6 @@ public class Host extends BaseTimeEntity {
     @Lob
     private String stageInfo;
 
-    private LocalTime openTime;
-    private LocalTime closeTime;
-
     @Enumerated(EnumType.STRING)
     private StageType stageType;
 
@@ -70,8 +67,6 @@ public class Host extends BaseTimeEntity {
     public Host edit(StageForm stageForm) {
         stageName = stageForm.getName();
         stageInfo = stageForm.getIntroduce();
-        openTime = stageForm.getOpenTime();
-        closeTime = stageForm.getCloseTime();
         stageType = stageForm.getStageType();
         pay = stageForm.getPay();
         stageAddress = stageForm.getStageAddress();
@@ -80,38 +75,6 @@ public class Host extends BaseTimeEntity {
         targetNumber = stageForm.getTargetMinCount();
         stageSize = stageForm.getStageSize();
         return this;
-    }
-
-
-    public Post createPost(PostForm postForm) {
-
-        //시간 제약 조건 수행
-        if (this.openTime != null) {
-            if (postForm.getStartTime().isBefore(this.openTime)) {
-                throw new IllegalArgumentException("무대 오픈 시간보다 빠를 수 없습니다.");
-            }
-        }
-        if (this.closeTime != null) {
-            if (postForm.getEndTime().isAfter(this.closeTime)) {
-                throw new IllegalArgumentException("무대 클로즈 시간보다 빠를 수 없습니다.");
-
-            }
-        }
-        Genre genre = postForm.getGenre();
-        PostGenre postGenre = PostGenre.builder()
-                .genre(genre)
-                .build();
-
-        Post post = Post.builder()
-                .host(this)
-                .date(postForm.getDate())
-                .startTime(postForm.getStartTime())
-                .endTime(postForm.getEndTime())
-                .status(UNSIGNED)
-                .build();
-        post.setPostGenres(postGenre);
-
-        return post;
     }
 
     public void setRepImg(String repImg) {

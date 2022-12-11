@@ -1,5 +1,6 @@
 package gigsproject.gigs.domain;
 
+import gigsproject.gigs.request.PostForm;
 import lombok.*;
 
 import javax.persistence.*;
@@ -7,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
 
 @Builder
 @Getter
@@ -38,6 +41,22 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private PostStatus status;
+
+    public static Post createPost(PostForm postForm, Host host) {
+        Post post = Post.builder()
+                .date(postForm.getDate())
+                .startTime(postForm.getStartTime())
+                .endTime(postForm.getEndTime())
+                .status(UNSIGNED)
+                .build();
+        post.setHost(host);
+        PostGenre postGenre = PostGenre.builder()
+                .genre(postForm.getGenre())
+                .build();
+        post.setPostGenres(postGenre);
+
+        return post;
+    }
 
     public void setHost(Host host) {
         this.host = host;

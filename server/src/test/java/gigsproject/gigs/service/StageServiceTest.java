@@ -5,14 +5,11 @@ import gigsproject.gigs.request.PostForm;
 import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.PostResponse;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.TestExecutionEvent;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -21,6 +18,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static gigsproject.gigs.domain.Genre.ROCK;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -69,7 +67,7 @@ public class StageServiceTest {
         Long edit = hostService.edit(user, stageForm);
 
         assertThat(edit).isEqualTo(host.getHostId());
-        HostResponse response = hostService.findHost(edit);
+        HostResponse response = hostService.findByHost(edit);
         assertThat(response.getName()).isEqualTo("수정된 이름입니다.");
         assertThat(response.getPay()).isEqualTo(1);
     }
@@ -79,25 +77,37 @@ public class StageServiceTest {
     void postSave () throws Exception{
         //given
         PostForm postForm = PostForm.builder()
-                .genre(Genre.ROCK)
+                .genre(ROCK)
                 .date(LocalDate.of(2022, 11, 25))
                 .startTime(LocalTime.NOON)
                 .startTime(LocalTime.MIDNIGHT)
                 .build();
 
         //when
-        Post post = host.createPost(postForm);
-
+        Long postId = postService.write(user, postForm);
         //then
-        assertThat(post.getHost()).isEqualTo(host);
-        assertThat(post.getDate()).isEqualTo(LocalDate.of(2022, 11, 25));
+        Post byId = postService.findById(postId);
+        assertThat(byId.getHost()).isEqualTo(host);
+        assertThat(byId.getPostGenres().size()).isEqualTo(1);
+        assertThat(byId.getPostGenres().get(0).getGenre()).isEqualTo(ROCK);
+
+        Host byUser = hostService.findByUser(user);
+        assertThat(byUser.getHostId()).isEqualTo(host.getHostId());
+
+        HostResponse hostResponse = hostService.findByHost(host.getHostId());
+        assertThat(hostResponse.getHostId()).isEqualTo(host.getHostId());
+        assertThat(hostResponse.getName()).isEqualTo("기존 제목");
+
+        List<PostResponse> posts = hostResponse.getPosts();
+        assertThat(posts.size()).isEqualTo(1);
+
     }
     @Test
     @DisplayName("무대 상세 페이지 조회")
     void stageInfo () throws Exception{
         //given
         PostForm postForm1 = PostForm.builder()
-                .genre(Genre.ROCK)
+                .genre(ROCK)
                 .date(LocalDate.of(2022, 11, 25))
                 .startTime(LocalTime.NOON)
                 .endTime(LocalTime.MIDNIGHT)
@@ -109,15 +119,16 @@ public class StageServiceTest {
                 .endTime(LocalTime.MIDNIGHT)
                 .build();
 
-        postService.write(user, postForm1);
+        Long postId = postService.write(user, postForm1);
+        Post byId = postService.findById(postId);
+        byId.setStatus(PostStatus.SIGNED);
         postService.write(user, postForm2);
-        //when
-        HostResponse hostResponse = hostService.findHost(host.getHostId());
 
+        //when
+        HostResponse hostResponse = hostService.findByHost(host.getHostId());
         List<PostResponse> posts = hostResponse.getPosts();
 
         //then
-        assertThat(hostResponse.getUserId()).isEqualTo(user.getUserId());
         assertThat(posts.size()).isEqualTo(1);
 
 

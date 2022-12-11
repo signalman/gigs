@@ -42,16 +42,8 @@ public class StageCard {
         this.targetAge = host.getTargetAge();
         this.targetMinCount = host.getTargetNumber();
 
-        this.openTime = isNull(host.getOpenTime()) ? null : LocalTime.from(host.getOpenTime());
-        this.closeTime = isNull(host.getCloseTime()) ? null : LocalTime.from(host.getCloseTime());
-
         this.pay = host.getPay();
         this.stageType = host.getStageType();
-
-//        this.genres = host.getPosts().
-//        this.genres = post.getPostGenres().stream()
-//                .map(postGenre -> new PostGenreDto(postGenre))
-//                .collect(Collectors.toList());
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
         this.reviewCount = isNull(host.getReviewCount()) ? 0 : host.getReviewCount();

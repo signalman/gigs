@@ -32,7 +32,6 @@ public class PostResponse {
         date = post.getDate();
         startTime = post.getStartTime();
         endTime = post.getEndTime();
-//        status = String.valueOf(post.getStatus());
         status = post.getStatus();
         this.postGenres = isNull(post.getPostGenres())? List.of() : post.getPostGenres().stream()
                 .map(postGenre -> new PostGenreDto(postGenre))

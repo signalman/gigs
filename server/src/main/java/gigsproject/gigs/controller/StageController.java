@@ -41,7 +41,7 @@ public class StageController {
      */
     @GetMapping("/stages/{hostId}")
     public HostResponse stageInfo(@PathVariable Long hostId) {
-        return hostService.findHost(hostId);
+        return hostService.findByHost(hostId);
     }
 
     /**
