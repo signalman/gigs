@@ -1,6 +1,7 @@
 package gigsproject.gigs.response;
 
 import gigsproject.gigs.domain.Post;
+import gigsproject.gigs.domain.PostStatus;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -20,7 +21,7 @@ public class PostResponse {
     private LocalTime startTime;
     private LocalTime endTime;
 
-    private boolean isSigned;
+    private PostStatus status;
 
     private List<PostGenreDto> postGenres;
 
@@ -31,8 +32,8 @@ public class PostResponse {
         date = post.getDate();
         startTime = post.getStartTime();
         endTime = post.getEndTime();
-        isSigned = post.isSigned();
-
+//        status = String.valueOf(post.getStatus());
+        status = post.getStatus();
         this.postGenres = isNull(post.getPostGenres())? List.of() : post.getPostGenres().stream()
                 .map(postGenre -> new PostGenreDto(postGenre))
                 .collect(Collectors.toList());

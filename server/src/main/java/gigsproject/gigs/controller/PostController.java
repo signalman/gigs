@@ -1,10 +1,7 @@
 package gigsproject.gigs.controller;
 
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
-import gigsproject.gigs.domain.Post;
-import gigsproject.gigs.domain.Role;
-import gigsproject.gigs.domain.Star;
-import gigsproject.gigs.domain.User;
+import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.PostForm;
 import gigsproject.gigs.request.ProposalForm;
 import gigsproject.gigs.response.ProposalResponse;
@@ -17,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import static gigsproject.gigs.domain.PostStatus.SIGNED;
 
 @RestController
 @RequiredArgsConstructor
@@ -67,7 +66,7 @@ public class PostController {
         Star star = starService.findByUser(user);
         Post post = postService.findById(postId);
         try {
-            if (post.isSigned()) {
+            if (post.getStatus() == SIGNED) {
                 throw new IllegalArgumentException("This post already signed.");
             }
         } catch (IllegalArgumentException e) {

@@ -9,6 +9,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
 import static javax.persistence.CascadeType.ALL;
 
 @Builder
@@ -16,7 +17,7 @@ import static javax.persistence.CascadeType.ALL;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Host extends BaseTimeEntity{
+public class Host extends BaseTimeEntity {
     @Id
     @GeneratedValue
     private Long hostId;
@@ -25,7 +26,8 @@ public class Host extends BaseTimeEntity{
     @JoinColumn(name = "userId")
     private User user;
 
-    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL) @Builder.Default
+    @OneToMany(mappedBy = "host", cascade = CascadeType.ALL)
+    @Builder.Default
     private final List<Post> posts = new ArrayList<>();
 
 
@@ -55,8 +57,10 @@ public class Host extends BaseTimeEntity{
     private Integer reviewCount;
     private Double avgScore;
 
-    private String repImg = "";
-    @OneToMany(mappedBy = "host", cascade = ALL) @Builder.Default
+    private String repImg;
+
+    @OneToMany(mappedBy = "host", cascade = ALL)
+    @Builder.Default
     private final List<StageImg> imgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "host", cascade = ALL)
@@ -103,9 +107,10 @@ public class Host extends BaseTimeEntity{
                 .date(postForm.getDate())
                 .startTime(postForm.getStartTime())
                 .endTime(postForm.getEndTime())
+                .status(UNSIGNED)
                 .build();
-
         post.setPostGenres(postGenre);
+
         return post;
     }
 

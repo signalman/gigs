@@ -35,7 +35,9 @@ public class Post extends BaseTimeEntity {
     @Builder.Default
     private List<Proposal> proposals = new ArrayList<>();
 
-    private boolean isSigned = false;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PostStatus status;
 
     public void setHost(Host host) {
         this.host = host;
@@ -46,6 +48,8 @@ public class Post extends BaseTimeEntity {
         postGenres.add(genre);
         genre.setPost(this);
     }
-
-
+    public void setStatus(PostStatus ps) {
+        this.status = ps;
+    }
 }
+

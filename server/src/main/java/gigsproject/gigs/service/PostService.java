@@ -2,6 +2,7 @@ package gigsproject.gigs.service;
 
 import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Post;
+import gigsproject.gigs.domain.PostStatus;
 import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
@@ -44,6 +45,13 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
         return post;
+    }
+
+    @Transactional
+    public void setPostSigned(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
+        post.setStatus(PostStatus.SIGNED);
     }
 
 }

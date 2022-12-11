@@ -1,10 +1,7 @@
 package gigsproject.gigs.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import gigsproject.gigs.domain.Address;
-import gigsproject.gigs.domain.Host;
-import gigsproject.gigs.domain.Review;
-import gigsproject.gigs.domain.StageType;
+import gigsproject.gigs.domain.*;
 import lombok.Data;
 
 import java.time.LocalTime;
@@ -67,6 +64,7 @@ public class HostResponse {
         this.score = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 
         this.posts = isNull(host.getPosts()) ? List.of() : host.getPosts().stream()
+                .filter(p -> p.getStatus().equals(PostStatus.UNSIGNED))
                 .map(post -> new PostResponse(post))
                 .collect(Collectors.toList());
 
