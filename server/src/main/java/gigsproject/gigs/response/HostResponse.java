@@ -1,16 +1,14 @@
 package gigsproject.gigs.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import gigsproject.gigs.domain.Address;
-import gigsproject.gigs.domain.Host;
-import gigsproject.gigs.domain.Review;
-import gigsproject.gigs.domain.StageType;
+import gigsproject.gigs.domain.*;
 import lombok.Data;
 
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
 import static java.util.Objects.isNull;
 
 @Data
@@ -55,9 +53,6 @@ public class HostResponse {
         this.targetAge = host.getTargetAge();
         this.targetMinCount = host.getTargetNumber();
 
-        this.openTime = isNull(host.getOpenTime()) ? null : LocalTime.from(host.getOpenTime());
-        this.closeTime = isNull(host.getCloseTime()) ? null : LocalTime.from(host.getCloseTime());
-
         this.pay = host.getPay();
         this.stageType = host.getStageType();
 
@@ -67,6 +62,7 @@ public class HostResponse {
         this.score = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 
         this.posts = isNull(host.getPosts()) ? List.of() : host.getPosts().stream()
+                .filter(p -> p.getStatus().equals(UNSIGNED))
                 .map(post -> new PostResponse(post))
                 .collect(Collectors.toList());
 
