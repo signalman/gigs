@@ -25,7 +25,7 @@ const Title = styled(Box)((props) => ({
 }));
 
 const ButtonBox = styled(Box)((props) => ({
-  width: '170px',
+  width: props.isStar ? '70px' : '170px',
   height: '50px',
   display: 'flex',
   alignItems: 'center',
@@ -48,23 +48,25 @@ const warningStyle = {
   textAlign: 'center',
 }
 
-const Proposal = () => {
+const Proposal = ({
+  isStar,
+}) => {
   return (
     <Container>
       <Title>제안서</Title>
-      <ProposalContent title={'이름'}>
+      <ProposalContent title={'이름'} width='200px'>
         <MiniProfile />
       </ProposalContent>
-      <ProposalContent title={'일시'}>
+      <ProposalContent title={'일시'} width='200px'>
         <Box sx={{ width: '100%', height: '50px', lineHeight: '50px', }}>
           2022/11/17 10:00~12:00
         </Box>
       </ProposalContent>
-      <ProposalContent title={'내용'}>
+      <ProposalContent title={'내용'} width='200px'>
         <Box
           sx={{
             boxSizing: 'border-box',
-            width: '100%',
+            width: '200px',
             height: '135px',
             overflow: 'scroll',
             mt: '15px',
@@ -80,9 +82,15 @@ const Proposal = () => {
       <Box sx={warningStyle}>
         * 승낙시 상대방에게 연락처가 전달됩니다.
       </Box>
-      <ButtonBox>
-        <Button sx={buttonStyle} variant="contained">승낙</Button>
-        <Button sx={{...buttonStyle, ml: '30px',}} variant="contained" color='warning' >거절</Button>
+      <ButtonBox isStar={isStar}>
+        {isStar ? (
+          <Button sx={{...buttonStyle,}} variant="contained" color='warning' >취소</Button>
+        ) : (
+          <>
+            <Button sx={buttonStyle} variant="contained">승낙</Button>
+            <Button sx={{...buttonStyle, ml: '30px',}} variant="contained" color='warning' >거절</Button>
+          </>
+        )}
       </ButtonBox>
     </Container>
   );

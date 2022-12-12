@@ -13,6 +13,7 @@ const MyPage = () => {
 
   const getMyPage = useCallback(async () => {
     const response = await fetchMyPage();
+    console.log(response);
 
     setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false});
   }, []);
@@ -34,7 +35,7 @@ const MyPage = () => {
         <MyHistoryBox />
       </MyPageItem>
       <MyPageItem title="제안서">
-        <MyProposalBox />
+        <MyProposalBox role={user.role} />
       </MyPageItem>
     </Box>
   );

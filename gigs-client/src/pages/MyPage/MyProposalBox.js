@@ -17,7 +17,11 @@ const ProposalListBox = styled(Box)((props) => ({
   gap: '10px',
 }));
 
-const MyProposalBox = () => {
+const MyProposalBox = ({
+  role,
+}) => {
+  const isStar = role === 'ROLE_STAR';
+
   return(
     <Box
       sx={{
@@ -26,7 +30,7 @@ const MyProposalBox = () => {
       }}
     >
       <ProposalWrapper>
-        <Proposal />
+        <Proposal isStar={isStar} />
       </ProposalWrapper>
       <ProposalListBox>
         <MyProposalItem>박상연</MyProposalItem>
