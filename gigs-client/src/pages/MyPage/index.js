@@ -10,12 +10,17 @@ import MyStarStatusSwitch from './MyStarStatusSwitch';
 
 const MyPage = () => {
   const [user, setUser] = useState({});
+  const [histories, setHistories] = useState([]);
+  const [proposals, setProposals] = useState([]);
 
   const getMyPage = useCallback(async () => {
     const response = await fetchMyPage();
     console.log(response);
 
     setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false});
+    setHistories(response.data.signedOrComp);
+    const isStar = response.data.user.role === 'ROLE_STAR';
+    setProposals(isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned);
   }, []);
 
   useEffect(() => {
@@ -35,7 +40,7 @@ const MyPage = () => {
         <MyHistoryBox />
       </MyPageItem>
       <MyPageItem title="제안서">
-        <MyProposalBox role={user.role} />
+        <MyProposalBox role={user.role} proposals={proposals} />
       </MyPageItem>
     </Box>
   );
