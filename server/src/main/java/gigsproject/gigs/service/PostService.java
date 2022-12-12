@@ -1,8 +1,6 @@
 package gigsproject.gigs.service;
 
-import gigsproject.gigs.domain.Host;
-import gigsproject.gigs.domain.Post;
-import gigsproject.gigs.domain.User;
+import gigsproject.gigs.domain.*;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.request.PostForm;
@@ -10,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,11 +24,13 @@ public class PostService {
      * 포스트 등록
      */
     @Transactional
-    public void write(User user, PostForm postForm) {
-
+    public Long write(User user, PostForm postForm) {
         Host host = hostRepository.findByUser(user);
-        Post post = host.createPost(postForm);
-        postRepository.save(post);
+
+        Post post = Post.createPost(postForm, host);
+        Post save = postRepository.save(post);
+
+        return save.getPostId();
     }
 
     @Transactional
@@ -44,6 +46,13 @@ public class PostService {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
         return post;
+    }
+
+    @Transactional
+    public void setPostSigned(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
+        post.setStatus(PostStatus.SIGNED);
     }
 
 }

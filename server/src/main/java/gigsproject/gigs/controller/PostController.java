@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import static gigsproject.gigs.domain.PostStatus.SIGNED;
+
 @RestController
 @RequiredArgsConstructor
 @Slf4j
@@ -66,7 +68,15 @@ public class PostController {
         }
         Star star = starService.findByUser(user);
         Post post = postService.findById(postId);
-        ProposalResponse proposalResponse = new ProposalResponse(star.getStarId(), post.getPostId(), star.getName(), post.getHost().getStageName(), post.getDate(), post.getStartTime(), post.getEndTime());
+        try {
+            if (post.getStatus() == SIGNED) {
+                throw new IllegalArgumentException("This post already signed.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+        ProposalResponse proposalResponse = new ProposalResponse(star.getStarId(), post.getPostId(), star.getRepImg(), star.getName(), post.getHost().getStageName(), post.getDate(), post.getStartTime(), post.getEndTime());
         return ResponseEntity.ok().body(proposalResponse);
     }
 

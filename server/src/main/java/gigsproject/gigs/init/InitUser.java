@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import static gigsproject.gigs.domain.Gender.*;
 import static gigsproject.gigs.domain.Genre.*;
+import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
 import static gigsproject.gigs.domain.Role.ROLE_HOST;
 import static gigsproject.gigs.domain.Role.ROLE_STAR;
 import static gigsproject.gigs.domain.StageType.*;
@@ -220,8 +221,6 @@ public class InitUser {
                     .user(user)
                     .stageName("abc")
                     .stageInfo("무대 정보입니다!!")
-                    .openTime(LocalTime.of(11, 0))
-                    .closeTime(LocalTime.of(18, 0))
                     .stageType(StageType.BAR)
                     .stageSize(23.4)
                     .pay(100000)
@@ -234,8 +233,6 @@ public class InitUser {
                     .user(user)
                     .stageName("xyz")
                     .stageInfo("무대 정보입니다.")
-                    .openTime(LocalTime.of(9, 0))
-                    .closeTime(LocalTime.of(22, 0))
                     .stageType(CAFE)
                     .stageSize(40.1)
                     .pay(300000)
@@ -251,8 +248,6 @@ public class InitUser {
                     .user(user)
                     .stageName("defgh")
                     .stageInfo("무대 정보입니다.")
-                    .openTime(LocalTime.of(9, 0))
-                    .closeTime(LocalTime.of(22, 0))
                     .stageType(SCHOOL)
                     .stageSize(100.5)
                     .pay(1000000)
@@ -268,8 +263,6 @@ public class InitUser {
                     .user(user)
                     .stageName("riolkg")
                     .stageInfo("무대 정보입니다.")
-                    .openTime(LocalTime.of(9, 0))
-                    .closeTime(LocalTime.of(22, 0))
                     .stageType(CAFE)
                     .stageSize(10.1)
                     .pay(150000)
@@ -285,8 +278,6 @@ public class InitUser {
                     .user(user)
                     .stageName("qweryy")
                     .stageInfo("무대 정보입니다.")
-                    .openTime(LocalTime.of(17, 0))
-                    .closeTime(LocalTime.of(23, 0))
                     .stageType(BAR)
                     .stageSize(70.0)
                     .pay(50000)
@@ -335,6 +326,7 @@ public class InitUser {
                     .date(startDate1)
                     .startTime(startTime1)
                     .endTime(endTime1)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post1);
             Post post2 = Post.builder()
@@ -342,6 +334,7 @@ public class InitUser {
                     .date(startDate2)
                     .startTime(startTime2)
                     .endTime(endTime2)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post2);
 
@@ -350,6 +343,7 @@ public class InitUser {
                     .date(startDate3)
                     .startTime(startTime4)
                     .endTime(endTime4)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post3);
 
@@ -358,6 +352,7 @@ public class InitUser {
                     .date(startDate3)
                     .startTime(startTime5)
                     .endTime(endTime5)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post4);
 
@@ -366,6 +361,7 @@ public class InitUser {
                     .date(startDate4)
                     .startTime(startTime4)
                     .endTime(endTime4)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post5);
             Post post6 = Post.builder()
@@ -373,6 +369,7 @@ public class InitUser {
                     .date(endDate1)
                     .startTime(startTime5)
                     .endTime(endTime5)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post6);
 
@@ -381,6 +378,7 @@ public class InitUser {
                     .date(endDate2)
                     .startTime(startTime5)
                     .endTime(endTime5)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post7);
 
@@ -389,6 +387,7 @@ public class InitUser {
                     .date(endDate3)
                     .startTime(startTime3)
                     .endTime(endTime3)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post8);
 
@@ -397,6 +396,7 @@ public class InitUser {
                     .date(endDate4)
                     .startTime(startTime4)
                     .endTime(endTime4)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post9);
 
@@ -405,6 +405,7 @@ public class InitUser {
                     .date(endDate5)
                     .startTime(startTime1)
                     .endTime(endTime1)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post10);
 
@@ -413,6 +414,7 @@ public class InitUser {
                     .date(startDate1)
                     .startTime(startTime4)
                     .endTime(endTime4)
+                    .status(UNSIGNED)
                     .build();
             em.persist(post11);
 

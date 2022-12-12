@@ -44,6 +44,8 @@ public class QPost extends EntityPathBase<Post> {
 
     public final TimePath<java.time.LocalTime> startTime = createTime("startTime", java.time.LocalTime.class);
 
+    public final EnumPath<PostStatus> status = createEnum("status", PostStatus.class);
+
     public QPost(String variable) {
         this(Post.class, forVariable(variable), INITS);
     }

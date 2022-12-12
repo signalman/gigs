@@ -26,8 +26,6 @@ public class QHost extends EntityPathBase<Host> {
 
     public final NumberPath<Double> avgScore = createNumber("avgScore", Double.class);
 
-    public final TimePath<java.time.LocalTime> closeTime = createTime("closeTime", java.time.LocalTime.class);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
@@ -37,8 +35,6 @@ public class QHost extends EntityPathBase<Host> {
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
-
-    public final TimePath<java.time.LocalTime> openTime = createTime("openTime", java.time.LocalTime.class);
 
     public final NumberPath<Integer> pay = createNumber("pay", Integer.class);
 

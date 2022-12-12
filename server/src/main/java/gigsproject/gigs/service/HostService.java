@@ -11,7 +11,6 @@ import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
-import gigsproject.gigs.response.StageImgDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -46,12 +45,10 @@ public class HostService {
         return postRepository.getList(stageSearch, pageable);
     }
 
-    public HostResponse findHost(Long hostId) {
+    public HostResponse findByHost(Long hostId) {
         Host host = hostRepository.findById(hostId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 호스트가 존재하지 않습니다."));
-        HostResponse hostResponse = new HostResponse(host);
-
-        return hostResponse;
+        return new HostResponse(host);
     }
 
     public Host findByUser(User user) {

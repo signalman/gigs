@@ -38,7 +38,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(host.posts, post)
                 .fetchJoin()
                 .where(
-                        stageNameEq(stageSearch.getName()),
+                        stageNameContains(stageSearch.getName()),
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
@@ -61,7 +61,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .select(host.count())
                 .from(host)
                 .where(
-                        stageNameEq(stageSearch.getName()),
+                        stageNameContains(stageSearch.getName()),
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
@@ -98,8 +98,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return hasText(address) ? host.stageAddress.siDo.eq(address) : null;
     }
 
-    private Predicate stageNameEq(String name) {
-        return hasText(name) ? host.stageName.eq(name) : null;
+    private Predicate stageNameContains(String name) {
+        return hasText(name) ? host.stageName.contains(name) : null;
     }
 
     private Predicate stageDateEq(String searchStartDate, String searchEndDate) {
