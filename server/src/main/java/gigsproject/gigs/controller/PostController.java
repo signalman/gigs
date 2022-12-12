@@ -1,7 +1,10 @@
 package gigsproject.gigs.controller;
 
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
-import gigsproject.gigs.domain.*;
+import gigsproject.gigs.domain.Post;
+import gigsproject.gigs.domain.Role;
+import gigsproject.gigs.domain.Star;
+import gigsproject.gigs.domain.User;
 import gigsproject.gigs.request.PostForm;
 import gigsproject.gigs.request.ProposalForm;
 import gigsproject.gigs.response.ProposalResponse;
@@ -73,7 +76,7 @@ public class PostController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 
-        ProposalResponse proposalResponse = new ProposalResponse(star.getStarId(), post.getPostId(), star.getName(), post.getHost().getStageName(), post.getDate(), post.getStartTime(), post.getEndTime());
+        ProposalResponse proposalResponse = new ProposalResponse(star.getStarId(), post.getPostId(), star.getRepImg(), star.getName(), post.getHost().getStageName(), post.getDate(), post.getStartTime(), post.getEndTime());
         return ResponseEntity.ok().body(proposalResponse);
     }
 
