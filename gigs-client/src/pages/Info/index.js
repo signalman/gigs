@@ -102,6 +102,7 @@ const Info = ({
     }
 
     setData(newData);
+    console.log(data)
     setPosts(response.data.posts);
     // TODO imgUrl -> ?
     setImages(response.data.imgUrl);
@@ -169,7 +170,7 @@ const Info = ({
   useEffect(() => {
     // dialog settings
     editNameDialog.initialize([data.name]);
-
+    editAddressDialog.initialize([data.address]);
     editAreaDialog.initialize([data.stageSize]);
     editTargetDialog.initialize([data.targetAge, data.targetGender, data.targetMinCount]);
     editPayDialog.initialize([data.pay]);
