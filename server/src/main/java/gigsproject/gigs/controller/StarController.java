@@ -46,7 +46,6 @@ public class StarController {
         return starService.findById(starId);
     }
 
-    // TODO: 2022-11-25 - path-variable에서 그냥 /stars로 수정해야함.
     @PutMapping("/stars/{starId}")
     public void update(@RequestBody StarEdit starEdit) {
 
