@@ -22,9 +22,6 @@ const EditAddressDialog = ({
 }) => {
 
   const [address, setAddress] = useState("");
-  const [siDo, setSiDo] = useState("");
-  const [siGun, setSiGun] = useState("");
-  const [road, setRoad] = useState("");
   const [openPostCode, setOpenPostCode] = useState(false);
 
   const handle = {
@@ -35,26 +32,20 @@ const EditAddressDialog = ({
 
   const handleSelectAddress = useCallback((data) => {
     setAddress(data.address)
-    setSiDo(data.sido)
-    setSiGun(data.sigungu)
-    setRoad(data.roadname + " " + data.addressEnglish.split(',')[0])
+    setValues([data.sido,data.sigungu,data.roadname + " " + data.addressEnglish.split(',')[0]])
     setOpenPostCode(false);
-    const newValues = [...values];
-    newValues[0] = siDo
-    newValues[1] = siGun
-    newValues[2] = road
-    setValues(newValues)
   }, [values, onEdit, onClose]);
 
   const handleTextChange = (e) => {
     const newValues = [...values];
     newValues[3] = e.target.value
-    setValues([newValues]);
+    setValues(newValues);
+    // console.log(values)
   }
 
   const handleEditClick = useCallback(() => {
     // console.log(values)
-    onEdit([values])
+    onEdit(values)
     onClose();
   }, [values, onEdit, onClose]);
 

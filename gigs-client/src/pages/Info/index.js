@@ -133,8 +133,20 @@ const Info = ({
   const handleEdit = useCallback((keys) => {
     return (values) => {
       const newData = {...data}
-      for(let i = 0; i < keys.length; i++) {newData[keys[i]] = values[i];}
+      for(let i = 0; i < keys.length; i++) { newData[keys[i]] = values[i];}
       console.log(newData);
+      updateInfo(newData);
+    }
+  }, [data, updateInfo]);
+
+  // 주소 변경 시
+  const handleEditAddress = useCallback(() => {
+    return (values) => {
+      const newData = {...data}
+      newData['address'].siDo = values[0];
+      newData['address'].siGun = values[1];
+      newData['address'].road = values[2];
+      newData['address'].detail = values[3];
       updateInfo(newData);
     }
   }, [data, updateInfo]);
@@ -250,7 +262,7 @@ const Info = ({
 
       {/* Dialogs */}
       <SimpleEditTexetDialog open={editNameDialog.isOpen} onClose={editNameDialog.close} title="이름 변경" type="text" values={editNameDialog.values} setValues={editNameDialog.setValues} onEdit={handleEdit(["name"])}  />
-      <EditAddressDialog open={editAddressDialog.isOpen} onClose={editAddressDialog.close} title="주소 변경" type="text" values={editAddressDialog.values} setValues={editAddressDialog.setValues} onEdit={handleEdit(["address"])} />
+      <EditAddressDialog open={editAddressDialog.isOpen} onClose={editAddressDialog.close} title="주소 변경" type="text" values={editAddressDialog.values} setValues={editAddressDialog.setValues} onEdit={handleEditAddress()} />
       {target === SYMBOL.stage ? (<>
         <SimpleEditTexetDialog open={editAreaDialog.isOpen} onClose={editAreaDialog.close} title="면적 변경" type="number" values={editAreaDialog.values} setValues={editAreaDialog.setValues} onEdit={handleEdit(["stageSize"])}  />
         <EditTargetDialog open={editTargetDialog.isOpen} onClose={editTargetDialog.close} title="고객층 변경" values={editTargetDialog.values} setValues={editTargetDialog.setValues} onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />
