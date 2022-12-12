@@ -6,7 +6,6 @@ import gigsproject.gigs.domain.ShowStatus;
 import gigsproject.gigs.domain.Star;
 import gigsproject.gigs.repository.ProposalRepository;
 import gigsproject.gigs.request.ProposalForm;
-import gigsproject.gigs.response.History;
 import gigsproject.gigs.response.ProposalDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,16 +18,20 @@ import java.util.List;
 public class ProposalService {
     private final ProposalRepository proposalRepository;
 
-    public List<History> findStarHistory(Long starId) {
-        return proposalRepository.findStarHistory(starId);
+    public List<ProposalDto> findUnsignedOrRejected(Long starId) {
+        return proposalRepository.findUnsignedOrRejected(starId);
     }
 
-    public List<History> findHostHistory(Long hostId) {
-        return proposalRepository.findHostHistory(hostId);
+    public List<ProposalDto> findUnsigned(Long hostId) {
+        return proposalRepository.findUnsigned(hostId);
     }
 
-    public List<ProposalDto> findNotCompProposals(Long hostId) {
-        return proposalRepository.findNotCompProposals(hostId);
+    public List<ProposalDto> findSignedOrCompStar(Long starId) {
+        return proposalRepository.findSignedOrCompStar(starId);
+    }
+
+    public List<ProposalDto> findSignedOrCompHost(Long hostId) {
+        return proposalRepository.findSignedOrCompHost(hostId);
     }
 
     public void save(ProposalForm proposalForm, Star star, Post post) {
