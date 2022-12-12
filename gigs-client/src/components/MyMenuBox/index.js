@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATH, URL, } from '../../utils/Constants';
 import MenuImg from '../../images/MenuBox.png';
 import KakaoLoginButtonImg from '../../images/kakao_login_button.png';
+import NaverLoginButtonImg from '../../images/naver_login_button.png';
 import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
@@ -135,13 +136,11 @@ const MyMenuBox = () => {
         </DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', }}>
           <a href={URL.kakaoAuthorize}>
-            <img src={KakaoLoginButtonImg} alt="asdf" />
+            <img src={KakaoLoginButtonImg} alt="kakao-login-button" width='200px' />
           </a>
-          {/* <Button
-            onClick={() => {
-              
-            }}
-          ></Button> */}
+          <a href={URL.naverAuthorize}>
+            <img src={NaverLoginButtonImg} alt="naver-login-button" width='200px' />
+          </a>
         </DialogContent>
       </Dialog>
     </>
