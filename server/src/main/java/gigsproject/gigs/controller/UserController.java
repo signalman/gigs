@@ -4,7 +4,6 @@ import gigsproject.gigs.config.oauth.NotSignedUser;
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
 import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.SignUpForm;
-import gigsproject.gigs.response.History;
 import gigsproject.gigs.response.MyPage;
 import gigsproject.gigs.response.ProposalDto;
 import gigsproject.gigs.response.UserDto;
@@ -81,20 +80,20 @@ public class UserController {
         UserDto user = new UserDto(loginUser);
         if (loginUser.getRole() == Role.ROLE_STAR) { //로그인 한 유저가 스타
             Star loginStar = starService.findByUser(loginUser);
-            List<History> histories = proposalService.findStarHistory(loginStar.getStarId());
             Long starId = loginStar.getStarId();
             String starImgUrl = isNull(loginStar.getRepImg()) ? "" : loginStar.getRepImg();
             StarStatus status = loginStar.getStatus();
-            MyPage starMyPage = new MyPage(user, starId, status, starImgUrl, histories);
+            List<ProposalDto> unsignedOrRejected = proposalService.findUnsignedOrRejected(starId);
+            List<ProposalDto> signedOrCompStar = proposalService.findSignedOrCompStar(starId);
+            MyPage starMyPage = new MyPage(user, starId, status, starImgUrl, unsignedOrRejected, signedOrCompStar);
             return starMyPage;
         }//로그인 한 유저가 호스트
-        //todo - 대표이미지 어떻게 할껀지?
         Host loginHost = hostService.findByUser(loginUser);
-        List<History> histories = proposalService.findHostHistory(loginHost.getHostId());
-        List<ProposalDto> proposals = proposalService.findNotCompProposals(loginHost.getHostId());
+        List<ProposalDto> unsigned = proposalService.findUnsigned(loginHost.getHostId());
+        List<ProposalDto> signedOrCompHost = proposalService.findSignedOrCompHost(loginHost.getHostId());
         Long hostId = loginHost.getHostId();
         String stageImgUrl = isNull(loginHost.getRepImg()) ? "" : loginHost.getRepImg();
-        MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, histories, proposals);
+        MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, unsigned, signedOrCompHost);
         return hostMyPage;
     }
 
