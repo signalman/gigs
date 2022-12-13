@@ -24,6 +24,7 @@ public class ProposalDto {
         this.proposalId = proposal.getProposalId();
         this.postId = proposal.getPost().getPostId();
         this.stageName = proposal.getPost().getHost().getStageName();
+        this.content = proposal.getContent();
         this.starId = proposal.getStar().getStarId();
         this.starName = proposal.getStar().getName();
         this.createdAt = proposal.getCreatedAt();
