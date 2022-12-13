@@ -4,9 +4,9 @@ import { Box, styled, Button } from '@mui/material';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
-import MyMenuBox from '../../components/MyMenuBox';
 import { PATH } from '../../utils/Constants';
 import LogoImg from '../../images/gigs_logo_tmp.png';
+import MyMenuBox from './MyMenuBox';
 
 const SmallBox = styled(Box)((p) => ({
   width: '250px',

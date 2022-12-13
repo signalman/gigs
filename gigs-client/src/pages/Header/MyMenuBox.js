@@ -10,8 +10,9 @@ import NaverLoginButtonImg from '../../images/naver_login_button.png';
 import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
-import { logout } from '../../utils/Api';
-import PostEnroll from '../PostEnroll';
+import { getPostForm, logout } from '../../utils/Api';
+import WritePost from './WritePost';
+import moment from 'moment';
 
 const Container = styled(Box)((props) => ({
   width: '100px',
@@ -41,6 +42,9 @@ const MyMenuBox = () => {
   const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
 
+  const [isWritePostDialogOpen, setWritePostDialogOpen] = useState(false);
+  const [postForm, setPostForm] = useState({});
+
   const menuCookie = useCookies('userId')
   // const [, , removeCookie] = useCookies('userId')
   // console.log(menuCookie[0])
@@ -67,9 +71,61 @@ const MyMenuBox = () => {
     setAnchorEl(null);
   };
 
+  const handleOpenWritePostDialog = async () => {
+    setWritePostDialogOpen(true);
+    setPostForm({
+      hostName: '박상연',
+      posts: [
+        {
+          date: '2022-12-13',
+          startTime: {
+            "hour": 2,
+            "minute": 0,
+            "nano": 0,
+            "second": 0
+          },
+          endTime: {
+            "hour": 4,
+            "minute": 0,
+            "nano": 0,
+            "second": 0
+          },
+        },
+        {
+          date: '2022-12-13',
+          startTime: {
+            "hour": 8,
+            "minute": 0,
+            "nano": 0,
+            "second": 0
+          },
+          endTime: {
+            "hour": 10,
+            "minute": 0,
+            "nano": 0,
+            "second": 0
+          },
+        }
+      ]
+    })
+    // try {
+    //   const response = await getPostForm();
+    //   console.log('# 포스트 작성 폼');
+    //   console.log(response);
+
+
+    // } catch(err) {
+
+    // }
+  };
+
   const handleLoginDialogClose = () => {
     setLoginDialogOpen(false);
-  }
+  };
+
+  const handleCloseWritePostDialog = () => {
+    setWritePostDialogOpen(false);
+  };
 
   const handleLogOut = useCallback(async () => {
     try {
@@ -108,7 +164,7 @@ const MyMenuBox = () => {
       >
         <MenuItem onClick={() => { navigate(PATH.myPage); handleClose() }}>내 정보</MenuItem>
         {/* TODO: 포스트 등록과 로그아웃은 따로 모달로 처리 */}
-        <MenuItem> <PostEnroll /> </MenuItem>
+        <MenuItem onClick={handleOpenWritePostDialog}>포스트 등록</MenuItem>
 
         <MenuItem onClick={() => {
           Swal.fire({
@@ -143,6 +199,8 @@ const MyMenuBox = () => {
           </a>
         </DialogContent>
       </Dialog>
+
+      <WritePost open={isWritePostDialogOpen} onClose={handleCloseWritePostDialog} host={postForm} />
     </>
   );
 };
