@@ -22,7 +22,7 @@ public class Proposal {
     @JoinColumn(name = "postId")
     private Post post;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "starId")
     private Star star;
 
@@ -30,7 +30,7 @@ public class Proposal {
 
     @Lob
     private String content;
-    
+
     private LocalDateTime showStartTime;
     private LocalDateTime showEndTime;
 

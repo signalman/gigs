@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/mypage/**").authenticated()
+                .antMatchers("/proposals/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()
@@ -40,7 +41,7 @@ public class SecurityConfig {
                 .failureHandler(oAuth2AuthenticationFailureHandler)
                 .and()
                 .logout()
-                .deleteCookies("userId")
+                .deleteCookies("userId", "role")
                 .and()
                 .build();
     }

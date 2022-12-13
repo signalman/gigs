@@ -1,13 +1,12 @@
 package gigsproject.gigs.controller;
 
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
-import gigsproject.gigs.domain.Post;
-import gigsproject.gigs.domain.Role;
-import gigsproject.gigs.domain.Star;
-import gigsproject.gigs.domain.User;
+import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.PostForm;
 import gigsproject.gigs.request.ProposalForm;
+import gigsproject.gigs.response.PostFormRes;
 import gigsproject.gigs.response.ProposalResponse;
+import gigsproject.gigs.service.HostService;
 import gigsproject.gigs.service.PostService;
 import gigsproject.gigs.service.ProposalService;
 import gigsproject.gigs.service.StarService;
@@ -18,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static gigsproject.gigs.domain.PostStatus.SIGNED;
 
 @RestController
@@ -26,6 +27,7 @@ import static gigsproject.gigs.domain.PostStatus.SIGNED;
 public class PostController {
     private final PostService postService;
     private final StarService starService;
+    private final HostService hostService;
     private final ProposalService proposalService;
 
     @PostMapping("/posts")
@@ -51,6 +53,22 @@ public class PostController {
         return "";
     }
 
+    @GetMapping("/posts")
+    public ResponseEntity showPostForm(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+        User user = oAuth2UserCustom.getUser();
+        try {
+            if (user.getRole() != Role.ROLE_HOST) {
+                throw new IllegalArgumentException("포스트 등록은 호스트만 가능합니다.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        Host host = hostService.findByUser(user);
+        List<Post> posts = host.getPosts();
+        PostFormRes postFormRes = new PostFormRes(host, posts);
+        return ResponseEntity.ok().body(postFormRes);
+    }
+
 
     /**
      * 제안서 작성 폼
@@ -70,7 +88,7 @@ public class PostController {
         Post post = postService.findById(postId);
         try {
             if (post.getStatus() == SIGNED) {
-                throw new IllegalArgumentException("This post already signed.");
+                throw new IllegalArgumentException("이 포스트는 이미 체결되었습니다.");
             }
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -81,8 +99,10 @@ public class PostController {
     }
 
     /**
-     * 제안서 작성
+     * =============================아래부터는 제안서 파트 ===================
      */
+
+    // 제안서 생성
     @PostMapping("/posts/{postId}")
     public ResponseEntity createProposal(@PathVariable Long postId, @RequestBody ProposalForm proposalForm, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
@@ -99,5 +119,25 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //제안서 삭제
+    @DeleteMapping("/proposals/{proposalId}")
+    public ResponseEntity deleteProposal(@PathVariable Long proposalId, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
 
+        try {
+            proposalService.delete(proposalId);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/proposals/{proposalId}")
+    public ResponseEntity changeStatus(@PathVariable Long proposalId, @RequestParam String status) {
+        try {
+            proposalService.changeStatus(proposalId, status);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }
