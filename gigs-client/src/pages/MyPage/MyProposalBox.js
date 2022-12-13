@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
-import React from 'react';
+import moment from 'moment';
+import React, { useCallback, useEffect, useState } from 'react';
 import Proposal from '../../components/Proposal';
-import MyProposalItem from './MyProposalItem';
+import MyProposalDate from './MyProposalDate';
 
 const ProposalWrapper = styled(Box)((props) => ({
   width: '320px',
@@ -11,13 +12,31 @@ const ProposalWrapper = styled(Box)((props) => ({
 const ProposalListBox = styled(Box)((props) => ({
   width: '880px',
   padding: '10px',
-  display: 'flex',
-  flexWrap: 'wrap',
-  alignContent: 'flex-start',
-  gap: '10px',
 }));
 
-const MyProposalBox = () => {
+const MyProposalBox = ({
+  role,
+  proposals,
+  onCancel,
+}) => {
+  const isStar = role === 'ROLE_STAR';
+  const [proposalsByDate, setProposalsByDate] = useState({});
+  const [selectedProposal, setSelectedProposal] = useState(null);
+
+  useEffect(() => {
+    const newProposalsByDate = {};
+    proposals.forEach(proposal => {
+      const date = proposal.showStartTime.format('YYYY-MM-DD');
+      if(!newProposalsByDate[date]) newProposalsByDate[date] = [];
+      newProposalsByDate[date].push(proposal);
+    });
+    setProposalsByDate(newProposalsByDate);
+  }, [proposals]);
+
+  const handleClickProposal = useCallback((proposal) => {
+    setSelectedProposal(proposal);
+  }, []);
+
   return(
     <Box
       sx={{
@@ -26,19 +45,12 @@ const MyProposalBox = () => {
       }}
     >
       <ProposalWrapper>
-        <Proposal />
+        <Proposal isStar={isStar} proposal={selectedProposal} onCancel={onCancel} />
       </ProposalWrapper>
       <ProposalListBox>
-        <MyProposalItem>박상연</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
-        <MyProposalItem>맛있겠다 치킨</MyProposalItem>
+        {Object.keys(proposalsByDate).sort().map(date => (
+          <MyProposalDate key={date} date={date} proposals={proposalsByDate[date]} onClick={handleClickProposal} selectedProposal={selectedProposal} />
+        ))}
       </ProposalListBox>
     </Box>
   );

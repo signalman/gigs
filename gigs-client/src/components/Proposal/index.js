@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
-import { autocompleteClasses, Box, Button, OutlinedInput, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React from 'react';
 import MiniProfile from '../../pages/MyPage/MiniProfile';
 import { COLOR } from '../../utils/Constants';
 import ProposalContent from './ProposalContent';
-
 
 const Container = styled(Box)((props) => ({
   boxSizing: 'border-box',
@@ -25,7 +24,7 @@ const Title = styled(Box)((props) => ({
 }));
 
 const ButtonBox = styled(Box)((props) => ({
-  width: '170px',
+  width: props.isStar ? '70px' : '170px',
   height: '50px',
   display: 'flex',
   alignItems: 'center',
@@ -48,42 +47,70 @@ const warningStyle = {
   textAlign: 'center',
 }
 
-const Proposal = () => {
+const NoProposalBox = styled(Box)((props) => ({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: COLOR.grey,
+  fontSize: '22px',
+  fontWeight: 'bold',
+}));
+
+const Proposal = ({
+  isStar,
+  proposal,
+  onCancel,
+}) => {
   return (
     <Container>
-      <Title>제안서</Title>
-      <ProposalContent title={'이름'}>
-        <MiniProfile />
-      </ProposalContent>
-      <ProposalContent title={'일시'}>
-        <Box sx={{ width: '100%', height: '50px', lineHeight: '50px', }}>
-          2022/11/17 10:00~12:00
-        </Box>
-      </ProposalContent>
-      <ProposalContent title={'내용'}>
-        <Box
-          sx={{
-            boxSizing: 'border-box',
-            width: '100%',
-            height: '135px',
-            overflow: 'scroll',
-            mt: '15px',
-            p: '5px',
-            fontSize: '12px',
-            boxShadow: `inset 0 0 2px ${COLOR.grey}`
-          }}
-        >
-          박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.
-          박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.박상연입니다.
-        </Box>
-      </ProposalContent>
-      <Box sx={warningStyle}>
-        * 승낙시 상대방에게 연락처가 전달됩니다.
-      </Box>
-      <ButtonBox>
-        <Button sx={buttonStyle} variant="contained">승낙</Button>
-        <Button sx={{...buttonStyle, ml: '30px',}} variant="contained" color='warning' >거절</Button>
-      </ButtonBox>
+      {proposal ? (
+        <>
+          <Title>제안서</Title>
+          <ProposalContent title={'이름'} width='200px'>
+            <MiniProfile width='200px' name={isStar ? proposal.stageName : proposal.starName} />
+          </ProposalContent>
+          <ProposalContent title={'일시'} width='200px'>
+            <Box sx={{ width: '100%', height: '50px', lineHeight: '50px', }}>
+              {`${proposal.showStartTime.format('YYYY/MM/DD HH:mm')}~${proposal.showEndTime.format('HH:mm')}`}
+            </Box>
+          </ProposalContent>
+          <ProposalContent title={'내용'} width='200px'>
+            <Box
+              sx={{
+                boxSizing: 'border-box',
+                width: '200px',
+                height: '135px',
+                overflow: 'scroll',
+                mt: '15px',
+                p: '5px',
+                fontSize: '12px',
+                boxShadow: `inset 0 0 2px ${COLOR.grey}`
+              }}
+            >
+              {proposal.content}
+            </Box>
+          </ProposalContent>
+          <Box sx={warningStyle}>
+            * 승낙시 상대방에게 연락처가 전달됩니다.
+          </Box>
+          <ButtonBox isStar={isStar}>
+            {isStar ? (
+              <Button sx={{...buttonStyle,}} variant="contained" color='warning' onClick={onCancel}>취소</Button>
+            ) : (
+              <>
+                <Button sx={buttonStyle} variant="contained">승낙</Button>
+                <Button sx={{...buttonStyle, ml: '30px',}} variant="contained" color='warning' >거절</Button>
+              </>
+            )}
+          </ButtonBox>
+        </>
+      ) : (
+        <NoProposalBox>
+          선택한 제안서가 없습니다.
+        </NoProposalBox>
+      )}
     </Container>
   );
 };

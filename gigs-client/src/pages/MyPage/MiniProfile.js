@@ -30,7 +30,7 @@ const MiniProfile = ({
     <Box
       sx={{
         display: 'flex',
-        width: `${(width || 175) + 25}px`,
+        width: width || '200px',
         height: '50px',
       }}
     >

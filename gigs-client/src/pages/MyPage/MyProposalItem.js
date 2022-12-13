@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import { COLOR } from '../../utils/Constants';
 
-const Container = styled(Box)((props) => ({
+const Container = styled(Box)(({ isSelect }) => ({
   boxSizing: 'border-box',
   paddingLeft: '10px',
   paddingRight: '10px',
@@ -14,7 +14,8 @@ const Container = styled(Box)((props) => ({
   textAlign: 'center',
   lineHeight: '26px',
   fontSize: '14px',
-  color: COLOR.main,
+  color: isSelect ? 'white' : COLOR.main,
+  background: isSelect ? COLOR.main : 'white',
   fontWeight: 'bold',
   cursor: 'pointer',
   userSelect: 'none',
@@ -22,9 +23,11 @@ const Container = styled(Box)((props) => ({
 
 const MyProposalItem = ({
   children,
+  onClick,
+  isSelect,
 }) => {
   return (
-    <Container>
+    <Container onClick={onClick} isSelect={isSelect}>
       {children}
     </Container>
   );
