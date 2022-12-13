@@ -36,7 +36,13 @@ export const signUp = (signUpData) => ax.post('/signup', signUpData);
 export const fetchMyPage = () => ax.get('/mypage');
 
 /**
- * 마이 페이지 접속 시 유저 정보 가져오는 API
+ * 포스트 작성 다이얼로그를 열 때,
+ * 포스트 작성에 필요한 데이터를 가져오는 API
+ */
+export const getPostForm = () => ax.get(`/posts`);
+
+/**
+ * 포스트를 생성하는 API
  */
 export const posts = (postsData) => ax.post('/posts',postsData);
 
