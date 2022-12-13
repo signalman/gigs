@@ -32,13 +32,17 @@ const MyProposalDate = ({
   date,
   proposals,
   onClick,
+  selectedProposal,
 }) => {
   return (
     <Container>
       <DateBox>{date}</DateBox>
       <ItemBox>
         {proposals?.map(proposal => (
-          <MyProposalItem onClick={() => {onClick(proposal)}}>{proposal.stageName}</MyProposalItem>
+          <MyProposalItem
+            onClick={() => {onClick(proposal)}}
+            isSelect={selectedProposal ? selectedProposal.proposalId === proposal.proposalId : false}
+          >{proposal.stageName}</MyProposalItem>
         ))}
       </ItemBox>
     </Container>

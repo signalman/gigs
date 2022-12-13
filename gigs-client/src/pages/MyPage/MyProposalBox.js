@@ -78,7 +78,7 @@ const MyProposalBox = ({
       </ProposalWrapper>
       <ProposalListBox>
         {Object.keys(proposalsByDate).sort().map(date => (
-          <MyProposalDate key={date} date={date} proposals={proposalsByDate[date]} onClick={handleClickProposal} />
+          <MyProposalDate key={date} date={date} proposals={proposalsByDate[date]} onClick={handleClickProposal} selectedProposal={selectedProposal} />
         ))}
       </ProposalListBox>
     </Box>

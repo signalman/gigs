@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
-import { autocompleteClasses, Box, Button, OutlinedInput, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import React from 'react';
 import MiniProfile from '../../pages/MyPage/MiniProfile';
 import { COLOR } from '../../utils/Constants';
 import ProposalContent from './ProposalContent';
-import moment from 'moment';
 
 const Container = styled(Box)((props) => ({
   boxSizing: 'border-box',
@@ -70,7 +69,7 @@ const Proposal = ({
         <>
           <Title>제안서</Title>
           <ProposalContent title={'이름'} width='200px'>
-            <MiniProfile width='200px' name={proposal.stageName} />
+            <MiniProfile width='200px' name={isStar ? proposal.stageName : proposal.starName} />
           </ProposalContent>
           <ProposalContent title={'일시'} width='200px'>
             <Box sx={{ width: '100%', height: '50px', lineHeight: '50px', }}>

@@ -19,7 +19,7 @@ const MyPage = () => {
     console.log(response);
 
     setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false});
-    setHistories(response.data.signedOrComp);
+    setHistories(response.data.signedOrComp.map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), })));
     const isStar = response.data.user.role === 'ROLE_STAR';
     const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned)
       .map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), }));
@@ -43,11 +43,11 @@ const MyPage = () => {
         {user.role === "ROLE_STAR" ? (<MyStarStatusSwitch status={user.status} />) : (<></>)}
         <MyInfoBox role={user.role} roleId={user.roleId} />
       </MyPageItem>
-      <MyPageItem title="공연 기록">
-        <MyHistoryBox />
-      </MyPageItem>
       <MyPageItem title="제안서">
         <MyProposalBox role={user.role} proposals={proposals} onCancel={handleClickCancelProposal} />
+      </MyPageItem>
+      <MyPageItem title="공연 기록">
+        <MyHistoryBox />
       </MyPageItem>
     </Box>
   );
