@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import StageImg from '../../images/stage_tmp.jpg';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { IMG } from '../../utils/Constants';
 
 const ImgBox = styled(Box)((props) => ({
   width: '25px',
@@ -37,7 +38,7 @@ const MiniProfile = ({
         <>
           <ImgBox>
           {repImg ? (
-            <img src={repImg ? repImg : StageImg} alt="stage_img" width='25px' height='25px' />
+            <img src={repImg ? IMG(repImg) : StageImg} alt="stage_img" width='25px' height='25px' />
           ) : (
             <AccountCircleIcon sx={{ width: '25px', height: '25px', }} />
           )}
