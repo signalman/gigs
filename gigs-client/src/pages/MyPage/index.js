@@ -7,6 +7,7 @@ import MyPageItem from './MyPageItem';
 import MyProposalBox from './MyProposalBox';
 import { fetchMyPage } from '../../utils/Api';
 import MyStarStatusSwitch from './MyStarStatusSwitch';
+import moment from 'moment';
 
 const MyPage = () => {
   const [user, setUser] = useState({});
@@ -20,12 +21,18 @@ const MyPage = () => {
     setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false});
     setHistories(response.data.signedOrComp);
     const isStar = response.data.user.role === 'ROLE_STAR';
-    setProposals(isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned);
+    const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned)
+      .map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), }));
+    setProposals(newProposals);
   }, []);
 
   useEffect(() => {
     getMyPage();
   }, [getMyPage]);
+
+  const handleClickCancelProposal = useCallback(() => {
+
+  }, []);
 
   return (
     <Box sx={{ width: '1200px', margin: '0 auto', }}>
@@ -40,7 +47,7 @@ const MyPage = () => {
         <MyHistoryBox />
       </MyPageItem>
       <MyPageItem title="제안서">
-        <MyProposalBox role={user.role} proposals={proposals} />
+        <MyProposalBox role={user.role} proposals={proposals} onCancel={handleClickCancelProposal} />
       </MyPageItem>
     </Box>
   );

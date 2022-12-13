@@ -22,9 +22,10 @@ const Container = styled(Box)((props) => ({
 
 const MyProposalItem = ({
   children,
+  onClick,
 }) => {
   return (
-    <Container>
+    <Container onClick={onClick}>
       {children}
     </Container>
   );
