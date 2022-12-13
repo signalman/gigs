@@ -9,6 +9,7 @@ import gigsproject.gigs.request.ProposalForm;
 import gigsproject.gigs.response.ProposalDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,5 +47,25 @@ public class ProposalService {
                 .showStatus(ShowStatus.UNSIGNED)
                 .build();
         proposalRepository.save(proposal);
+    }
+
+    @Transactional
+    public void delete(Long proposalId) {
+        Proposal proposal = proposalRepository.findById(proposalId).orElseThrow(
+                () -> new IllegalArgumentException("해당 제안서가 존재하지 않습니다.")
+        );
+        proposalRepository.delete(proposal);
+    }
+
+    @Transactional
+    public void changeStatus(Long proposalId, String status) {
+        Proposal proposal = proposalRepository.findById(proposalId).orElseThrow(
+                () -> new IllegalArgumentException("해당 제안서가 존재하지 않습니다.")
+        );
+        if (status.equals("accept")) {
+            proposalRepository.updateToSigned(proposal);
+        } else if (status.equals("reject")) {
+            proposalRepository.updateToRejected(proposal);
+        }
     }
 }
