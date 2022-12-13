@@ -39,7 +39,7 @@ export const fetchMyPage = () => ax.get('/mypage');
  * 포스트 작성 다이얼로그를 열 때,
  * 포스트 작성에 필요한 데이터를 가져오는 API
  */
-export const getPostForm = () => ax.get(`/posts/`);
+export const getPostForm = () => ax.get(`/posts`);
 
 /**
  * 포스트를 생성하는 API

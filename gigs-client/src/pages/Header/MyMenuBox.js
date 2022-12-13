@@ -72,51 +72,19 @@ const MyMenuBox = () => {
   };
 
   const handleOpenWritePostDialog = async () => {
-    setWritePostDialogOpen(true);
-    setPostForm({
-      hostName: '박상연',
-      posts: [
-        {
-          date: '2022-12-13',
-          startTime: {
-            "hour": 2,
-            "minute": 0,
-            "nano": 0,
-            "second": 0
-          },
-          endTime: {
-            "hour": 4,
-            "minute": 0,
-            "nano": 0,
-            "second": 0
-          },
-        },
-        {
-          date: '2022-12-13',
-          startTime: {
-            "hour": 8,
-            "minute": 0,
-            "nano": 0,
-            "second": 0
-          },
-          endTime: {
-            "hour": 10,
-            "minute": 0,
-            "nano": 0,
-            "second": 0
-          },
-        }
-      ]
-    })
-    // try {
-    //   const response = await getPostForm();
-    //   console.log('# 포스트 작성 폼');
-    //   console.log(response);
+    // setWritePostDialogOpen(true);
+    try {
+      const response = await getPostForm();
+      console.log('# 포스트 작성 폼');
+      console.log(response);
 
-
-    // } catch(err) {
-
-    // }
+      setPostForm(response.data);
+      setWritePostDialogOpen(true);
+    } catch(err) {
+      console.log(err);
+      setPostForm({err: err.response.data});
+      setWritePostDialogOpen(true);
+    }
   };
 
   const handleLoginDialogClose = () => {
