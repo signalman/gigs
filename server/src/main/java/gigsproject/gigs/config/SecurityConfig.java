@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/mypage/**").authenticated()
+                .antMatchers("/proposals/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .oauth2Login()

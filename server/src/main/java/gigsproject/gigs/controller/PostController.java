@@ -81,8 +81,10 @@ public class PostController {
     }
 
     /**
-     * 제안서 작성
+     * =============================아래부터는 제안서 파트 ===================
      */
+
+    // 제안서 생성
     @PostMapping("/posts/{postId}")
     public ResponseEntity createProposal(@PathVariable Long postId, @RequestBody ProposalForm proposalForm, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
@@ -99,5 +101,20 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    //제안서 삭제
+    @DeleteMapping("/proposals/{proposalId}")
+    public ResponseEntity deleteProposal(@PathVariable Long proposalId, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
 
+        try {
+            proposalService.delete(proposalId);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/proposals/{proposalId}")
+    public void changeStatus(@PathVariable Long proposalId, @RequestParam String status) {
+        proposalService.changeStatus(proposalId, status);
+    }
 }
