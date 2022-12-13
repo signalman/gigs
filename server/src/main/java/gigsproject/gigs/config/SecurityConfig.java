@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .failureHandler(oAuth2AuthenticationFailureHandler)
                 .and()
                 .logout()
-                .deleteCookies("userId")
+                .deleteCookies("userId", "role")
                 .and()
                 .build();
     }

@@ -66,9 +66,11 @@ public class UserController {
         Long userId = user.getUserId();
 
         Cookie cookie = new Cookie("userId", userId.toString());
+        Cookie roleCookie = new Cookie("role", user.getRole().toString());
         cookie.setPath("/");
         cookie.setDomain("localhost");
         response.addCookie(cookie);
+        response.addCookie(roleCookie);
 
         response.sendRedirect("http://localhost:3000");
     }
