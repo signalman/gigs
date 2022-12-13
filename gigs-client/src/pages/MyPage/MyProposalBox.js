@@ -26,40 +26,11 @@ const MyProposalBox = ({
   useEffect(() => {
     const newProposalsByDate = {};
     proposals.forEach(proposal => {
-      const date = proposal.showStartTime.substring(0, 10);
+      const date = proposal.showStartTime.format('YYYY-MM-DD');
       if(!newProposalsByDate[date]) newProposalsByDate[date] = [];
       newProposalsByDate[date].push(proposal);
     });
-    // setProposalsByDate(newProposalsByDate);
-
-    const tmp = {
-      '2022-12-12': [{
-        "content": "안녕하세요",
-        "createdAt": moment("2022-12-12T10:39:56.546Z"),
-        "postId": 0,
-        "proposalId": 0,
-        "showEndTime": moment("2022-12-12T02:00:56.546"),
-        "showStartTime": moment("2022-12-12T00:00:56.546"),
-        "showStatus": "UNSIGNED",
-        "stageName": "카페 안녕",
-        "starId": 0,
-        "starName": "검정치마"
-      }],
-      '2022-12-13': [{
-        "content": "안녕하세요",
-        "createdAt": moment("2022-12-12T10:39:56.546Z"),
-        "postId": 0,
-        "proposalId": 1,
-        "showEndTime": moment("2022-12-12T02:00:56.546"),
-        "showStartTime": moment("2022-12-12T04:00:56.546"),
-        "showStatus": "REJECTED",
-        "stageName": "카페 안녕",
-        "starId": 0,
-        "starName": "검정치마"
-      }],
-    }
-
-    setProposalsByDate(tmp);
+    setProposalsByDate(newProposalsByDate);
   }, [proposals]);
 
   const handleClickProposal = useCallback((proposal) => {
