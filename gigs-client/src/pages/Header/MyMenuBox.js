@@ -35,6 +35,7 @@ const MenuIconBox = styled(Box)((props) => ({
  */
 const MyMenuBox = () => {
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(['role']);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -72,7 +73,6 @@ const MyMenuBox = () => {
   };
 
   const handleOpenWritePostDialog = async () => {
-    // setWritePostDialogOpen(true);
     try {
       const response = await getPostForm();
       console.log('# 포스트 작성 폼');
@@ -131,8 +131,8 @@ const MyMenuBox = () => {
         TransitionComponent={Fade}
       >
         <MenuItem onClick={() => { navigate(PATH.myPage); handleClose() }}>내 정보</MenuItem>
-        {/* TODO: 포스트 등록과 로그아웃은 따로 모달로 처리 */}
-        <MenuItem onClick={handleOpenWritePostDialog}>포스트 등록</MenuItem>
+        {cookies.role === 'ROLE_HOST' ? <MenuItem onClick={handleOpenWritePostDialog}>포스트 등록</MenuItem> : null }
+        
 
         <MenuItem onClick={() => {
           Swal.fire({

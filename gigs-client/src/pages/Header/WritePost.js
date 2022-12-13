@@ -14,13 +14,11 @@ const WritePost = ({
   onClose,
   host,
 }) => {
-  const [writing, setWriting] = useState('');
   const [postDate, setPostDate] = useState(moment());
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(1);
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState({});
-  const [stageItems, setStageItems] = useState('');
 
   const [postGenre, setPostGenre] = useState('');
 
@@ -57,83 +55,91 @@ const WritePost = ({
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle sx={{ fontWeight: 'bold', textAlign: 'center' }}>포스트 등록</DialogTitle>
-      <DialogContent>
-        <ProposalContent title={'무대'} width={200} >
-          <MiniProfile width='200px' name={host.name} repImg={host.repImg} />
-        </ProposalContent>
-        <ProposalContent title={'일시'} width={450}>
-          <Box sx={{ display: 'flex', width: '450px', alignItems: 'center' }}>
-            <LocalizationProvider dateAdapter={AdapterMoment}>
-              <DatePicker
-                value={postDate}
-                onChange={(e) => {
-                  setPostDate(e.format("YYYY-MM-DD"))
-                }}
-                renderInput={(params) => <TextField
-                  InputProps={{
-                    readOnly: true,
+      {host.err ? (
+          <DialogContent sx={{ width: '450px', height: '200px', textAlign: 'center', lineHeight: '200px', overflow: 'hidden' }}>
+            {host.err}
+          </DialogContent>
+        ) : (
+          <>
+            <DialogTitle sx={{ fontWeight: 'bold', textAlign: 'center' }}>포스트 등록</DialogTitle>
+            <DialogContent>
+              <ProposalContent title={'무대'} width={200} >
+                <MiniProfile width='200px' name={host.name} repImg={host.repImg} />
+              </ProposalContent>
+              <ProposalContent title={'일시'} width={450}>
+                <Box sx={{ display: 'flex', width: '450px', alignItems: 'center' }}>
+                  <LocalizationProvider dateAdapter={AdapterMoment}>
+                    <DatePicker
+                      value={postDate}
+                      onChange={(e) => {
+                        setPostDate(e.format("YYYY-MM-DD"))
+                      }}
+                      renderInput={(params) => <TextField
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        {...params}
+                        />
+                      }
+                    />
+                  </LocalizationProvider>
+                    <Select
+                      sx={{
+                        width: '50px',
+                        height: '30px',
+                        ml: `20px`,
+                      }}
+                      variant='standard'
+                      value={startTime}
+                      onChange={handleStartTimeChange}
+                    >
+                      {Array.from({length: 24}, (v, i) => i).map(item => (
+                        <MenuItem key={item} value={item}>{item}</MenuItem>
+                      ))}
+                    </Select>
+                    <Typography sx={{ width: 'auto', textAlign: 'center' }}> 시 ~ </Typography>
+                    <Select
+                      sx={{
+                        width: '50px',
+                        height: '30px',
+                        ml: `20px`,
+                      }}
+                      variant='standard'
+                      value={endTime}
+                      onChange={handleEndTimeChange}
+                    >
+                      {Array.from({length: 24}, (v, i) => i+1).map(item => (
+                        <MenuItem key={item} value={item}>{item}</MenuItem>
+                      ))}
+                    </Select>
+                    <Typography sx={{ width: 'auto', textAlign: 'center' }}> 시 </Typography>
+                </Box>
+              </ProposalContent>
+              <ProposalContent title={'장르'} width={450}>
+                <Box
+                  sx={{
+                    width: '450px',
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '5px',
+                    paddingTop: '15px'
                   }}
-                  {...params}
-                  />
-                }
-              />
-            </LocalizationProvider>
-              <Select
-                sx={{
-                  width: '50px',
-                  height: '30px',
-                  ml: `20px`,
-                }}
-                variant='standard'
-                value={startTime}
-                onChange={handleStartTimeChange}
-              >
-                {Array.from({length: 24}, (v, i) => i).map(item => (
-                  <MenuItem key={item} value={item}>{item}</MenuItem>
-                ))}
-              </Select>
-              <Typography sx={{ width: 'auto', textAlign: 'center' }}> 시 ~ </Typography>
-              <Select
-                sx={{
-                  width: '50px',
-                  height: '30px',
-                  ml: `20px`,
-                }}
-                variant='standard'
-                value={endTime}
-                onChange={handleEndTimeChange}
-              >
-                {Array.from({length: 24}, (v, i) => i+1).map(item => (
-                  <MenuItem key={item} value={item}>{item}</MenuItem>
-                ))}
-              </Select>
-              <Typography sx={{ width: 'auto', textAlign: 'center' }}> 시 </Typography>
-          </Box>
-        </ProposalContent>
-        <ProposalContent title={'장르'} width={450}>
-          <Box
-            sx={{
-              width: '450px',
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: '5px',
-              paddingTop: '15px'
-            }}
-          >
-            {genres.map(genre => (
-              <CategoryItem key={genre} selected={selectedGenres[genre]} selectItem={selectGenre}>{genre}</CategoryItem>
-            ))}
-          </Box>
-        </ProposalContent>
-      </DialogContent>
-      <DialogActions sx={{ justifyContent: 'center' }}>
-          <Button variant="contained" onClick={handleClose}>닫기</Button>
-          <Button variant="contained"
-              onClick={() => { handleClose(); handleSubmit() }}>
-              제출
-          </Button>
-      </DialogActions>
+                >
+                  {genres.map(genre => (
+                    <CategoryItem key={genre} selected={selectedGenres[genre]} selectItem={selectGenre}>{genre}</CategoryItem>
+                  ))}
+                </Box>
+              </ProposalContent>
+            </DialogContent>
+            <DialogActions sx={{ justifyContent: 'center' }}>
+                <Button variant="contained" onClick={handleClose}>닫기</Button>
+                <Button variant="contained"
+                    onClick={() => { handleClose(); handleSubmit() }}>
+                    제출
+                </Button>
+            </DialogActions>
+          </>
+        )}
     </Dialog>
   );
 };
