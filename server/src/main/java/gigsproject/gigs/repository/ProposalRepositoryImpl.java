@@ -75,4 +75,23 @@ public class ProposalRepositoryImpl implements ProposalRepositoryCustom {
                 .fetch();
         return results.stream().map(p -> new ProposalDto(p)).collect(Collectors.toList());
     }
+
+
+    @Override
+    public void updateToSigned(Proposal proposal) {
+        QProposal qProposal = QProposal.proposal;
+        queryFactory
+                .update(qProposal)
+                .set(qProposal.showStatus, ShowStatus.SIGNED)
+                .where(qProposal.eq(proposal));
+    }
+
+    @Override
+    public void updateToRejected(Proposal proposal) {
+        QProposal qProposal = QProposal.proposal;
+        queryFactory
+                .update(qProposal)
+                .set(qProposal.showStatus, ShowStatus.REJECTED)
+                .where(qProposal.eq(proposal));
+    }
 }

@@ -57,4 +57,15 @@ public class ProposalService {
         proposalRepository.delete(proposal);
     }
 
+    @Transactional
+    public void changeStatus(Long proposalId, String status) {
+        Proposal proposal = proposalRepository.findById(proposalId).orElseThrow(
+                () -> new IllegalArgumentException("해당 제안서가 존재하지 않습니다.")
+        );
+        if (status.equals("accept")) {
+            proposalRepository.updateToSigned(proposal);
+        } else if (status.equals("reject")) {
+            proposalRepository.updateToRejected(proposal);
+        }
+    }
 }
