@@ -22,6 +22,7 @@ const SelectAllDialog = ({
   }, [values, setValues]);
 
   const handleEditClick = useCallback(() => {
+    console.log(values)
     onEdit(values);
     onClose();
   }, [values, onEdit, onClose]);

@@ -18,6 +18,7 @@ import SelectOneDialog from './dialogs/SelectOneDialog';
 import EditIntroduceDialog from './dialogs/EditIntroduceDialog';
 import SelectAllDialog from './dialogs/SelectAllDialog';
 import EditMemberDialog from './dialogs/EditMemberDialog';
+import EditAddressDialog from './dialogs/EditAddressDialog';
 import { useCookies } from 'react-cookie';
 import ImageBox from './ImageBox';
 import RepImgBox from './RepImgBox';
@@ -35,7 +36,7 @@ const Info = ({
   const editable = Number(cookies.userId) === data.userId;
 
   const editNameDialog = useDialog();
-  // const editAddressDialog = useDialog(); // TODO: 우편번호 API 로 구현
+  const editAddressDialog = useDialog(); // TODO: 우편번호 API 로 구현
   const editAreaDialog = useDialog();
   const editTargetDialog = useDialog();
   const editPayDialog = useDialog();
@@ -100,6 +101,7 @@ const Info = ({
     }
 
     setData(newData);
+    console.log(data)
     setPosts(response.data.posts);
     // TODO imgUrl -> ?
     setImages(response.data.imgUrl);
@@ -131,8 +133,20 @@ const Info = ({
   const handleEdit = useCallback((keys) => {
     return (values) => {
       const newData = {...data}
-      for(let i = 0; i < keys.length; i++) {newData[keys[i]] = values[i];}
+      for(let i = 0; i < keys.length; i++) { newData[keys[i]] = values[i];}
       console.log(newData);
+      updateInfo(newData);
+    }
+  }, [data, updateInfo]);
+
+  // 주소 변경 시
+  const handleEditAddress = useCallback(() => {
+    return (values) => {
+      const newData = {...data}
+      newData['address'].siDo = values[0];
+      newData['address'].siGun = values[1];
+      newData['address'].road = values[2];
+      newData['address'].detail = values[3];
       updateInfo(newData);
     }
   }, [data, updateInfo]);
@@ -155,7 +169,7 @@ const Info = ({
   useEffect(() => {
     // dialog settings
     editNameDialog.initialize([data.name]);
-
+    editAddressDialog.initialize([data.address]);
     editAreaDialog.initialize([data.stageSize]);
     editTargetDialog.initialize([data.targetAge, data.targetGender, data.targetMinCount]);
     editPayDialog.initialize([data.pay]);
@@ -191,6 +205,7 @@ const Info = ({
           reviewCount: data.reviewCount,
         }}
         openEditNameDialog={editNameDialog.open}
+        openEditAddressDialog={editAddressDialog.open}
         editable={editable}
       />
 
@@ -245,6 +260,7 @@ const Info = ({
 
       {/* Dialogs */}
       <SimpleEditTexetDialog open={editNameDialog.isOpen} onClose={editNameDialog.close} title="이름 변경" type="text" values={editNameDialog.values} setValues={editNameDialog.setValues} onEdit={handleEdit(["name"])}  />
+      <EditAddressDialog open={editAddressDialog.isOpen} onClose={editAddressDialog.close} title="주소 변경" type="text" values={editAddressDialog.values} setValues={editAddressDialog.setValues} onEdit={handleEditAddress()} />
       {target === SYMBOL.stage ? (<>
         <SimpleEditTexetDialog open={editAreaDialog.isOpen} onClose={editAreaDialog.close} title="면적 변경" type="number" values={editAreaDialog.values} setValues={editAreaDialog.setValues} onEdit={handleEdit(["stageSize"])}  />
         <EditTargetDialog open={editTargetDialog.isOpen} onClose={editTargetDialog.close} title="고객층 변경" values={editTargetDialog.values} setValues={editTargetDialog.setValues} onEdit={handleEdit(["targetAge", "targetGender", "targetMinCount"])}  />

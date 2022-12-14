@@ -32,11 +32,11 @@ const EditIconBox = styled(Box)((props) => ({
 }));
 
 const Address = styled(Box)((props) => ({
-  position: 'absolute',
-  left: 0,
-  bottom: 0,
-  fontSize: '15px',
-  color: COLOR.grey,
+  height: "50px",
+  fontSize: '18px',
+  fontWeight: "bold",
+  color: COLOR.blacky,
+  display: 'flex',
 }));
 
 const ButtonBox = styled(Box)((props) => ({
@@ -70,6 +70,7 @@ const ReviewCount = styled(Box)((props) => ({
 const InfoTitle = ({
   titleInfo,
   openEditNameDialog,
+  openEditAddressDialog,
   editable,
 }) => {
   const {
@@ -88,7 +89,13 @@ const InfoTitle = ({
           </EditIconBox>
         ) : (<></>)}
       </Name>
-      <Address>{address ? `${address.siDo} ${address.siGun} ${address.road}` : '주소를 입력해주세요.'}</Address>
+      <Address>{address ? `${address.siDo} ${address.siGun} ${address.road}` : '주소를 입력해주세요.'}
+        {editable ? (
+          <EditIconBox sx={{ w: '20px', h: '20px' }} onClick={() => openEditAddressDialog()}>
+            <EditIcon sx={{ m: '3px', width: '20px', height: '20px', }} />
+          </EditIconBox>
+        ) : (<></>)}
+      </Address>
       <ButtonBox>
         <ConnectButton variant='contained'>연결</ConnectButton>
         <RatingBox>
