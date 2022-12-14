@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
+import static javax.persistence.CascadeType.ALL;
 
 @Builder
 @Getter
@@ -30,11 +31,11 @@ public class Post extends BaseTimeEntity {
     private LocalTime endTime;
 
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = ALL)
     @Builder.Default
     private List<PostGenre> postGenres = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = ALL)
     @Builder.Default
     private List<Proposal> proposals = new ArrayList<>();
 
