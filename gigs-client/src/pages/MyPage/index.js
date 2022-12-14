@@ -5,11 +5,14 @@ import MyHistoryBox from './MyHistoryBox';
 import MyInfoBox from './MyInfoBox';
 import MyPageItem from './MyPageItem';
 import MyProposalBox from './MyProposalBox';
-import { fetchMyPage } from '../../utils/Api';
+import { acceptProposal, cancelProposal, fetchMyPage, rejectProposal } from '../../utils/Api';
 import MyStarStatusSwitch from './MyStarStatusSwitch';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
+  const navigate = useNavigate();
+
   const [user, setUser] = useState({});
   const [histories, setHistories] = useState([]);
   const [proposals, setProposals] = useState([]);
@@ -30,8 +33,43 @@ const MyPage = () => {
     getMyPage();
   }, [getMyPage]);
 
-  const handleClickCancelProposal = useCallback(() => {
+  // 스타가 제안서 취소를 눌렀을 때
+  const handleClickCancelProposal = useCallback(async (proposalId) => {
+    try {
+      const response = await cancelProposal(proposalId);
+      console.log('# 제안서 취소 결과')
+      console.log(response);
 
+      setProposals(proposals.filter(proposal => proposal.proposalId !== proposalId));
+    } catch(err) {
+      console.log(err);
+    }
+  }, [proposals]);
+
+  // 호스트가 제안서 승낙을 눌렀을 때
+  const handleAcceptProposal = useCallback(async (proposalId) => {
+    try {
+      const response = await acceptProposal(proposalId);
+      console.log('# 제안서 승낙 결과')
+      console.log(response);
+
+      navigate(0);
+    } catch(err) {
+      console.log(err);
+    }
+  }, []);
+
+  // 호스트가 제안서 거절을 눌렀을 때
+  const handleRejectProposal = useCallback(async (proposalId) => {
+    try {
+      const response = await rejectProposal(proposalId);
+      console.log('# 제안서 거절 결과')
+      console.log(response);
+
+      navigate(0);
+    } catch(err) {
+      console.log(err);
+    }
   }, []);
 
   return (
@@ -44,7 +82,7 @@ const MyPage = () => {
         <MyInfoBox role={user.role} roleId={user.roleId} />
       </MyPageItem>
       <MyPageItem title="제안서">
-        <MyProposalBox role={user.role} proposals={proposals} onCancel={handleClickCancelProposal} />
+        <MyProposalBox role={user.role} proposals={proposals} onCancel={handleClickCancelProposal} onAccept={handleAcceptProposal} onReject={handleRejectProposal} />
       </MyPageItem>
       <MyPageItem title="공연 기록">
         <MyHistoryBox />
