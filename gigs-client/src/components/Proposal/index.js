@@ -24,7 +24,7 @@ const Title = styled(Box)((props) => ({
 }));
 
 const ButtonBox = styled(Box)((props) => ({
-  width: props.isStar ? '70px' : '170px',
+  width: props.is_star ? '70px' : '170px',
   height: '50px',
   display: 'flex',
   alignItems: 'center',
@@ -62,6 +62,8 @@ const Proposal = ({
   isStar,
   proposal,
   onCancel,
+  onAccept,
+  onReject,
 }) => {
   return (
     <Container>
@@ -95,13 +97,13 @@ const Proposal = ({
           <Box sx={warningStyle}>
             * 승낙시 상대방에게 연락처가 전달됩니다.
           </Box>
-          <ButtonBox isStar={isStar}>
+          <ButtonBox is_star={isStar ? 1 : 0}>
             {isStar ? (
               <Button sx={{...buttonStyle,}} variant="contained" color='warning' onClick={() => onCancel(proposal.proposalId)}>취소</Button>
             ) : (
               <>
-                <Button sx={buttonStyle} variant="contained">승낙</Button>
-                <Button sx={{...buttonStyle, ml: '30px',}} variant="contained" color='warning' >거절</Button>
+                <Button sx={buttonStyle} variant="contained" onClick={() => onAccept(proposal.proposalId)}>승낙</Button>
+                <Button sx={{...buttonStyle, ml: '30px',}} variant="contained" color='warning' onClick={() => onReject(proposal.proposalId)} >거절</Button>
               </>
             )}
           </ButtonBox>

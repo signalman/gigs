@@ -29,6 +29,7 @@ const ItemBox = styled(Box)((props) => ({
 }));
 
 const MyProposalDate = ({
+  isStar,
   date,
   proposals,
   onClick,
@@ -40,9 +41,10 @@ const MyProposalDate = ({
       <ItemBox>
         {proposals?.map(proposal => (
           <MyProposalItem
+            key={proposal.proposalId}
             onClick={() => {onClick(proposal)}}
-            isSelect={selectedProposal ? selectedProposal.proposalId === proposal.proposalId : false}
-          >{proposal.stageName}</MyProposalItem>
+            isSelected={selectedProposal ? (selectedProposal.proposalId === proposal.proposalId ? 1 : 0) : 0}
+          >{isStar ? proposal.stageName : proposal.starName}</MyProposalItem>
         ))}
       </ItemBox>
     </Container>
