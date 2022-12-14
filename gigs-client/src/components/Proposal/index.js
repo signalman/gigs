@@ -97,7 +97,7 @@ const Proposal = ({
           </Box>
           <ButtonBox isStar={isStar}>
             {isStar ? (
-              <Button sx={{...buttonStyle,}} variant="contained" color='warning' onClick={onCancel}>취소</Button>
+              <Button sx={{...buttonStyle,}} variant="contained" color='warning' onClick={() => onCancel(proposal.proposalId)}>취소</Button>
             ) : (
               <>
                 <Button sx={buttonStyle} variant="contained">승낙</Button>

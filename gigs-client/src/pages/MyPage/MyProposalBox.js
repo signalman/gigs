@@ -37,6 +37,11 @@ const MyProposalBox = ({
     setSelectedProposal(proposal);
   }, []);
 
+  const handleCancelProposal = useCallback((proposalId) => {
+    onCancel(proposalId);
+    setSelectedProposal(null);
+  }, []);
+
   return(
     <Box
       sx={{
@@ -45,7 +50,7 @@ const MyProposalBox = ({
       }}
     >
       <ProposalWrapper>
-        <Proposal isStar={isStar} proposal={selectedProposal} onCancel={onCancel} />
+        <Proposal isStar={isStar} proposal={selectedProposal} onCancel={handleCancelProposal} />
       </ProposalWrapper>
       <ProposalListBox>
         {Object.keys(proposalsByDate).sort().map(date => (

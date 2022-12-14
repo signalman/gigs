@@ -5,7 +5,7 @@ import MyHistoryBox from './MyHistoryBox';
 import MyInfoBox from './MyInfoBox';
 import MyPageItem from './MyPageItem';
 import MyProposalBox from './MyProposalBox';
-import { fetchMyPage } from '../../utils/Api';
+import { cancelProposal, fetchMyPage } from '../../utils/Api';
 import MyStarStatusSwitch from './MyStarStatusSwitch';
 import moment from 'moment';
 
@@ -30,9 +30,17 @@ const MyPage = () => {
     getMyPage();
   }, [getMyPage]);
 
-  const handleClickCancelProposal = useCallback(() => {
+  const handleClickCancelProposal = useCallback(async (proposalId) => {
+    try {
+      const response = await cancelProposal(proposalId);
+      console.log('# 제안서 취소 결과')
+      console.log(response);
 
-  }, []);
+      setProposals(proposals.filter(proposal => proposal.proposalId !== proposalId));
+    } catch(err) {
+      console.log(err);
+    }
+  }, [proposals]);
 
   return (
     <Box sx={{ width: '1200px', margin: '0 auto', }}>

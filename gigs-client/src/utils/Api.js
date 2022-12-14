@@ -159,3 +159,9 @@ export const getProposalFormById = (postId) => ax.get(`/posts/${postId}`);
  * @param {{postId: Number, starId: Number, content: String}} proposalData 제안서에 포함된 내용
  */
 export const createProposal = (proposalData) => ax.post(`/posts/${proposalData.postId}`, proposalData);
+
+/**
+ * 제안서를 삭제하는 몌ㅑ
+ * @param {Number} proposalId 삭제하려는 제안서의 id
+ */
+export const cancelProposal = (proposalId) => ax.delete(`/proposals/${proposalId}`);
