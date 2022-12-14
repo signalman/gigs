@@ -33,6 +33,9 @@ public class UserService {
         if (signUpForm.getRole() == Role.ROLE_HOST) {
             Host host = Host.builder()
                     .user(user)
+                    .stageName("")
+                    .stageInfo("")
+                    .repImg("")
                     .build();
             hostRepository.save(host);
         }
