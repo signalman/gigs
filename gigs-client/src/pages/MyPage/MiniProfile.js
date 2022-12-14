@@ -11,6 +11,7 @@ const ImgBox = styled(Box)((props) => ({
   margin: '12.5px',
   borderRadius: '12.5px',
   overflow: 'hidden',
+  lineHeight: 0,
 }));
 
 const NameBox = styled(Box)((props) => ({

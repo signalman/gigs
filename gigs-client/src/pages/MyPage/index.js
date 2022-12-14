@@ -35,7 +35,7 @@ const MyPage = () => {
   }, [getMyPage]);
 
   // 스타가 제안서 취소를 눌렀을 때
-  const handleClickCancelProposal = useCallback(async (proposalId) => {
+  const handleCancelProposal = useCallback(async (proposalId) => {
     try {
       const response = await cancelProposal(proposalId);
       console.log('# 제안서 취소 결과')
@@ -83,10 +83,10 @@ const MyPage = () => {
         <MyInfoBox role={user.role} roleId={user.roleId} imgUrl={user.imgUrl} />
       </MyPageItem>
       <MyPageItem title="제안서">
-        <MyProposalBox role={user.role} proposals={proposals} onCancel={handleClickCancelProposal} onAccept={handleAcceptProposal} onReject={handleRejectProposal} />
+        <MyProposalBox role={user.role} proposals={proposals} onCancel={handleCancelProposal} onAccept={handleAcceptProposal} onReject={handleRejectProposal} />
       </MyPageItem>
       <MyPageItem title="공연 기록">
-        <MyHistoryBox histories={histories} />
+        <MyHistoryBox histories={histories} onCancel={handleCancelProposal} />
       </MyPageItem>
     </Box>
   );
