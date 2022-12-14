@@ -104,7 +104,7 @@ const Info = ({
     console.log(data)
     setPosts(response.data.posts);
     // TODO imgUrl -> ?
-    setImages(response.data.imgUrl);
+    setImages(response.data.stageImgs?.map(img => ({imgId: img.stageImgId, url: IMG(img.url)})));
   }, [params]);
 
   // 정보 수정 후 새 데이터로 기존 데이터를 업데이트 하는 함수
@@ -163,7 +163,7 @@ const Info = ({
 
   // 일반 이미지 추가가 끝난 후
   const handleEditImgs = useCallback((imgs) => {
-    setImages(imgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
+    setImages(imgs?.map(img => ({imgId: (target === SYMBOL.star ? img.starImgId : img.stageImgId), url: IMG(img.url)})));
   }, [images,]);
 
   useEffect(() => {
