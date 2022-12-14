@@ -60,6 +60,7 @@ const IconButton = styled(Box)((props) => ({
 }));
 
 const ImageBox = ({
+  target,
   images,
   editable,
   handleEditImgs,
@@ -75,7 +76,7 @@ const ImageBox = ({
 
   const handleDeleteImgClick = useCallback(async () => {
     try {
-      const response = await deleteImage(selectedImage);
+      const response = await deleteImage(target, selectedImage);
       console.log('# 이미지 삭제 결과');
       console.log(response);
 
@@ -99,7 +100,7 @@ const ImageBox = ({
     files?.forEach(file => formData.append('files', file));
 
     try {
-      const response = await addImages(formData)
+      const response = await addImages(target, formData)
       console.log('# 이미지 업로드 결과');
       console.log(response)
 

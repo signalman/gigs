@@ -57,7 +57,6 @@ const Info = ({
       starId: response.data.starId,
 
       repImg: IMG(response.data.repImg),
-      // repImg: 'https://media.istockphoto.com/id/1211547141/photo/modern-restaurant-interior-design.jpg?s=612x612&w=0&k=20&c=CvJmHwNNwfFzVjj1_cX9scwYsl4mnVO8XFPi0LQMTsw=',
       name: response.data.name,
       score: response.data.score,
       reviewCount: response.data.reviews?.length,
@@ -84,7 +83,7 @@ const Info = ({
       userId: response.data.userId,
       hostId: response.data.hostId,
 
-      // repImg: response.data.repImg,
+      repImg: IMG(response.data.repImg),
       name: response.data.name,
       address: response.data.address,
       score: response.data.score,
@@ -182,9 +181,7 @@ const Info = ({
 
   return (
     <>
-      <RepImgBox repImg={data.repImg} editable={editable} handleEditRepImg={handleEditRepImg} />
-      {/* <UploadRepImage img={target === SYMBOL.stage ? StageDummyImg : data.starRepImg}/>
-      <UploadSubImages img={target === SYMBOL.stage ? StageDummyImg : data.starImgs}/> */}
+      <RepImgBox target={target} repImg={data.repImg} editable={editable} handleEditRepImg={handleEditRepImg} />
 
       <InfoTitle
         titleInfo={{
@@ -242,7 +239,7 @@ const Info = ({
       {/* 소개글 */}
       <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
       {/* 이미지 */}
-      <ImageBox images={images} editable={editable} handleEditImgs={handleEditImgs} handleDeleteImg={handleDeleteImg} />
+      <ImageBox target={target} images={images} editable={editable} handleEditImgs={handleEditImgs} handleDeleteImg={handleDeleteImg} />
       {/* 리뷰 */}
       <ReviewBox />
 
