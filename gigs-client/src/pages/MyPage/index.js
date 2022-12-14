@@ -22,12 +22,11 @@ const MyPage = () => {
     console.log(response);
 
     setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
-    // setHistories(response.data.signedOrComp.map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), })));
+    setHistories(response.data.signedOrComp.map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), })));
     const isStar = response.data.user.role === 'ROLE_STAR';
     const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned)
       .map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), }));
     setProposals(newProposals);
-    setHistories(newProposals);
   }, []);
 
   useEffect(() => {
