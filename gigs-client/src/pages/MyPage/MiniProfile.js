@@ -11,6 +11,7 @@ const ImgBox = styled(Box)((props) => ({
   margin: '12.5px',
   borderRadius: '12.5px',
   overflow: 'hidden',
+  lineHeight: 0,
 }));
 
 const NameBox = styled(Box)((props) => ({
@@ -37,11 +38,11 @@ const MiniProfile = ({
       {name ? (
         <>
           <ImgBox>
-          {repImg ? (
-            <img src={repImg ? IMG(repImg) : StageImg} alt="stage_img" width='25px' height='25px' />
-          ) : (
-            <AccountCircleIcon sx={{ width: '25px', height: '25px', }} />
-          )}
+            {repImg ? (
+              <img src={IMG(repImg)} alt="stage_img" width='25px' height='25px' />
+            ) : (
+              <AccountCircleIcon sx={{ width: '25px', height: '25px', }} />
+            )}
           </ImgBox>
           <NameBox>
             {name}

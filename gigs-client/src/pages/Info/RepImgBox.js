@@ -33,6 +33,7 @@ const repImgMsgStyle = {
 };
 
 const RepImgBox = ({
+  target,
   repImg,
   editable,
   handleEditRepImg,
@@ -46,7 +47,7 @@ const RepImgBox = ({
     console.log(e.target.files[0]);
 
     try {
-      const response = await updateRepImage(formData);
+      const response = await updateRepImage(target, formData);
       console.log('# 대표 이미지 업로드 결과');
       console.log(response);
 
@@ -55,7 +56,7 @@ const RepImgBox = ({
     } catch (err) {
       console.log(err);
     }
-  }, [handleEditRepImg]);
+  }, [target, handleEditRepImg]);
 
   return (
     <Box sx={containerStyle}>
