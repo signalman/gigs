@@ -132,12 +132,18 @@ public class PostController {
     }
 
     @PostMapping("/proposals/{proposalId}")
-    public ResponseEntity changeStatus(@PathVariable Long proposalId, @RequestParam String status) {
-        try {
-            proposalService.changeStatus(proposalId, status);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-        return new ResponseEntity(HttpStatus.OK);
+    public void changeStatus(@PathVariable Long proposalId, @RequestParam String status) {
+        log.info("controller -> proposal id : {} , proposal status : {} *******", proposalId, status);
+        proposalService.changeStatus(proposalId, status);
+        Proposal proposal = proposalService.findById(proposalId);
+        postService.setPostSigned(proposal.getPost().getPostId());
+
+
+//        try {
+//
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
+//        return new ResponseEntity(HttpStatus.OK);
     }
 }
