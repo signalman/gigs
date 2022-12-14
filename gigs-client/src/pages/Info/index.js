@@ -86,7 +86,7 @@ const Info = ({
 
       repImg: IMG(response.data.repImg),
       name: response.data.name,
-      address: response.data.address,
+      address: response.data.address || {},
       score: response.data.score,
       reviewCount: response.data.reviews?.length,
       introduce: response.data.introduce,

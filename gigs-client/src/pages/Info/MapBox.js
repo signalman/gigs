@@ -26,6 +26,8 @@ const NotFoundBox = styled(Box)((props) => ({
 const MapBox = ({
   address,
 }) => {
+  const fullAddress = `${address?.siDo || ''} ${address?.siGun || ''} ${address?.road || ''} ${address?.detail || ''}`
+
   const [map, setMap] = useState(null);
   const [isValidAddress, setValidAddress] = useState(true);
 
@@ -51,7 +53,7 @@ const MapBox = ({
 
     // 주소로 위치 검색
     const geocoder = new kakao.maps.services.Geocoder();
-    geocoder.addressSearch(address?.road, (result, status) => {
+    geocoder.addressSearch(fullAddress, (result, status) => {
       if(status === kakao.maps.services.Status.OK) {
         setValidAddress(true);
 
@@ -67,11 +69,11 @@ const MapBox = ({
         map.setCenter(coords);
       } else {
         // TODO: 지도 검색 실패 시
-        console.log(`주소 검색 실패: ${address.road}`);
+        console.log(`주소 검색 실패: ${fullAddress}`);
         setValidAddress(false);
       }
     });
-  }, [address, map]);
+  }, [fullAddress, map]);
 
   return (
     <Container>
