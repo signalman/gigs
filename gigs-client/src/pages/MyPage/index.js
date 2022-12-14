@@ -21,7 +21,7 @@ const MyPage = () => {
     const response = await fetchMyPage();
     console.log(response);
 
-    setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false});
+    setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
     setHistories(response.data.signedOrComp.map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), })));
     const isStar = response.data.user.role === 'ROLE_STAR';
     const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned)
@@ -79,7 +79,7 @@ const MyPage = () => {
       </MyPageItem>
       <MyPageItem title={user.role === "ROLE_HOST" ? "내 무대" : (user.role === "ROLE_STAR" ? "내 스타" : "")}>
         {user.role === "ROLE_STAR" ? (<MyStarStatusSwitch status={user.status} />) : (<></>)}
-        <MyInfoBox role={user.role} roleId={user.roleId} />
+        <MyInfoBox role={user.role} roleId={user.roleId} imgUrl={user.imgUrl} />
       </MyPageItem>
       <MyPageItem title="제안서">
         <MyProposalBox role={user.role} proposals={proposals} onCancel={handleClickCancelProposal} onAccept={handleAcceptProposal} onReject={handleRejectProposal} />
