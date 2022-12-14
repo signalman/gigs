@@ -84,7 +84,7 @@ public class StageController {
      * @return
      */
     @PostMapping("/stages/images")
-    public Map<Long, String> uploadImg(List<MultipartFile> multipartFileList, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+    public Map<Long, String> uploadImg(@RequestParam(name = "files")List<MultipartFile> multipartFileList, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
         if (user.getRole() != Role.ROLE_HOST) {
             throw new IllegalArgumentException("호스트가 아닙니다.");
@@ -106,7 +106,7 @@ public class StageController {
      * 대표 이미지 변경
      */
     @PostMapping("/stages/rep-image")
-    public String updateRepImage(@RequestParam(name = "file") MultipartFile multipartFile, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+    public String updateRepImage(@RequestPart(name = "file") MultipartFile multipartFile, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
         if (user.getRole() != Role.ROLE_HOST) {
             throw new IllegalArgumentException("호스트가 아닙니다.");
