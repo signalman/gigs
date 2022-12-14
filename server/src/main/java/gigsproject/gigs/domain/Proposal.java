@@ -46,4 +46,10 @@ public class Proposal {
         this.post = post;
         post.getProposals().add(this);
     }
+
+    public void editStatus(String status) {
+        String s = status.toUpperCase();
+        this.showStatus = ShowStatus.valueOf(s);
+
+    }
 }

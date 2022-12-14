@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ProposalForm {
 
-    private Long postId;
-    private Long starId;
-    private String content;
+    private final Long postId;
+    private final Long starId;
+    private final String content;
 }
