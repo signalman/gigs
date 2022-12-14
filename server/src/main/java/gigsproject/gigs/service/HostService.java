@@ -1,9 +1,6 @@
 package gigsproject.gigs.service;
 
-import gigsproject.gigs.domain.Host;
-import gigsproject.gigs.domain.Post;
-import gigsproject.gigs.domain.StageImg;
-import gigsproject.gigs.domain.User;
+import gigsproject.gigs.domain.*;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.repository.StageImgRepository;
@@ -11,17 +8,19 @@ import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
+import gigsproject.gigs.response.StageImgDto;
+import gigsproject.gigs.response.StarImgDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -98,21 +97,20 @@ public class HostService {
     }
 
     @Transactional
-    public Map<Long, String> uploadImgs(User user, List<MultipartFile> multipartFileList) {
-        List<String> urls = awsS3Service.uploadImages(multipartFileList);
-
+    public List<StageImgDto> uploadImgs(User user, List<MultipartFile> multipartFileList) {
         Host host = findByUser(user);
-
-        Map<Long, String> imgUrlMap = new HashMap<>();
-        for (String url : urls) {
+        List<String> files = awsS3Service.uploadImages(multipartFileList);
+        for (String url : files) {
             StageImg stageImg = StageImg.builder()
                     .host(host)
                     .url(url)
                     .build();
-            StageImg save = stageImgRepository.save(stageImg);
-            imgUrlMap.put(save.getStageImgId(), url);
+           stageImgRepository.save(stageImg);
         }
-        return imgUrlMap;
+
+        List<StageImg> imgs = host.getImgs();
+        List<StageImgDto> response = imgs.stream().map(i -> new StageImgDto(i)).collect(Collectors.toList());
+        return response;
     }
 
     @Transactional

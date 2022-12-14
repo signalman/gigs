@@ -7,6 +7,7 @@ import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
+import gigsproject.gigs.response.StageImgDto;
 import gigsproject.gigs.service.HostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +85,7 @@ public class StageController {
      * @return
      */
     @PostMapping("/stages/images")
-    public Map<Long, String> uploadImg(@RequestParam(name = "files")List<MultipartFile> multipartFileList, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+    public List<StageImgDto> uploadImg(@RequestParam(name = "files")List<MultipartFile> multipartFileList, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
         if (user.getRole() != Role.ROLE_HOST) {
             throw new IllegalArgumentException("호스트가 아닙니다.");
