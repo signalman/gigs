@@ -1,26 +1,31 @@
 package gigsproject.gigs.controller;
 
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
+import gigsproject.gigs.domain.Host;
 import gigsproject.gigs.domain.Role;
+import gigsproject.gigs.domain.StageImg;
 import gigsproject.gigs.domain.User;
+import gigsproject.gigs.repository.StageImgRepository;
 import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
 import gigsproject.gigs.response.StageCard;
 import gigsproject.gigs.response.StageImgDto;
+import gigsproject.gigs.service.AwsS3Service;
 import gigsproject.gigs.service.HostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,6 +33,8 @@ import java.util.Map;
 public class StageController {
 
     private final HostService hostService;
+    private final AwsS3Service awsS3Service;
+    private final StageImgRepository stageImgRepository;
 
     /**
      * 무대 검색
@@ -85,12 +92,25 @@ public class StageController {
      * @return
      */
     @PostMapping("/stages/images")
-    public List<StageImgDto> uploadImg(@RequestParam(name = "files")List<MultipartFile> multipartFileList, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+    public ResponseEntity<List<StageImgDto>> uploadImg(@RequestParam(name = "files")List<MultipartFile> multipartFileList, @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User user = oAuth2UserCustom.getUser();
-        if (user.getRole() != Role.ROLE_HOST) {
-            throw new IllegalArgumentException("호스트가 아닙니다.");
+        Host host = hostService.findByUser(user);
+
+        List<String> files = awsS3Service.uploadImages(multipartFileList);
+
+        for (String url : files) {
+            StageImg stageImg = StageImg.builder()
+                    .host(host)
+                    .url(url)
+                    .build();
+            stageImgRepository.save(stageImg);
         }
-        return hostService.uploadImgs(user, multipartFileList);
+
+        List<StageImg> imgs = host.getImgs();
+        List<StageImgDto> response = imgs.stream().map(i -> new StageImgDto(i)).collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(response);
+
     }
 
     /**

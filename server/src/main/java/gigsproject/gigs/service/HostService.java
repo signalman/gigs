@@ -86,32 +86,25 @@ public class HostService {
 
         host.setRepImg(newRepImgUrl);
 
-        StageImg stageImg = StageImg.builder()
-                .host(host)
-                .url(newRepImgUrl)
-                .build();
-        StageImg save = stageImgRepository.save(stageImg);
-
-        log.info("****대표 이미지 수정 완료 url : {}", save.getUrl());
-        return save.getUrl();
+        return newRepImgUrl;
     }
 
-    @Transactional
-    public List<StageImgDto> uploadImgs(User user, List<MultipartFile> multipartFileList) {
-        Host host = findByUser(user);
-        List<String> files = awsS3Service.uploadImages(multipartFileList);
-        for (String url : files) {
-            StageImg stageImg = StageImg.builder()
-                    .host(host)
-                    .url(url)
-                    .build();
-           stageImgRepository.save(stageImg);
-        }
-
-        List<StageImg> imgs = host.getImgs();
-        List<StageImgDto> response = imgs.stream().map(i -> new StageImgDto(i)).collect(Collectors.toList());
-        return response;
-    }
+//    @Transactional
+//    public List<StageImgDto> uploadImgs(User user, List<MultipartFile> multipartFileList) {
+//        Host host = findByUser(user);
+//        List<String> files = awsS3Service.uploadImages(multipartFileList);
+//        for (String url : files) {
+//            StageImg stageImg = StageImg.builder()
+//                    .host(host)
+//                    .url(url)
+//                    .build();
+//           stageImgRepository.save(stageImg);
+//        }
+//
+//        List<StageImg> imgs = host.getImgs();
+//        List<StageImgDto> response = imgs.stream().map(i -> new StageImgDto(i)).collect(Collectors.toList());
+//        return response;
+//    }
 
     @Transactional
     public void deleteImage(Long imageId) {
