@@ -6,6 +6,10 @@ export const ifNull = (val, prefix='', suffix='', msg='데이터를 추가해주
   return (val || val === '0' || val === 'DEFAULT') ? `${prefix}${val}${suffix}` : msg;
 }
 
+export const to00 = (num) => {
+  return num < 10 ? `0${num}` : String(num);
+};
+
 export const URL = {
   kakaoAuthorize: `http://localhost:8080/oauth2/authorization/kakao`,
   naverAuthorize: `http://localhost:8080/oauth2/authorization/naver`,

@@ -8,6 +8,7 @@ import moment from 'moment';
 import CategoryItem from '../../components/CategoryItem';
 import { posts } from '../../utils/Api'
 import MiniProfile from '../MyPage/MiniProfile';
+import { to00 } from '../../utils/Constants';
 
 const WritePost = ({
   open,
@@ -42,7 +43,7 @@ const WritePost = ({
   }, [selectedGenres]);
 
   const handleSubmit = async () => {
-      const data = { date: postDate, endTime: `${endTime}:00:00`, startTime: `${startTime}:00:00`, genre: postGenre }
+      const data = { date: postDate, endTime: `${to00(endTime)}:00:00`, startTime: `${to00(startTime)}:00:00`, genre: postGenre }
       // console.log(data)
       const response = await posts(data)
       console.log(response)
