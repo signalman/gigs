@@ -18,6 +18,7 @@ const NoHistoriesMessage = styled(Box)((props) => ({
 const MyHistoryBox = ({
   histories,
   onCancel,
+  onComplete,
 }) => {
   return (
     <Box sx={{ width: '100%' }}>
@@ -32,6 +33,7 @@ const MyHistoryBox = ({
             date={history.showStartTime.format("YYYY-MM-DD")}
             status={history.showStatus}
             onCancel={onCancel}
+            onComplete={onComplete}
           />
         ))
       )}

@@ -47,6 +47,7 @@ const MyHistoryItem = ({
   date,
   status,
   onCancel,
+  onComplete,
 }) => {
   const isComplete = status === 'COMP';
 
@@ -71,8 +72,8 @@ const MyHistoryItem = ({
         {isComplete ? (null) : (
           <>
             <ControlButton variant='outlined'>연락처 확인</ControlButton>
-            <ControlButton variant='contained'>공연 완료</ControlButton>
-            <ControlButton variant='contained' color='warning' onClick={() => onCancel(proposalId)}>공연 취소</ControlButton>
+            <ControlButton variant='contained' onClick={onComplete}>공연 완료</ControlButton>
+            <ControlButton variant='contained' color='warning' onClick={onCancel}>공연 취소</ControlButton>
           </>
         )}
         <DateBox>{date}</DateBox>
