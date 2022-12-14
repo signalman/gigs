@@ -170,10 +170,10 @@ export const cancelProposal = (proposalId) => ax.delete(`/proposals/${proposalId
  * 호스트가 제안서를 승낙하는 API
  * @param {Number} proposalId 수정하려는 제안서의 id
  */
-export const acceptProposal = (proposalId) => ax.post(`/proposals/${proposalId}?status=accept`);
+export const acceptProposal = (proposalId) => ax.post(`/proposals/${proposalId}?status=signed`);
 
 /**
  * 호스트가 제안을 거절하는 API
  * @param {Number} proposalId 수정하려는 제안서의 id
  */
-export const rejectProposal = (proposalId) => ax.post(`/proposals/${proposalId}?status=reject`);
+export const rejectProposal = (proposalId) => ax.post(`/proposals/${proposalId}?status=rejected`);
