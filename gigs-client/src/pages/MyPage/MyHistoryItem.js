@@ -16,7 +16,12 @@ const DateBox = styled(Box)((props) => ({
   color: COLOR.grey,
 }));
 
-const MyHistoryItem = () => {
+const MyHistoryItem = ({
+  host,
+  star,
+  date,
+  status,
+}) => {
   return (
     <Box
       sx={{
@@ -28,9 +33,9 @@ const MyHistoryItem = () => {
         position: 'relative',
       }}
     >
-      <MiniProfile />에서
-      <MiniProfile />가 공연
-      <DateBox>2022-11-16</DateBox>
+      <MiniProfile width='200px' name={host.name} repImg={host.repImg} />에서
+      <MiniProfile width='200px' name={star.name} repImg={star.repImg} />가 공연
+      <DateBox>{date}</DateBox>
     </Box>
   );
 };
