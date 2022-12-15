@@ -9,6 +9,8 @@ const ReservationTable = ({
   onDeletePost,
   editable,
 }) => {
+  console.log(timeTable);
+
   // 제안서 작성 다이얼로그 관련
   const [selectedPost, setSelectedPost] = useState({
     err: '데이터를 불러오는 중 입니다.'

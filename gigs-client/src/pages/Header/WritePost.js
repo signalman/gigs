@@ -9,6 +9,7 @@ import CategoryItem from '../../components/CategoryItem';
 import { posts } from '../../utils/Api'
 import MiniProfile from '../MyPage/MiniProfile';
 import { to00 } from '../../utils/Constants';
+import Swal from 'sweetalert2';
 
 const WritePost = ({
   open,
@@ -42,15 +43,29 @@ const WritePost = ({
       }
   }, [selectedGenres]);
 
+  // 포스트 작성
   const handleSubmit = async () => {
-      const data = { date: postDate, endTime: `${to00(endTime)}:00:00`, startTime: `${to00(startTime)}:00:00`, genre: postGenre }
-      // console.log(data)
-      const response = await posts(data)
-      console.log(response)
-  }
+    const data = { date: postDate, endTime: `${to00(endTime)}:00:00`, startTime: `${to00(startTime)}:00:00`, genre: postGenre };
+    try {
+      const response = await posts(data);
+      console.log('# 포스트 작성 결과');
+      console.log(response);
+
+      await Swal.fire({
+        icon: "success",
+        title: "포스트 작성 완료",
+        text: "포스트가 성공적으로 작성되었습니다!",
+        confirmButtonText: "확인",
+      });
+    } catch(err) {
+      console.log(err);   
+    }
+  };
 
   const handleClose = () => {
-    setPostDate(null);
+    setPostDate(moment());
+    setStartTime(0);
+    setEndTime(1);
     onClose();
   }
 
@@ -135,7 +150,7 @@ const WritePost = ({
             <DialogActions sx={{ justifyContent: 'center' }}>
                 <Button variant="contained" onClick={handleClose}>닫기</Button>
                 <Button variant="contained"
-                    onClick={() => { handleClose(); handleSubmit() }}>
+                    onClick={() => { handleSubmit(); handleClose(); }}>
                     제출
                 </Button>
             </DialogActions>

@@ -78,12 +78,16 @@ const MyMenuBox = () => {
       console.log('# 포스트 작성 폼');
       console.log(response);
 
-      setPostForm(response.data);
+      if(!response.data.name) setPostForm({err: '무대 정보를 먼저 입력해주세요.'});
+      else setPostForm(response.data);
+
       setWritePostDialogOpen(true);
     } catch(err) {
       console.log(err);
       setPostForm({err: err.response.data});
       setWritePostDialogOpen(true);
+    } finally {
+      handleClose();
     }
   };
 
