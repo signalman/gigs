@@ -22,7 +22,6 @@ import EditAddressDialog from './dialogs/EditAddressDialog';
 import { useCookies } from 'react-cookie';
 import ImageBox from './ImageBox';
 import RepImgBox from './RepImgBox';
-import WriteProposalDialog from '../../components/WriteProposal';
 
 const Info = ({
   target,
@@ -198,6 +197,7 @@ const Info = ({
       <RepImgBox target={target} repImg={data.repImg} editable={editable} handleEditRepImg={handleEditRepImg} />
 
       <InfoTitle
+        target={target}
         titleInfo={{
           name: data.name,
           address: data.address,
