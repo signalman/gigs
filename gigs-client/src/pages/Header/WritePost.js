@@ -63,7 +63,9 @@ const WritePost = ({
   };
 
   const handleClose = () => {
-    setPostDate(null);
+    setPostDate(moment());
+    setStartTime(0);
+    setEndTime(1);
     onClose();
   }
 
