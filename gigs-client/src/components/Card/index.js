@@ -5,6 +5,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { COLOR, IMG, SYMBOL } from '../../utils/Constants';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import StarCardContent from './StarCardContent';
 import HostCardContent from './HostCardContent';
 
@@ -72,7 +73,8 @@ function Card({
         <CardMedia component="img" height="225" image={IMG(imgUrl)} alt="stars" />
       ) : (
         <Box sx={{ height: '225px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.whity }}>
-          <AccountCircleIcon sx={{ width: '100px', height: '100px', color: COLOR.grey, }} />
+          {isStar ? <AccountCircleIcon sx={{ width: '100px', height: '100px', color: COLOR.grey, }} /> : <InsertPhotoIcon sx={{ width: '100px', height: '100px', color: COLOR.grey, }} />}
+          
         </Box>
       )}
 
