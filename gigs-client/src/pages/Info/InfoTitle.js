@@ -61,6 +61,7 @@ const RatingBox = styled(Box)((props) => ({
   display: "flex",
   alignItems: 'center',
   height: '40px',
+  cursor: 'pointer',
 }));
 
 const ReviewCount = styled(Box)((props) => ({
@@ -75,6 +76,8 @@ const InfoTitle = ({
   openEditNameDialog,
   openEditAddressDialog,
   editable,
+  onClickConnect,
+  onClickScore,
 }) => {
   const {
     name,
@@ -102,8 +105,8 @@ const InfoTitle = ({
         </Address>
       ) : (null)}
       <ButtonBox>
-        <ConnectButton variant='contained'>연결</ConnectButton>
-        <RatingBox>
+        <ConnectButton variant='contained' onClick={onClickConnect}>연결</ConnectButton>
+        <RatingBox onClick={onClickScore}>
           <Rating
             sx={{ width: `75px` }}
             emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
