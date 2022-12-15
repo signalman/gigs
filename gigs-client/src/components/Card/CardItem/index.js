@@ -19,7 +19,9 @@ const IconBox = styled(Box)((p) => ({
 const Content = styled(Box)((props) => ({
   maxWidth: 'calc(100% - 40px)',
   fontSize: '12px',
-  lineHeight: '37.5px',
+  height: '37.5px',
+  display: 'flex',
+  alignItems: 'center',
 }));
 
 const CardItem = ({

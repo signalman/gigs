@@ -6,6 +6,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { COLOR, IMG, SYMBOL } from '../../utils/Constants';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import StarCardContent from './StarCardContent';
+import HostCardContent from './HostCardContent';
 
 const cardStyle = {
   width: "300px",
@@ -51,15 +52,17 @@ function Card({
 
   const {id, imgUrl, name, avgScore, reviewCount} = card;
 
-  const {
-    memberNumber,
-    gender,
-    showCount,
-    genres,
-    starStageTypes,
-  } = card;
-
-  const content = isStar ? {memberNumber: card.memberNumber, gender: card.gender, showCount: card.showCount, genres: card.genres, starStageTypes: card.starStageTypes} : {};
+  const content =
+    isStar ?
+      {memberNumber: card.memberNumber, gender: card.gender, showCount: card.showCount, genres: card.genres, starStageTypes: card.starStageTypes} :
+      {address: card.address,
+        stageSize: card.stageSize,
+        showCount: card.showCount,
+        pay: card.pay,
+        stageType: card.stageType,
+        targetAge: card.targetAge,
+        targetGender: card.targetGender,
+        targetMinCount: card.targetMinCount,};
 
   const navigate = useNavigate();
 
@@ -86,7 +89,7 @@ function Card({
             <Typography fontSize="11px">({reviewCount})</Typography>
           </RatingBox>
         </Title>
-        {isStar ? <StarCardContent content={content} /> : null}
+        {isStar ? <StarCardContent content={content} /> : <HostCardContent content={content} />}
       </Body>
     </MuiCard>
   )
