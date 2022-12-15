@@ -32,8 +32,8 @@ const MyHistoryBox = ({
             star={{name: history.starName, repImg: history.starRepImg}}
             date={history.showStartTime.format("YYYY-MM-DD")}
             status={history.showStatus}
-            onCancel={onCancel}
-            onComplete={onComplete}
+            onCancel={() => onCancel(history.proposalId)}
+            onComplete={() => onComplete(history.proposalId)}
           />
         ))
       )}
