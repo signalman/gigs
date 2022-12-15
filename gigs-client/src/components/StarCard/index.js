@@ -8,8 +8,21 @@ import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
-import { DEV, ENUM } from '../../utils/Constants';
+import { COLOR, DEV, ENUM, IMG } from '../../utils/Constants';
 import StarDummyImg from '../../images/star_tmp.jpg';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
+const cardStyle = {
+  width: "300px",
+  borderRadius: "50px",
+  boxShadow: "0 4px 4px #808080",
+  cursor: "pointer",
+  transition: 'ease-in .1s',
+  ":hover": {
+    transform: 'translate(0, -10px)',
+    boxShadow: `0 14px 4px ${COLOR.grey}`,
+  }
+};
 
 const Line = styled(CardContent)((p) => ({
   height: "37.5px",
@@ -52,25 +65,14 @@ function StarCard({
   const navigate = useNavigate();
 
   return (
-    <Card
-      sx={{
-        width: "300px",
-        borderRadius: "50px",
-        boxShadow: "0 4px 4px #808080",
-        cursor: "pointer",
-        transition: 'ease-in .1s',
-        ":hover": {
-          transform: 'translate(0, -10px)',
-        }
-      }}
-      onClick={() => navigate('/stars/'+starId)}
-    >
-      <CardMedia
-        component="img"
-        height="225"
-        image={DEV ? StarDummyImg : starImgUrl}
-        alt="stars"
-      />
+    <Card sx={cardStyle} onClick={() => navigate('/stars/'+starId)} >
+      {starImgUrl ? (
+        <CardMedia component="img" height="225" image={IMG(starImgUrl)} alt="stars" />
+      ) : (
+        <Box sx={{ height: '225px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.whity }}>
+          <AccountCircleIcon sx={{ width: '100px', height: '100px', color: COLOR.grey, }} />
+        </Box>
+      )}
 
       <Line>
         <Item type="half" sx={{ pl: "20px", }} >

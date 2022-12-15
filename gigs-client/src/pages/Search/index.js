@@ -5,9 +5,9 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { SYMBOL } from '../../utils/Constants';
 import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
-import StarCard from '../../components/StarCard';
 import StageCard from '../../components/StageCard';
 import { fetchHostList, fetchStarList } from '../../utils/Api';
+import MuiCard from '../../components/Card';
 
 // 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
@@ -20,6 +20,22 @@ const debounce = (callback, limit) => {
       callback.apply(this, args);
     }, limit);
   }
+};
+
+const toStarCard = (data) => {
+  return ({
+    id: data.starId,
+    imgUrl: data.starImgUrl,
+    name: data.starName,
+    avgScore: data.avgScore,
+    reviewCount: data.reviewCount,
+
+    memberNumber: data.memberNumber,
+    gender: data.gender,
+    showCount: data.showCount,
+    genres: data.genres,
+    starStageTypes: data.starStageTypes,
+  });
 };
 
 const sortBoxStyle = {
@@ -73,7 +89,7 @@ const Search = ({
 
       const data = response.data;
       console.log(data);
-      setCards(data.content);
+      setCards(data.content.map(item => toStarCard(item)));
       setPage(1);
       setNextPage(!data.last);
     } catch (e) {
@@ -92,7 +108,7 @@ const Search = ({
       const response = await fetchStarList(conditions, sort, PAGE_SIZE, page);
 
       const data = response.data;
-      setCards([...cards, ...data.content]);
+      setCards([...cards, ...data.content.map(item => toStarCard(item))]);
       setPage(page+1);
       setFetching(false);
       setNextPage(!data.last);
@@ -244,7 +260,7 @@ const Search = ({
           {cards?.map((card, i) => (
             <Grid item key={i}>
               {target === SYMBOL.star ? (
-                <StarCard card={card} />
+                <MuiCard target={target} card={card} />
               ) : (
                 <StageCard cardData={card} />
               )}
