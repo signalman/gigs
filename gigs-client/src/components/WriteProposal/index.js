@@ -4,6 +4,7 @@ import MiniProfile from '../../pages/MyPage/MiniProfile';
 import { createProposal } from '../../utils/Api';
 import ProposalContent from '../Proposal/ProposalContent';
 import {useNavigate} from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const WriteProposalDialog = ({
   open,
@@ -13,6 +14,11 @@ const WriteProposalDialog = ({
   const navigate = useNavigate();
 
   const [desc, setDesc] = useState('');
+
+  const handleClose = () => {
+    setDesc('');
+    onClose();
+  };
 
   const onSubmit = useCallback(async () => {
     const proposalData = {
@@ -26,16 +32,23 @@ const WriteProposalDialog = ({
       console.log('# 제안서 작성 결과');
       console.log(response);
 
+      handleClose();
+
+      await Swal.fire({
+        title: '제안서 작성 완료!',
+        text: '제안서 작성이 완료되었습니다! 호스트의 승낙을 기다려주세요!',
+      });
+
       // TODO: 제안서 작성 완료 피드백
       navigate(0);
     } catch(err) {
       console.log(err);
     }
-  }, [post, desc]);
+  }, [post, desc, handleClose]);
 
   return (
     <>
-      <Dialog open={open} onClose={() => {setDesc(''); onClose();}} >
+      <Dialog open={open} onClose={handleClose} >
         {post.err ? (
           <DialogContent sx={{ width: '450px', height: '200px', textAlign: 'center', lineHeight: '200px', overflow: 'hidden' }}>
             {post.err}
@@ -68,7 +81,7 @@ const WriteProposalDialog = ({
             
             <DialogActions sx={{ justifyContent: 'center' }}>
               <Button variant="contained" onClick={onSubmit}>제출</Button>
-              <Button variant="contained" onClick={() => {setDesc(''); onClose();}}>닫기</Button>
+              <Button variant="contained" onClick={handleClose}>닫기</Button>
             </DialogActions>
           </>
         )}
