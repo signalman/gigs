@@ -36,7 +36,7 @@ const ReservationItem = ({
   editable,
   onClickPost,
 }) => {
-  const { postId, startTime, endTime, genres } = data;
+  const { postId, startTime, endTime, postGenres } = data;
 
   return (
     <Grid item>
@@ -44,8 +44,8 @@ const ReservationItem = ({
         {/* <Box sx={{ textAlign: 'center', fontSize: '9px', color: COLOR.blacky }} >{startDate}</Box> */}
         <Box sx={{ textAlign: 'center', fontSize: '12px' }} >{startTime} 부터</Box>
         <Box sx={{ textAlign: 'center', fontSize: '12px', mb: '5px' }} >{endTime} 까지</Box>
-        {genres?.map(genre => (
-          <Box key={genre} sx={{ textAlign: 'center', fontSize: '14px', fontWeight: 'bold'}}>{genre}</Box>
+        {postGenres?.map(genre => (
+          <Box key={genre.postGenreId} sx={{ textAlign: 'center', fontSize: '14px', fontWeight: 'bold'}}>{genre.genreName}</Box>
         ))}
         {editable ? (
           <DeleteIcon onClick={(e) => {e.stopPropagation(); onDeletePost(postId); }} />
