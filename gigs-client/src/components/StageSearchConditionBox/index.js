@@ -256,6 +256,7 @@ const StageSearchConditionBox = ({
                 sx={{
                   width: '150px',
                   height: '30px',
+                  textIndent: '10px',
                 }}
                 variant='standard'
                 value={siDo}
@@ -268,8 +269,9 @@ const StageSearchConditionBox = ({
               </Select>
               <Select
                 sx={{
-                  width: '100px',
+                  width: '150px',
                   height: '30px',
+                  textIndent: '10px',
                   ml: '10px',
                 }}
                 disabled={siDo === '전체 지역'}
