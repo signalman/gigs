@@ -4,9 +4,9 @@ import CategoryItem from '../CategoryItem';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { TimePicker } from '@mui/x-date-pickers/TimePicker'
 import moment from 'moment';
 import { COLOR } from '../../utils/Constants';
+import counties from '../../utils/Address.json';
 
 const Line = styled(Box)(() => ({
   width: '100%',
@@ -36,11 +36,11 @@ const StageSearchConditionBox = ({
   setParentSort,
   setProgress,
 }) => {
+  console.log(counties['서울특별시']);
   const [genres, setGenres] = useState([]);
   const [stageTypes, setStageTypes] = useState([]);
 
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
   const [selectedGenres, setSelectedGenres] = useState({});
   const [selectedStageTypes, setSelectedStageTypes] = useState({});
 
@@ -48,6 +48,9 @@ const StageSearchConditionBox = ({
   const [targetAge, setTargetAge] = useState("all");
   const [targetGender, setTargetGender] = useState("MIXED");
   const [targetMinCount, setTargetMinCount] = useState(0);
+  const [siDo, setSiDo] = useState('전체 지역');
+  const [siGunGu, setSiGunGu] = useState('-');
+  const address = siDo === '전체 지역' ? '' : `${siDo}${siGunGu === '-' ? '' : ` ${siGunGu}`}`;
   const [isTimeSearch, setTimeSearch] = useState(false);
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
@@ -86,9 +89,16 @@ const StageSearchConditionBox = ({
   };
 
   // 주소 변경 시
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
+  const handleChangeSiDo = (e) => {
+    const newSiDo = e.target.value;
+
+    setSiGunGu('-');
+    setSiDo(e.target.value);
   };
+
+  const handleChangeSiGunGu = (e) => {
+    setSiGunGu(e.target.value);
+  }
 
   // 장르 아이템 선택하면 장르 선택 표시
   const selectGenre = useCallback((genre) => {
@@ -242,16 +252,36 @@ const StageSearchConditionBox = ({
           <Line>
             <Item type='half'>
               <ItemName>주소</ItemName>
-              <TextField
+              <Select
                 sx={{
-                  width: '200px',
+                  width: '150px',
                   height: '30px',
-                  alignSelf: 'center',
                 }}
                 variant='standard'
-                value={address}
-                onChange={handleAddressChange}
-              ></TextField>
+                value={siDo}
+                onChange={handleChangeSiDo}
+              >
+                <MenuItem value='전체 지역'>전체 지역</MenuItem>
+                {Object.keys(counties).map(siDoItem => (
+                  <MenuItem key={siDoItem} value={siDoItem}>{siDoItem}</MenuItem>
+                ))}
+              </Select>
+              <Select
+                sx={{
+                  width: '100px',
+                  height: '30px',
+                  ml: '10px',
+                }}
+                disabled={siDo === '전체 지역'}
+                variant='standard'
+                value={siGunGu}
+                onChange={handleChangeSiGunGu}
+              >
+                <MenuItem value='-'>시/군/구</MenuItem>  
+                {siDo !== '전체 지역' && Object.keys(counties[siDo]).map(siGunGuItem => (
+                  <MenuItem key={siGunGuItem} value={siGunGuItem}>{siGunGuItem}</MenuItem>  
+                ))}
+              </Select>
             </Item>
             <Item type='half'>
               <ItemName>관객</ItemName>

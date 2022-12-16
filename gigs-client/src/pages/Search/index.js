@@ -7,6 +7,7 @@ import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import { fetchHostList, fetchStarList } from '../../utils/Api';
 import Card from '../../components/Card';
+import counties from '../../utils/Address.json';
 
 // 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
 const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
