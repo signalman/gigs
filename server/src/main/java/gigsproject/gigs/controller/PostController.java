@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,9 +37,10 @@ public class PostController {
         User user = oAuth2UserCustom.getUser();
 
         if (user.getRole() != Role.ROLE_HOST) {
-            throw new IllegalArgumentException("호스트가 아닙니다.");
+            throw new RuntimeException("호스트가 아닙니다.");
         }
         postService.write(user, postForm);
+
     }
 
     @DeleteMapping("/posts/{postId}")

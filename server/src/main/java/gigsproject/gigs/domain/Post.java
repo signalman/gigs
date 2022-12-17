@@ -43,22 +43,6 @@ public class Post extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private PostStatus status;
 
-    public static Post createPost(PostForm postForm, Host host) {
-        Post post = Post.builder()
-                .date(postForm.getDate())
-                .startTime(postForm.getStartTime())
-                .endTime(postForm.getEndTime())
-                .status(UNSIGNED)
-                .build();
-        post.setHost(host);
-        PostGenre postGenre = PostGenre.builder()
-                .genre(postForm.getGenre())
-                .build();
-        post.setPostGenres(postGenre);
-
-        return post;
-    }
-
     public void setHost(Host host) {
         this.host = host;
         host.getPosts().add(this);
@@ -68,6 +52,7 @@ public class Post extends BaseTimeEntity {
         postGenres.add(genre);
         genre.setPost(this);
     }
+
     public void setStatus(PostStatus ps) {
         this.status = ps;
     }

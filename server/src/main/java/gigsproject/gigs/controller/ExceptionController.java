@@ -10,11 +10,12 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 
 @Slf4j
-//@RestControllerAdvice
+@RestControllerAdvice
 public class ExceptionController {
 
     /**
@@ -95,6 +96,16 @@ public class ExceptionController {
         errorResponse.addValidation("405", "Method Not Allowed");
 
         return errorResponse;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RuntimeException.class)
+    public ErrorResponse runtimeExceptionHandler(RuntimeException e) {
+
+        return ErrorResponse.builder()
+                .statusCode("400")
+                .message(e.getMessage())
+                .build();
     }
 
     /**
