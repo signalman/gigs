@@ -1,11 +1,15 @@
 package gigsproject.gigs.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProposalForm {
 
-    private final Long postId;
-    private final Long starId;
-    private final String content;
+    private Long postId;
+    private Long starId;
+    private String content;
 }
