@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 
 @Builder
 @Getter
@@ -29,8 +30,6 @@ public class StageForm {
     private Double stageSize;
     private Integer pay;
 
-    private Address stageAddress;
-
     private Gender targetGender;
     private Integer targetAge;
     private Integer targetMinCount;
@@ -39,6 +38,7 @@ public class StageForm {
     private Integer reviewCount;
     private Double avgScore;
 
-
     private List<StageImg> imgs;
+
+    private Map<String, String> address;
 }
