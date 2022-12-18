@@ -14,6 +14,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
+import static gigsproject.gigs.domain.ShowStatus.SIGNED;
 
 @Service
 @Transactional(readOnly = true)
@@ -90,10 +91,13 @@ public class PostService {
     }
 
     @Transactional
-    public void setPostSigned(Long postId) {
+    public void setPostStatus(Long postId, ShowStatus changedStatus) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
-        post.setStatus(PostStatus.SIGNED);
+        if (changedStatus == ShowStatus.SIGNED || changedStatus == ShowStatus.COMP)
+            post.setStatus(PostStatus.SIGNED);
+
+        log.info("post status : {}", post.getStatus());
     }
 
 }
