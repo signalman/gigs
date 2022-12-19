@@ -36,8 +36,7 @@ const Address = styled(Box)((props) => ({
   left: 0, bottom: 0,
   height: '20px',
   fontSize: '18px',
-  fontWeight: "bold",
-  color: COLOR.blacky,
+  color: COLOR.grey,
   display: 'flex',
 }));
 
