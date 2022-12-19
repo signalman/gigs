@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,9 +37,10 @@ public class PostController {
         User user = oAuth2UserCustom.getUser();
 
         if (user.getRole() != Role.ROLE_HOST) {
-            throw new IllegalArgumentException("호스트가 아닙니다.");
+            throw new RuntimeException("호스트가 아닙니다.");
         }
         postService.write(user, postForm);
+
     }
 
     @DeleteMapping("/posts/{postId}")
@@ -131,19 +133,16 @@ public class PostController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    /**
+     * 제안서 승낙 / 거절
+     */
     @PostMapping("/proposals/{proposalId}")
     public void changeStatus(@PathVariable Long proposalId, @RequestParam String status) {
         log.info("controller -> proposal id : {} , proposal status : {} *******", proposalId, status);
-        proposalService.changeStatus(proposalId, status);
+        ShowStatus changedStatus = proposalService.changeStatus(proposalId, status);
+
         Proposal proposal = proposalService.findById(proposalId);
-        postService.setPostSigned(proposal.getPost().getPostId());
+        postService.setPostStatus(proposal.getPost().getPostId(), changedStatus);
 
-
-//        try {
-//
-//        } catch (Exception e) {
-//            return ResponseEntity.badRequest().body(e.getMessage());
-//        }
-//        return new ResponseEntity(HttpStatus.OK);
     }
 }

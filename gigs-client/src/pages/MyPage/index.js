@@ -5,7 +5,7 @@ import MyHistoryBox from './MyHistoryBox';
 import MyInfoBox from './MyInfoBox';
 import MyPageItem from './MyPageItem';
 import MyProposalBox from './MyProposalBox';
-import { acceptProposal, cancelProposal, fetchMyPage, rejectProposal } from '../../utils/Api';
+import { acceptProposal, cancelProposal, completeProposal, fetchMyPage, rejectProposal } from '../../utils/Api';
 import MyStarStatusSwitch from './MyStarStatusSwitch';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
@@ -18,20 +18,19 @@ const MyPage = () => {
   const [histories, setHistories] = useState([]);
   const [proposals, setProposals] = useState([]);
 
-  const [isCancelAlertDialogOpen, setCancelAlertDialogOpen] = useState(false);
-  const [isCompleteAlertDialogOpen, setCompleteAlertDialogOpen] = useState(false);
+  const [cancelAlertDialogState, setCancelAlertDialogState] = useState({open: false, proposalId: '-1'});
+  const [completeAlertDialogState, setCompleteAlertDialogState] = useState({open: false, proposalId: '-1'});
 
   const getMyPage = useCallback(async () => {
     const response = await fetchMyPage();
     console.log(response);
 
     setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
-    // setHistories(response.data.signedOrComp.map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), })));
+    setHistories(response.data.signedOrComp.map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), })));
     const isStar = response.data.user.role === 'ROLE_STAR';
     const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned)
       .map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), }));
     setProposals(newProposals);
-    setHistories(newProposals)
   }, []);
 
   useEffect(() => {
@@ -62,7 +61,16 @@ const MyPage = () => {
     } catch(err) {
       console.log(err);
     }
-  }, []);
+  }, [navigate]);
+
+  // 확인 다이얼로그 닫는 함수
+  const handleCloseCancelAlertDialog = () => {
+    setCancelAlertDialogState({open: false, proposalId: '-1'});
+  };
+
+  const handleCloseCompleteAlertDialog = () => {
+    setCompleteAlertDialogState({open: false, proposalId: '-1'});
+  };
 
   // 호스트가 제안서 거절을 눌렀을 때
   const handleRejectProposal = useCallback(async (proposalId) => {
@@ -75,17 +83,33 @@ const MyPage = () => {
     } catch(err) {
       console.log(err);
     }
-  }, []);
+  }, [navigate]);
 
   // 호스트 혹은 스타가 예약된 공연 취소를 눌렀을 때
-  const handleCancelSignedProposal = useCallback(async () => {
+  const handleCancelSignedProposal = useCallback(async (proposalId) => {
+    try {
+      const response = await completeProposal(proposalId)
+      console.log('# 예약된 공연 취소 결과');
+      console.log(response);
 
-  }, []);
+      navigate(0);
+    } catch(err) {
+      console.log(err);
+    }
+  }, [navigate]);
 
   // 호스트 혹은 스타가 공연 완료를 눌렀을 때
-  const handleCompleteProposal = useCallback(async () => {
+  const handleCompleteProposal = useCallback(async (proposalId) => {
+    try {
+      const response = await completeProposal(proposalId)
+      console.log('# 공연 완료 결과');
+      console.log(response);
 
-  }, []);
+      navigate(0);
+    } catch(err) {
+      console.log(err);
+    }
+  }, [navigate]);
 
   return (
     <Box sx={{ width: '1200px', margin: '0 auto', }}>
@@ -100,11 +124,11 @@ const MyPage = () => {
         <MyProposalBox role={user.role} proposals={proposals} onCancel={handleCancelProposal} onAccept={handleAcceptProposal} onReject={handleRejectProposal} />
       </MyPageItem>
       <MyPageItem title="공연 기록">
-        <MyHistoryBox histories={histories} onCancel={() => setCancelAlertDialogOpen(true)} onComplete={() => setCompleteAlertDialogOpen(true)} />
+        <MyHistoryBox histories={histories} onCancel={(proposalId) => setCancelAlertDialogState({open: true, proposalId})} onComplete={(proposalId) => setCompleteAlertDialogState({open: true, proposalId})} />
       </MyPageItem>
 
-      <AlertDialog title='공연 취소' content='선택한 공연이 취소됩니다. 정말로 취소하시겠습니까?' onPositive={handleCancelSignedProposal} onNegative={() => setCancelAlertDialogOpen(false)} open={isCancelAlertDialogOpen} onClose={() => setCancelAlertDialogOpen(false)}/>
-      <AlertDialog title='공연 완료' content='공연을 완료하셨나요? 공연이 완료되면 리뷰를 작성할 수 있게 됩니다.' onPositive={handleCompleteProposal} onNegative={() => setCompleteAlertDialogOpen(false)} open={isCompleteAlertDialogOpen} onClose={() => setCompleteAlertDialogOpen(false)}/>
+      <AlertDialog title='공연 취소' content='선택한 공연이 취소됩니다. 정말로 취소하시겠습니까?' onPositive={() => handleCancelSignedProposal(cancelAlertDialogState.proposalId)} onNegative={handleCloseCancelAlertDialog} open={cancelAlertDialogState.open} onClose={handleCloseCancelAlertDialog}/>
+      <AlertDialog title='공연 완료' content='공연을 완료하셨나요? 공연이 완료되면 리뷰를 작성할 수 있게 됩니다.' onPositive={() => handleCompleteProposal(completeAlertDialogState.proposalId)} onNegative={handleCloseCompleteAlertDialog} open={completeAlertDialogState.open} onClose={handleCloseCompleteAlertDialog}/>
     </Box>
   );
 };

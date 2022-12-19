@@ -23,6 +23,7 @@ import static gigsproject.gigs.domain.ShowStatus.UNSIGNED;
 @Slf4j
 public class ProposalService {
     private final ProposalRepository proposalRepository;
+    private final PostService postService;
 
     public List<ProposalDto> findUnsignedOrRejected(Long starId) {
         return proposalRepository.findUnsignedOrRejected(starId);
@@ -64,22 +65,11 @@ public class ProposalService {
     }
 
     @Transactional
-    public void changeStatus(Long proposalId, String status) {
+    public ShowStatus changeStatus(Long proposalId, String status) {
         Proposal proposal = proposalRepository.findById(proposalId).orElseThrow(
                 () -> new IllegalArgumentException("해당 제안서가 존재하지 않습니다.")
         );
-
-        log.info("******* proposal id : {} , proposal status : {} *******", proposal.getProposalId(), proposal.getShowStatus());
-
-        proposal.editStatus(status);
-
-
-        /***************************************/
-//        if (status.equals("accept")) {
-//            proposalRepository.updateToSigned(proposal);
-//        } else if (status.equals("reject")) {
-//            proposalRepository.updateToRejected(proposal);
-//        }
+        return proposal.editStatus(status);
     }
 
     public Proposal findById(Long proposalId) {

@@ -9,7 +9,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
 import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
+import static gigsproject.gigs.domain.ShowStatus.SIGNED;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,10 +32,47 @@ public class PostService {
     public Long write(User user, PostForm postForm) {
         Host host = hostRepository.findByUser(user);
 
-        Post post = Post.createPost(postForm, host);
-        Post save = postRepository.save(post);
+        if (!isPostDuplicate(postForm, host)) {
+            Post post = Post.builder()
+                    .date(postForm.getDate())
+                    .startTime(postForm.getStartTime())
+                    .endTime(postForm.getEndTime())
+                    .status(UNSIGNED)
+                    .build();
+            post.setHost(host);
+            PostGenre postGenre = PostGenre.builder()
+                    .genre(postForm.getGenre())
+                    .build();
+            post.setPostGenres(postGenre);
 
-        return save.getPostId();
+            Post save = postRepository.save(post);
+
+            return save.getPostId();
+        }
+        throw new RuntimeException("해당 포스트는 이미 존재합니다.");
+    }
+
+    private static boolean isPostDuplicate(PostForm postForm, Host host) {
+        List<Post> posts = host.getPosts();
+        for (Post post : posts) {
+            LocalDate requestDate = postForm.getDate();
+            LocalTime requestStartTime = postForm.getStartTime();
+            LocalTime requestEndTime = postForm.getEndTime();
+
+            if (requestDate.equals(post.getDate())
+                    && requestStartTime.equals(post.getStartTime())
+                    && requestEndTime.equals(post.getEndTime())
+            ) {
+                Genre requestGenre = postForm.getGenre();
+                List<PostGenre> postGenres = post.getPostGenres();
+                for (PostGenre postGenre : postGenres) {
+                    if(requestGenre == postGenre.getGenre())
+                        return true;
+                }
+            }
+
+        }
+        return false;
     }
 
     @Transactional
@@ -49,10 +91,13 @@ public class PostService {
     }
 
     @Transactional
-    public void setPostSigned(Long postId) {
+    public void setPostStatus(Long postId, ShowStatus changedStatus) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 포스트가 존재하지 않습니다."));
-        post.setStatus(PostStatus.SIGNED);
+        if (changedStatus == ShowStatus.SIGNED || changedStatus == ShowStatus.COMP)
+            post.setStatus(PostStatus.SIGNED);
+
+        log.info("post status : {}", post.getStatus());
     }
 
 }

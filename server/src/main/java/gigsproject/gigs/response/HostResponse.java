@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gigsproject.gigs.domain.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,6 +12,9 @@ import java.util.stream.Collectors;
 import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
 import static java.util.Objects.isNull;
 
+/**
+ * 무대 상세정보
+ */
 @Data
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class HostResponse {
@@ -63,6 +67,7 @@ public class HostResponse {
 
         this.posts = isNull(host.getPosts()) ? List.of() : host.getPosts().stream()
                 .filter(p -> p.getStatus().equals(UNSIGNED))
+                .filter(p -> p.getDate().isEqual(LocalDate.now()) || p.getDate().isAfter(LocalDate.now()))
                 .map(post -> new PostResponse(post))
                 .collect(Collectors.toList());
 
