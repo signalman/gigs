@@ -3,7 +3,9 @@ import React from 'react';
 import { COLOR } from '../../utils/Constants';
 import ReviewItem from '../ReviewItem';
 
-const ReviewBox = () => {
+const ReviewBox = ({
+  reviewBoxRef,
+}) => {
   return (
     <Box
       sx={{
@@ -12,6 +14,7 @@ const ReviewBox = () => {
         mt: '50px',
         mb: '50px',
       }}
+      ref={reviewBoxRef}
     >
       <Box
         sx={{

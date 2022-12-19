@@ -50,6 +50,7 @@ const ReservationBox = ({
   posts,
   setPosts,
   editable,
+  reservationBoxRef,
 }) => {
   const [selectedDay, setSelectedDay] = useState(moment());
   const [dataForCalendar, setDataForCalendar] = useState({});
@@ -75,7 +76,7 @@ const ReservationBox = ({
   }, [posts]);
 
   return (
-    <Container>
+    <Container ref={reservationBoxRef}>
       <Header>
         <Title>
           날짜

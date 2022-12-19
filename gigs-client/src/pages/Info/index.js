@@ -1,5 +1,5 @@
 import { Box, } from '@mui/material';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DUMMY, IMG, SYMBOL } from '../../utils/Constants';
 import StageDetailInfoBox from './StageDetailInfoBox';
@@ -22,7 +22,6 @@ import EditAddressDialog from './dialogs/EditAddressDialog';
 import { useCookies } from 'react-cookie';
 import ImageBox from './ImageBox';
 import RepImgBox from './RepImgBox';
-import WriteProposalDialog from '../../components/WriteProposal';
 
 const Info = ({
   target,
@@ -46,6 +45,10 @@ const Info = ({
   const editGenresDialog = useDialog();
   const editMemberDialog = useDialog();
   const editStageTypesDialog = useDialog();
+
+  // 스크롤에 활용하는 DOM elements
+  const reservationBoxRef = useRef();
+  const reviewBoxRef = useRef();
 
   const getStarInfo = useCallback(async () => {
     const response = await fetchStarInfo(params.id);
@@ -151,6 +154,16 @@ const Info = ({
     }
   }, [data, updateInfo]);
 
+  // 연결 버튼을 눌렀을 때
+  const handleClickConnect = useCallback(() => {
+    reservationBoxRef.current.scrollIntoView({behavior: 'smooth'});
+  }, [reservationBoxRef]);
+
+  // 평점을 눌렀을 때
+  const handleClickScore = useCallback(() => {
+    reviewBoxRef.current.scrollIntoView({behavior: 'smooth'});
+  }, [reviewBoxRef]);
+
   // 대표 이미지 수정이 끝난 후
   const handleEditRepImg = useCallback((url) => {
     setData({...data, repImg: IMG(url)});
@@ -198,6 +211,7 @@ const Info = ({
       <RepImgBox target={target} repImg={data.repImg} editable={editable} handleEditRepImg={handleEditRepImg} />
 
       <InfoTitle
+        target={target}
         titleInfo={{
           name: data.name,
           address: data.address,
@@ -207,6 +221,8 @@ const Info = ({
         openEditNameDialog={editNameDialog.open}
         openEditAddressDialog={editAddressDialog.open}
         editable={editable}
+        onClickConnect={handleClickConnect}
+        onClickScore={handleClickScore}
       />
 
       <Box sx={{ width: '1200px', display: 'flex', m: '0 auto', mt: '25px', alignItems: 'flex-start', justifyContent: 'flex-start' }}>
@@ -249,14 +265,14 @@ const Info = ({
       </Box>
       
       {target === SYMBOL.stage ? (
-        <ReservationBox posts={posts} setPosts={setPosts} editable={editable} />
+        <ReservationBox posts={posts} setPosts={setPosts} editable={editable} reservationBoxRef={reservationBoxRef} />
       ) : (<></>)}
       {/* 소개글 */}
       <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>
       {/* 이미지 */}
       <ImageBox target={target} images={images} editable={editable} handleEditImgs={handleEditImgs} handleDeleteImg={handleDeleteImg} />
       {/* 리뷰 */}
-      <ReviewBox />
+      <ReviewBox reviewBoxRef={reviewBoxRef} />
 
       {/* Dialogs */}
       <SimpleEditTexetDialog open={editNameDialog.isOpen} onClose={editNameDialog.close} title="이름 변경" type="text" values={editNameDialog.values} setValues={editNameDialog.setValues} onEdit={handleEdit(["name"])}  />
