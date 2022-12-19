@@ -30,6 +30,8 @@ public class QProposal extends EntityPathBase<Proposal> {
 
     public final NumberPath<Long> proposalId = createNumber("proposalId", Long.class);
 
+    public final QReview review;
+
     public final DateTimePath<java.time.LocalDateTime> showEndTime = createDateTime("showEndTime", java.time.LocalDateTime.class);
 
     public final DateTimePath<java.time.LocalDateTime> showStartTime = createDateTime("showStartTime", java.time.LocalDateTime.class);
@@ -57,6 +59,7 @@ public class QProposal extends EntityPathBase<Proposal> {
     public QProposal(Class<? extends Proposal> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.post = inits.isInitialized("post") ? new QPost(forProperty("post"), inits.get("post")) : null;
+        this.review = inits.isInitialized("review") ? new QReview(forProperty("review"), inits.get("review")) : null;
         this.star = inits.isInitialized("star") ? new QStar(forProperty("star"), inits.get("star")) : null;
     }
 

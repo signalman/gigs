@@ -6,6 +6,7 @@ import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.SignUpForm;
 import gigsproject.gigs.response.MyPage;
 import gigsproject.gigs.response.ProposalDto;
+import gigsproject.gigs.response.SignedOrCompDto;
 import gigsproject.gigs.response.UserDto;
 import gigsproject.gigs.service.HostService;
 import gigsproject.gigs.service.ProposalService;
@@ -86,13 +87,13 @@ public class UserController {
             String starImgUrl = isNull(loginStar.getRepImg()) ? "" : loginStar.getRepImg();
             StarStatus status = loginStar.getStatus();
             List<ProposalDto> unsignedOrRejected = proposalService.findUnsignedOrRejected(starId);
-            List<ProposalDto> signedOrCompStar = proposalService.findSignedOrCompStar(starId);
+            List<SignedOrCompDto> signedOrCompStar = proposalService.findSignedOrCompStar(starId);
             MyPage starMyPage = new MyPage(user, starId, status, starImgUrl, unsignedOrRejected, signedOrCompStar);
             return starMyPage;
         }//로그인 한 유저가 호스트
         Host loginHost = hostService.findByUser(loginUser);
         List<ProposalDto> unsigned = proposalService.findUnsigned(loginHost.getHostId());
-        List<ProposalDto> signedOrCompHost = proposalService.findSignedOrCompHost(loginHost.getHostId());
+        List<SignedOrCompDto> signedOrCompHost = proposalService.findSignedOrCompHost(loginHost.getHostId());
         Long hostId = loginHost.getHostId();
         String stageImgUrl = isNull(loginHost.getRepImg()) ? "" : loginHost.getRepImg();
         MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, unsigned, signedOrCompHost);

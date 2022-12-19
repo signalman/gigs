@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 public class ReviewDto {
 
     private Long reviewId;
-    private String content;
+    private String starToHostContent;
+    private String hostToStarContent;
     private Host host;
     private Star star;
     private LocalDateTime createdAt;
@@ -19,9 +20,10 @@ public class ReviewDto {
 
     public ReviewDto(Review review) {
         this.reviewId = review.getReviewId();
-        this.content = review.getContent();
-        this.host = review.getHost();
-        this.star = review.getStar();
+        this.starToHostContent = review.getStarToHostContent();
+        this.hostToStarContent = review.getHostToStarContent();
+        this.host = review.getProposal().getPost().getHost();
+        this.star = review.getProposal().getStar();
         this.createdAt = review.getCreatedAt();
         this.score = review.getScore();
     }

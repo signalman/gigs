@@ -2,6 +2,7 @@ package gigsproject.gigs.repository;
 
 import gigsproject.gigs.domain.Proposal;
 import gigsproject.gigs.response.ProposalDto;
+import gigsproject.gigs.response.SignedOrCompDto;
 
 import java.util.List;
 
@@ -10,9 +11,9 @@ public interface ProposalRepositoryCustom {
 
     List<ProposalDto> findUnsigned(Long hostId);
 
-    List<ProposalDto> findSignedOrCompStar(Long starId);
+    List<SignedOrCompDto> findSignedOrCompStar(Long starId);
 
-    List<ProposalDto> findSignedOrCompHost(Long hostId);
+    List<SignedOrCompDto> findSignedOrCompHost(Long hostId);
 
 
     void updateToSigned(Proposal proposal);
