@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Button, Rating } from '@mui/material';
 import React from 'react';
-import { COLOR } from '../../utils/Constants';
+import { COLOR, SYMBOL } from '../../utils/Constants';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -24,25 +24,26 @@ const Name = styled(Box)((props) => ({
 }));
 
 const EditIconBox = styled(Box)((props) => ({
-  width: '50px',
-  height: '50px',
+  width: 'auto',
+  height: 'auto',
   alignSelf: 'center',
   display: 'flex',
   cursor: 'pointer',
 }));
 
 const Address = styled(Box)((props) => ({
-  height: "50px",
+  position: 'absolute',
+  left: 0, bottom: 0,
+  height: '20px',
   fontSize: '18px',
-  fontWeight: "bold",
-  color: COLOR.blacky,
+  color: COLOR.grey,
   display: 'flex',
 }));
 
 const ButtonBox = styled(Box)((props) => ({
   position: 'absolute',
   right: 0,
-  top: 30,
+  top: 20,
   width: '120px',
   height: '80px',
 }));
@@ -59,6 +60,7 @@ const RatingBox = styled(Box)((props) => ({
   display: "flex",
   alignItems: 'center',
   height: '40px',
+  cursor: 'pointer',
 }));
 
 const ReviewCount = styled(Box)((props) => ({
@@ -68,10 +70,13 @@ const ReviewCount = styled(Box)((props) => ({
 }));
 
 const InfoTitle = ({
+  target,
   titleInfo,
   openEditNameDialog,
   openEditAddressDialog,
   editable,
+  onClickConnect,
+  onClickScore,
 }) => {
   const {
     name,
@@ -89,16 +94,18 @@ const InfoTitle = ({
           </EditIconBox>
         ) : (<></>)}
       </Name>
-      <Address>{address ? `${address.siDo} ${address.siGun} ${address.road}` : '주소를 입력해주세요.'}
-        {editable ? (
-          <EditIconBox sx={{ w: '20px', h: '20px' }} onClick={() => openEditAddressDialog()}>
-            <EditIcon sx={{ m: '3px', width: '20px', height: '20px', }} />
-          </EditIconBox>
-        ) : (<></>)}
-      </Address>
+      {target === SYMBOL.stage ? (
+        <Address>{Object.keys(address).length > 0 ? `${address.siDo} ${address.siGun} ${address.road}` : '주소를 입력해주세요.'}
+          {editable ? (
+            <EditIconBox onClick={() => openEditAddressDialog()}>
+              <EditIcon sx={{ width: '20px', height: '20px', }} />
+            </EditIconBox>
+          ) : (<></>)}
+        </Address>
+      ) : (null)}
       <ButtonBox>
-        <ConnectButton variant='contained'>연결</ConnectButton>
-        <RatingBox>
+        <ConnectButton variant='contained' onClick={onClickConnect}>연결</ConnectButton>
+        <RatingBox onClick={onClickScore}>
           <Rating
             sx={{ width: `75px` }}
             emptyIcon={<StarBorderIcon sx={{ width: `15px`, height: `15px` }}></StarBorderIcon>}
