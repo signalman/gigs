@@ -2,7 +2,6 @@ package gigsproject.gigs.response;
 
 import gigsproject.gigs.domain.Gender;
 import gigsproject.gigs.domain.Star;
-import gigsproject.gigs.domain.StarStatus;
 import lombok.Data;
 
 import java.util.List;
@@ -19,7 +18,6 @@ public class StarResponse {
     private Integer memberNumber;
     private String introduce;
     private Integer showCount;
-    private StarStatus status;
     private Double score;
     private String repImg;
 
