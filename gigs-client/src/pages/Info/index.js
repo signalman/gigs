@@ -22,6 +22,8 @@ import EditAddressDialog from './dialogs/EditAddressDialog';
 import { useCookies } from 'react-cookie';
 import ImageBox from './ImageBox';
 import RepImgBox from './RepImgBox';
+import moment from 'moment';
+import "moment/locale/ko";
 
 const Info = ({
   target,
@@ -32,6 +34,7 @@ const Info = ({
   const [data, setData] = useState(DUMMY.host);
   const [posts, setPosts] = useState(DUMMY.host.posts);
   const [images, setImages] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const editable = Number(cookies.userId) === data.userId;
 
   const editNameDialog = useDialog();
@@ -75,6 +78,37 @@ const Info = ({
     
     setData(newData);
     setImages(response.data.starImgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
+    setReviews([{
+      content: "정말 좋은 무대였어요",
+      createdAt: moment("2022-12-19T09:47:06.304Z"),
+      hostName: '카페 안녕',
+      hostRepImg: '1',
+      reviewId: 0,
+      score: 4.1,
+      starName: '박상연',
+      starRepImg: '2',
+      type: false,
+    }, {
+      content: "정말 좋은 무대였어요",
+      createdAt: moment("2022-12-19T09:47:06.304Z"),
+      hostName: '카페 안녕',
+      hostRepImg: '1',
+      reviewId: 0,
+      score: 4.1,
+      starName: '박상연',
+      starRepImg: '2',
+      type: false,
+    }, {
+      content: "정말 좋은 무대였어요",
+      createdAt: moment("2022-12-19T09:47:06.304Z"),
+      hostName: '카페 안녕',
+      hostRepImg: '1',
+      reviewId: 0,
+      score: 4.1,
+      starName: '박상연',
+      starRepImg: '2',
+      type: false,
+    }]);
   }, [params]);
 
   const getHostInfo = useCallback(async () => {
@@ -104,10 +138,30 @@ const Info = ({
     }
 
     setData(newData);
-    console.log(data)
     setPosts(response.data.posts);
-    // TODO imgUrl -> ?
     setImages(response.data.stageImgs?.map(img => ({imgId: img.stageImgId, url: IMG(img.url)})));
+    // setReviews(response.data.reviews);
+    setReviews([{
+      content: "정말 좋은 무대였어요",
+      createdAt: moment("2022-12-19T09:47:06.304Z"),
+      hostName: '카페 안녕',
+      hostRepImg: '1',
+      reviewId: 0,
+      score: 4.1,
+      starName: '박상연',
+      starRepImg: '2',
+      type: false,
+    }, {
+      content: "정말 좋은 무대였어요",
+      createdAt: moment("2022-12-19T09:47:06.304Z"),
+      hostName: '카페 안녕',
+      hostRepImg: '1',
+      reviewId: 0,
+      score: 4.1,
+      starName: '박상연',
+      starRepImg: '2',
+      type: false,
+    }]);
   }, [params]);
 
   // 정보 수정 후 새 데이터로 기존 데이터를 업데이트 하는 함수
@@ -272,7 +326,7 @@ const Info = ({
       {/* 이미지 */}
       <ImageBox target={target} images={images} editable={editable} handleEditImgs={handleEditImgs} handleDeleteImg={handleDeleteImg} />
       {/* 리뷰 */}
-      <ReviewBox reviewBoxRef={reviewBoxRef} />
+      <ReviewBox reviewBoxRef={reviewBoxRef} reviews={reviews} />
 
       {/* Dialogs */}
       <SimpleEditTexetDialog open={editNameDialog.isOpen} onClose={editNameDialog.close} title="이름 변경" type="text" values={editNameDialog.values} setValues={editNameDialog.setValues} onEdit={handleEdit(["name"])}  />
