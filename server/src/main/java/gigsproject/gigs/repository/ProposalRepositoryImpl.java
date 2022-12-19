@@ -5,6 +5,7 @@ import gigsproject.gigs.domain.Proposal;
 import gigsproject.gigs.domain.QProposal;
 import gigsproject.gigs.domain.ShowStatus;
 import gigsproject.gigs.response.ProposalDto;
+import gigsproject.gigs.response.SignedOrCompDto;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public class ProposalRepositoryImpl implements ProposalRepositoryCustom {
     }
 
     @Override
-    public List<ProposalDto> findSignedOrCompStar(Long starId) {
+    public List<SignedOrCompDto> findSignedOrCompStar(Long starId) {
         QProposal proposal = QProposal.proposal;
         List<Proposal> results = queryFactory
                 .select(proposal)
@@ -59,11 +60,11 @@ public class ProposalRepositoryImpl implements ProposalRepositoryCustom {
                         proposal.showStatus.in(ShowStatus.SIGNED, ShowStatus.COMP)
                 )
                 .fetch();
-        return results.stream().map(p -> new ProposalDto(p)).collect(Collectors.toList());
+        return results.stream().map(p -> new SignedOrCompDto(p)).collect(Collectors.toList());
     }
 
     @Override
-    public List<ProposalDto> findSignedOrCompHost(Long hostId) {
+    public List<SignedOrCompDto> findSignedOrCompHost(Long hostId) {
         QProposal proposal = QProposal.proposal;
         List<Proposal> results = queryFactory
                 .selectFrom(proposal)
@@ -73,7 +74,7 @@ public class ProposalRepositoryImpl implements ProposalRepositoryCustom {
                         proposal.showStatus.in(ShowStatus.SIGNED, ShowStatus.COMP)
                 )
                 .fetch();
-        return results.stream().map(p -> new ProposalDto(p)).collect(Collectors.toList());
+        return results.stream().map(p -> new SignedOrCompDto(p)).collect(Collectors.toList());
     }
 
 

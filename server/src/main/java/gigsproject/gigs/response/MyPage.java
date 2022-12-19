@@ -22,10 +22,10 @@ public class MyPage {
 
     List<ProposalDto> unsignedOrRejected; //UNSIGNED REJECTED 상태의 제안서 -> 스타 마이페이지
     List<ProposalDto> onlyUnsigned;       //UNSIGNED 상태의 제안서 -> 호스트 마이페이지
-    List<ProposalDto> signedOrComp;       //SIGNED COMP 상태의 제안서 -> (스타, 호스트)공연 히스토리
+    List<SignedOrCompDto> signedOrComp;       //SIGNED COMP 상태의 제안서 -> (스타, 호스트)공연 히스토리
 
 
-    public MyPage(UserDto user, Long id, String imgUrl, List<ProposalDto> onlyUnsigned, List<ProposalDto> signedOrComp) { //호스트일때 생성자
+    public MyPage(UserDto user, Long id, String imgUrl, List<ProposalDto> onlyUnsigned, List<SignedOrCompDto> signedOrComp) { //호스트일때 생성자
         this.user = user;
         this.roleId = id;
         this.imgUrl = imgUrl;
@@ -33,7 +33,7 @@ public class MyPage {
         this.signedOrComp = signedOrComp;
     }
 
-    public MyPage(UserDto user, Long id, StarStatus status, String imgUrl, List<ProposalDto> unsignedOrRejected, List<ProposalDto> signedOrComp) { //스타일때 생성자
+    public MyPage(UserDto user, Long id, StarStatus status, String imgUrl, List<ProposalDto> unsignedOrRejected, List<SignedOrCompDto> signedOrComp) { //스타일때 생성자
         this.user = user;
         this.roleId = id;
         this.status = status.name();

@@ -88,7 +88,7 @@ class ProposalServiceTest {
         //when
         String status = "signed";
         proposalService.changeStatus(save.getProposalId(), status);
-        postService.setPostSigned(save.getPost().getPostId());
+//        postService.setPostSigned(save.getPost().getPostId());
 
         //then
         assertThat(save.getShowStatus()).isEqualTo(ShowStatus.SIGNED);
