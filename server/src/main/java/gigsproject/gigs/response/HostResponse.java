@@ -1,7 +1,9 @@
 package gigsproject.gigs.response;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import gigsproject.gigs.domain.*;
+import gigsproject.gigs.domain.Address;
+import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.domain.StageType;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -42,7 +44,7 @@ public class HostResponse {
     private Integer pay;
     private Double score;
     private Integer showCount;
-    private List<Review> reviews;
+//    private List<Review> reviews;
 
     private List<PostResponse> posts;
 
@@ -61,7 +63,7 @@ public class HostResponse {
         this.stageType = host.getStageType();
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
-        this.reviews = isNull(host.getReviews()) ? List.of() : host.getReviews();
+//        this.reviews = isNull(host.getReviews()) ? List.of() : host.getReviews();
 
         this.score = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 
