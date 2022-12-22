@@ -17,6 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static gigsproject.gigs.domain.QHost.host;
@@ -42,7 +43,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
-                        stageAddressEq(stageSearch.getAddress()),
+                        stageAddressSiDoEq(stageSearch.getSiDo()),
+                        stageAddressSiGunEq(stageSearch.getSiGun()),
                         stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
@@ -65,7 +67,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageTypeEq(stageSearch.getStageTypes()),
                         stageGenreEq(stageSearch.getGenres()),
                         stageTargetGenderEq(stageSearch.getTargetGender()),
-                        stageAddressEq(stageSearch.getAddress()),
+                        stageAddressSiDoEq(stageSearch.getSiDo()),
+                        stageAddressSiGunEq(stageSearch.getSiGun()),
                         stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
@@ -74,6 +77,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
     }
 
+
     private Predicate stageTargetMinCountEq(Integer targetMinCount) {
         return isNull(targetMinCount) ? null : host.targetNumber.goe(targetMinCount);
     }
@@ -81,6 +85,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private Predicate stageTargetAgeEq(Integer targetAge) {
         return isNull(targetAge) ? null : host.targetAge.eq(targetAge);
     }
+
 
     private Predicate stageTargetGenderEq(Gender targetGender) {
         return isNull(targetGender) ? null : host.targetGender.eq(targetGender);
@@ -94,11 +99,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return isNull(genres) ? null : post.postGenres.any().genre.in(genres);
     }
 
-    private Predicate stageAddressEq(String address) {
-        return hasText(address) ? host.stageAddress.siDo.eq(address) : null;
+    private Predicate stageAddressSiDoEq(String siDo) {
+        return hasText(siDo) ? host.stageAddress.siDo.eq(siDo) : null;
+    }
+    private Predicate stageAddressSiGunEq(String siGun) {
+        return hasText(siGun) ? host.stageAddress.siGun.eq(siGun) : null;
     }
 
-    private Predicate stageNameContains(String name) {
+    private Predicate stageNameContains(String name)
+    {
         return hasText(name) ? host.stageName.contains(name) : null;
     }
 
