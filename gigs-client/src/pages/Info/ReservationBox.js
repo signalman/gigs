@@ -112,19 +112,25 @@ const ReservationBox = ({
           </LocalizationProvider>
         </Content>
         <Content>
-          {editable ? (
-            <Box sx={{ width: '480px', }}>
-              <ReservationTable host={host} selectedDay={selectedDay} timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} onDeletePost={handleDeletePostClick} editable={editable} />
+          {selectedDay.isBefore(moment().add('-1', 'd')) ? (
+            <Box sx={{ width: '480px', height: '380px', lineHeight: '380px', color: COLOR.grey, textAlign: 'center', fontSize: '20px' }}>
+              지난 예약은 확인할 수 없습니다.
             </Box>
           ) : (
-            dataForCalendar[selectedDay.format("YYYY-MM-DD")] > 0 ? (
+            editable ? (
               <Box sx={{ width: '480px', }}>
-                <ReservationTable timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} onDeletePost={handleDeletePostClick} editable={editable} />
+                <ReservationTable host={host} selectedDay={selectedDay} timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} onDeletePost={handleDeletePostClick} editable={editable} />
               </Box>
             ) : (
-              <Box sx={{ width: '480px', height: '380px', lineHeight: '380px', color: COLOR.grey, textAlign: 'center', fontSize: '20px' }}>
-                등록된 무대가 없습니다.
-              </Box>
+              dataForCalendar[selectedDay.format("YYYY-MM-DD")] > 0 ? (
+                <Box sx={{ width: '480px', }}>
+                  <ReservationTable timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} onDeletePost={handleDeletePostClick} editable={editable} />
+                </Box>
+              ) : (
+                <Box sx={{ width: '480px', height: '380px', lineHeight: '380px', color: COLOR.grey, textAlign: 'center', fontSize: '20px' }}>
+                  등록된 무대가 없습니다.
+                </Box>
+              )
             )
           )}
         </Content>
