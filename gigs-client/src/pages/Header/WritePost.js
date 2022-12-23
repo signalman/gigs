@@ -80,7 +80,7 @@ const WritePost = ({
             <DialogTitle sx={{ fontWeight: 'bold', textAlign: 'center' }}>포스트 등록</DialogTitle>
             <DialogContent>
               <ProposalContent title={'무대'} width={200} >
-                <MiniProfile width='200px' name={host.name} repImg={host.repImg} />
+                <MiniProfile width='200px' name={host.name} repImg={host.repImg} hostId={host.id} />
               </ProposalContent>
               <ProposalContent title={'일시'} width={450}>
                 <Box sx={{ display: 'flex', width: '450px', alignItems: 'center' }}>
