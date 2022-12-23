@@ -45,9 +45,7 @@ const Footer = styled(Box)((props) => ({
 const ReviewItem = ({
   review,
 }) => {
-  const {content, createdAt, hostName, hostRepImg, reviewId, score, starName, starRepImg, type, } = review;
-  const name = type ? hostName : starName;
-  const repImg = type ? hostRepImg : starRepImg;
+  const {reviewId, id, name, repImg, content, score, createdAt} = review;
 
   return (
     <Container>

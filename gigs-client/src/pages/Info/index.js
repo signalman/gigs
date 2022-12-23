@@ -78,37 +78,42 @@ const Info = ({
     
     setData(newData);
     setImages(response.data.starImgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
-    setReviews([{
-      content: "정말 좋은 무대였어요",
-      createdAt: moment("2022-12-19T09:47:06.304Z"),
-      hostName: '카페 안녕',
-      hostRepImg: '1',
+
+    const dummyReviews = [{
+      createdAt: "2022-12-23T12:48:01.974Z",
+      hostId: 1,
+      hostName: '카페',
+      hostRepImg: 'asdfasdfadsfasdffsdas.jpg',
+      hostToStarContent: "멋진 가수예요.",
       reviewId: 0,
-      score: 4.1,
+      hostToStarScore: '4',
+      starId: 2,
       starName: '박상연',
-      starRepImg: '2',
-      type: false,
-    }, {
-      content: "정말 좋은 무대였어요",
-      createdAt: moment("2022-12-19T09:47:06.304Z"),
-      hostName: '카페 안녕',
-      hostRepImg: '1',
-      reviewId: 0,
-      score: 4.1,
-      starName: '박상연',
-      starRepImg: '2',
-      type: false,
-    }, {
-      content: "정말 좋은 무대였어요",
-      createdAt: moment("2022-12-19T09:47:06.304Z"),
-      hostName: '카페 안녕',
-      hostRepImg: '1',
-      reviewId: 0,
-      score: 4.1,
-      starName: '박상연',
-      starRepImg: '2',
-      type: false,
-    }]);
+      starRepImg: 'asdfadsfjknjnjkd.jpg',
+      starToHostContent: "멋진 무대예요",
+      starToHostScore: 3,
+    }];
+
+    const newReviews = dummyReviews.map(review => ({
+      reviewId: review.reviewId,
+      id: review.hostId,
+      name: review.hostName,
+      repImg: review.hostRepImg,
+      content: review.hostToStarContent,
+      score: review.hostToStarScore,
+      createdAt: moment(review.createdAt),
+    }));
+    // const newReviews = response.data?.reviews.map(review => ({
+    //   reviewId: review.reviewId,
+    //   id: review.hostId,
+    //   name: review.hostName,
+    //   repImg: review.hostRepImg,
+    //   content: review.hostToStarContent,
+    //   score: review.hostToStarScore,
+    //   createdAt: moment(review.createdAt),
+    // }));
+
+    setReviews(newReviews);
   }, [params]);
 
   const getHostInfo = useCallback(async () => {
@@ -140,28 +145,41 @@ const Info = ({
     setData(newData);
     setPosts(response.data.posts);
     setImages(response.data.stageImgs?.map(img => ({imgId: img.stageImgId, url: IMG(img.url)})));
-    // setReviews(response.data.reviews);
-    setReviews([{
-      content: "정말 좋은 무대였어요",
-      createdAt: moment("2022-12-19T09:47:06.304Z"),
-      hostName: '카페 안녕',
-      hostRepImg: '1',
+    const dummyReviews = [{
+      createdAt: "2022-12-23T12:48:01.974Z",
+      hostId: 1,
+      hostName: '카페',
+      hostRepImg: 'asdfasdfadsfasdffsdas.jpg',
+      hostToStarContent: "멋진 가수예요.",
       reviewId: 0,
-      score: 4.1,
+      hostToStarScore: '4',
+      starId: 2,
       starName: '박상연',
-      starRepImg: '2',
-      type: false,
-    }, {
-      content: "정말 좋은 무대였어요",
-      createdAt: moment("2022-12-19T09:47:06.304Z"),
-      hostName: '카페 안녕',
-      hostRepImg: '1',
-      reviewId: 0,
-      score: 4.1,
-      starName: '박상연',
-      starRepImg: '2',
-      type: false,
-    }]);
+      starRepImg: 'asdfadsfjknjnjkd.jpg',
+      starToHostContent: "멋진 무대예요",
+      starToHostScore: 3,
+    }];
+
+    const newReviews = dummyReviews.map(review => ({
+      reviewId: review.reviewId,
+      id: review.starId,
+      name: review.starName,
+      repImg: review.starRepImg,
+      content: review.starToHostContent,
+      score: review.starToHostScore,
+      createdAt: moment(review.createdAt),
+    }));
+    // const newReviews = response.data?.reviews.map(review => ({
+    //   reviewId: review.reviewId,
+    //   id: review.hostId,
+    //   name: review.hostName,
+    //   repImg: review.hostRepImg,
+    //   content: review.hostToStarContent,
+    //   score: review.hostToStarScore,
+    //   createdAt: moment(review.createdAt),
+    // }));
+
+    setReviews(newReviews);
   }, [params]);
 
   // 정보 수정 후 새 데이터로 기존 데이터를 업데이트 하는 함수
