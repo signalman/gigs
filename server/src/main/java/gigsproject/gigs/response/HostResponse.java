@@ -3,6 +3,7 @@ package gigsproject.gigs.response;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import gigsproject.gigs.domain.Address;
 import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.domain.Review;
 import gigsproject.gigs.domain.StageType;
 import lombok.Data;
 
@@ -44,7 +45,8 @@ public class HostResponse {
     private Integer pay;
     private Double score;
     private Integer showCount;
-//    private List<Review> reviews;
+    private List<ReviewDto> reviews;
+
 
     private List<PostResponse> posts;
 
@@ -63,7 +65,9 @@ public class HostResponse {
         this.stageType = host.getStageType();
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
-//        this.reviews = isNull(host.getReviews()) ? List.of() : host.getReviews();
+        this.reviews = host.getReviews().stream()
+                .map(r -> new ReviewDto(r))
+                .collect(Collectors.toList());
 
         this.score = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 

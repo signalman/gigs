@@ -1,8 +1,6 @@
 package gigsproject.gigs.response;
 
-import gigsproject.gigs.domain.Host;
-import gigsproject.gigs.domain.Review;
-import gigsproject.gigs.domain.Star;
+import gigsproject.gigs.domain.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -24,7 +22,7 @@ public class ReviewDto {
         this.hostToStarContent = review.getHostToStarContent();
         this.host = review.getProposal().getPost().getHost();
         this.star = review.getProposal().getStar();
-        this.createdAt = review.getCreatedAt();
+//        this.createdAt = review.getModifiedDate();
         this.score = review.getScore();
     }
 }

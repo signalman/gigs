@@ -1,5 +1,6 @@
 package gigsproject.gigs.domain;
 
+import gigsproject.gigs.request.ReviewForm;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,7 +34,17 @@ public class Review {
     @JoinColumn(name = "proposalId")
     private Proposal proposal;
 
-    private LocalDateTime createdAt;
     private Integer score;
+
+    public void editFromHost(ReviewForm reviewForm) {
+        this.hostToStarContent = reviewForm.getContent();
+        this.score = reviewForm.getScore();
+    }
+
+    public void editFromStar(ReviewForm reviewForm) {
+        this.starToHostContent = reviewForm.getContent();
+        this.score = reviewForm.getScore();
+
+    }
 
 }
