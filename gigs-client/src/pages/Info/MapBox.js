@@ -26,7 +26,7 @@ const NotFoundBox = styled(Box)((props) => ({
 const MapBox = ({
   address,
 }) => {
-  const fullAddress = `${address?.siDo || ''} ${address?.siGun || ''} ${address?.road || ''} ${address?.detail || ''}`
+  const fullAddress = `${address?.siDo || ''} ${address?.siGun || ''} ${address?.road || ''}`
 
   const [map, setMap] = useState(null);
   const [isValidAddress, setValidAddress] = useState(true);
