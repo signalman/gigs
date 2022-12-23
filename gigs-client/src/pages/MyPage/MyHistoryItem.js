@@ -3,6 +3,7 @@ import { Box, Button } from '@mui/material';
 import React from 'react';
 import MiniProfile from './MiniProfile';
 import {COLOR} from '../../utils/Constants';
+import { useCookies } from 'react-cookie';
 
 const ProfileBox = styled(Box)((props) => ({
   width: '250px',
@@ -46,8 +47,11 @@ const MyHistoryItem = ({
   star,
   date,
   status,
+  hasReview,
+  onCheckPhoneNumber,
   onCancel,
   onComplete,
+  onWriteReview,
 }) => {
   const isComplete = status === 'COMP';
 
@@ -69,9 +73,17 @@ const MyHistoryItem = ({
       </ProfileBox>
       <ControlBox>
         <StatusBox>{isComplete ? '완료' : '예정'}</StatusBox>
-        {isComplete ? (null) : (
+        {isComplete ? (
           <>
-            <ControlButton variant='outlined'>연락처 확인</ControlButton>
+            {!hasReview ? (
+              <ControlButton variant='contained' onClick={onWriteReview}>리뷰 작성</ControlButton>
+            ) : (
+              <ControlButton variant='outlined' disabled>리뷰 작성 완료</ControlButton>
+            )}
+          </>
+          ) : (
+          <>
+            <ControlButton variant='outlined' onClick={onCheckPhoneNumber}>연락처 확인</ControlButton>
             <ControlButton variant='contained' onClick={onComplete}>공연 완료</ControlButton>
             <ControlButton variant='contained' color='warning' onClick={onCancel}>공연 취소</ControlButton>
           </>
