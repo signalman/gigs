@@ -7,6 +7,7 @@ import gigsproject.gigs.domain.Star;
 import gigsproject.gigs.repository.ProposalRepository;
 import gigsproject.gigs.request.ProposalForm;
 import gigsproject.gigs.response.ProposalDto;
+import gigsproject.gigs.response.SignedOrCompDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,11 +34,11 @@ public class ProposalService {
         return proposalRepository.findUnsigned(hostId);
     }
 
-    public List<ProposalDto> findSignedOrCompStar(Long starId) {
+    public List<SignedOrCompDto> findSignedOrCompStar(Long starId) {
         return proposalRepository.findSignedOrCompStar(starId);
     }
 
-    public List<ProposalDto> findSignedOrCompHost(Long hostId) {
+    public List<SignedOrCompDto> findSignedOrCompHost(Long hostId) {
         return proposalRepository.findSignedOrCompHost(hostId);
     }
 

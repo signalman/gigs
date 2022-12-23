@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -17,7 +18,9 @@ public class StageSearch {
     private List<StageType> stageTypes;
     private List<Genre> genres;
 
-    private String address;
+    private String siGun;
+    private String siDo;
+
 
     private String startDate;
     private String endDate;

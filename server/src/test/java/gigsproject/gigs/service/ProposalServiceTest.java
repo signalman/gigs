@@ -3,7 +3,6 @@ package gigsproject.gigs.service;
 import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.PostForm;
 import gigsproject.gigs.request.ProposalForm;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,8 @@ class ProposalServiceTest {
 
     @Autowired
     ProposalService proposalService;
-    @Autowired PostService postService;
+    @Autowired
+    PostService postService;
     private Star star;
     private Post post;
     private Host host;
@@ -52,9 +52,9 @@ class ProposalServiceTest {
                 .genre(ROCK)
                 .date(LocalDate.of(2022, 12, 25))
                 .startTime(LocalTime.of(18, 0))
-                .endTime(LocalTime.of(20,30 ))
+                .endTime(LocalTime.of(20, 30))
                 .build();
-        post = Post.createPost(postForm, host);
+//        post = Post.createPost(postForm, host);
         em.persist(post);
 
         star = Star.builder()
@@ -88,7 +88,7 @@ class ProposalServiceTest {
         //when
         String status = "signed";
         proposalService.changeStatus(save.getProposalId(), status);
-        postService.setPostSigned(save.getPost().getPostId());
+//        postService.setPostSigned(save.getPost().getPostId());
 
         //then
         assertThat(save.getShowStatus()).isEqualTo(ShowStatus.SIGNED);

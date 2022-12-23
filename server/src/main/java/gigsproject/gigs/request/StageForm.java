@@ -4,10 +4,7 @@ import gigsproject.gigs.domain.Address;
 import gigsproject.gigs.domain.Gender;
 import gigsproject.gigs.domain.StageImg;
 import gigsproject.gigs.domain.StageType;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -16,6 +13,8 @@ import java.util.Map;
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class StageForm {
 
     private Long hostId;

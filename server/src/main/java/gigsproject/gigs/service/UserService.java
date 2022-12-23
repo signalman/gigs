@@ -36,6 +36,9 @@ public class UserService {
                     .stageName("")
                     .stageInfo("")
                     .repImg("")
+                    .targetGender(Gender.DEFAULT)
+                    .targetAge(0)
+                    .targetNumber(0)
                     .build();
             hostRepository.save(host);
         }

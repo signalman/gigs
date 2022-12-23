@@ -6,16 +6,12 @@ import gigsproject.gigs.request.PostForm;
 import gigsproject.gigs.request.ProposalForm;
 import gigsproject.gigs.response.PostFormRes;
 import gigsproject.gigs.response.ProposalResponse;
-import gigsproject.gigs.service.HostService;
-import gigsproject.gigs.service.PostService;
-import gigsproject.gigs.service.ProposalService;
-import gigsproject.gigs.service.StarService;
+import gigsproject.gigs.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +26,7 @@ public class PostController {
     private final StarService starService;
     private final HostService hostService;
     private final ProposalService proposalService;
+    private final ReviewService reviewService;
 
     @PostMapping("/posts")
     public void PostSave(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom,
@@ -140,9 +137,11 @@ public class PostController {
     public void changeStatus(@PathVariable Long proposalId, @RequestParam String status) {
         log.info("controller -> proposal id : {} , proposal status : {} *******", proposalId, status);
         ShowStatus changedStatus = proposalService.changeStatus(proposalId, status);
-
         Proposal proposal = proposalService.findById(proposalId);
+        if (status.equals("comp")) {
+            log.info("제안서 완료 처리, 빈 리뷰 생성: {}", status);
+            reviewService.createEmptyReview(proposal);
+        }
         postService.setPostStatus(proposal.getPost().getPostId(), changedStatus);
-
     }
 }

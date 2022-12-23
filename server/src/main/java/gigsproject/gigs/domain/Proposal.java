@@ -37,6 +37,9 @@ public class Proposal {
     @Enumerated(EnumType.STRING)
     private ShowStatus showStatus;
 
+    @OneToOne(mappedBy = "proposal")
+    private Review review;
+
     public void setStar(Star star) {
         this.star = star;
         star.getProposals().add(this);

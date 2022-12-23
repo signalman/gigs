@@ -9,21 +9,31 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@Builder
 public class Review {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private Long reviewId;
-    private String content;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "hostId")
+
+    @Lob
+    private String starToHostContent;
+
+    @Lob
+    private String hostToStarContent;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hostId")
     private Host host;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL ) @JoinColumn(name = "starId")
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "starId")
     private Star star;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proposalId")
+    private Proposal proposal;
+
     private LocalDateTime createdAt;
     private Integer score;
-    private Boolean type;
-
-    public void setStar(Star star) {
-        this.star = star;
-        star.getReviews().add(this);
-    }
 
 }
