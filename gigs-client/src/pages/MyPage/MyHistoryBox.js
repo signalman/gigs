@@ -36,8 +36,8 @@ const MyHistoryBox = ({
           return (
             <MyHistoryItem
               proposalId={history.proposalId}
-              host={{name: history.stageName, repImg: history.stageRepImg}}
-              star={{name: history.starName, repImg: history.starRepImg}}
+              host={{name: history.stageName, repImg: history.hostRepImg, id: history.hostId}}
+              star={{name: history.starName, repImg: history.starRepImg, id: history.starId}}
               date={history.showStartTime.format("YYYY-MM-DD")}
               status={history.showStatus}
               hasReview={hasReview}
