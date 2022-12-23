@@ -194,3 +194,9 @@ export const completeProposal = (proposalId) => ax.post(`/proposals/${proposalId
  * @param {Number} proposalId 수정하려는 제안서의 id
  */
 export const cancelSignedProposal = (proposalId) => ax.post(`/proposals/${proposalId}?status=unsigned`);
+
+/**
+ * 리뷰를 작성하는 API
+ * @param {{proposalId, score, content}} reviewData 리뷰 작성에 필요한 데이터
+ */
+export const writeReview = (reviewData) => ax.put(`/mypage/review`, reviewData);

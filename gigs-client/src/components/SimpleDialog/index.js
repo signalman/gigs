@@ -6,7 +6,6 @@ const AlertDialog = ({
   onClose,
   title,
   content,
-  onNegative,
   onPositive,
 }) => {
   return (
@@ -20,7 +19,6 @@ const AlertDialog = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onNegative} color='warning'>취소</Button>
         <Button onClick={onPositive} >확인</Button>
       </DialogActions>
     </Dialog>
