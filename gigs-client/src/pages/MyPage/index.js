@@ -48,11 +48,11 @@ const MyPage = () => {
       console.log('# 제안서 취소 결과')
       console.log(response);
 
-      setProposals(proposals.filter(proposal => proposal.proposalId !== proposalId));
+      navigate(0);
     } catch(err) {
       console.log(err);
     }
-  }, [proposals]);
+  }, [navigate]);
 
   // 호스트가 제안서 승낙을 눌렀을 때
   const handleAcceptProposal = useCallback(async (proposalId) => {

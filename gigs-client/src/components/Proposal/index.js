@@ -12,6 +12,7 @@ const Container = styled(Box)((props) => ({
   padding: '10px',
   margin: '10px',
   boxShadow: '0 2px 4px black',
+  backgroundColor: props.status === 'REJECTED' ? COLOR.grey : 'white',
 }));
 
 const Title = styled(Box)((props) => ({
@@ -66,7 +67,7 @@ const Proposal = ({
   onReject,
 }) => {
   return (
-    <Container>
+    <Container status={proposal?.showStatus}>
       {proposal ? (
         <>
           <Title>제안서</Title>
@@ -95,11 +96,15 @@ const Proposal = ({
             </Box>
           </ProposalContent>
           <Box sx={warningStyle}>
-            * 승낙시 상대방에게 연락처가 전달됩니다.
+            {proposal.showStatus === 'REJECTED' ? '* 호스트에 의해 거절되었습니다.' : '* 승낙시 상대방에게 연락처가 전달됩니다.'}
           </Box>
           <ButtonBox is_star={isStar ? 1 : 0}>
             {isStar ? (
-              <Button sx={{...buttonStyle,}} variant="contained" color='warning' onClick={() => onCancel(proposal.proposalId)}>취소</Button>
+              proposal.showStatus === 'REJECTED' ? (
+                <Button sx={{...buttonStyle,}} variant="contained" color='warning' onClick={() => onCancel(proposal.proposalId)}>삭제</Button>
+              ) : (
+                <Button sx={{...buttonStyle,}} variant="contained" color='warning' onClick={() => onCancel(proposal.proposalId)}>취소</Button>
+              )
             ) : (
               <>
                 <Button sx={buttonStyle} variant="contained" onClick={() => onAccept(proposal.proposalId)}>승낙</Button>
