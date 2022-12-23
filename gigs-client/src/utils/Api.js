@@ -87,11 +87,11 @@ export const fetchStarList = ({name, stageTypes, genres, address, gender,}, sort
  * @param {*} page 현재 페이지 번호
  * @returns 
  */
-export const fetchHostList = ({name, stageTypes, genres, address, targetAge, targetGender, targetMinCount, startDate, endDate, startTime, endTime}, sort, size, page) => {
+export const fetchHostList = ({name, stageTypes, genres, siDo, siGunGu, targetAge, targetGender, targetMinCount, startDate, endDate, startTime, endTime}, sort, size, page) => {
   const data = {
     stageTypes: stageTypes?.join(','),
     genres: genres?.join(','),
-    name, address, targetAge, targetGender, targetMinCount, startDate, endDate, startTime, endTime, sort, size, page,
+    name, siDo, siGunGu, targetAge, targetGender, targetMinCount, startDate, endDate, startTime, endTime, sort, size, page,
   };
 
   return ax.get(`/stages?${queryString(data)}`);
