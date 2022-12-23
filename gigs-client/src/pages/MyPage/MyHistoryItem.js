@@ -46,6 +46,7 @@ const MyHistoryItem = ({
   star,
   date,
   status,
+  onCheckPhoneNumber,
   onCancel,
   onComplete,
 }) => {
@@ -71,7 +72,7 @@ const MyHistoryItem = ({
         <StatusBox>{isComplete ? '완료' : '예정'}</StatusBox>
         {isComplete ? (null) : (
           <>
-            <ControlButton variant='outlined'>연락처 확인</ControlButton>
+            <ControlButton variant='outlined' onClick={onCheckPhoneNumber}>연락처 확인</ControlButton>
             <ControlButton variant='contained' onClick={onComplete}>공연 완료</ControlButton>
             <ControlButton variant='contained' color='warning' onClick={onCancel}>공연 취소</ControlButton>
           </>

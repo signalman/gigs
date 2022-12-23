@@ -10,6 +10,7 @@ import MyStarStatusSwitch from './MyStarStatusSwitch';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import AlertDialog from '../../components/AlertDialog';
+import SimpleDialog from '../../components/AlertDialog';
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const MyPage = () => {
   const [histories, setHistories] = useState([]);
   const [proposals, setProposals] = useState([]);
 
+  const [checkPhoneNumberDialogState, setCheckPhoneNumberDialogState] = useState({open: false, phoneNumber: ''});
   const [cancelAlertDialogState, setCancelAlertDialogState] = useState({open: false, proposalId: '-1'});
   const [completeAlertDialogState, setCompleteAlertDialogState] = useState({open: false, proposalId: '-1'});
 
@@ -64,6 +66,10 @@ const MyPage = () => {
   }, [navigate]);
 
   // 확인 다이얼로그 닫는 함수
+  const handleCloseCheckPhoneNumberDialog = () => {
+    setCheckPhoneNumberDialogState({open: false, phoneNumber: ''});
+  };
+
   const handleCloseCancelAlertDialog = () => {
     setCancelAlertDialogState({open: false, proposalId: '-1'});
   };
@@ -84,6 +90,13 @@ const MyPage = () => {
       console.log(err);
     }
   }, [navigate]);
+
+  // 호스트 혹은 스타가 연락처 확인을 눌렀을 때
+  const handleCheckPhoneNumber = useCallback((proposalId) => {
+    const history = histories.find(history => history.proposalId === proposalId);
+    const phoneNumber = user.role === "ROLE_STAR" ? history.hostPhoneNumber : history.starPhoneNumber;
+    setCheckPhoneNumberDialogState({open: true, phoneNumber});
+  }, [histories, user]);
 
   // 호스트 혹은 스타가 예약된 공연 취소를 눌렀을 때
   const handleCancelSignedProposal = useCallback(async (proposalId) => {
@@ -124,9 +137,10 @@ const MyPage = () => {
         <MyProposalBox role={user.role} proposals={proposals} onCancel={handleCancelProposal} onAccept={handleAcceptProposal} onReject={handleRejectProposal} />
       </MyPageItem>
       <MyPageItem title="공연 기록">
-        <MyHistoryBox histories={histories} onCancel={(proposalId) => setCancelAlertDialogState({open: true, proposalId})} onComplete={(proposalId) => setCompleteAlertDialogState({open: true, proposalId})} />
+        <MyHistoryBox histories={histories} onCheckPhoneNumber={handleCheckPhoneNumber} onCancel={(proposalId) => setCancelAlertDialogState({open: true, proposalId})} onComplete={(proposalId) => setCompleteAlertDialogState({open: true, proposalId})} />
       </MyPageItem>
 
+      <SimpleDialog title='연락처 확인' content={checkPhoneNumberDialogState.phoneNumber} onPositive={handleCloseCheckPhoneNumberDialog} open={checkPhoneNumberDialogState.open} onClose={handleCloseCheckPhoneNumberDialog} />
       <AlertDialog title='공연 취소' content='선택한 공연이 취소됩니다. 정말로 취소하시겠습니까?' onPositive={() => handleCancelSignedProposal(cancelAlertDialogState.proposalId)} onNegative={handleCloseCancelAlertDialog} open={cancelAlertDialogState.open} onClose={handleCloseCancelAlertDialog}/>
       <AlertDialog title='공연 완료' content='공연을 완료하셨나요? 공연이 완료되면 리뷰를 작성할 수 있게 됩니다.' onPositive={() => handleCompleteProposal(completeAlertDialogState.proposalId)} onNegative={handleCloseCompleteAlertDialog} open={completeAlertDialogState.open} onClose={handleCloseCompleteAlertDialog}/>
     </Box>

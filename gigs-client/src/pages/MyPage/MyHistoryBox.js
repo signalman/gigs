@@ -17,6 +17,7 @@ const NoHistoriesMessage = styled(Box)((props) => ({
 
 const MyHistoryBox = ({
   histories,
+  onCheckPhoneNumber,
   onCancel,
   onComplete,
 }) => {
@@ -32,6 +33,7 @@ const MyHistoryBox = ({
             star={{name: history.starName, repImg: history.starRepImg}}
             date={history.showStartTime.format("YYYY-MM-DD")}
             status={history.showStatus}
+            onCheckPhoneNumber={() => onCheckPhoneNumber(history.proposalId)}
             onCancel={() => onCancel(history.proposalId)}
             onComplete={() => onComplete(history.proposalId)}
           />
