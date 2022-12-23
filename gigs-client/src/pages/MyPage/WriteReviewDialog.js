@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { writeReview } from '../../utils/Api';
+import { useNavigate } from 'react-router-dom';
 
 const ContentContainer = styled(Box)((props) => ({
   
@@ -29,7 +30,7 @@ const WriteReviewDialog = ({
   onClose,
   proposalId,
 }) => {
-  console.log(proposalId);
+  const navigate = useNavigate();
 
   const [score, setScore] = useState(0);
   const [content, setContent] = useState('');
@@ -52,6 +53,7 @@ const WriteReviewDialog = ({
       console.log(response);
 
       handleClose();
+      navigate(0);
     } catch(err) {
       console.log(err);
     }
