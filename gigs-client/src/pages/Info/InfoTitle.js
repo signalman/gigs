@@ -95,7 +95,7 @@ const InfoTitle = ({
         ) : (<></>)}
       </Name>
       {target === SYMBOL.stage ? (
-        <Address>{address && Object.keys(address).length > 0 ? `${address.siDo} ${address.siGun} ${address.road}` : '주소를 입력해주세요.'}
+        <Address>{address && Object.keys(address).length > 0 ? `${address.siDo} ${address.siGun} ${address.road} ${address.detail}` : '주소를 입력해주세요.'}
           {editable ? (
             <EditIconBox onClick={() => openEditAddressDialog()}>
               <EditIcon sx={{ width: '20px', height: '20px', }} />
