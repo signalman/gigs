@@ -1,21 +1,58 @@
-import { Grid } from '@mui/material';
+import styled from '@emotion/styled';
+import { Box, Grid } from '@mui/material';
 import React, { useCallback, useState } from 'react';
 import WriteProposalDialog from '../../components/WriteProposal';
 import { getProposalFormById } from '../../utils/Api';
 import ReservationItem from './ReservationItem';
+import AddIcon from '@mui/icons-material/Add';
+import { COLOR } from '../../utils/Constants';
+import WritePostDialog from './WritePostDialog';
+
+const AddButton = styled(Box)((props) => ({
+  width: '96px', height: '96px',
+  margin: '10px', padding: '2px',
+  position: 'relative',
+  borderRadius: '5px',
+  backgroundColor: `${COLOR.main}40`,
+  cursor: 'pointer',
+  zIndex: 0,
+  transition: '.25s ease',
+  "&:hover": {
+    backgroundColor: `${COLOR.main}80`,
+  }
+}));
+
+const IconBox = styled(Box)((props) => ({
+  width: '100%',
+  height: '100%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
+
+const MyAddIcon = styled(AddIcon)((props) => ({
+  width: '50px',
+  height: '50px',
+}));
 
 const ReservationTable = ({
+  host,
+  selectedDay,
   timeTable,
   onDeletePost,
   editable,
 }) => {
-  console.log(timeTable);
-
   // 제안서 작성 다이얼로그 관련
   const [selectedPost, setSelectedPost] = useState({
     err: '데이터를 불러오는 중 입니다.'
   });
+  const [isWritePostDialogOpen, setWritePostDialogOpen] = useState(false);
   const [isWriteProposalDialogOpen, setWriteProposalDialogOpen] = useState(false);
+
+  const handleCloseWritePostDialog = () => {
+    setWritePostDialogOpen(false);
+  };
+
   const handleCloseWriteProposalDialog = () => {
     setWriteProposalDialogOpen(false);
   };
@@ -43,13 +80,24 @@ const ReservationTable = ({
     }
   }, []);
 
+  const handleClickAdd = () => {
+    setWritePostDialogOpen(true);
+  };
+
   return (
     <>
       <Grid container sx={{ width: '480px', boxShadow: '0 0 4px black', backgroundColor: 'white', minHeight: '380px' }}>
         {timeTable?.map((item) => (
           <ReservationItem key={`${item.date} ${item.startTime}`} onDeletePost={onDeletePost} editable={editable} data={item} onClickPost={handleClickPost} />
         ))}
+        <AddButton onClick={handleClickAdd}>
+          <IconBox>
+            <MyAddIcon />
+          </IconBox>
+        </AddButton>
       </Grid>
+
+      {editable && <WritePostDialog open={isWritePostDialogOpen} onClose={handleCloseWritePostDialog} host={host} postDate={selectedDay} />}
       <WriteProposalDialog open={isWriteProposalDialogOpen} onClose={handleCloseWriteProposalDialog} post={selectedPost} />
     </>
     

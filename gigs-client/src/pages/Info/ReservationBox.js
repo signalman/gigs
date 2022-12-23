@@ -47,6 +47,7 @@ const Content = styled(Box)((props) => ({
 }));
 
 const ReservationBox = ({
+  host,
   posts,
   setPosts,
   editable,
@@ -111,16 +112,21 @@ const ReservationBox = ({
           </LocalizationProvider>
         </Content>
         <Content>
-          {dataForCalendar[selectedDay.format("YYYY-MM-DD")] > 0 ? (
+          {editable ? (
             <Box sx={{ width: '480px', }}>
-              <ReservationTable timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} onDeletePost={handleDeletePostClick} editable={editable} />
+              <ReservationTable host={host} selectedDay={selectedDay} timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} onDeletePost={handleDeletePostClick} editable={editable} />
             </Box>
           ) : (
-            <Box sx={{ width: '480px', height: '380px', lineHeight: '380px', color: COLOR.grey, textAlign: 'center', fontSize: '20px' }}>
-              등록된 무대가 없습니다.
-            </Box>
+            dataForCalendar[selectedDay.format("YYYY-MM-DD")] > 0 ? (
+              <Box sx={{ width: '480px', }}>
+                <ReservationTable timeTable={posts?.filter(post => post.date === selectedDay.format("YYYY-MM-DD"))} onDeletePost={handleDeletePostClick} editable={editable} />
+              </Box>
+            ) : (
+              <Box sx={{ width: '480px', height: '380px', lineHeight: '380px', color: COLOR.grey, textAlign: 'center', fontSize: '20px' }}>
+                등록된 무대가 없습니다.
+              </Box>
+            )
           )}
-          
         </Content>
       </Body>
     </Container>
