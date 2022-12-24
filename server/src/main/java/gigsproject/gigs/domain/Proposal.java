@@ -4,13 +4,17 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Proposal {
+public class Proposal extends BaseTimeEntity{
     @Id
     @GeneratedValue
     private Long proposalId;
@@ -18,7 +22,7 @@ public class Proposal {
     //true: 스타->호스트   false: 호스트 -> 스타    현재는 스타->호스트만 구현한다.
 //    private Boolean type;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = ALL)
     @JoinColumn(name = "postId")
     private Post post;
 
@@ -37,8 +41,8 @@ public class Proposal {
     @Enumerated(EnumType.STRING)
     private ShowStatus showStatus;
 
-    @OneToOne(mappedBy = "proposal")
-    private Review review;
+    @OneToMany(mappedBy = "proposal")
+    private List<Review> reviews = new ArrayList<>();
 
     public void setStar(Star star) {
         this.star = star;

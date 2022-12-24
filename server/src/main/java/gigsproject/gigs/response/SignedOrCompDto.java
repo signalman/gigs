@@ -1,14 +1,18 @@
 package gigsproject.gigs.response;
 
 import gigsproject.gigs.domain.Proposal;
+import gigsproject.gigs.domain.Review;
+import gigsproject.gigs.domain.Role;
 import gigsproject.gigs.domain.ShowStatus;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 
 @Data
+//마이페이지 주인 상대방에게 리뷰를 작성하였는지 여부, 내용 중요x
 public class SignedOrCompDto {
     private Long proposalId;
     private Long postId;
@@ -22,8 +26,6 @@ public class SignedOrCompDto {
     private LocalDateTime showStartTime;
     private LocalDateTime showEndTime;
     private ShowStatus showStatus;
-    private Boolean starToHostReviewed; //해당 제안서의 리뷰 content 필드를 확인해서 true / false 값으로 저장
-    private Boolean hostToStarReviewed; //해당 제안서의 리뷰 content 필드를 확인해서 true / false 값으로 저장
     private String starPhoneNumber; //스타의 전화번호
     private String hostPhoneNumber; //호스트의 전화번호
 
@@ -42,9 +44,16 @@ public class SignedOrCompDto {
         this.showStatus = proposal.getShowStatus();
         this.starPhoneNumber = proposal.getStar().getUser().getPhone();
         this.hostPhoneNumber = proposal.getPost().getHost().getUser().getPhone();
-        if (showStatus.equals(ShowStatus.COMP)) {
-            this.starToHostReviewed = proposal.getReview().getStarToHostContent().equals("") ? false : true;
-            this.hostToStarReviewed = proposal.getReview().getHostToStarContent().equals("") ? false : true;
-        }
+//        if (showStatus.equals(ShowStatus.COMP)) {
+//            List<Review> reviews = proposal.getReviews();
+//            for (Review review : reviews) {
+//                Role role = review.getUser().getRole();
+//                if (role == Role.ROLE_HOST) {
+//                    this.hostToStarReviewed = !review.getContent().equals("");
+//                } else {
+//                    this.starToHostReviewed = !review.getContent().equals("");
+//                }
+//            }
+//        }
     }
 }

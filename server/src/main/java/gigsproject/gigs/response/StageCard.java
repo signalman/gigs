@@ -46,7 +46,8 @@ public class StageCard {
         this.stageType = host.getStageType();
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
-        this.reviewCount = isNull(host.getReviewCount()) ? 0 : host.getReviewCount();
+        this.reviewCount = Long.valueOf(host.getUser().getReviews().size()).intValue();
+
         this.score = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 
     }

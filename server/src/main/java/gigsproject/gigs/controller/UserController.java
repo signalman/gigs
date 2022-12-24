@@ -4,14 +4,8 @@ import gigsproject.gigs.config.oauth.NotSignedUser;
 import gigsproject.gigs.config.oauth.OAuth2UserCustom;
 import gigsproject.gigs.domain.*;
 import gigsproject.gigs.request.SignUpForm;
-import gigsproject.gigs.response.MyPage;
-import gigsproject.gigs.response.ProposalDto;
-import gigsproject.gigs.response.SignedOrCompDto;
-import gigsproject.gigs.response.UserDto;
-import gigsproject.gigs.service.HostService;
-import gigsproject.gigs.service.ProposalService;
-import gigsproject.gigs.service.StarService;
-import gigsproject.gigs.service.UserService;
+import gigsproject.gigs.response.*;
+import gigsproject.gigs.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -24,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -36,6 +31,7 @@ public class UserController {
     private final ProposalService proposalService;
     private final StarService starService;
     private final HostService hostService;
+    private final ReviewService reviewService;
 
     @GetMapping("/signup")
     NotSignedUser sendNotSignedUser(@RequestParam String uuid, HttpServletRequest request) {
@@ -78,9 +74,11 @@ public class UserController {
 
     @GetMapping("/mypage")
     MyPage myPage(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
-
+log.info("start");
         User loginUser = oAuth2UserCustom.getUser();
         UserDto user = new UserDto(loginUser);
+        List<ReviewDto> reviews = reviewService.findByUser(loginUser);
+        log.info("통과");
         if (loginUser.getRole() == Role.ROLE_STAR) { //로그인 한 유저가 스타
             Star loginStar = starService.findByUser(loginUser);
             Long starId = loginStar.getStarId();
@@ -88,7 +86,7 @@ public class UserController {
             StarStatus status = loginStar.getStatus();
             List<ProposalDto> unsignedOrRejected = proposalService.findUnsignedOrRejected(starId);
             List<SignedOrCompDto> signedOrCompStar = proposalService.findSignedOrCompStar(starId);
-            MyPage starMyPage = new MyPage(user, starId, status, starImgUrl, unsignedOrRejected, signedOrCompStar);
+            MyPage starMyPage = new MyPage(user, starId, status, starImgUrl, unsignedOrRejected, signedOrCompStar, reviews);
             return starMyPage;
         }//로그인 한 유저가 호스트
         Host loginHost = hostService.findByUser(loginUser);
@@ -96,7 +94,7 @@ public class UserController {
         List<SignedOrCompDto> signedOrCompHost = proposalService.findSignedOrCompHost(loginHost.getHostId());
         Long hostId = loginHost.getHostId();
         String stageImgUrl = isNull(loginHost.getRepImg()) ? "" : loginHost.getRepImg();
-        MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, unsigned, signedOrCompHost);
+        MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, unsigned, signedOrCompHost, reviews);
         return hostMyPage;
     }
 
