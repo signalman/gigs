@@ -66,10 +66,10 @@ const MyHistoryItem = ({
       }}
     >
       <ProfileBox>
-        <MiniProfile width='200px' name={host.name} repImg={host.repImg} />에서
+        <MiniProfile width='200px' name={host.name} repImg={host.repImg} hostId={host.id} />에서
       </ProfileBox>
       <ProfileBox>
-        <MiniProfile width='200px' name={star.name} repImg={star.repImg} />공연
+        <MiniProfile width='200px' name={star.name} repImg={star.repImg} starId={star.id} />공연
       </ProfileBox>
       <ControlBox>
         <StatusBox>{isComplete ? '완료' : '예정'}</StatusBox>

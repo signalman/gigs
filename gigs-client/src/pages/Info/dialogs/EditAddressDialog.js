@@ -1,4 +1,4 @@
-import { Box, Button, Typography, TextField, Modal, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Box, Button, Typography, TextField, Modal, Dialog, DialogActions, DialogContent, DialogTitle, Alert } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import DaumPostCode from 'react-daum-postcode';
 
@@ -20,9 +20,10 @@ const EditAddressDialog = ({
   setValues,
   onEdit,
 }) => {
-
   const [address, setAddress] = useState("");
   const [openPostCode, setOpenPostCode] = useState(false);
+  
+  const [alert, setAlert] = useState('');
 
   const handle = {
     Open: () => { setOpenPostCode(true); },
@@ -40,19 +41,30 @@ const EditAddressDialog = ({
     const newValues = [...values];
     newValues[3] = e.target.value
     setValues(newValues);
-    // console.log(values)
   }
 
   const handleEditClick = useCallback(() => {
-    // console.log(values)
-    onEdit(values)
+    if(!address || !values[3]) {
+      setAlert('모든 정보를 입력해주세요.');
+      return;
+    }
+
+    onEdit(values);
     onClose();
-  }, [values, onEdit, onClose]);
+  }, [values, onEdit, onClose, address]);
+
+  const handleClose = () => {
+    setAddress('');
+    setOpenPostCode(false);
+    setValues([]);
+    setAlert('');
+    onClose();
+  };
 
   return (
     <Dialog
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       maxWidth={false}
     >
       <DialogTitle>
@@ -95,10 +107,11 @@ const EditAddressDialog = ({
             />
           </Box>
         </Box>
+        {alert && <Alert sx={{ mt: '10px', }} severity="error">{alert}</Alert> }
       </DialogContent>
       <DialogActions>
         <Button onClick={handleEditClick}>변경</Button>
-        <Button onClick={onClose}>취소</Button>
+        <Button onClick={handleClose}>취소</Button>
       </DialogActions>
     </Dialog>
   );
