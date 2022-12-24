@@ -17,7 +17,7 @@ const MyPage = () => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState({});
-  const [histories, setHistories] = useState({});
+  const [histories, setHistories] = useState([]);
   const [proposals, setProposals] = useState([]);
   const [reviews, setReviews] = useState([]);
 
@@ -33,15 +33,15 @@ const MyPage = () => {
     setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
     const isStar = response.data.user.role === 'ROLE_STAR';
 
-    const reviews = response.data.reviews;
-    setReviews(reviews);
+    const newReviews = response.data.reviews;
+    setReviews(newReviews);
 
     const signedOrComp = response.data.signedOrComp.map(proposal => {
       const newProposal = {...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), };
 
       if(proposal.showStatus === 'COMP') {
         const targetId = isStar ? proposal.hostId : proposal.starId;
-        const review = reviews?.find(review => review.roleId === targetId);
+        const review = newReviews?.find(review => review.userId === targetId);
         const hasReview = review?.content !== '';
 
         newProposal.hasReview = hasReview;
