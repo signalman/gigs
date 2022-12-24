@@ -3,6 +3,10 @@ package gigsproject.gigs.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.*;
 
 @Getter
 @Entity
@@ -20,4 +24,7 @@ public class User extends BaseTimeEntity{
 
     @Embedded
     private Address address;
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> reviews = new ArrayList<>();
 }

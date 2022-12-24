@@ -50,7 +50,6 @@ const StageSearchConditionBox = ({
   const [targetMinCount, setTargetMinCount] = useState(0);
   const [siDo, setSiDo] = useState('전체 지역');
   const [siGunGu, setSiGunGu] = useState('-');
-  const address = siDo === '전체 지역' ? '' : `${siDo}${siGunGu === '-' ? '' : ` ${siGunGu}`}`;
   const [isTimeSearch, setTimeSearch] = useState(false);
   const [startDate, setStartDate] = useState(moment());
   const [endDate, setEndDate] = useState(moment());
@@ -90,8 +89,6 @@ const StageSearchConditionBox = ({
 
   // 주소 변경 시
   const handleChangeSiDo = (e) => {
-    const newSiDo = e.target.value;
-
     setSiGunGu('-');
     setSiDo(e.target.value);
   };
@@ -174,16 +171,27 @@ const StageSearchConditionBox = ({
     }
 
     const newConditions = {
-      name, address, genres, stageTypes,
+      name, genres, stageTypes,
       targetAge: targetAge === "all" ? "" : targetAge,
       targetGender: targetGender === "MIXED" ? "" : targetGender,
       targetMinCount,
       ...times
     };
+    console.log(siDo);
+    console.log(siGunGu);
+
+    // 주소 조건
+    if(siDo !== '전체 지역') {
+      newConditions.siDo = siDo;
+      if(siGunGu !== '-') {
+        newConditions.siGunGu = siGunGu;
+      }
+    }
+
     setConditions(newConditions);
     setProgress(true);
     fetchData(newConditions);
-  }, [name, selectedStageTypes, selectedGenres, address, targetAge, targetGender, targetMinCount, isTimeSearch, startDate, endDate, startTime, endTime, setConditions, fetchData]);
+  }, [name, selectedStageTypes, selectedGenres, siDo, siGunGu, targetAge, targetGender, targetMinCount, isTimeSearch, startDate, endDate, startTime, endTime, setConditions, fetchData]);
 
   return (
     <>

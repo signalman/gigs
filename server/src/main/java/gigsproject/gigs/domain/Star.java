@@ -43,9 +43,9 @@ public class Star extends BaseTimeEntity {
     @Builder.Default
     private List<StarImg> starImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "star")
-    @Builder.Default
-    private List<Review> reviews = new ArrayList<>();
+//    @OneToMany(mappedBy = "star")
+//    @Builder.Default
+//    private List<Review> reviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "star")
     @Builder.Default

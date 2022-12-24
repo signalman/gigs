@@ -67,7 +67,6 @@ public class InitUser {
                         .starStageTypes(new ArrayList<>())
                         .starGenres(new ArrayList<>())
                         .starImgs(new ArrayList<>())
-                        .reviews(new ArrayList<>())
                         .build();
 
                 em.persist(star);

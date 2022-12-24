@@ -21,9 +21,11 @@ const HostCardContent = ({
 }) => {
   const {address, stageSize, showCount, pay, stageType, targetAge, targetGender, targetMinCount,} = content;
 
+  const fullAddress = `${address?.siDo || ''} ${address?.siGun || ''} ${address?.road || ''} ${address?.detail || ''}`;
+
   return (
     <Container>
-      <CardItem type='full' Icon={MapIcon}>{`${address?.siDo} ${address?.siGun} ${address?.road} ${address?.detail}`}</CardItem>
+      <CardItem type='full' Icon={MapIcon}>{fullAddress}</CardItem>
       <CardItem type='half' Icon={PhotoSizeSelectSmallIcon}>{stageSize}m^2</CardItem>
       <CardItem type='half' Icon={PeopleIcon}><Box>
             <Typography fontSize="12px">{targetAge}대 {ENUM[targetGender]}</Typography>

@@ -1,5 +1,6 @@
 package gigsproject.gigs.domain;
 
+import gigsproject.gigs.request.ReviewForm;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,30 +11,32 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Review {
+public class Review extends BaseTimeEntity{
     @Id
     @GeneratedValue
     private Long reviewId;
 
-    @Lob
-    private String starToHostContent;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
+    private User user; //리뷰 작성자
 
     @Lob
-    private String hostToStarContent;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "hostId")
-    private Host host;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "starId")
-    private Star star;
-
-    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proposalId")
     private Proposal proposal;
+    private Long roleId;
 
-    private LocalDateTime createdAt;
-    private Integer score;
+    private Double score;
 
+    public void edit(ReviewForm reviewForm) {
+        this.content = reviewForm.getContent();
+        this.score = reviewForm.getScore();
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        user.getReviews().add(this);
+    }
 }

@@ -337,7 +337,7 @@ const Info = ({
       </Box>
       
       {target === SYMBOL.stage ? (
-        <ReservationBox posts={posts} setPosts={setPosts} editable={editable} reservationBoxRef={reservationBoxRef} />
+        <ReservationBox host={data} posts={posts} setPosts={setPosts} editable={editable} reservationBoxRef={reservationBoxRef} />
       ) : (<></>)}
       {/* 소개글 */}
       <Introduction editable={editable} openEditIntroduceDialog={editIntroduceDialog.open} introduce={data.introduce}/>

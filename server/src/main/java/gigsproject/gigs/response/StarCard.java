@@ -29,7 +29,7 @@ public class StarCard {
         this.memberNumber = star.getMemberNumber();
         this.showCount = isNull(star.getShowCount()) ? 0 : star.getShowCount();
         this.avgScore = isNull(star.getScore()) ? 0 : star.getScore();
-        this.reviewCount = Long.valueOf(star.getReviews().stream().count()).intValue();
+        this.reviewCount = Long.valueOf(star.getUser().getReviews().size()).intValue();
         this.genres = star.getStarGenres().stream()
                 .map(starGenre -> new StarGenreDto(starGenre))
                 .collect(Collectors.toList());

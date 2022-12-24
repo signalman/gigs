@@ -61,9 +61,8 @@ public class Host extends BaseTimeEntity {
     @Builder.Default
     private final List<StageImg> imgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "host", cascade = ALL)
-    @Builder.Default
-    private List<Review> reviews = new ArrayList<>();
+//    @OneToMany(mappedBy = "host", cascade = ALL)
+//    private List<Review> reviews = new ArrayList<>();
 
     public Host edit(StageForm stageForm) {
         stageName = stageForm.getName();
