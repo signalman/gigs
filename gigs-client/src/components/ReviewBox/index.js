@@ -21,6 +21,17 @@ const Title = styled(Box)((props) => ({
   borderBottom: `2px solid ${COLOR.blacky}`,
 }));
 
+const NoReview = styled(Box)((props) => ({
+  width: '100%',
+  height: '200px',
+  backgroundColor: COLOR.whity,
+  color: COLOR.grey,
+  fontSize: '20px',
+  fontWeight: 'bold',
+  lineHeight: '200px',
+  textAlign: 'center',
+}));
+
 const ReviewBox = ({
   reviewBoxRef,
   reviews,
@@ -30,10 +41,13 @@ const ReviewBox = ({
       <Title>
         리뷰
       </Title>
-      {reviews?.map(review => (
-        <ReviewItem key={review.reviewId} review={review} />
-      ))}
-      
+      {reviews?.length === 0 ? (
+        <NoReview>리뷰가 존재하지 않습니다.</NoReview>
+      ) : (
+        reviews?.map(review => (
+          <ReviewItem key={review.reviewId} review={review} />
+        ))
+      )}
     </Container>
   );
 };

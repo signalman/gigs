@@ -104,7 +104,11 @@ const InfoTitle = ({
         </Address>
       ) : (null)}
       <ButtonBox>
-        <ConnectButton variant='contained' onClick={onClickConnect}>연결</ConnectButton>
+        {target === SYMBOL.star ? (
+          <ConnectButton variant='outlined' disabled >연결</ConnectButton>
+        ) : (
+          <ConnectButton variant='contained' onClick={onClickConnect}>연결</ConnectButton>
+        )}
         <RatingBox onClick={onClickScore}>
           <Rating
             sx={{ width: `75px` }}

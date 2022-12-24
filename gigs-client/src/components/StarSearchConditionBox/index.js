@@ -34,7 +34,6 @@ const StarSearchConditionBox = ({
   const [stageTypes, setStageTypes] = useState([]);
 
   const [name, setName] = useState('');
-  const [address, setAddress] = useState('');
   const [selectedGenres, setSelectedGenres] = useState({});
   const [selectedStageTypes, setSelectedStageTypes] = useState({});
 
@@ -73,11 +72,6 @@ const StarSearchConditionBox = ({
     setName(e.target.value);
   };
 
-  // 주소 변경 시
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
-  };
-
   // 장르 아이템 선택하면 장르 선택 표시
   const selectGenre = useCallback((genre) => {
     setSelectedGenres({...selectedGenres, [genre]: !selectedGenres[genre]});
@@ -105,11 +99,11 @@ const StarSearchConditionBox = ({
       if(selectedGenres[key]) genres.push(key);
     }
 
-    const newConditions = {name, address, gender: gender === "MIXED" ? "" : gender, genres, stageTypes};
+    const newConditions = {name, gender: gender === "MIXED" ? "" : gender, genres, stageTypes};
     setConditions(newConditions);
     setProgress(true);
     fetchData(newConditions);
-  }, [name, selectedStageTypes, selectedGenres, address, gender, setConditions, fetchData]);
+  }, [name, selectedStageTypes, selectedGenres, gender, setConditions, fetchData]);
 
   return (
     <>
@@ -176,20 +170,7 @@ const StarSearchConditionBox = ({
             </Item>
           </Line>
           <Line>
-            <Item type='half'>
-              <ItemName>주소</ItemName>
-              <TextField
-                sx={{
-                  width: '200px',
-                  height: '30px',
-                  alignSelf: 'center',
-                }}
-                variant='standard'
-                value={address}
-                onChange={handleAddressChange}
-              ></TextField>
-            </Item>
-            <Item type='half'>
+            <Item type='full'>
               <ItemName>팀 구성</ItemName>
               <FormControl sx={{ alignSelf: 'center' }}>
                 <RadioGroup
