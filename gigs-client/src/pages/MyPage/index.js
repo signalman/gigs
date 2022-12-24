@@ -41,7 +41,7 @@ const MyPage = () => {
 
       if(proposal.showStatus === 'COMP') {
         const targetId = isStar ? proposal.hostId : proposal.starId;
-        const review = newReviews?.find(review => review.userId === targetId);
+        const review = newReviews?.find(review => review.roleId === targetId);
         const hasReview = review?.content !== '';
 
         newProposal.hasReview = hasReview;
