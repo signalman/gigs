@@ -74,11 +74,9 @@ public class UserController {
 
     @GetMapping("/mypage")
     MyPage myPage(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
-log.info("start");
         User loginUser = oAuth2UserCustom.getUser();
         UserDto user = new UserDto(loginUser);
         List<ReviewDto> reviews = reviewService.findByUser(loginUser);
-        log.info("통과");
         if (loginUser.getRole() == Role.ROLE_STAR) { //로그인 한 유저가 스타
             Star loginStar = starService.findByUser(loginUser);
             Long starId = loginStar.getStarId();
@@ -86,16 +84,14 @@ log.info("start");
             StarStatus status = loginStar.getStatus();
             List<ProposalDto> unsignedOrRejected = proposalService.findUnsignedOrRejected(starId);
             List<SignedOrCompDto> signedOrCompStar = proposalService.findSignedOrCompStar(starId);
-            MyPage starMyPage = new MyPage(user, starId, status, starImgUrl, unsignedOrRejected, signedOrCompStar, reviews);
-            return starMyPage;
+            return new MyPage(user, starId, status, starImgUrl, unsignedOrRejected, signedOrCompStar, reviews);
         }//로그인 한 유저가 호스트
         Host loginHost = hostService.findByUser(loginUser);
         List<ProposalDto> unsigned = proposalService.findUnsigned(loginHost.getHostId());
         List<SignedOrCompDto> signedOrCompHost = proposalService.findSignedOrCompHost(loginHost.getHostId());
         Long hostId = loginHost.getHostId();
         String stageImgUrl = isNull(loginHost.getRepImg()) ? "" : loginHost.getRepImg();
-        MyPage hostMyPage = new MyPage(user, hostId, stageImgUrl, unsigned, signedOrCompHost, reviews);
-        return hostMyPage;
+        return new MyPage(user, hostId, stageImgUrl, unsigned, signedOrCompHost, reviews);
     }
 
     @PostMapping("/mypage/status")

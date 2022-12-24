@@ -1,6 +1,7 @@
 package gigsproject.gigs.response;
 
-import gigsproject.gigs.domain.*;
+import gigsproject.gigs.domain.Review;
+import gigsproject.gigs.domain.Role;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,12 +12,14 @@ public class ReviewDto {
 
     private Long reviewId;
     private Long userId;
-    private String content; // 상대방이 쓴 내용
+    private Long roleId; //리뷰작성자의 호스트 or 스타 id
+    private String role; //star, host
 
-    private LocalDateTime createdAt;
+    private String content; // 상대방이 쓴 내용
     private Double score;
 
-    private String role; //star, host
+    private LocalDateTime createdAt;
+
 
     public ReviewDto(Review review) {
         this.reviewId = review.getReviewId();
@@ -24,6 +27,12 @@ public class ReviewDto {
         this.content = review.getContent();
         this.createdAt = review.getModifiedDate();
         this.score = review.getScore();
-        this.role = review.getUser().getRole().toString().toLowerCase();
+        this.role = review.getUser().getRole().toString().toLowerCase(); //리뷰 작성자의 역할
+
+        if (role == Role.ROLE_HOST.name().toLowerCase()) {
+            this.roleId = review.getProposal().getPost().getHost().getHostId();
+        } else {
+            this.roleId = review.getProposal().getStar().getStarId();
+        }
     }
 }

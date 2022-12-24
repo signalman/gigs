@@ -1,10 +1,10 @@
 package gigsproject.gigs.service;
 
-import gigsproject.gigs.domain.Proposal;
-import gigsproject.gigs.domain.Review;
-import gigsproject.gigs.domain.User;
+import gigsproject.gigs.domain.*;
+import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.ProposalRepository;
 import gigsproject.gigs.repository.ReviewRepository;
+import gigsproject.gigs.repository.StarRepository;
 import gigsproject.gigs.request.ReviewForm;
 import gigsproject.gigs.response.ReviewDto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,8 @@ import java.util.stream.Collectors;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ProposalRepository proposalRepository;
+    private final HostRepository hostRepository;
+    private final StarRepository starRepository;
 
     @Transactional
     public void createEmptyReview(Proposal proposal) {
@@ -30,11 +32,13 @@ public class ReviewService {
                 .proposal(proposal)
                 .content("")
                 .score(0.0)
+                .roleId(proposal.getPost().getHost().getHostId())
                 .build();
         Review reviewFromHost = Review.builder()
                 .proposal(proposal)
                 .content("")
                 .score(0.0)
+                .roleId(proposal.getStar().getStarId())
                 .build();
         reviewFromStar.setUser(proposal.getStar().getUser());
         reviewFromHost.setUser(proposal.getPost().getHost().getUser());
@@ -42,9 +46,20 @@ public class ReviewService {
         reviewRepository.save(reviewFromHost);
     }
 
+
     public List<ReviewDto> findByUser(User user) {
-        log.info("***********user*********");
-        return reviewRepository.findByUser(user)
+        //이 유저가 피작성자로 있는 모든 리뷰 불러오기
+        Long roleId; //이 user의 role id
+
+        if (user.getRole() == Role.ROLE_HOST) {
+            roleId = hostRepository.findByUser(user).getHostId();
+        } else {
+            roleId = starRepository.findByUser(user).getStarId();
+        }
+
+        log.info("role id : {} ", roleId);
+
+        return reviewRepository.findByRoleId(roleId)
                 .stream()
                 .map(r -> new ReviewDto(r))
                 .collect(Collectors.toList());

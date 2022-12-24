@@ -16,6 +16,7 @@ import static java.util.Objects.isNull;
 public class SignedOrCompDto {
     private Long proposalId;
     private Long postId;
+    private Long hostId;
     private Long starId;
     private String starName;
     private String starRepImg;
@@ -32,6 +33,7 @@ public class SignedOrCompDto {
     public SignedOrCompDto(Proposal proposal) {
         this.proposalId = proposal.getProposalId();
         this.postId = proposal.getPost().getPostId();
+        this.hostId = proposal.getPost().getHost().getHostId();
         this.starRepImg = isNull(proposal.getStar().getRepImg()) ? "" : proposal.getStar().getRepImg();
         this.hostRepImg = isNull(proposal.getPost().getHost().getRepImg()) ? "" : proposal.getPost().getHost().getRepImg();
         this.stageName = proposal.getPost().getHost().getStageName();
