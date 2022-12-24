@@ -79,39 +79,17 @@ const Info = ({
     setData(newData);
     setImages(response.data.starImgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
 
-    const dummyReviews = [{
-      createdAt: "2022-12-23T12:48:01.974Z",
-      hostId: 1,
-      hostName: '카페',
-      hostRepImg: 'asdfasdfadsfasdffsdas.jpg',
-      hostToStarContent: "멋진 가수예요.",
-      reviewId: 0,
-      hostToStarScore: '4',
-      starId: 2,
-      starName: '박상연',
-      starRepImg: 'asdfadsfjknjnjkd.jpg',
-      starToHostContent: "멋진 무대예요",
-      starToHostScore: 3,
-    }];
-
-    const newReviews = dummyReviews.map(review => ({
+    const newReviews = response.data?.reviews.map(review => ({
       reviewId: review.reviewId,
-      id: review.hostId,
-      name: review.hostName,
-      repImg: review.hostRepImg,
-      content: review.hostToStarContent,
-      score: review.hostToStarScore,
+      id: review.roleId,
+      role: review.role === 'role_star' ? 'star' : 'host',
+      // TODO: name과 repImg 받기
+      name: review.name || '박상연',
+      repImg: review.repImg || 'asdsdads',
+      content: review.content,
+      score: review.score,
       createdAt: moment(review.createdAt),
     }));
-    // const newReviews = response.data?.reviews.map(review => ({
-    //   reviewId: review.reviewId,
-    //   id: review.hostId,
-    //   name: review.hostName,
-    //   repImg: review.hostRepImg,
-    //   content: review.hostToStarContent,
-    //   score: review.hostToStarScore,
-    //   createdAt: moment(review.createdAt),
-    // }));
 
     setReviews(newReviews);
   }, [params]);
@@ -145,39 +123,18 @@ const Info = ({
     setData(newData);
     setPosts(response.data.posts);
     setImages(response.data.stageImgs?.map(img => ({imgId: img.stageImgId, url: IMG(img.url)})));
-    const dummyReviews = [{
-      createdAt: "2022-12-23T12:48:01.974Z",
-      hostId: 1,
-      hostName: '카페',
-      hostRepImg: 'asdfasdfadsfasdffsdas.jpg',
-      hostToStarContent: "멋진 가수예요.",
-      reviewId: 0,
-      hostToStarScore: '4',
-      starId: 2,
-      starName: '박상연',
-      starRepImg: 'asdfadsfjknjnjkd.jpg',
-      starToHostContent: "멋진 무대예요",
-      starToHostScore: 3,
-    }];
-
-    const newReviews = dummyReviews.map(review => ({
+    
+    const newReviews = response.data?.reviews.map(review => ({
       reviewId: review.reviewId,
-      id: review.starId,
-      name: review.starName,
-      repImg: review.starRepImg,
-      content: review.starToHostContent,
-      score: review.starToHostScore,
+      id: review.roleId,
+      role: review.role === 'role_star' ? 'star' : 'host',
+      // TODO: name과 repImg 받기
+      name: review.name || '박상연',
+      repImg: review.repImg || 'asdsdads',
+      content: review.content,
+      score: review.score,
       createdAt: moment(review.createdAt),
     }));
-    // const newReviews = response.data?.reviews.map(review => ({
-    //   reviewId: review.reviewId,
-    //   id: review.hostId,
-    //   name: review.hostName,
-    //   repImg: review.hostRepImg,
-    //   content: review.hostToStarContent,
-    //   score: review.hostToStarScore,
-    //   createdAt: moment(review.createdAt),
-    // }));
 
     setReviews(newReviews);
   }, [params]);
