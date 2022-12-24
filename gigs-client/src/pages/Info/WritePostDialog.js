@@ -10,9 +10,11 @@ import Swal from 'sweetalert2';
 const WritePostDialog = ({
   open,
   onClose,
+  err,
   host,
   postDate,
 }) => {
+  console.log(err);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(1);
   const endTimeList = Array.from({length: 24-startTime}, (v, i) => startTime + i + 1);
@@ -75,9 +77,9 @@ const WritePostDialog = ({
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      {host.err ? (
+      {err ? (
           <DialogContent sx={{ width: '450px', height: '200px', textAlign: 'center', lineHeight: '200px', overflow: 'hidden' }}>
-            {host.err}
+            {err}
           </DialogContent>
         ) : (
           <>
