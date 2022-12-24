@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { Box } from '@mui/material';
-import React from 'react';
+import React, { useCallback } from 'react';
 import StageImg from '../../images/stage_tmp.jpg';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { IMG } from '../../utils/Constants';
+import { useNavigate } from 'react-router-dom';
 
 const ImgBox = styled(Box)((props) => ({
   width: '25px',
@@ -23,17 +24,31 @@ const NameBox = styled(Box)((props) => ({
 }));
 
 const MiniProfile = ({
+  starId,
+  hostId,
   repImg,
   name,
   width,
 }) => {
+  const navigate = useNavigate();
+
+  const onClick = useCallback(() => {
+    if(starId) {
+      navigate(`/stars/${starId}`);
+    } else if(hostId) {
+      navigate(`/stages/${hostId}`);
+    }
+  }, [starId, hostId]);
+
   return (
     <Box
       sx={{
         display: 'flex',
         width: width || '200px',
         height: '50px',
+        cursor: 'pointer',
       }}
+      onClick={onClick}
     >
       {name ? (
         <>

@@ -58,7 +58,7 @@ const WriteProposalDialog = ({
             <DialogTitle sx={{ fontWeight: 'bold' }}>제안서 작성</DialogTitle>
             <DialogContent>
               <ProposalContent title={'스타'} width={300}>
-                <MiniProfile name={post.starName} repImg={post.starImg} />
+                <MiniProfile name={post.starName} repImg={post.starImg} starId={post.starId} />
               </ProposalContent>
               <ProposalContent title={'일시'} width={300}>
                 <Box sx={{ width: '100%', height: '50px', lineHeight: '50px', }}>

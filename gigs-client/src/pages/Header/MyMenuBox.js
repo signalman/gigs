@@ -10,9 +10,7 @@ import NaverLoginButtonImg from '../../images/naver_login_button.png';
 import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
-import { getPostForm, logout } from '../../utils/Api';
-import WritePost from './WritePost';
-import moment from 'moment';
+import { logout } from '../../utils/Api';
 
 const Container = styled(Box)((props) => ({
   width: '100px',
@@ -35,20 +33,13 @@ const MenuIconBox = styled(Box)((props) => ({
  */
 const MyMenuBox = () => {
   const navigate = useNavigate();
-  const [cookies, setCookie, removeCookie] = useCookies(['role']);
-
+  
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const [isLoginDialogOpen, setLoginDialogOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-
-  const [isWritePostDialogOpen, setWritePostDialogOpen] = useState(false);
-  const [postForm, setPostForm] = useState({});
-
   const menuCookie = useCookies('userId')
-  // const [, , removeCookie] = useCookies('userId')
-  // console.log(menuCookie[0])
 
   useEffect(() => {
     // 조건문 length 말고 다른 것 있을까요?
@@ -72,31 +63,8 @@ const MyMenuBox = () => {
     setAnchorEl(null);
   };
 
-  const handleOpenWritePostDialog = async () => {
-    try {
-      const response = await getPostForm();
-      console.log('# 포스트 작성 폼');
-      console.log(response);
-
-      if(!response.data.name) setPostForm({err: '무대 정보를 먼저 입력해주세요.'});
-      else setPostForm(response.data);
-
-      setWritePostDialogOpen(true);
-    } catch(err) {
-      console.log(err);
-      setPostForm({err: err.response.data});
-      setWritePostDialogOpen(true);
-    } finally {
-      handleClose();
-    }
-  };
-
   const handleLoginDialogClose = () => {
     setLoginDialogOpen(false);
-  };
-
-  const handleCloseWritePostDialog = () => {
-    setWritePostDialogOpen(false);
   };
 
   const handleLogOut = useCallback(async () => {
@@ -135,9 +103,6 @@ const MyMenuBox = () => {
         TransitionComponent={Fade}
       >
         <MenuItem onClick={() => { navigate(PATH.myPage); handleClose() }}>내 정보</MenuItem>
-        {cookies.role === 'ROLE_HOST' ? <MenuItem onClick={handleOpenWritePostDialog}>포스트 등록</MenuItem> : null }
-        
-
         <MenuItem onClick={() => {
           Swal.fire({
             icon: "question",
@@ -171,8 +136,6 @@ const MyMenuBox = () => {
           </a>
         </DialogContent>
       </Dialog>
-
-      <WritePost open={isWritePostDialogOpen} onClose={handleCloseWritePostDialog} host={postForm} />
     </>
   );
 };
