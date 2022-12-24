@@ -18,7 +18,7 @@ public class Review extends BaseTimeEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user")
-    private User user;
+    private User user; //리뷰 작성자
 
     @Lob
     private String content;
@@ -26,6 +26,7 @@ public class Review extends BaseTimeEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proposalId")
     private Proposal proposal;
+    private Long roleId;
 
     private Double score;
 
