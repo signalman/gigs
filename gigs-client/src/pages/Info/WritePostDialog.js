@@ -52,14 +52,14 @@ const WritePostDialog = ({
       console.log('# 포스트 작성 결과');
       console.log(response);
 
+      handleClose();
+
       await Swal.fire({
         icon: "success",
         title: "포스트 작성 완료",
         text: "포스트가 성공적으로 작성되었습니다!",
         confirmButtonText: "확인",
       });
-
-      handleClose();
     } catch(err) {
       console.log(err);   
     }

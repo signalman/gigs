@@ -5,6 +5,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { writeReview } from '../../utils/Api';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const ContentContainer = styled(Box)((props) => ({
   
@@ -31,6 +32,7 @@ const WriteReviewDialog = ({
   proposalId,
 }) => {
   const navigate = useNavigate();
+  const [cookies, setCookie, removeCookie] = useCookies(['role']);
 
   const [score, setScore] = useState(0);
   const [content, setContent] = useState('');
@@ -44,8 +46,10 @@ const WriteReviewDialog = ({
 
   const handleWrite = useCallback(async () => {
     const reviewData = {
-      proposalId, score, content,
+      proposalId, content,
     };
+    if(cookies.role === 'star') reviewData.starToHostScore = score;
+    else reviewData.hostToStarScore = score;
 
     try {
       const response = await writeReview(reviewData);

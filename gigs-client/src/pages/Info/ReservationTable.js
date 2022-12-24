@@ -90,11 +90,11 @@ const ReservationTable = ({
         {timeTable?.map((item) => (
           <ReservationItem key={`${item.date} ${item.startTime}`} onDeletePost={onDeletePost} editable={editable} data={item} onClickPost={handleClickPost} />
         ))}
-        <AddButton onClick={handleClickAdd}>
+        {editable && <AddButton onClick={handleClickAdd}>
           <IconBox>
             <MyAddIcon />
           </IconBox>
-        </AddButton>
+        </AddButton>}
       </Grid>
 
       {editable && <WritePostDialog open={isWritePostDialogOpen} onClose={handleCloseWritePostDialog} host={host} postDate={selectedDay} />}
