@@ -6,6 +6,7 @@ import { posts } from '../../utils/Api'
 import MiniProfile from '../MyPage/MiniProfile';
 import { to00 } from '../../utils/Constants';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const WritePostDialog = ({
   open,
@@ -14,7 +15,8 @@ const WritePostDialog = ({
   host,
   postDate,
 }) => {
-  console.log(err);
+  const navigate = useNavigate();
+
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(1);
   const endTimeList = Array.from({length: 24-startTime}, (v, i) => startTime + i + 1);
@@ -48,7 +50,7 @@ const WritePostDialog = ({
       return;
     }
 
-    const data = { date: postDate, endTime: `${to00(endTime)}:00:00`, startTime: `${to00(startTime)}:00:00`, genre: selectedGenre };
+    const data = { date: postDate.format('YYYY-MM-DD'), endTime: `${to00(endTime)}:00:00`, startTime: `${to00(startTime)}:00:00`, genre: selectedGenre };
     try {
       const response = await posts(data);
       console.log('# 포스트 작성 결과');
@@ -62,6 +64,8 @@ const WritePostDialog = ({
         text: "포스트가 성공적으로 작성되었습니다!",
         confirmButtonText: "확인",
       });
+
+      navigate(0);
     } catch(err) {
       console.log(err);   
     }
