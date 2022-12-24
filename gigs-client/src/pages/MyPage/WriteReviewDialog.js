@@ -46,10 +46,10 @@ const WriteReviewDialog = ({
 
   const handleWrite = useCallback(async () => {
     const reviewData = {
-      proposalId, content,
+      proposalId, content, score,
     };
-    if(cookies.role === 'star') reviewData.starToHostScore = score;
-    else reviewData.hostToStarScore = score;
+    // if(cookies.role === 'star') reviewData.starToHostScore = score;
+    // else reviewData.hostToStarScore = score;
 
     try {
       const response = await writeReview(reviewData);
