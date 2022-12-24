@@ -11,6 +11,9 @@ const SimpleEditTexetDialog = ({
   onEdit,
 }) => {
   const handleTextChange = (e) => {
+    if(type === 'number') {
+      if(Number(e.target.value) < 0) return;
+    }
     setValues([e.target.value]);
   }
 

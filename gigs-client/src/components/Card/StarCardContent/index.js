@@ -21,10 +21,10 @@ const StarCardContent = ({
 
   return (
     <Container>
-      <CardItem type='half' Icon={PeopleIcon}>{memberNumber}인 {ENUM[gender]}</CardItem>
-      <CardItem type='half' Icon={MicExternalOnIcon}>{showCount}회</CardItem>
-      <CardItem type='full' Icon={HeadsetMicIcon}>{genres?.reduce((prev, cur) => (prev + ` / ${ENUM[cur.genreName]}`), "").substring(3)}</CardItem>
-      <CardItem type='full' Icon={LocationOnIcon}>{starStageTypes?.reduce((prev, cur) => (prev + ` / ${ENUM[cur.stageTypeName]}`), "").substring(3)}</CardItem>
+      <CardItem type='half' Icon={PeopleIcon}>{gender === 'DEFAULT' ? '정보가 없습니다' : `${memberNumber}인 ${ENUM[gender]}`}</CardItem>
+      <CardItem type='half' Icon={MicExternalOnIcon}>{showCount}회 공연</CardItem>
+      <CardItem type='full' Icon={HeadsetMicIcon}>{genres?.length === 0 ? '정보가 없습니다' : genres?.reduce((prev, cur) => (prev + ` / ${ENUM[cur.genreName]}`), "").substring(3)}</CardItem>
+      <CardItem type='full' Icon={LocationOnIcon}>{starStageTypes?.length === 0 ? '정보가 없습니다' : starStageTypes?.reduce((prev, cur) => (prev + ` / ${ENUM[cur.stageTypeName]}`), "").substring(3)}</CardItem>
     </Container>
   );
 };
