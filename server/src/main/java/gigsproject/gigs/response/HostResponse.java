@@ -65,7 +65,8 @@ public class HostResponse {
         this.stageType = host.getStageType();
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
-        this.reviews = host.getReviews().stream()
+        this.reviews = host.getUser().getReviews()
+                .stream()
                 .map(r -> new ReviewDto(r))
                 .collect(Collectors.toList());
 

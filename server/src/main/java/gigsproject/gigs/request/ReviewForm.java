@@ -11,6 +11,6 @@ public class ReviewForm {
 
     private Long proposalId;
     private String content;
-    private Integer score;
+    private Double score;
 
 }

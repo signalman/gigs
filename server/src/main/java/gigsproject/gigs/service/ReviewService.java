@@ -2,16 +2,18 @@ package gigsproject.gigs.service;
 
 import gigsproject.gigs.domain.Proposal;
 import gigsproject.gigs.domain.Review;
-import gigsproject.gigs.domain.Role;
+import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.ProposalRepository;
 import gigsproject.gigs.repository.ReviewRepository;
 import gigsproject.gigs.request.ReviewForm;
+import gigsproject.gigs.response.ReviewDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,39 +26,45 @@ public class ReviewService {
     @Transactional
     public void createEmptyReview(Proposal proposal) {
         log.info("{}", proposal);
-        Review review = Review.builder()
+        Review reviewFromStar = Review.builder()
                 .proposal(proposal)
-                .starToHostContent("")
-                .hostToStarContent("")
-                .host(proposal.getPost().getHost())
-                .star(proposal.getStar())
+                .content("")
+                .score(0.0)
                 .build();
-        log.info("서비스단 로그 : {}", review);
-        reviewRepository.save(review);
-        log.info("여기까지 통과완료");
+        Review reviewFromHost = Review.builder()
+                .proposal(proposal)
+                .content("")
+                .score(0.0)
+                .build();
+        reviewFromStar.setUser(proposal.getStar().getUser());
+        reviewFromHost.setUser(proposal.getPost().getHost().getUser());
+        reviewRepository.save(reviewFromStar);
+        reviewRepository.save(reviewFromHost);
     }
 
-    public void getList() {
-        List<Review> all = reviewRepository.findAll();
+    public List<ReviewDto> findByUser(User user) {
+        log.info("***********user*********");
+        return reviewRepository.findByUser(user)
+                .stream()
+                .map(r -> new ReviewDto(r))
+                .collect(Collectors.toList());
     }
 
     @Transactional
-    public void edit(ReviewForm reviewForm, Long proposalId, Role role) {
-        Review review = findByProposal(proposalId);
-
-        if (role == Role.ROLE_STAR) {
-            review.editFromStar(reviewForm);
-        }
-        if (role == Role.ROLE_HOST) {
-            review.editFromHost(reviewForm);
-        }
+    public void edit(User user, ReviewForm reviewForm) {
+        Review review = findReview(user, reviewForm.getProposalId());
+        review.edit(reviewForm);
     }
 
-    public Review findByProposal(Long proposalId) {
+
+
+    public Review findReview(User user, Long proposalId) {
         Proposal proposal = proposalRepository.findById(proposalId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 제안서 존재 x"));
-        return reviewRepository.findByProposal(proposal);
+        return reviewRepository.findByUserAndProposal(user, proposal)
+                .orElseThrow(()-> new IllegalArgumentException("해당 리뷰 존재 x"));
     }
+
 
 
 //    public ReviewResponse getReview(Long reviewId) {

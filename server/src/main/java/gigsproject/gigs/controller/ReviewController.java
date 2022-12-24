@@ -11,20 +11,21 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
-@RestController("/mypage")
+@RestController
+@RequestMapping("/mypage")
 @RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
 
 
-    /**
-     * 특정 리뷰 요청
-     */
-    @GetMapping("/review/{reviewId}")
-    public void getReview(@PathVariable Long reviewId) {
+//    /**
+//     * 특정 리뷰 요청
+//     */
+//    @GetMapping("/review/{reviewId}")
+//    public void getReview(@PathVariable Long reviewId) {
 //        reviewService.getReview(reviewId);
-    }
+//    }
 
     /**
      * 특정 리뷰 수정
@@ -32,11 +33,9 @@ public class ReviewController {
     @PutMapping("/review")
     public void update(@RequestBody ReviewForm reviewForm,
                        @AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
+        log.info("******* review 작성 ***********");
         User user = oAuth2UserCustom.getUser();
-        Role role = user.getRole();
-        Long proposalId = reviewForm.getProposalId();
-
-        reviewService.edit(reviewForm, proposalId, role);
+        reviewService.edit(user, reviewForm);
     }
 
 
