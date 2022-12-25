@@ -42,7 +42,7 @@ const ReservationTable = ({
   onDeletePost,
   editable,
 }) => {
-  const canWritePost = Boolean(host.name) && host.address?.siDo;
+  const canWritePost = Boolean(host?.name) && host.address?.siDo;
 
   // 제안서 작성 다이얼로그 관련
   const [selectedPost, setSelectedPost] = useState({
