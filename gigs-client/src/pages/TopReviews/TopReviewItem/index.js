@@ -6,6 +6,8 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { COLOR } from '../../../utils/Constants';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import {useNavigate} from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 const Container = styled(Box)((props) => ({
   position: 'relative',
@@ -98,6 +100,16 @@ const MoreButton = styled(ReadMoreIcon)((props) => ({
   }
 }));
 
+const roleIconStyle = {
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  zIndex: 150,
+  width: '30px',
+  height: '30px',
+  color: `${COLOR.main}`,
+};
+
 const TopReviewItem = ({
   review,
 }) => {
@@ -126,6 +138,11 @@ const TopReviewItem = ({
         <ButtonBox>
           <MoreButton onClick={handleClick} />
         </ButtonBox>
+        {role === 'role_star' ? (
+          <PersonIcon sx={roleIconStyle} />
+        ) : (
+          <LocationOnIcon sx={roleIconStyle} />
+        )}
       </Content>
     </Container>
   );
