@@ -16,6 +16,9 @@ const theme = createTheme({
     primary: {
       main: "#D046D2",
     },
+  },
+  typography: {
+    fontFamily: "'NanumSquare'",
   }
 });
 
