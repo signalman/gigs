@@ -50,7 +50,7 @@ public class HostResponse {
 
     private List<PostResponse> posts;
 
-    public HostResponse(Host host) {
+    public HostResponse(Host host, List<ReviewDto> reviews) {
         this.userId = host.getUser().getUserId();
         this.hostId = host.getHostId();
         this.name = host.getStageName();
@@ -65,10 +65,11 @@ public class HostResponse {
         this.stageType = host.getStageType();
 
         this.showCount = isNull(host.getShowCount()) ? 0 : host.getShowCount();
-        this.reviews = host.getUser().getReviews()
-                .stream()
-                .map(r -> new ReviewDto(r))
-                .collect(Collectors.toList());
+//        this.reviews = host.getUser().getReviews()
+//                .stream()
+//                .map(r -> new ReviewDto(r))
+//                .collect(Collectors.toList());
+        this.reviews = reviews;
 
         this.score = isNull(host.getAvgScore()) ? 0 : host.getAvgScore();
 

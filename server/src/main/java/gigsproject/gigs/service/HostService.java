@@ -1,12 +1,16 @@
 package gigsproject.gigs.service;
 
-import gigsproject.gigs.domain.*;
+import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.domain.Post;
+import gigsproject.gigs.domain.StageImg;
+import gigsproject.gigs.domain.User;
 import gigsproject.gigs.repository.HostRepository;
 import gigsproject.gigs.repository.PostRepository;
 import gigsproject.gigs.repository.StageImgRepository;
 import gigsproject.gigs.request.StageForm;
 import gigsproject.gigs.request.StageSearch;
 import gigsproject.gigs.response.HostResponse;
+import gigsproject.gigs.response.ReviewDto;
 import gigsproject.gigs.response.StageCard;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static java.util.Objects.isNull;
-
 @Slf4j
 @Service
 @Transactional(readOnly = true)
@@ -30,6 +32,7 @@ public class HostService {
     private final PostRepository postRepository;
     private final AwsS3Service awsS3Service;
     private final StageImgRepository stageImgRepository;
+    private final ReviewService reviewService;
 
     /**
      * 무대 찾기 서비스
@@ -45,7 +48,9 @@ public class HostService {
     public HostResponse findByHost(Long hostId) {
         Host host = hostRepository.findById(hostId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 호스트가 존재하지 않습니다."));
-        return new HostResponse(host);
+        List<ReviewDto> reviews = reviewService.findByTarget(host.getUser());
+
+        return new HostResponse(host, reviews);
     }
 
     public Host findByUser(User user) {
