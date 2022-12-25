@@ -18,7 +18,7 @@ const Container = styled(Box)((p) => ({
 const Block = styled(Box)((p) => ({
   marginTop: '30px',
   width: '100vw',
-  height: '70vh', // 임시
+  height: '85vh',
 
 }));
 
@@ -36,7 +36,7 @@ const Main = ({
     const counter = setInterval(() => {
       setCount(count + 1000);
     }, 3000);
-    setCards([{}, {}, {}, {}])
+    setCards([{}, {}, {}])
     return () => {
       clearInterval(counter);
     }
@@ -103,6 +103,9 @@ const Main = ({
               backgroundColor: `${COLOR.main}`,
               boxShadow: `0 0 8px ${COLOR.blacky}`,
               color: 'white',
+              '&:hover': {
+                boxShadow: `0 0 15px ${COLOR.blacky}`,
+              }
 
             }}
             onClick={() => { window.scrollTo({ top: 0, behavior: "smooth" }) }}
