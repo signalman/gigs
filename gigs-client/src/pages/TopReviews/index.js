@@ -3,17 +3,18 @@ import { Box } from '@mui/material';
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import StageImg from '../../images/stage_tmp.jpg';
+import StarImg from '../../images/star_tmp.jpg';
 import TopReviewItem from './TopReviewItem';
 
 const createDummy = (() => {
   let reviewId = 0;
-  return (score, content, createdAt, name='카페 안녕') => {
+  return (score, content, createdAt, role, name='카페 안녕') => {
     const newReview = {
       reviewId,
-      starId: 13,
-      hostId: 22,
+      roleId: 13,
+      role,
       name,
-      repImg: StageImg,
+      repImg: role === 'role_host' ? StageImg : StarImg,
       content,
       score,
       createdAt,
@@ -24,9 +25,10 @@ const createDummy = (() => {
 })();
 
 const dummy = [
-  createDummy(1, '진짜 별로예요', moment()),
-  createDummy(5, '최고예요', moment().add('-1', 'd')),
-  createDummy(5, '최고였어요!! 엄청 친절하시고, 손님들도 착하고, 다시 또 와서 공연하고 싶네요', moment()),
+  createDummy(1, '진짜 별로예요', moment(), 'role_host'),
+  createDummy(5, '최고예요', moment().add('-1', 'd'), 'role_host'),
+  createDummy(5, '최고였어요!! 엄청 친절하시고, 손님들도 착하고, 다시 또 와서 공연하고 싶네요', moment(), 'role_host'),
+  createDummy(4, '이런 가수가 있을 줄이야...', moment(), 'role_star', '박상연'),
 ];
 
 const Container = styled(Box)((props) => ({
@@ -40,6 +42,8 @@ const Container = styled(Box)((props) => ({
   marginBottom: '50px',
   rowGap: '50px',
 }));
+
+
 
 const TopReviews = ({
 

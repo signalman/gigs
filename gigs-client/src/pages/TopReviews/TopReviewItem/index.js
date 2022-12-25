@@ -5,6 +5,7 @@ import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { COLOR } from '../../../utils/Constants';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import {useNavigate} from 'react-router-dom';
 
 const Container = styled(Box)((props) => ({
   position: 'relative',
@@ -24,7 +25,7 @@ const Container = styled(Box)((props) => ({
 }));
 
 const Content = styled(Box)((props) => ({
-  width: '300px',
+  width: '500px',
   height: '100%',
   position: 'absolute',
   top: 0, right: 0,
@@ -100,7 +101,13 @@ const MoreButton = styled(ReadMoreIcon)((props) => ({
 const TopReviewItem = ({
   review,
 }) => {
-  const {name, repImg, content, score} = review;
+  const {role, roleId, name, repImg, content, score} = review;
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/${role === 'role_star' ? 'stars' : 'stages'}/${roleId}`);
+  }
 
   return (
     <Container>
@@ -117,7 +124,7 @@ const TopReviewItem = ({
         </RatingBox>
         <ContentBox>{content}</ContentBox>
         <ButtonBox>
-          <MoreButton />
+          <MoreButton onClick={handleClick} />
         </ButtonBox>
       </Content>
     </Container>
