@@ -8,6 +8,7 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import {useNavigate} from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
 
 const Container = styled(Box)((props) => ({
   position: 'relative',
@@ -22,12 +23,12 @@ const Container = styled(Box)((props) => ({
     width: '1000px',
     height: '300px',
     zIndex: 50,
-    backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.2) 0%, rgba(255,255,255,1) 80%, rgba(255,255,255,1) 20%)`,
+    backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.2) 0%, rgba(255,255,255,1) 90%, rgba(255,255,255,1) 10%)`,
   }
 }));
 
 const Content = styled(Box)((props) => ({
-  width: '500px',
+  width: '400px',
   height: '100%',
   position: 'absolute',
   top: 0, right: 0,
@@ -70,7 +71,7 @@ const ButtonBox = styled(Box)((props) => ({
   alignItems: 'center',
 }));
 
-const MoreButton = styled(ReadMoreIcon)((props) => ({
+const MoreButton = styled(FindInPageIcon)((props) => ({
   width: '40px',
   height: '40px',
   cursor: 'pointer',

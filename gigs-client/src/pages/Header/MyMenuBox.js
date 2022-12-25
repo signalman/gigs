@@ -13,7 +13,7 @@ import styled from '@emotion/styled';
 import { logout } from '../../utils/Api';
 
 const Container = styled(Box)((props) => ({
-  width: '100px',
+  width: '120px',
   height: '30px',
   display: 'flex',
   justifyContent: 'center',
