@@ -3,6 +3,7 @@ package gigsproject.gigs.request;
 import gigsproject.gigs.domain.Genre;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -15,9 +16,7 @@ public class PostForm {
 
     private Genre genre;
     private LocalDate date;
-
     private LocalTime startTime;
     private LocalTime endTime;
-
 
 }
