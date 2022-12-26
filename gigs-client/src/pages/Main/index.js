@@ -1,16 +1,102 @@
-import { Box, styled } from '@mui/material';
-import React, { useEffect, useState } from 'react';
-import { useLocation, useMatch, useMatches } from 'react-router-dom';
+import { Box, styled, Typography, Grid } from '@mui/material';
+import React, { useCallback, useEffect, useState } from 'react';
 import { COLOR } from '../../utils/Constants';
+import Card from '../../components/Card';
+import { SYMBOL } from '../../utils/Constants';
+// import mainImg from '../../images/main.png'
+import mainImg from '../../images/main_image.jpg'
+import { fetchStarList } from '../../utils/Api';
 
-const Container = styled(Box)((p) => ({
-  width: '100vw',
-  margin: '0 auto',
-  height: '100vh', // 임시
+const toStarCard = (data) => {
+  return ({
+    id: data.starId,
+    imgUrl: data.starImgUrl,
+    name: data.starName,
+    avgScore: data.avgScore,
+    reviewCount: data.reviewCount,
+
+    memberNumber: data.memberNumber,
+    gender: data.gender,
+    showCount: data.showCount,
+    genres: data.genres,
+    starStageTypes: data.starStageTypes,
+  });
+};
+
+const toHostCard = (data) => {
+  return ({
+    id: data.hostId,
+    imgUrl: data.stageImgUrl,
+    name: data.name,
+    avgScore: data.score,
+    reviewCount: data.reviewCount,
+
+    address: data.address,
+    stageSize: data.stageSize,
+    showCount: data.showCount,
+    pay: data.pay,
+    stageType: data.stageType,
+    targetAge: data.targetAge,
+    targetGender: data.targetGender,
+    targetMinCount: data.targetMinCount,
+  });
+};
+
+const BlockTitle = styled(Box)((props) => ({
+  width: '100%',
+  height: '100px',
+  lineHeight: '100px',
+  textIndent: '20px',
+  fontSize: '22px',
+  fontWeight: 'bold',
+}));
+
+const Block = styled(Box)((p) => ({
+  marginTop: '30px',
+  width: '100%',
+  overflowX: 'auto'
+}));
+
+const CardBox = styled(Box)((props) => ({
+  boxSizing: 'border-box',
+  padding: '10px',
   display: 'flex',
+  width: '7000px',
+  columnGap: '50px',
+}));
+
+const IntroBox = styled(Box)((props) => ({
+  width: '100%',
+  height: '500px',
+  position: 'relative',
+  '::after': {
+    content: "''",
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0, left: 0,
+    backgroundColor: `#00000080`,
+    zIndex: 10,
+  }
+}));
+
+const mainImgStyle = {
+  position: 'absolute',
+  top: 0, left: 0,
+  objectFit: 'cover',
+}
+
+const IntroMessageBox = styled(Box)((props) => ({
+  position: 'absolute',
+  width: '100%',
+  height: '100%',
+  zIndex: 20,
+  top: 0, left: 0,
+  display: 'flex',
+  flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  position: 'relative',
+  color: 'white',
 }));
 
 /**
@@ -18,69 +104,55 @@ const Container = styled(Box)((p) => ({
  * gigs에 대한 안내 혹은 홍보, 이벤트 등이 보여짐
  */
 const Main = ({
-  children,
+  
 }) => {
-  const location = useLocation()
-  // const match = useMatch()
-  // console.log(match);
-  console.log(location);
+  const [cards, setCards] = useState([]);
 
-  const [count, setCount] = useState(100000);
+  const getCardsTmp = useCallback(async() => {
+    const response = await fetchStarList({}, 'dateDesc', 20, 0);
+    console.log(response);
+
+    setCards(response.data.content.map(item => toStarCard(item)));
+  }, []);
 
   useEffect(() => {
-    const counter = setInterval(() => {
-      setCount(count + 1000);
-    }, 3000);
-
-    return () => {
-      clearInterval(counter);
-    }
-  }, [count]);
+    getCardsTmp();
+  }, []);
 
   return (
     <>
-      <Container>
-        <img style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          zIndex: -100,
-          opacity: .5,
-        }} src="https://cdn-afpnk.nitrocdn.com/BgEWMcOYKEoUiTnQXhfKSvRSdRITWbgr/assets/static/optimized/rev-e48f82d/wp-content/uploads/2021/06/Musician-Image.png" alt="iimg" />
-        <Box sx={{display: 'flex', flexDirection: 'column',}}>
-          <Box sx={{fontSize: '40px', alignSelf: 'flex-start', mb: '20px'}}><span style={{fontStyle: 'italic', fontWeight: 'bold', color: COLOR.main}}>gigs</span>는 현재</Box>
-          <Box sx={{fontSize: '80px', fontWeight: 'bold', alignSelf: 'center', mb: '20px'}}>{count}명의</Box>
-          <Box sx={{fontSize: '40px', alignSelf: 'flex-end'}}>스타와 함께 하고 있습니다!</Box>
-          <Box
-            sx={{
-              display: 'flex',
-              width: '220px',
-              height: '70px',
-              mt: '30px',
-              justifyContent: 'center',
-              alignItems: 'center',
-              fontSize: '25px',
-              fontWeight: 'bold',
-              alignSelf: 'center',
-              backgroundColor: `${COLOR.main}00`,
-              // color: COLOR.main,
-              boxShadow: 0,
-              borderRadius: '25px',
-              cursor: 'pointer',
-              userSelect: 'none',
-              transition: '.5s ease-out',
-              '&:hover': {
-                backgroundColor: `${COLOR.main}`,
-                boxShadow: `0 0 8px ${COLOR.blacky}`,
-                color: 'white',
-              }
-            }}
-            onClick={() => {alert('뻥이야')}}
-          >
-            지금 바로 가입하기
-          </Box>
-        </Box>
-      </Container>
+      <IntroBox>
+        <img src={mainImg} alt="main_image" width='100%' height='500px' style={mainImgStyle} />
+        <IntroMessageBox>
+          <Typography sx={{ textAlign: 'center', mt: 5, fontWeight: 'bold' }} variant="h4" gutterBottom>
+            <span style={{color: COLOR.main}}>GIGS</span> 는 공연자와 무대를 쉽게 매칭해 드립니다.
+          </Typography>
+          <Typography sx={{ fontWeight: 'bold', textAlign: 'center', mt: 7 }} variant="h5" gutterBottom>
+            재능 넘치는 스타들이 기다리고 있습니다!
+          </Typography>
+          <Typography sx={{ fontWeight: 'bold', textAlign: 'center', mt: 3 }} variant="h5" gutterBottom>
+            그 스타들에 걸맞는 무대가 준비되어 있습니다!
+          </Typography>
+        </IntroMessageBox>
+      </IntroBox>
+
+      <BlockTitle>신규 스타</BlockTitle>
+      <Block>
+        <CardBox>
+          {cards?.map((card, i) => (
+            <Card target={SYMBOL.star} card={card} />
+          ))}
+        </CardBox>
+      </Block>
+
+      <BlockTitle>신규 무대</BlockTitle>
+      <Block>
+        <CardBox>
+          {cards?.map((card, i) => (
+            <Card target={SYMBOL.stage} card={card} />
+          ))}
+        </CardBox>
+      </Block>
     </>
   );
 };
