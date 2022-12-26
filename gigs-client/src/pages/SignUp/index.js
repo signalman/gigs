@@ -32,6 +32,8 @@ const SignUp = (
 
   const [openPostcode, setOpenPostcode] = useState(false);
 
+  const regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/
+
   const getUserIdAndName = useCallback(async (uuid) => {
     const response = await fetchUserNameAndUid(uuid);
     setName(response.data.name);
@@ -65,7 +67,7 @@ const SignUp = (
         navigate('/')
         console.log(response)
       }
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
   }, [uid, name, siDo, siGun, road, detail, phoneNumber, role, navigate]);
@@ -73,7 +75,17 @@ const SignUp = (
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    onhandlePost()
+    if (regExp.test(phoneNumber)) {
+      onhandlePost()
+    }
+
+    else {
+      Swal.fire({
+        icon: "warning",
+        title: "연락처를 정확히 입력해주세요.",
+        confirmButtonText: "확인"
+      })
+    }
   }
 
   // 주소 모달 관련
@@ -153,14 +165,14 @@ const SignUp = (
               />
             </Box>
           </Modal>
-          
+
           <TextField
             required
+            // inputProps={{
+            //   readOnly: true
+            // }}
             variant="standard"
             name="address"
-            InputProps={{
-              readOnly: true,
-            }}
             value={address}
           />
         </Box>
@@ -190,6 +202,7 @@ const SignUp = (
 
           <IMaskInput
             mask="000-0000-0000"
+            required
             definitions={{
               '#': /[1-9]/,
             }}
