@@ -32,29 +32,31 @@ const MyPage = () => {
       console.log(response);
 
       setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
-    const isStar = response.data.user.role === 'ROLE_STAR';
+      const isStar = response.data.user.role === 'ROLE_STAR';
 
-    const newReviews = response.data.reviews;
-    setReviews(newReviews);
+      const newReviews = response.data.reviews;
+      setReviews(newReviews);
 
-    const signedOrComp = response.data.signedOrComp.map(proposal => {
-      const newProposal = {...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), };
+      const signedOrComp = response.data.signedOrComp.map(proposal => {
+        const newProposal = {...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), };
 
-      if(proposal.showStatus === 'COMP') {
-        const targetId = isStar ? proposal.hostId : proposal.starId;
-        const review = newReviews?.find(review => review.roleId === targetId);
-        const hasReview = review?.content !== '';
+        if(proposal.showStatus === 'COMP') {
+          const targetId = isStar ? proposal.hostId : proposal.starId;
+          const review = newReviews?.find(review => review.toRoleId === targetId);
+          const hasReview = review?.content !== '';
 
-        newProposal.hasReview = hasReview;
-      }
+          newProposal.hasReview = hasReview;
+        }
 
-      return newProposal;
-    });
-    setHistories(signedOrComp);
+        return newProposal;
+      });
+      
+      setHistories(signedOrComp);
     } catch (err) {
       const statusCode = err.response.status;
       if(statusCode === 500) {
         navigate('/error', {state: {msg: '서버에 문제가 발생했습니다.'}});
+      }
     }
   }, []);
 
