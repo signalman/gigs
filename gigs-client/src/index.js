@@ -22,7 +22,8 @@ import ErrorPage from './pages/ErrorPage';
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#D046D2",
+      // main: "#D046D2",
+      main: "#D00E64",
     },
   },
   typography: {

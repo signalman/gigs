@@ -410,7 +410,6 @@ const StageSearchConditionBox = ({
                 width: 100,
                 height: 35,
                 alignSelf: 'center',
-                backgroundColor: '#D046D2',
                 borderRadius: 3,
               }}
               variant='contained'
