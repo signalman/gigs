@@ -30,7 +30,8 @@ export const SYMBOL = {
 }
 
 export const COLOR = {
-  main: "#D046D2",
+  // main: "#D046D2",
+  main: "#D00E64",
   whity: "#f8f8f8",
   grey: "#808080",
   blacky: "#404040",
