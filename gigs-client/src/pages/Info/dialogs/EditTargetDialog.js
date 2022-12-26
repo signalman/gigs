@@ -53,7 +53,7 @@ const EditTargetDialog = ({
           value={values[0]}
           onChange={handleTargetAgeChange}
         >
-          <MenuItem value='all'>-</MenuItem>
+          <MenuItem value='0'>-</MenuItem>
           <MenuItem value='10'>10대</MenuItem>
           <MenuItem value='20'>20대</MenuItem>
           <MenuItem value='30'>30대</MenuItem>

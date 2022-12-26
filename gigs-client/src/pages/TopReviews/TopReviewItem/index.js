@@ -114,19 +114,19 @@ const roleIconStyle = {
 const TopReviewItem = ({
   review,
 }) => {
-  const {role, roleId, name, repImg, content, score} = review;
+  const {toRole, toRoleId, toName, toRepImg, content, score} = review;
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/${role === 'role_star' ? 'stars' : 'stages'}/${roleId}`);
+    navigate(`/${toRole === 'role_star' ? 'stars' : 'stages'}/${toRoleId}`);
   }
 
   return (
     <Container>
-      <img src={repImg} alt='asdf' width='1000px' height='300px' style={{ objectFit: 'cover',}}/>
+      <img src={toRepImg} alt='asdf' width='1000px' height='300px' style={{ objectFit: 'cover',}}/>
       <Content>
-        <NameBox>{name}</NameBox>
+        <NameBox>{toName}</NameBox>
         <RatingBox>
           <Rating
             sx={{ width: `125px` }}
@@ -139,7 +139,7 @@ const TopReviewItem = ({
         <ButtonBox>
           <MoreButton onClick={handleClick} />
         </ButtonBox>
-        {role === 'role_star' ? (
+        {toRole === 'role_star' ? (
           <PersonIcon sx={roleIconStyle} />
         ) : (
           <LocationOnIcon sx={roleIconStyle} />

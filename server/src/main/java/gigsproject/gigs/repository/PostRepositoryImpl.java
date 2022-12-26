@@ -17,9 +17,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
+import static gigsproject.gigs.domain.PostStatus.UNSIGNED;
 import static gigsproject.gigs.domain.QHost.host;
 import static gigsproject.gigs.domain.QPost.post;
 import static java.util.Objects.isNull;
@@ -48,7 +48,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         stageDateEq(stageSearch.getStartDate(), stageSearch.getEndDate()),
                         stageTimeEq(stageSearch.getStartTime(), stageSearch.getEndTime()),
                         stageTargetAgeEq(stageSearch.getTargetAge()),
-                        stageTargetMinCountEq(stageSearch.getTargetMinCount())
+                        stageTargetMinCountEq(stageSearch.getTargetMinCount()),
+                        post.status.eq(UNSIGNED)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -56,7 +57,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetch();
 
         List<StageCard> content = hosts.stream()
-                .map(h -> new StageCard(h))
+                .map(StageCard::new)
                 .collect(Collectors.toList());
 
         JPAQuery<Long> countQuery = jpaQueryFactory
@@ -102,12 +103,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private Predicate stageAddressSiDoEq(String siDo) {
         return hasText(siDo) ? host.stageAddress.siDo.eq(siDo) : null;
     }
+
     private Predicate stageAddressSiGunEq(String siGun) {
         return hasText(siGun) ? host.stageAddress.siGun.eq(siGun) : null;
     }
 
-    private Predicate stageNameContains(String name)
-    {
+    private Predicate stageNameContains(String name) {
         return hasText(name) ? host.stageName.contains(name) : null;
     }
 

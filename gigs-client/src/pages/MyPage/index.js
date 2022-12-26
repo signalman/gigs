@@ -34,6 +34,9 @@ const MyPage = () => {
       setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
       const isStar = response.data.user.role === 'ROLE_STAR';
 
+      const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned).map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime)}));
+      setProposals(newProposals);
+
       const newReviews = response.data.reviews;
       setReviews(newReviews);
 
