@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { COLOR } from '../../utils/Constants';
 import Card from '../../components/Card';
 import { SYMBOL } from '../../utils/Constants';
-import mainImg from '../../images/main.png'
+// import mainImg from '../../images/main.png'
+import mainImg from '../../images/main_image.jpg'
 
 const Container = styled(Box)((p) => ({
   width: '100vw',
@@ -22,28 +23,33 @@ const Block = styled(Box)((p) => ({
 
 }));
 
+const IntroBox = styled(Box)((props) => ({
+  width: '100%',
+  height: '500px',
+  position: 'relative',
+}));
+
+const mainImgStyle = {
+  position: 'absolute',
+  top: 0, left: 0,
+  objectFit: 'cover',
+}
+
 /**
  * gigs 접속 시 제일 처음 보여지는 페이지
  * gigs에 대한 안내 혹은 홍보, 이벤트 등이 보여짐
  */
 const Main = ({
-  children,
+  
 }) => {
-  const [count, setCount] = useState(100000);
   const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    const counter = setInterval(() => {
-      setCount(count + 1000);
-    }, 3000);
-    setCards([{}, {}, {}])
-    return () => {
-      clearInterval(counter);
-    }
-  }, [count]);
 
   return (
     <>
+      <IntroBox>
+        <img src={mainImg} alt="main_image" width='100%' height='500px' style={mainImgStyle} />
+      </IntroBox>
+
       <Block>
         <Typography sx={{ ml: 6, fontWeight: 'bold' }} variant="h6" gutterBottom>
           신규 스타
