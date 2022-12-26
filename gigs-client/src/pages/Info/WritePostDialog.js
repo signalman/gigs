@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 const WritePostDialog = ({
   open,
   onClose,
+  err,
   host,
   postDate,
 }) => {
@@ -49,7 +50,7 @@ const WritePostDialog = ({
       return;
     }
 
-    const data = { date: postDate, endTime: `${to00(endTime)}:00:00`, startTime: `${to00(startTime)}:00:00`, genre: selectedGenre };
+    const data = { date: postDate.format('YYYY-MM-DD'), endTime: `${to00(endTime)}:00:00`, startTime: `${to00(startTime)}:00:00`, genre: selectedGenre };
     try {
       const response = await posts(data);
       console.log('# 포스트 작성 결과');
@@ -80,9 +81,9 @@ const WritePostDialog = ({
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      {host.err ? (
+      {err ? (
           <DialogContent sx={{ width: '450px', height: '200px', textAlign: 'center', lineHeight: '200px', overflow: 'hidden' }}>
-            {host.err}
+            {err}
           </DialogContent>
         ) : (
           <>

@@ -42,6 +42,8 @@ const ReservationTable = ({
   onDeletePost,
   editable,
 }) => {
+  const canWritePost = Boolean(host?.name) && host.address?.siDo;
+
   // 제안서 작성 다이얼로그 관련
   const [selectedPost, setSelectedPost] = useState({
     err: '데이터를 불러오는 중 입니다.'
@@ -97,7 +99,7 @@ const ReservationTable = ({
         </AddButton>}
       </Grid>
 
-      {editable && <WritePostDialog open={isWritePostDialogOpen} onClose={handleCloseWritePostDialog} host={host} postDate={selectedDay} />}
+      {editable && <WritePostDialog open={isWritePostDialogOpen} onClose={handleCloseWritePostDialog} err={canWritePost ? null : '호스트 이름과 주소는 필수로 입력해야합니다.'} host={host} postDate={selectedDay} />}
       <WriteProposalDialog open={isWriteProposalDialogOpen} onClose={handleCloseWriteProposalDialog} post={selectedPost} />
     </>
     

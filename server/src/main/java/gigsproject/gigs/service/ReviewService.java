@@ -47,9 +47,13 @@ public class ReviewService {
     }
 
 
-    public List<ReviewDto> findByUser(User user) {
-        //이 유저가 피작성자로 있는 모든 리뷰 불러오기
-        Long roleId; //이 user의 role id
+    /**
+     * 이 유저가 피작성자로 있는 모든 리뷰 불러오기
+     * @param user : 피작성자
+     * @return
+     */
+    public List<ReviewDto> findByTarget(User user) {
+        Long roleId; //피작성자의 role id
 
         if (user.getRole() == Role.ROLE_HOST) {
             roleId = hostRepository.findByUser(user).getHostId();
@@ -63,6 +67,11 @@ public class ReviewService {
                 .stream()
                 .map(r -> new ReviewDto(r))
                 .collect(Collectors.toList());
+    }
+
+    public List<ReviewDto>findByWriter(User user) {
+        return reviewRepository.findByUser(user).stream()
+                .map(ReviewDto::new).collect(Collectors.toList());
     }
 
     @Transactional

@@ -10,12 +10,23 @@ import {
 } from 'react-router-dom';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { CookiesProvider } from 'react-cookie';
+import Main from './pages/Main';
+import Search from './pages/Search';
+import Info from './pages/Info';
+import TopReviews from './pages/TopReviews';
+import SignUp from './pages/SignUp';
+import MyPage from './pages/MyPage';
+import { SYMBOL } from './utils/Constants';
+import ErrorPage from './pages/ErrorPage';
 
 const theme = createTheme({
   palette: {
     primary: {
       main: "#D046D2",
     },
+  },
+  typography: {
+    fontFamily: "'NanumSquare'",
   }
 });
 
@@ -29,7 +40,17 @@ root.render(
     <CookiesProvider>
       <Router>
         <Routes>
-          <Route path='/*' element={<Frame />} />
+          <Route path='/' element={<Frame />}>
+            <Route index element={<Main />} />
+            <Route path="stage" element={<Search target={SYMBOL.stage}></Search>} />
+            <Route path="star" element={<Search target={SYMBOL.star}></Search>} />
+            <Route path="stages/:id" element={<Info target={SYMBOL.stage} />} />
+            <Route path="stars/:id" element={<Info target={SYMBOL.star} />} />
+            <Route path="review" element={<TopReviews />} />
+            <Route path="signup" element={<SignUp/>} />
+            <Route path="mypage" element={<MyPage />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Route>
         </Routes>
       </Router>
     </CookiesProvider>

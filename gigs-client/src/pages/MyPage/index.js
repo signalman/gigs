@@ -27,10 +27,11 @@ const MyPage = () => {
   const [writeReviewDialogState, setWriteReviewDialogState] = useState({open: false, proposalId: '-1'});
 
   const getMyPage = useCallback(async () => {
-    const response = await fetchMyPage();
-    console.log(response);
+    try {
+      const response = await fetchMyPage();
+      console.log(response);
 
-    setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
+      setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
     const isStar = response.data.user.role === 'ROLE_STAR';
 
     const newReviews = response.data.reviews;
@@ -50,11 +51,11 @@ const MyPage = () => {
       return newProposal;
     });
     setHistories(signedOrComp);
-    
-    const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned)
-      .map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), }));
-    setProposals(newProposals);
-    
+    } catch (err) {
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        navigate('/error', {state: {msg: '서버에 문제가 발생했습니다.'}});
+    }
   }, []);
 
   useEffect(() => {

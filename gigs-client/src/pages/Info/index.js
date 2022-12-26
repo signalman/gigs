@@ -22,6 +22,8 @@ import EditAddressDialog from './dialogs/EditAddressDialog';
 import { useCookies } from 'react-cookie';
 import ImageBox from './ImageBox';
 import RepImgBox from './RepImgBox';
+import moment from 'moment';
+import "moment/locale/ko";
 
 const Info = ({
   target,
@@ -32,6 +34,7 @@ const Info = ({
   const [data, setData] = useState(DUMMY.host);
   const [posts, setPosts] = useState(DUMMY.host.posts);
   const [images, setImages] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const editable = Number(cookies.userId) === data.userId;
 
   const editNameDialog = useDialog();
@@ -75,6 +78,20 @@ const Info = ({
     
     setData(newData);
     setImages(response.data.starImgs?.map(img => ({imgId: img.starImgId, url: IMG(img.url)})));
+
+    const newReviews = response.data?.reviews.map(review => ({
+      reviewId: review.reviewId,
+      id: review.roleId,
+      role: review.role === 'role_star' ? 'star' : 'host',
+      // TODO: name과 repImg 받기
+      name: review.name || '박상연',
+      repImg: review.repImg || 'asdsdads',
+      content: review.content,
+      score: review.score,
+      createdAt: moment(review.createdAt),
+    }));
+
+    setReviews(newReviews);
   }, [params]);
 
   const getHostInfo = useCallback(async () => {
@@ -104,10 +121,22 @@ const Info = ({
     }
 
     setData(newData);
-    console.log(data)
     setPosts(response.data.posts);
-    // TODO imgUrl -> ?
     setImages(response.data.stageImgs?.map(img => ({imgId: img.stageImgId, url: IMG(img.url)})));
+    
+    const newReviews = response.data?.reviews.map(review => ({
+      reviewId: review.reviewId,
+      id: review.roleId,
+      role: review.role === 'role_star' ? 'star' : 'host',
+      // TODO: name과 repImg 받기
+      name: review.name || '박상연',
+      repImg: review.repImg || 'asdsdads',
+      content: review.content,
+      score: review.score,
+      createdAt: moment(review.createdAt),
+    }));
+
+    setReviews(newReviews);
   }, [params]);
 
   // 정보 수정 후 새 데이터로 기존 데이터를 업데이트 하는 함수
@@ -183,14 +212,14 @@ const Info = ({
     // dialog settings
     editNameDialog.initialize([data.name]);
     editAddressDialog.initialize([data.address]);
-    editAreaDialog.initialize([data.stageSize]);
-    editTargetDialog.initialize([data.targetAge, data.targetGender, data.targetMinCount]);
-    editPayDialog.initialize([data.pay]);
+    editAreaDialog.initialize([data.stageSize || '0']);
+    editTargetDialog.initialize(data.targetGender === 'DEFAULT' ? ['all', 'MIXED', 0] : [data.targetAge, data.targetGender, data.targetMinCount]);
+    editPayDialog.initialize([data.pay || '0']);
     editStageTypeDialog.initialize([data.stageType]);
     editIntroduceDialog.initialize([data.introduce]);
 
     editGenresDialog.initialize([data.genres]);
-    editMemberDialog.initialize([data.gender, data.memberNumber]);
+    editMemberDialog.initialize(data.gender === 'DEFAULT' ? ['MIXED', 1] : [data.gender, data.memberNumber]);
     editStageTypesDialog.initialize([data.stageTypes]);
   }, [data]);
 
@@ -272,7 +301,7 @@ const Info = ({
       {/* 이미지 */}
       <ImageBox target={target} images={images} editable={editable} handleEditImgs={handleEditImgs} handleDeleteImg={handleDeleteImg} />
       {/* 리뷰 */}
-      <ReviewBox reviewBoxRef={reviewBoxRef} />
+      <ReviewBox reviewBoxRef={reviewBoxRef} reviews={reviews} />
 
       {/* Dialogs */}
       <SimpleEditTexetDialog open={editNameDialog.isOpen} onClose={editNameDialog.close} title="이름 변경" type="text" values={editNameDialog.values} setValues={editNameDialog.setValues} onEdit={handleEdit(["name"])}  />

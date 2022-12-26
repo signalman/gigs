@@ -6,6 +6,7 @@ import gigsproject.gigs.repository.StarRepository;
 import gigsproject.gigs.repository.StarStageTypeRepository;
 import gigsproject.gigs.request.StarEdit;
 import gigsproject.gigs.request.StarSearch;
+import gigsproject.gigs.response.ReviewDto;
 import gigsproject.gigs.response.StarCard;
 import gigsproject.gigs.response.StarResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class StarService {
     private final StarRepository starRepository;
     private final StarGenreRepository starGenreRepository;
     private final StarStageTypeRepository starStageTypeRepository;
+    private final ReviewService reviewService;
 
     public void createStars(Star star) {
         starRepository.save(star);
@@ -48,7 +50,8 @@ public class StarService {
     public StarResponse findById(Long id) {
         Star star = starRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 스타가 존재하지 않습니다."));
-        return new StarResponse(star);
+        List<ReviewDto> reviews = reviewService.findByTarget(star.getUser());
+        return new StarResponse(star, reviews);
     }
 
     @Transactional

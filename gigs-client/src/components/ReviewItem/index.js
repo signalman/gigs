@@ -3,64 +3,71 @@ import React from 'react';
 import StarDummyImg from '../../images/star_tmp.jpg';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import styled from '@emotion/styled';
+import MiniProfile from '../../pages/MyPage/MiniProfile';
+import { COLOR } from '../../utils/Constants';
 
-const ReviewItem = () => {
+const Container = styled(Box)((props) => ({
+  width: '100%',
+
+  ":nth-child(even)": {
+    backgroundColor: COLOR.whity,
+  }
+}));
+
+const Header = styled(Box)((props) => ({
+  height: '50px',
+  display: 'flex',
+  position: 'relative',
+}));
+
+const RatingBox = styled(Box)((props) => ({
+  position: 'absolute',
+  height: '50px',
+  top: 0,
+  right: 0,
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+const Content = styled(Box)((props) => ({
+  width: '100%',
+  fontSize: '16px',
+}));
+
+const Footer = styled(Box)((props) => ({
+  width: '100%',
+  textAlign: 'end',
+  fontSize: '14px',
+  color: COLOR.grey,
+}));
+
+const ReviewItem = ({
+  review,
+}) => {
+  const {reviewId, id, role, name, repImg, content, score, createdAt} = review;
+
   return (
-    <Box
-      sx={{
-        width: '100%',
-      }}
-    >
-      <Box
-        sx={{
-          height: '30px',
-          display: 'flex',
-        }}
-      >
-        <Box
-          sx={{
-            width: '25px',
-            height: '25px',
-            py: '2.5px',
-            px: '12.5px',
-          }}
-        >
-          <img src={StarDummyImg} alt="profile_img" width="25px" height="25px" style={{borderRadius: "12.5px",}} />
-        </Box>
-        <Box
-          sx={{
-            width: '1000px',
-            height: '30px',
-            lineHeight: '30px',
-            fontWeight: 'bold',
-          }}
-        >
-          Imagin Dragons
-        </Box>
-        <Box
-          sx={{
-            height: '20px',
-            py: '5px',
-          }}
-        >
+    <Container>
+      <Header>
+        <MiniProfile width='300px' name={name} repImg={repImg} starId={role === 'star' ? id : null} hostId={role === 'host' ? id : null} />
+        <RatingBox>
           <Rating
-            sx={{ width: `100px` }}
+            sx={{ width: `100px`, height: '20px', }}
             emptyIcon={<StarBorderIcon sx={{ width: `20px`, height: `20px` }}></StarBorderIcon>}
             icon={<StarIcon sx={{ width: `20px`, height: `20px` }}></StarIcon>}
-            value={4.9} precision={0.1} readOnly
+            value={score} precision={0.1} readOnly
           />
-        </Box>
-      </Box>
+        </RatingBox>
+      </Header>
       {/* 리뷰 내용 */}
-      <Box
-        sx={{
-          width: '100%',
-          fontSize: '14px',
-        }}
-      >
-        안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 안녕하세요, 박상연입니다. 리뷰 테스트합니다. 
-      </Box>
-    </Box>
+      <Content>
+        {content}
+      </Content>
+      <Footer>
+        {createdAt.fromNow()}
+      </Footer>
+    </Container>
   );
 };
 

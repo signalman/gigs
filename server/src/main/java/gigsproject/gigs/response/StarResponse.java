@@ -27,7 +27,7 @@ public class StarResponse {
     private List<ReviewDto> reviews;
     private List<ProposalDto> proposals;
 
-    public StarResponse(Star star) {
+    public StarResponse(Star star, List<ReviewDto> reviews) {
         this.userId = star.getUser().getUserId();
         this.starId = star.getStarId();
         this.name = star.getName();
@@ -41,10 +41,11 @@ public class StarResponse {
         this.starGenres = isNull(star.getStarGenres()) ? List.of() : star.getStarGenres().stream().map(s -> new StarGenreDto(s)).collect(Collectors.toList());
         this.starImgs = star.getStarImgs().stream()
                 .map(i -> new StarImgDto(i)).collect(Collectors.toList());
-        this.reviews = star.getUser().getReviews()
-                .stream()
-                .map(r -> new ReviewDto(r))
-                .collect(Collectors.toList());
+//        this.reviews = star.getUser().getReviews()
+//                .stream()
+//                .map(r -> new ReviewDto(r))
+//                .collect(Collectors.toList());
+        this.reviews = reviews;
         this.proposals = star.getProposals().stream()
                 .map(p -> new ProposalDto(p)).collect(Collectors.toList());
     }

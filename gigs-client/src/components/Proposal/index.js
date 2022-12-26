@@ -72,7 +72,7 @@ const Proposal = ({
         <>
           <Title>제안서</Title>
           <ProposalContent title={'이름'} width='200px'>
-            <MiniProfile width='200px' name={isStar ? proposal.stageName : proposal.starName} starId={isStar ? null : proposal.starId} hostId={isStar ? proposal.starId : null} />
+            <MiniProfile width='200px' name={isStar ? proposal.stageName : proposal.starName} repImg={isStar ? proposal.hostRepImg : proposal.starRepImg} starId={isStar ? null : proposal.starId} hostId={isStar ? proposal.starId : null} />
           </ProposalContent>
           <ProposalContent title={'일시'} width='200px'>
             <Box sx={{ width: '100%', height: '50px', lineHeight: '50px', }}>

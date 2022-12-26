@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.Objects.isNull;
 
@@ -76,7 +75,10 @@ public class UserController {
     MyPage myPage(@AuthenticationPrincipal OAuth2UserCustom oAuth2UserCustom) {
         User loginUser = oAuth2UserCustom.getUser();
         UserDto user = new UserDto(loginUser);
-        List<ReviewDto> reviews = reviewService.findByUser(loginUser);
+        List<ReviewDto> reviews = reviewService.findByWriter(loginUser);
+//        List<ReviewDto> reviews = loginUser.getReviews().stream()
+//                .map(ReviewDto::new).collect(Collectors.toList());
+
         if (loginUser.getRole() == Role.ROLE_STAR) { //로그인 한 유저가 스타
             Star loginStar = starService.findByUser(loginUser);
             Long starId = loginStar.getStarId();

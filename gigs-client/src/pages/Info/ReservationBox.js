@@ -8,6 +8,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { COLOR } from '../../utils/Constants';
 import ReservationTable from './ReservationTable';
 import moment from 'moment';
+import "moment/locale/ko";
 import { deletePost } from '../../utils/Api';
 
 const Container = styled(Box)(() => ({
