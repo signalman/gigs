@@ -10,7 +10,8 @@ import Card from '../../components/Card';
 import counties from '../../utils/Address.json';
 
 // 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
-const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
+// const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
+const PAGE_SIZE = 15;
 
 const debounce = (callback, limit) => {
   let timeout;
@@ -103,7 +104,7 @@ const Search = ({
     newSort = newSort || sort;
 
     try {
-      const response = await fetchStarList(newConditions, newSort, 15, 0);
+      const response = await fetchStarList(newConditions, newSort, PAGE_SIZE, 0);
       // const response = await axios.get(API.getStarCards(newConditions, newSort, PAGE_SIZE, 0));
 
       const data = response.data;
@@ -150,7 +151,7 @@ const Search = ({
     newSort = newSort || sort;
 
     try {
-      const response = await fetchHostList(newConditions, newSort, 15, 0);
+      const response = await fetchHostList(newConditions, newSort, PAGE_SIZE, 0);
 
       const data = response.data;
       console.log(data)
@@ -204,7 +205,7 @@ const Search = ({
   useEffect(() => {
     const handleScroll = debounce(() => {
       const { scrollTop, offsetHeight } = document.documentElement;
-      if(window.innerHeight + scrollTop >= offsetHeight) {
+      if(window.innerHeight + scrollTop >= offsetHeight - 5) {
         setFetching(true);
       }
     }, 100);

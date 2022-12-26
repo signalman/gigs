@@ -19,6 +19,7 @@ const MyPage = () => {
   const [user, setUser] = useState({});
   const [histories, setHistories] = useState([]);
   const [proposals, setProposals] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
   const [checkPhoneNumberDialogState, setCheckPhoneNumberDialogState] = useState({open: false, phoneNumber: ''});
   const [cancelAlertDialogState, setCancelAlertDialogState] = useState({open: false, proposalId: '-1'});
@@ -26,15 +27,40 @@ const MyPage = () => {
   const [writeReviewDialogState, setWriteReviewDialogState] = useState({open: false, proposalId: '-1'});
 
   const getMyPage = useCallback(async () => {
-    const response = await fetchMyPage();
-    console.log(response);
+    try {
+      const response = await fetchMyPage();
+      console.log(response);
 
-    setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
-    setHistories(response.data.signedOrComp.map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), })));
-    const isStar = response.data.user.role === 'ROLE_STAR';
-    const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned)
-      .map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), }));
-    setProposals(newProposals);
+      setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
+      const isStar = response.data.user.role === 'ROLE_STAR';
+
+      const newProposals = (isStar ? response.data.unsignedOrRejected : response.data.onlyUnsigned).map(proposal => ({...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime)}));
+      setProposals(newProposals);
+
+      const newReviews = response.data.reviews;
+      setReviews(newReviews);
+
+      const signedOrComp = response.data.signedOrComp.map(proposal => {
+        const newProposal = {...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), };
+
+        if(proposal.showStatus === 'COMP') {
+          const targetId = isStar ? proposal.hostId : proposal.starId;
+          const review = newReviews?.find(review => review.toRoleId === targetId);
+          const hasReview = review?.content !== '';
+
+          newProposal.hasReview = hasReview;
+        }
+
+        return newProposal;
+      });
+      
+      setHistories(signedOrComp);
+    } catch (err) {
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        navigate('/error', {state: {msg: '서버에 문제가 발생했습니다.'}});
+      }
+    }
   }, []);
 
   useEffect(() => {
@@ -103,7 +129,7 @@ const MyPage = () => {
     }
   }, [navigate]);
 
-  // 호스트 혹은 스타가 연락처 확인을 눌렀을 때
+  // 호스트 혹은 스타가 연락처 확인을 눌렀을 때 (in SIGNED)
   const handleCheckPhoneNumber = useCallback((proposalId) => {
     const history = histories.find(history => history.proposalId === proposalId);
     const phoneNumber = user.role === "ROLE_STAR" ? history.hostPhoneNumber : history.starPhoneNumber;
