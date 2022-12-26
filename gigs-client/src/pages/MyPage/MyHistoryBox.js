@@ -30,24 +30,20 @@ const MyHistoryBox = ({
       {histories?.length === 0 ? (
         <NoHistoriesMessage>예정/완료된 공연이 없습니다.</NoHistoriesMessage>
       ) : (
-        histories?.map(history => {
-          const hasReview = cookies.role === 'star' ? history.starToHostReviewed : history.hostToStarReviewed;
-
-          return (
-            <MyHistoryItem
-              proposalId={history.proposalId}
-              host={{name: history.stageName, repImg: history.hostRepImg, id: history.hostId}}
-              star={{name: history.starName, repImg: history.starRepImg, id: history.starId}}
-              date={history.showStartTime.format("YYYY-MM-DD")}
-              status={history.showStatus}
-              hasReview={hasReview}
-              onCheckPhoneNumber={() => onCheckPhoneNumber(history.proposalId)}
-              onCancel={() => onCancel(history.proposalId)}
-              onComplete={() => onComplete(history.proposalId)}
-              onWriteReview={() => onWriteReview(history.proposalId)}
-            />
-          );
-        })
+        histories?.map(history => (
+          <MyHistoryItem
+            proposalId={history.proposalId}
+            host={{name: history.stageName, repImg: history.hostRepImg, id: history.hostId}}
+            star={{name: history.starName, repImg: history.starRepImg, id: history.starId}}
+            date={history.showStartTime.format("YYYY-MM-DD")}
+            status={history.showStatus}
+            hasReview={history.hasReview}
+            onCheckPhoneNumber={() => onCheckPhoneNumber(history.proposalId)}
+            onCancel={() => onCancel(history.proposalId)}
+            onComplete={() => onComplete(history.proposalId)}
+            onWriteReview={() => onWriteReview(history.proposalId)}
+          />
+        ))
       )}
     </Box>
   );
