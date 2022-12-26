@@ -16,7 +16,7 @@ const Container = styled(Box)((props) => ({
 
 const ErrorBox = styled(Box)((props) => ({
   width: '300px',
-  height: '300px',
+  height: '350px',
 }));
 
 const iconStyle = {
@@ -28,6 +28,7 @@ const iconStyle = {
 const MessageBox = styled(Box)((props) => ({
   width: '300px',
   height: '50px',
+  lineHeight: '50px',
   textAlign: 'center',
   fontSize: '22px',
   fontWeight: 'bold',
@@ -35,13 +36,14 @@ const MessageBox = styled(Box)((props) => ({
 
 const ErrorPage = () => {
   const location = useLocation();
-  console.log(location);
+  const urlState = location.state;
 
   return (
     <Container>
       <ErrorBox>
         <WarningAmberIcon sx={iconStyle} />
-        <MessageBox>비정상적인 접근입니다.</MessageBox>
+        <MessageBox>{urlState ? urlState.msg : '비정상적인 접근입니다.'}</MessageBox>
+        {urlState && <MessageBox>이용에 불편을 드려 죄송합니다.</MessageBox>}
       </ErrorBox>
     </Container>
   );
