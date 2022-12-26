@@ -81,9 +81,8 @@ const Info = ({
 
     const newReviews = response.data?.reviews.map(review => ({
       reviewId: review.reviewId,
-      id: review.roleId,
-      role: review.role === 'role_star' ? 'star' : 'host',
-      // TODO: name과 repImg 받기
+      fromRoleid: review.fromRoleId,
+      fromRole: review.fromRole,
       name: review.name || '박상연',
       repImg: review.repImg || 'asdsdads',
       content: review.content,
