@@ -1,5 +1,6 @@
 import { Box, styled } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useLocation, useMatch, useMatches } from 'react-router-dom';
 import { COLOR } from '../../utils/Constants';
 
 const Container = styled(Box)((p) => ({
@@ -19,6 +20,11 @@ const Container = styled(Box)((p) => ({
 const Main = ({
   children,
 }) => {
+  const location = useLocation()
+  // const match = useMatch()
+  // console.log(match);
+  console.log(location);
+
   const [count, setCount] = useState(100000);
 
   useEffect(() => {
