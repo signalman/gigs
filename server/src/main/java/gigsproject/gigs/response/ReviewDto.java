@@ -17,15 +17,16 @@ public class ReviewDto {
      */
     private Long fromRoleId; //리뷰작성자의 호스트 or 스타 id
     private String fromRole;
-    private String name;
-    private String repImg;
+    private String fromName;
+    private String fromRepImg;
 
     /**
      * 대상자 정보
      */
     private Long toRoleId; //리뷰 대상자의 호스트 or 스타 id
     private String toRole;
-
+    private String toName;
+    private String toRepImg;
     /**
      * 리뷰 정보
      */
@@ -44,19 +45,24 @@ public class ReviewDto {
         if (Objects.equals(host.getUser().getUserId(), review.getUser().getUserId())) {
             fromRoleId = host.getHostId();
             fromRole = Role.ROLE_HOST.toString().toLowerCase();
-            name = host.getStageName();
-            repImg = host.getRepImg();
+            fromName = host.getStageName();
+            fromRepImg = host.getRepImg();
 
             toRoleId = star.getStarId();
             toRole = Role.ROLE_STAR.toString().toLowerCase();
+            toName = star.getName();
+            toRepImg = star.getRepImg();
+
         } else {
             fromRoleId = star.getStarId();
             fromRole = Role.ROLE_STAR.toString().toLowerCase();
-            name = star.getName();
-            repImg = star.getRepImg();
+            fromName = star.getName();
+            fromRepImg = star.getRepImg();
 
             toRoleId = host.getHostId();
             toRole = Role.ROLE_HOST.toString().toLowerCase();
+            toName = host.getStageName();
+            toRepImg = host.getRepImg();
         }
 
         this.content = review.getContent();
