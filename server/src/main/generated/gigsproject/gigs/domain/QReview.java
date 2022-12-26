@@ -22,21 +22,25 @@ public class QReview extends EntityPathBase<Review> {
 
     public static final QReview review = new QReview("review");
 
-    public final DateTimePath<java.time.LocalDateTime> createdAt = createDateTime("createdAt", java.time.LocalDateTime.class);
+    public final QBaseTimeEntity _super = new QBaseTimeEntity(this);
 
-    public final QHost host;
+    public final StringPath content = createString("content");
 
-    public final StringPath hostToStarContent = createString("hostToStarContent");
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
 
     public final QProposal proposal;
 
     public final NumberPath<Long> reviewId = createNumber("reviewId", Long.class);
 
-    public final NumberPath<Integer> score = createNumber("score", Integer.class);
+    public final NumberPath<Long> roleId = createNumber("roleId", Long.class);
 
-    public final QStar star;
+    public final NumberPath<Double> score = createNumber("score", Double.class);
 
-    public final StringPath starToHostContent = createString("starToHostContent");
+    public final QUser user;
 
     public QReview(String variable) {
         this(Review.class, forVariable(variable), INITS);
@@ -56,9 +60,8 @@ public class QReview extends EntityPathBase<Review> {
 
     public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.host = inits.isInitialized("host") ? new QHost(forProperty("host"), inits.get("host")) : null;
         this.proposal = inits.isInitialized("proposal") ? new QProposal(forProperty("proposal"), inits.get("proposal")) : null;
-        this.star = inits.isInitialized("star") ? new QStar(forProperty("star"), inits.get("star")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user"), inits.get("user")) : null;
     }
 
 }
