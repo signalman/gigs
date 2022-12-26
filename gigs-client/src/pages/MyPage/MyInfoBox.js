@@ -57,7 +57,7 @@ const MyInfoBox = ({
     <Box sx={{ width: '100%' }}>
       <ImgBox>
         {imgUrl ? (
-          <img src={IMG(imgUrl)} alt="stage_img" width="100%" />
+          <img src={IMG(imgUrl)} alt="stage_img" width="100%" height='250px' style={{ objectFit: 'cover' }} />
         ) : (
           <>
             <NoImgMessage>등록된 이미지가 없습니다.</NoImgMessage>
