@@ -212,7 +212,7 @@ const Info = ({
     editNameDialog.initialize([data.name]);
     editAddressDialog.initialize([data.address]);
     editAreaDialog.initialize([data.stageSize || '0']);
-    editTargetDialog.initialize(data.targetGender === 'DEFAULT' ? ['all', 'MIXED', 0] : [data.targetAge, data.targetGender, data.targetMinCount]);
+    editTargetDialog.initialize(data.targetGender === 'DEFAULT' ? ['ALL', 'MIXED', 0] : [data.targetAge, data.targetGender, data.targetMinCount]);
     editPayDialog.initialize([data.pay || '0']);
     editStageTypeDialog.initialize([data.stageType]);
     editIntroduceDialog.initialize([data.introduce]);
