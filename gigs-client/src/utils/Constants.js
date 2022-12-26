@@ -11,8 +11,8 @@ export const to00 = (num) => {
 };
 
 export const URL = {
-  kakaoAuthorize: `http://localhost:8080/oauth2/authorization/kakao`,
-  naverAuthorize: `http://localhost:8080/oauth2/authorization/naver`,
+  kakaoAuthorize: `${process.env.REACT_APP_SERVER_URL ? process.env.REACT_APP_SERVER_URL : 'http://localhost:8080/'}oauth2/authorization/kakao`,
+  naverAuthorize: `${process.env.REACT_APP_SERVER_URL ? process.env.REACT_APP_SERVER_URL : 'http://localhost:8080/'}oauth2/authorization/naver`,
 };
 
 export const PATH = {

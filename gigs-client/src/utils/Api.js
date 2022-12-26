@@ -5,7 +5,7 @@ const getTargetPath = (target) => {
   return target === SYMBOL.star ? 'stars' : 'stages'
 };
 
-const ax = axios.create();
+const ax = process.env.REACT_APP_SERVER_URL ? axios.create({ baseURL: process.env.REACT_APP_SERVER_URL, withCredentials: true }) : axios.create();
 
 /**
  * 데이터가 담긴 객체를 Query String 으로 변경해주는 함수
