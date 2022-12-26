@@ -4,6 +4,7 @@ import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import StageImg from '../../images/stage_tmp.jpg';
 import StarImg from '../../images/star_tmp.jpg';
+import { getTopReviews } from '../../utils/Api';
 import TopReviewItem from './TopReviewItem';
 
 const createDummy = (() => {
@@ -51,12 +52,15 @@ const TopReviews = ({
   const [top10Reviews, setTop10Reviews] = useState([]);
 
   const getReviews = useCallback(async () => {
-    // content 가 있는 애들만 데이터로 받아야 함
+    try {
+      const response = await getTopReviews();
+      console.log('# 탑 리뷰들');
+      console.log(response);
 
-    // 임시
-    const data = dummy.sort((a, b) => a.score === b.score ? b.createdAt - a.createdAt : b.score - a.score).slice(0, 10);
-  
-    setTop10Reviews(data);
+      setTop10Reviews(response.data);
+    } catch(err) {
+      console.log(err);
+    }
   }, []);
 
   useEffect(() => {

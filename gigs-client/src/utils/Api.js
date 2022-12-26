@@ -200,3 +200,5 @@ export const cancelSignedProposal = (proposalId) => ax.post(`/proposals/${propos
  * @param {{proposalId, score, content}} reviewData 리뷰 작성에 필요한 데이터
  */
 export const writeReview = (reviewData) => ax.put(`/mypage/review`, reviewData);
+
+export const getTopReviews = () => ax.get(`/reviews`);
