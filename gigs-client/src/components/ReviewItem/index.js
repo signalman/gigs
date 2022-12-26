@@ -45,12 +45,12 @@ const Footer = styled(Box)((props) => ({
 const ReviewItem = ({
   review,
 }) => {
-  const {reviewId, id, role, name, repImg, content, score, createdAt} = review;
+  const {reviewId, fromRoleId, fromRole, name, repImg, content, score, createdAt} = review;
 
   return (
     <Container>
       <Header>
-        <MiniProfile width='300px' name={name} repImg={repImg} starId={role === 'star' ? id : null} hostId={role === 'host' ? id : null} />
+        <MiniProfile width='300px' name={name} repImg={repImg} starId={fromRole === 'role_star' ? fromRoleId : null} hostId={fromRole === 'role_host' ? fromRoleId : null} />
         <RatingBox>
           <Rating
             sx={{ width: `100px`, height: '20px', }}
