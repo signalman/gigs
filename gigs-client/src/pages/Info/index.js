@@ -81,16 +81,16 @@ const Info = ({
 
     const newReviews = response.data?.reviews.map(review => ({
       reviewId: review.reviewId,
-      fromRoleid: review.fromRoleId,
+      fromRoleId: review.fromRoleId,
       fromRole: review.fromRole,
-      name: review.name || '박상연',
-      repImg: review.repImg || 'asdsdads',
+      fromName: review.fromName,
+      fromRepImg: review.fromRepImg,
       content: review.content,
       score: review.score,
       createdAt: moment(review.createdAt),
     }));
 
-    setReviews(newReviews);
+    setReviews(newReviews.filter(review => Boolean(review.content)));
   }, [params]);
 
   const getHostInfo = useCallback(async () => {
@@ -125,17 +125,16 @@ const Info = ({
     
     const newReviews = response.data?.reviews.map(review => ({
       reviewId: review.reviewId,
-      id: review.roleId,
-      role: review.role === 'role_star' ? 'star' : 'host',
-      // TODO: name과 repImg 받기
-      name: review.name || '박상연',
-      repImg: review.repImg || 'asdsdads',
+      fromRoleid: review.fromRoleId,
+      fromRole: review.fromRole,
+      fromName: review.fromName,
+      fromRepImg: review.fromRepImg,
       content: review.content,
       score: review.score,
       createdAt: moment(review.createdAt),
     }));
 
-    setReviews(newReviews);
+    setReviews(newReviews.filter(review => Boolean(review.content)));
   }, [params]);
 
   // 정보 수정 후 새 데이터로 기존 데이터를 업데이트 하는 함수
