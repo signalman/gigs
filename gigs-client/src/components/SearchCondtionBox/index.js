@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { Box, Button } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import HostConditionContent from './HostConditionContent';
 import StarConditionContent from './StarConditionContent';
 
@@ -27,6 +27,15 @@ const SearchConditionBox = ({
     selectedStageTypes: {},
     name: '',
   });
+
+  // 탭이 바뀌면 조건 초기화
+  useEffect(() => {
+    setGeneralConditions({
+      selectedGenres: {},
+      selectedStageTypes: {},
+      name: '',
+    });
+  }, [isStar]);
 
   // 하위 Conditions 반영
   const applyChildConditions = (conditions) => {
@@ -93,7 +102,7 @@ const SearchConditionBox = ({
     <Container>
       <Box sx={{ height: '100px' }} />
       {isStar ? (
-        <StarConditionContent />
+        <StarConditionContent generalConditions={generalConditions} onChangeGenre={handleChangeGenre} onChangeStageType={handleChangeStageType} onChangeName={handleChangeName} />
       ) : (
         <HostConditionContent generalConditions={generalConditions} applyChildConditions={applyChildConditions} onChangeGenre={handleChangeGenre} onChangeStageType={handleChangeStageType} onChangeName={handleChangeName} />
       )}

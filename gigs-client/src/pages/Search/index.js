@@ -148,6 +148,8 @@ const Search = ({
       setCards(data.content.map(item => toStarCard(item)));
       setPage(1);
       setNextPage(!data.last);
+
+      window.scrollTo({top: 0, behavior: 'smooth'});
     } catch (e) {
       console.log(e);
     } finally {
