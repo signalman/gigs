@@ -36,7 +36,7 @@ public class StageCard {
 
     public StageCard(Host host) {
         this.hostId = host.getHostId();
-        this.imgUrl = isNull(host.getRepImg()) || host.getImgs().isEmpty() ? "" : host.getRepImg();
+        this.imgUrl = isNull(host.getRepImg()) ? "" : host.getRepImg();
         this.stageSize = host.getStageSize();
         this.name = host.getStageName();
         this.address = host.getStageAddress();
