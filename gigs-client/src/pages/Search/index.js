@@ -141,7 +141,6 @@ const Search = ({
 
     try {
       const response = await fetchStarList(newConditions, newSort, PAGE_SIZE, 0);
-      // const response = await axios.get(API.getStarCards(newConditions, newSort, PAGE_SIZE, 0));
 
       const data = response.data;
       console.log(data);
@@ -300,13 +299,7 @@ const Search = ({
     <Background>
       <Container>
         <SideBox>
-        {/* <Box sx={{ width: '100%',}}> */}
-          <SearchConditionBox isStar={isStar} fetchData={isStar ? fetchDataForStar : fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />
-          {/* {target === SYMBOL.star ?
-          (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />) :
-          (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />)} */}
-        {/* </Box> */}
-
+          <SearchConditionBox isStar={isStar} fetchData={isStar ? fetchDataForStar : fetchDataForStage} setConditions={setConditions} setProgress={setProgress} />
         </SideBox>
         <Content>
           <Title>검색결과</Title>

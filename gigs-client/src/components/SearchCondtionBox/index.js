@@ -19,7 +19,6 @@ const SearchConditionBox = ({
   isStar,
   fetchData,
   setConditions,
-  setParentSort,
   setProgress,
 }) => {
   const [generalConditions, setGeneralConditions] = useState({
