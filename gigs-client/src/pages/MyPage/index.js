@@ -12,9 +12,11 @@ import { useNavigate } from 'react-router-dom';
 import AlertDialog from '../../components/AlertDialog';
 import SimpleDialog from '../../components/AlertDialog';
 import WriteReviewDialog from './WriteReviewDialog';
+import useErrorPage from '../../hooks/useErrorPage';
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const toError = useErrorPage();
 
   const [user, setUser] = useState({});
   const [histories, setHistories] = useState([]);
@@ -58,7 +60,7 @@ const MyPage = () => {
     } catch (err) {
       const statusCode = err.response.status;
       if(statusCode === 500) {
-        navigate('/error', {state: {msg: '서버에 문제가 발생했습니다.'}});
+        toError.serverError();
       }
     }
   }, []);
