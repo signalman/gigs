@@ -1,6 +1,8 @@
 package gigsproject.gigs.response;
 
-import gigsproject.gigs.domain.*;
+import gigsproject.gigs.domain.Address;
+import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.domain.StageType;
 import lombok.Getter;
 
 import java.time.LocalTime;
@@ -34,7 +36,7 @@ public class StageCard {
 
     public StageCard(Host host) {
         this.hostId = host.getHostId();
-        this.imgUrl = host.getImgs().isEmpty() ? "empty" : host.getImgs().get(0).getUrl();
+        this.imgUrl = isNull(host.getRepImg()) || host.getImgs().isEmpty() ? "" : host.getRepImg();
         this.stageSize = host.getStageSize();
         this.name = host.getStageName();
         this.address = host.getStageAddress();
