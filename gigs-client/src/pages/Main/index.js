@@ -26,7 +26,7 @@ const toStarCard = (data) => {
 const toHostCard = (data) => {
   return ({
     id: data.hostId,
-    imgUrl: data.stageImgUrl,
+    imgUrl: data.imgUrl,
     name: data.name,
     avgScore: data.score,
     reviewCount: data.reviewCount,
@@ -117,8 +117,8 @@ const Main = ({
       console.log('# 최신 카드 정보');
       console.log(response);
 
-      setStars(response.data.starCards);
-      setHosts(response.data.stageCards);
+      setStars(response.data.starCards.map(card => toStarCard(card)));
+      setHosts(response.data.stageCards.map(card => toHostCard(card)));
     } catch(err) {
       const statusCode = err.response.status;
       if(statusCode === 500) {
