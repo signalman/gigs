@@ -33,6 +33,7 @@ export const COLOR = {
   // main: "#D046D2",
   main: "#D00E64",
   whity: "#f8f8f8",
+  brightGrey: '#C0C0C0',
   grey: "#808080",
   blacky: "#404040",
   lightBlack: "#c0c0c0",

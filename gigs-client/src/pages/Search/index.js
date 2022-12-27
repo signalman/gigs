@@ -2,13 +2,14 @@
 
 import { Box, CircularProgress, Grid, MenuItem, Select } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { SYMBOL } from '../../utils/Constants';
+import { COLOR, SYMBOL } from '../../utils/Constants';
 import StarSearchConditionBox from '../../components/StarSearchConditionBox';
 import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import { fetchHostList, fetchStarList } from '../../utils/Api';
 import Card from '../../components/Card';
 import counties from '../../utils/Address.json';
 import SearchConditionBox from '../../components/SearchCondtionBox';
+import styled from '@emotion/styled';
 
 // 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
 // const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
@@ -59,12 +60,42 @@ const toHostCard = (data) => {
   });
 };
 
-const sortBoxStyle = {
+const Background = styled(Box)((props) => ({
+  width: '100%',
+  backgroundColor: COLOR.whity,
+}));
+
+const Container = styled(Box)((props) => ({
+  width: '1200px',
+  margin: '0 auto',
+  display: 'flex',
+  alignContent: 'flex-start',
+}));
+
+const SideBox = styled(Box)((props) => ({
+  width: '200px',
+  backgroundColor: 'white',
+}));
+
+const Content = styled(Box)((props) => ({
+  width: '1000px',
+}));
+
+const Title = styled(Box)((props) => ({
+  width: '100%',
+  height: '50px',
+  color: COLOR.main,
+  lineHeight: '50px',
+  textIndent: '20px',
+  fontSize: '22px',
+}));
+
+const SortBox = styled(Box)((props) => ({
   width: '100%',
   height: '50px',
   display: 'flex',
   position: 'relative',
-};
+}));
 
 const sortSelectStyle = {
   position: 'absolute',
@@ -258,44 +289,54 @@ const Search = ({
   }, [target, conditions, fetchDataForStar, fetchDataForStage]);
 
   return (
-    <Box sx={{ width: `1200px`, m: '0 auto', }}>
-      <Box sx={{ width: '100%', my: `25px`}}>
-        <SearchConditionBox isStar={target === SYMBOL.star} />
-        {/* {target === SYMBOL.star ?
-        (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />) :
-        (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />)} */}
-      </Box>
-      <Box sx={sortBoxStyle}>
-        <Select
-          sx={sortSelectStyle}
-          variant='standard'
-          value={sort}
-          onChange={handleSortChange}
-        >
-          <MenuItem value='dateDesc'>최신순</MenuItem>
-          <MenuItem value='rateDesc'>별점순</MenuItem>
-          <MenuItem value='reviewDesc'>리뷰순</MenuItem>
-        </Select>
-      </Box>
-      <Box sx={{ width: '100%', }}>
-        <Grid container spacing={'75px'} rowSpacing={'25px'} sx={{ pl: '75px', mb: '25px' }}>
-          {cards?.map((card, i) => (
-            <Grid item key={i}>
-              {target === SYMBOL.star ? (
-                <Card target={target} card={card} />
-              ) : (
-                <Card target={target} card={card} />
-              )}
-            </Grid>  
-          ))}
-        </Grid>
-        {isProgress ? (
-          <Box sx={{ width: '100%', height: '75px', display: 'flex', justifyContent: 'center' }}>
-            <CircularProgress />
+    <Background>
+      <Container>
+        <SideBox>
+        {/* <Box sx={{ width: '100%',}}> */}
+          <SearchConditionBox isStar={target === SYMBOL.star} />
+          {/* {target === SYMBOL.star ?
+          (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />) :
+          (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />)} */}
+        {/* </Box> */}
+
+        </SideBox>
+        <Content>
+          <Title>검색결과</Title>
+
+          <SortBox>
+            <Select
+              sx={sortSelectStyle}
+              variant='standard'
+              value={sort}
+              onChange={handleSortChange}
+            >
+              <MenuItem value='dateDesc'>최신순</MenuItem>
+              <MenuItem value='rateDesc'>별점순</MenuItem>
+              <MenuItem value='reviewDesc'>리뷰순</MenuItem>
+            </Select>
+          </SortBox>
+
+          <Box sx={{ width: '100%', }}>
+            <Grid container spacing={'25px'} rowSpacing={'25px'} sx={{ pl: '25px', mb: '25px' }}>
+              {cards?.map((card, i) => (
+                <Grid item key={i}>
+                  {target === SYMBOL.star ? (
+                    <Card target={target} card={card} />
+                  ) : (
+                    <Card target={target} card={card} />
+                  )}
+                </Grid>  
+              ))}
+            </Grid>
+            {isProgress ? (
+              <Box sx={{ width: '100%', height: '75px', display: 'flex', justifyContent: 'center' }}>
+                <CircularProgress />
+              </Box>
+            ) : (<></>)}
           </Box>
-        ) : (<></>)}
-      </Box>
-    </Box>
+        </Content>
+      </Container>
+    </Background>
   );
 };
 

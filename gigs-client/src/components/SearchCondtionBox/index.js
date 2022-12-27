@@ -5,8 +5,7 @@ import HostConditionContent from './HostConditionContent';
 import StarConditionContent from './StarConditionContent';
 
 const Container = styled(Box)((props) => ({
-  width: '1150px',
-  margin: '0 auto',
+  width: '200px',
 }));
 
 const SearchConditionBox = ({
@@ -14,6 +13,7 @@ const SearchConditionBox = ({
 }) => {
   return (
     <Container>
+      <Box sx={{ height: '100px' }} />
       {isStar ? (
         <StarConditionContent />
       ) : (
