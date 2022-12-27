@@ -57,7 +57,7 @@ const TopReviews = ({
       console.log('# 탑 리뷰들');
       console.log(response);
 
-      setTop10Reviews(response.data);
+      setTop10Reviews(response.data.content);
     } catch(err) {
       console.log(err);
     }

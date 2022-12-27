@@ -111,4 +111,8 @@ public class StarService {
     public void editStarImg(Long starId, String url) {
         starRepository.editStarImg(starId, url);
     }
+
+    public List<StarCard> getRecentStars() {
+        return starRepository.findRecentStars();
+    }
 }

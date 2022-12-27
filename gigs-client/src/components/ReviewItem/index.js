@@ -8,9 +8,13 @@ import MiniProfile from '../../pages/MyPage/MiniProfile';
 import { COLOR } from '../../utils/Constants';
 
 const Container = styled(Box)((props) => ({
+  boxSizing: 'border-box',
   width: '100%',
+  paddingLeft: '10px',
+  paddingRight: '10px',
+  paddingBottom: '10px',
 
-  ":nth-child(even)": {
+  ":nth-of-type(even)": {
     backgroundColor: COLOR.whity,
   }
 }));
@@ -45,12 +49,12 @@ const Footer = styled(Box)((props) => ({
 const ReviewItem = ({
   review,
 }) => {
-  const {reviewId, fromRoleId, fromRole, name, repImg, content, score, createdAt} = review;
+  const {reviewId, fromRoleId, fromRole, fromName, fromRepImg, content, score, createdAt} = review;
 
   return (
     <Container>
       <Header>
-        <MiniProfile width='300px' name={name} repImg={repImg} starId={fromRole === 'role_star' ? fromRoleId : null} hostId={fromRole === 'role_host' ? fromRoleId : null} />
+        <MiniProfile width='300px' name={fromName} repImg={fromRepImg} starId={fromRole === 'role_star' ? fromRoleId : null} hostId={fromRole === 'role_host' ? fromRoleId : null} />
         <RatingBox>
           <Rating
             sx={{ width: `100px`, height: '20px', }}

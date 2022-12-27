@@ -30,7 +30,6 @@ const MiniProfile = ({
   name,
   width,
 }) => {
-  console.log(repImg);
   const navigate = useNavigate();
 
   const onClick = useCallback(() => {
@@ -55,7 +54,7 @@ const MiniProfile = ({
         <>
           <ImgBox>
             {repImg ? (
-              <img src={IMG(repImg)} alt="stage_img" width='25px' height='25px' />
+              <img src={IMG(repImg)} alt="stage_img" width='25px' height='25px' style={{objectFit: 'cover'}} />
             ) : (
               <AccountCircleIcon sx={{ width: '25px', height: '25px', }} />
             )}

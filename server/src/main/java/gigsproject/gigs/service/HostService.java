@@ -131,4 +131,8 @@ public class HostService {
 
         host.setRepImg("");
     }
+
+    public List<StageCard> getRecentStages() {
+        return postRepository.findRecentPosts();
+    }
 }

@@ -12,6 +12,7 @@ public interface StarRepository extends JpaRepository<Star, Long>, StarRepositor
 
     Star findByUser(User user);
 
+
 //    void editStar(StarEdit starEdit);
 
 //    void editStarImg(String repImg);
