@@ -45,6 +45,7 @@ const Footer = styled(Box)((props) => ({
 const ReviewItem = ({
   review,
 }) => {
+  console.log(review);
   const {reviewId, fromRoleId, fromRole, fromName, fromRepImg, content, score, createdAt} = review;
 
   return (

@@ -83,14 +83,14 @@ const Info = ({
       reviewId: review.reviewId,
       fromRoleid: review.fromRoleId,
       fromRole: review.fromRole,
-      name: review.name || '박상연',
-      repImg: review.repImg || 'asdsdads',
+      fromName: review.fromName,
+      fromRepImg: review.fromRepImg,
       content: review.content,
       score: review.score,
       createdAt: moment(review.createdAt),
     }));
 
-    setReviews(newReviews);
+    setReviews(newReviews.filter(review => Boolean(review.content)));
   }, [params]);
 
   const getHostInfo = useCallback(async () => {
