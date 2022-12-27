@@ -165,8 +165,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(host.posts, post)
                 .fetchJoin()
                 .where(
-                        host.stageAddress.isNotNull(),
-                        post.status.eq(UNSIGNED)
+                        host.stageAddress.isNotNull().and(post.status.eq(UNSIGNED))
                 )
                 .orderBy(host.hostId.desc())
                 .limit(20)

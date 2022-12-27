@@ -138,9 +138,7 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
                 .selectFrom(star)
                 .join(star.user, QUser.user).fetchJoin()
                 .where(
-                        isStarActive(),
-                        star.name.isNotEmpty(),
-                        star.name.isNotNull()
+                        isStarActive().and(star.name.isNotEmpty()).and(star.name.isNotNull())
                 )
                 .orderBy(star.starId.desc())
                 .limit(20)
