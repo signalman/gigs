@@ -42,7 +42,7 @@ const toStarCard = (data) => {
 const toHostCard = (data) => {
   return ({
     id: data.hostId,
-    imgUrl: data.stageImgUrl,
+    imgUrl: data.imgUrl,
     name: data.name,
     avgScore: data.score,
     reviewCount: data.reviewCount,
