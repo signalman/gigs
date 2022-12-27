@@ -44,8 +44,7 @@ const MyPage = () => {
         const newProposal = {...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), };
 
         if(proposal.showStatus === 'COMP') {
-          const targetId = isStar ? proposal.hostId : proposal.starId;
-          const review = newReviews?.find(review => review.toRoleId === targetId);
+          const review = newReviews?.find(review => review.proposalId === proposal.proposalId);
           const hasReview = review?.content !== '';
 
           newProposal.hasReview = hasReview;
