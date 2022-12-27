@@ -81,7 +81,7 @@ const Info = ({
 
     const newReviews = response.data?.reviews.map(review => ({
       reviewId: review.reviewId,
-      fromRoleid: review.fromRoleId,
+      fromRoleId: review.fromRoleId,
       fromRole: review.fromRole,
       fromName: review.fromName,
       fromRepImg: review.fromRepImg,

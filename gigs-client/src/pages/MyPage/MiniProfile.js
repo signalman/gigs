@@ -30,7 +30,6 @@ const MiniProfile = ({
   name,
   width,
 }) => {
-  console.log(repImg);
   const navigate = useNavigate();
 
   const onClick = useCallback(() => {

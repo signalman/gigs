@@ -8,7 +8,11 @@ import MiniProfile from '../../pages/MyPage/MiniProfile';
 import { COLOR } from '../../utils/Constants';
 
 const Container = styled(Box)((props) => ({
+  boxSizing: 'border-box',
   width: '100%',
+  paddingLeft: '10px',
+  paddingRight: '10px',
+  paddingBottom: '10px',
 
   ":nth-of-type(even)": {
     backgroundColor: COLOR.whity,
@@ -45,7 +49,6 @@ const Footer = styled(Box)((props) => ({
 const ReviewItem = ({
   review,
 }) => {
-  console.log(review);
   const {reviewId, fromRoleId, fromRole, fromName, fromRepImg, content, score, createdAt} = review;
 
   return (
