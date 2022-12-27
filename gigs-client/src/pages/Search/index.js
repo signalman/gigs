@@ -8,6 +8,7 @@ import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import { fetchHostList, fetchStarList } from '../../utils/Api';
 import Card from '../../components/Card';
 import counties from '../../utils/Address.json';
+import SearchConditionBox from '../../components/SearchCondtionBox';
 
 // 카드를 불러올 때, 한 페이지당 몇 개의 카드를 불러올 지 결정하는 변수
 // const PAGE_SIZE = Math.ceil(window.innerHeight / 500) * 3;
@@ -259,9 +260,10 @@ const Search = ({
   return (
     <Box sx={{ width: `1200px`, m: '0 auto', }}>
       <Box sx={{ width: '100%', my: `25px`}}>
-        {target === SYMBOL.star ?
+        <SearchConditionBox isStar={target === SYMBOL.star} />
+        {/* {target === SYMBOL.star ?
         (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />) :
-        (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />)}
+        (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />)} */}
       </Box>
       <Box sx={sortBoxStyle}>
         <Select
