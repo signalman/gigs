@@ -25,6 +25,6 @@ public class OAuth2AuthenticationFailureHandler implements AuthenticationFailure
         //사용자 정보 세션에 저장된 상태.
         log.info("회원가입페이지로 이동합니다.");
         String UUID = session.getAttribute("uuid").toString();
-        response.sendRedirect("http://localhost:3000/signup?uuid=" + UUID);
+        response.sendRedirect("https://gigs-web.com/signup?uuid=" + UUID);
     }
 }

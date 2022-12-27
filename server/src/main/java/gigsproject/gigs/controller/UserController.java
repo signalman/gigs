@@ -8,9 +8,7 @@ import gigsproject.gigs.response.*;
 import gigsproject.gigs.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -63,12 +61,11 @@ public class UserController {
 
         Cookie cookie = new Cookie("userId", userId.toString());
         Cookie roleCookie = new Cookie("role", user.getRole().toString());
-        cookie.setPath("/");
-        cookie.setDomain("localhost");
+        cookie.setDomain("gigs-web.com");
+        roleCookie.setDomain("gigs-web.com");
         response.addCookie(cookie);
         response.addCookie(roleCookie);
-
-        response.sendRedirect("http://localhost:3000");
+        response.sendRedirect("https://gigs-web.com");
     }
 
     @GetMapping("/mypage")
@@ -106,21 +103,5 @@ public class UserController {
         } catch (Exception e) {
             response.setStatus(404);
         }
-    }
-
-    /**
-     * api테스트용.
-     */
-    @GetMapping("/test/auth")
-    void test(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
-
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-
-        log.info("인증 객체 : {}", oAuth2User);
-        log.info("인증 객체 : {}", oAuth2User.getName());
-        log.info("인증 객체 : {}", oAuth2User.getAttributes());
-        log.info("인증 객체 : {}", oAuth2User.getAuthorities());
-        Cookie cookie = new Cookie("dkf", "kdf");
-        response.addCookie(cookie);
     }
 }

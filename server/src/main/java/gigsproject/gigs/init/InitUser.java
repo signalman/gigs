@@ -1,12 +1,9 @@
 package gigsproject.gigs.init;
 
 import gigsproject.gigs.domain.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
@@ -20,17 +17,17 @@ import static gigsproject.gigs.domain.Role.ROLE_HOST;
 import static gigsproject.gigs.domain.Role.ROLE_STAR;
 import static gigsproject.gigs.domain.StageType.*;
 
-@Profile("local")
-@Component
-@RequiredArgsConstructor
+//@Profile("local")
+//@Component
+//@RequiredArgsConstructor
 public class InitUser {
-    private final InitUserService initUserService;
+//    private final InitUserService initUserService;
 
 
-    @PostConstruct
-    public void init() {
-        initUserService.init();
-    }
+//    @PostConstruct
+//    public void init() {
+//        initUserService.init();
+//    }
 
     @Component
     static class InitUserService {
