@@ -4,7 +4,7 @@ import { Box, styled, Button } from '@mui/material';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import HeaderBtn from '../../components/HeaderBtn';
-import { PATH } from '../../utils/Constants';
+import { COLOR, PATH } from '../../utils/Constants';
 import LogoImg from '../../images/gigs_logo_tmp.png';
 import MyMenuBox from './MyMenuBox';
 
@@ -30,7 +30,7 @@ const Header = () => {
       width: '100%',
       height: '100px',
       backgroundColor: 'white',
-      boxShadow: '0 0 4px black',
+      borderBottom: `2px solid ${COLOR.main}`,
       zIndex: 100,
     }}>
       <Box sx={{

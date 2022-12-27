@@ -49,7 +49,6 @@ function Card({
   target,
   card,
 }) {
-  console.log(card.name);
   const isStar = target === SYMBOL.star;
 
   const {id, imgUrl, name, avgScore, reviewCount} = card;
@@ -73,7 +72,7 @@ function Card({
       {imgUrl ? (
         <CardMedia component="img" height="225" image={IMG(imgUrl)} alt="stars" />
       ) : (
-        <Box sx={{ height: '225px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: COLOR.whity }}>
+        <Box sx={{ height: '225px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
           {isStar ? <AccountCircleIcon sx={{ width: '100px', height: '100px', color: COLOR.grey, }} /> : <InsertPhotoIcon sx={{ width: '100px', height: '100px', color: COLOR.grey, }} />}
           
         </Box>

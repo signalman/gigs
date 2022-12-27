@@ -68,12 +68,12 @@ export const toggleStarStatus = () => ax.post('/mypage/status');
  * @param {Number} size 페이지 사이즈
  * @param {Number} page 현재 페이지 번호
  */
-export const fetchStarList = ({name, stageTypes, genres, address, gender,}, sort, size, page) => {
+export const fetchStarList = ({name, stageTypes, genres,}, sort, size, page) => {
   const data = {
     name,
     stageTypes: stageTypes?.join(','),
     genres: genres?.join(','),
-    address, gender, sort, size, page
+    sort, size, page
   };
 
   return ax.get(`/stars?${queryString(data)}`);
