@@ -12,6 +12,7 @@ const SearchButton = styled(Button)((props) => ({
   width: '150px',
   margin: '0 25px',
   fontSize: '16px',
+  marginBottom: '25px',
 }));
 
 const SearchConditionBox = ({

@@ -3,11 +3,8 @@
 import { Box, CircularProgress, Grid, MenuItem, Select } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { COLOR, SYMBOL } from '../../utils/Constants';
-import StarSearchConditionBox from '../../components/StarSearchConditionBox';
-import StageSearchConditionBox from '../../components/StageSearchConditionBox';
 import { fetchHostList, fetchStarList } from '../../utils/Api';
 import Card from '../../components/Card';
-import counties from '../../utils/Address.json';
 import SearchConditionBox from '../../components/SearchCondtionBox';
 import styled from '@emotion/styled';
 
@@ -69,12 +66,14 @@ const Container = styled(Box)((props) => ({
   width: '1200px',
   margin: '0 auto',
   display: 'flex',
-  alignContent: 'flex-start',
+  alignItems: 'flex-start',
 }));
 
 const SideBox = styled(Box)((props) => ({
   width: '200px',
+  height: 'auto',
   backgroundColor: 'white',
+  boxShadow: '0 2px 2px grey',
 }));
 
 const Content = styled(Box)((props) => ({
@@ -195,6 +194,8 @@ const Search = ({
       setCards(data.content.map(item => toHostCard(item)));
       setPage(1);
       setNextPage(!data.last);
+
+      window.scrollTo({top: 0, behavior: 'smooth'});
     } catch (e) {
       console.log(e);
     } finally {
