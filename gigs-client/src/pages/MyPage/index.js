@@ -13,10 +13,12 @@ import AlertDialog from '../../components/AlertDialog';
 import SimpleDialog from '../../components/AlertDialog';
 import WriteReviewDialog from './WriteReviewDialog';
 import useErrorPage from '../../hooks/useErrorPage';
+import { useCookies } from 'react-cookie';
 
 const MyPage = () => {
   const navigate = useNavigate();
   const toError = useErrorPage();
+  const [cookies, setCookie, removeCookie] = useCookies(['userId', 'role']);
 
   const [user, setUser] = useState({});
   const [histories, setHistories] = useState([]);
@@ -33,6 +35,8 @@ const MyPage = () => {
       const response = await fetchMyPage();
       console.log(response);
 
+      if(!Boolean(response.data.user)) throw new Error('잘못된 사용자 정보');
+
       setUser({...response.data.user, roleId: response.data.roleId, status: response.data.status === "ACTIVE" ? true : false, imgUrl: response.data.imgUrl});
       const isStar = response.data.user.role === 'ROLE_STAR';
 
@@ -46,8 +50,7 @@ const MyPage = () => {
         const newProposal = {...proposal, createdAt: moment(proposal.createdAt), showStartTime: moment(proposal.showStartTime), showEndTime: moment(proposal.showEndTime), };
 
         if(proposal.showStatus === 'COMP') {
-          const targetId = isStar ? proposal.hostId : proposal.starId;
-          const review = newReviews?.find(review => review.toRoleId === targetId);
+          const review = newReviews?.find(review => review.proposalId === proposal.proposalId);
           const hasReview = review?.content !== '';
 
           newProposal.hasReview = hasReview;
@@ -58,12 +61,19 @@ const MyPage = () => {
       
       setHistories(signedOrComp);
     } catch (err) {
-      const statusCode = err.response.status;
-      if(statusCode === 500) {
-        toError.serverError();
+      if(err.message === '잘못된 사용자 정보') {
+        navigate('/error', {state: {msg: '서버에 문제가 발생했습니다.'}});
+        removeCookie('userId');
+        removeCookie('role');
+        navigate(0);
+      } else {
+        const statusCode = err.response.status;
+        if(statusCode === 500) {
+          toError.serverError();
+        }
       }
     }
-  }, []);
+  }, [removeCookie]);
 
   useEffect(() => {
     getMyPage();

@@ -1,6 +1,9 @@
 package gigsproject.gigs.response;
 
-import gigsproject.gigs.domain.*;
+import gigsproject.gigs.domain.Host;
+import gigsproject.gigs.domain.Review;
+import gigsproject.gigs.domain.Role;
+import gigsproject.gigs.domain.Star;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,6 +14,7 @@ import java.util.Objects;
 public class ReviewDto {
 
     private Long reviewId;
+    private Long proposalId;
 
     /**
      * 작성자 정보
@@ -35,9 +39,9 @@ public class ReviewDto {
     private LocalDateTime createdAt;
 
 
-
     public ReviewDto(Review review) {
         this.reviewId = review.getReviewId();
+        this.proposalId = review.getProposal().getProposalId();
         Host host = review.getProposal().getPost().getHost();
         Star star = review.getProposal().getStar();
 

@@ -157,5 +157,21 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return post.startTime.goe(startTime).and(post.endTime.loe(endTime));
         }
     }
+
+    @Override
+    public List<StageCard> findRecentPosts() {
+        List<Host> hosts = jpaQueryFactory
+                .selectFrom(host)
+                .join(host.posts, post)
+                .fetchJoin()
+                .where(
+                        host.stageAddress.isNotNull(),
+                        post.status.eq(UNSIGNED)
+                )
+                .orderBy(host.hostId.desc())
+                .limit(20)
+                .fetch();
+        return hosts.stream().map(h -> new StageCard(h)).collect(Collectors.toList());
+    }
 }
 

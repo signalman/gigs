@@ -32,6 +32,7 @@ const MyHistoryBox = ({
       ) : (
         histories?.map(history => (
           <MyHistoryItem
+            key={history.proposalId}
             proposalId={history.proposalId}
             host={{name: history.stageName, repImg: history.hostRepImg, id: history.hostId}}
             star={{name: history.starName, repImg: history.starRepImg, id: history.starId}}
