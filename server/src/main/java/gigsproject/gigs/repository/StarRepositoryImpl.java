@@ -131,4 +131,21 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
                 .where(star.starId.eq(starId))
                 .execute();
     }
+
+    @Override
+    public List<StarCard> findRecentStars() {
+        List<Star> stars = queryFactory
+                .selectFrom(star)
+                .join(star.user, QUser.user).fetchJoin()
+                .where(
+                        isStarActive(),
+                        star.name.isNotEmpty(),
+                        star.name.isNotNull()
+                )
+                .limit(20)
+                .fetch();
+
+        return stars.stream().map(s -> new StarCard(s)).collect(Collectors.toList());
+    }
+
 }
