@@ -117,8 +117,8 @@ const Main = ({
       console.log('# 최신 카드 정보');
       console.log(response);
 
-      setStars(response.data.stars);
-      setHosts(response.data.hosts);
+      setStars(response.data.starCards);
+      setHosts(response.data.stageCards);
     } catch(err) {
       const statusCode = err.response.status;
       if(statusCode === 500) {

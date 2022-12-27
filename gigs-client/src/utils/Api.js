@@ -206,4 +206,4 @@ export const getTopReviews = () => ax.get(`/reviews`);
 /**
  * 메인에서 보여지는 새로 만든 유저들 가져오는 API
  */
-export const getNewCards = () => ax.get(`/`);
+export const getNewCards = () => ax.get(`/home`);
