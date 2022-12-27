@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Button, TextField, Typography, Paper, Divider, Modal } from '@mui/material';
 import DaumPostCode from 'react-daum-postcode';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { IMaskInput } from 'react-imask';
 import Swal from "sweetalert2";
 import { fetchUserNameAndUid, signUp } from '../../utils/Api';
@@ -41,13 +41,14 @@ const SignUp = (
   }, []);
 
   const location = useLocation();
+  const [params, setParams] = useSearchParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const uuid = location.search.substring(6);
+    const uuid = params.get('uuid');
 
     getUserIdAndName(uuid);
-  }, [getUserIdAndName, location]);
+  }, []);
 
   const onhandlePost = useCallback(async () => {
     const data = {

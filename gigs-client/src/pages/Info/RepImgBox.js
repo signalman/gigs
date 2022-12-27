@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import React, { useCallback, useRef } from 'react';
+import Swal from 'sweetalert2';
 import { updateRepImage } from '../../utils/Api';
 import { COLOR, IMG } from '../../utils/Constants';
 
@@ -15,6 +16,7 @@ const containerStyle = {
 
 const repImgStyle ={
   cursor: 'pointer',
+  objectFit: 'cover',
 };
 
 const repImgMsgStyle = {
@@ -54,6 +56,17 @@ const RepImgBox = ({
       // 보여지는 이미지 수정
       handleEditRepImg(response.data);
     } catch (err) {
+      const statusCode = err.response.status;
+      const msg = err.response.data.message;
+      console.log(statusCode);
+      console.log(msg);
+      if(statusCode === 400 && msg.indexOf('Maximum upload size exceeded') >= 0) {
+        Swal.fire({
+          icon: "warning",
+          title: "1MB 보다 큰 이미지는 업로드할 수 없습니다.",
+          confirmButtonText: "확인"
+        })
+      }
       console.log(err);
     }
   }, [target, handleEditRepImg]);
@@ -64,13 +77,14 @@ const RepImgBox = ({
         <input type="file"
         accept='image/*'
         onChange={updateRepImg}
+        value={''}
         ref={repImgInput}
         style={{ display: "none" }}
       />
       ) : (<></>)}
       {repImg ? (
         editable ? (
-          <img src={repImg} alt="repImg" width="100%" style={repImgStyle} onClick={() => repImgInput.current.click()} />
+          <img src={repImg} alt="repImg" width="100%" height='300px' style={repImgStyle} onClick={() => repImgInput.current.click()} />
         ) : (
           <img src={repImg} alt="repImg" width="100%" />
         )
