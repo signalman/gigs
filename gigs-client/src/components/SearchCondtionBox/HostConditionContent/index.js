@@ -18,8 +18,8 @@ const HostConditionContent = ({
   applyChildConditions,
   onChangeGenre,
   onChangeStageType,
+  onChangeName,
 }) => {
-  console.log('host render');
   const [hostConditions, setHostConditions] = useState({
     startDate: moment().format('YYYY-MM-DD'),
     endDate: moment().format('YYYY-MM-DD'),
@@ -39,12 +39,10 @@ const HostConditionContent = ({
    *  날짜 조작
    */
   const handleChangeStartDate = (data) => {
-    console.log('start: ' + data);
     setHostConditions(prev => ({...prev, startDate: data}));
   };
 
   const handleChangeEndDate = (data) => {
-    console.log('end: ' + data);
     setHostConditions(prev => ({...prev, endDate: data}));
   };
 
@@ -80,7 +78,7 @@ const HostConditionContent = ({
       </ConditionItem>
 
       <ConditionItem title="장소 이름">
-        <NameCondition />
+        <NameCondition conditions={generalConditions} onChangeName={onChangeName} />
       </ConditionItem>
     </Container>
   );

@@ -10,7 +10,11 @@ const Container = styled(Box)((props) => ({
   justifyContent: 'center',
 }));
 
-const NameCondition = () => {
+const NameCondition = ({
+  conditions,
+  onChangeName,
+}) => {
+  const {name} = conditions;
 
   return (
     <Container>
@@ -20,6 +24,8 @@ const NameCondition = () => {
         variant='outlined'
         InputProps={{ style: {fontSize: '12px',} }}
         placeholder='장소 이름을 검색해보세요.'
+        value={name}
+        onChange={onChangeName}
       />
     </Container>
   );

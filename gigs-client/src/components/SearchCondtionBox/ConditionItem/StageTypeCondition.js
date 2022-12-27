@@ -12,19 +12,14 @@ const Container = styled(Box)((props) => ({
 
 const StageTypeCondition = ({
   conditions,
-  onChangeStageTypes,
+  onChangeStageType,
 }) => {
-  const [selectedStageTypes, setSelectedStageTypes] = useState({});
-
-  // 장소 아이템 선택하면 장소 선택 표시
-  const selectStageType = useCallback((genre) => {
-    setSelectedStageTypes({...selectedStageTypes, [genre]: !selectedStageTypes[genre]});
-  }, [selectedStageTypes]);
+  const {selectedStageTypes} = conditions;
 
   return (
     <Container>
       {STAGE_TYPES.map(item => (
-        <CategoryItem selected={selectedStageTypes[item]} selectItem={selectStageType}>{item}</CategoryItem>
+        <CategoryItem selected={selectedStageTypes[item]} selectItem={onChangeStageType}>{item}</CategoryItem>
       ))}
     </Container>
   );
