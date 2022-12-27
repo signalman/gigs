@@ -168,6 +168,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         host.stageAddress.isNotNull(),
                         post.status.eq(UNSIGNED)
                 )
+                .orderBy(host.hostId.desc())
                 .limit(20)
                 .fetch();
         return hosts.stream().map(h -> new StageCard(h)).collect(Collectors.toList());

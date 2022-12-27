@@ -142,6 +142,7 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
                         star.name.isNotEmpty(),
                         star.name.isNotNull()
                 )
+                .orderBy(star.starId.desc())
                 .limit(20)
                 .fetch();
 
