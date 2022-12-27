@@ -7,6 +7,7 @@ import ReservationItem from './ReservationItem';
 import AddIcon from '@mui/icons-material/Add';
 import { COLOR } from '../../utils/Constants';
 import WritePostDialog from './WritePostDialog';
+import useErrorPage from '../../hooks/useErrorPage';
 
 const AddButton = styled(Box)((props) => ({
   width: '96px', height: '96px',
@@ -44,6 +45,8 @@ const ReservationTable = ({
 }) => {
   const canWritePost = Boolean(host?.name) && host.address?.siDo;
 
+  const toError = useErrorPage();
+
   // 제안서 작성 다이얼로그 관련
   const [selectedPost, setSelectedPost] = useState({
     err: '데이터를 불러오는 중 입니다.'
@@ -76,7 +79,11 @@ const ReservationTable = ({
 
       setWriteProposalDialogOpen(true);
     } catch (err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
+
       setSelectedPost({ err: err.response.data });
       setWriteProposalDialogOpen(true);
     }

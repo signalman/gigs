@@ -6,6 +6,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { writeReview } from '../../utils/Api';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import useErrorPage from '../../hooks/useErrorPage';
 
 const ContentContainer = styled(Box)((props) => ({
   
@@ -33,6 +34,7 @@ const WriteReviewDialog = ({
 }) => {
   const navigate = useNavigate();
   const [cookies, setCookie, removeCookie] = useCookies(['role']);
+  const toError = useErrorPage();
 
   const [score, setScore] = useState(0);
   const [content, setContent] = useState('');
@@ -59,7 +61,10 @@ const WriteReviewDialog = ({
       handleClose();
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [handleClose, proposalId, score, content]);
 

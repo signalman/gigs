@@ -6,6 +6,7 @@ import ImageItem from './ImageItem';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { addImages, deleteImage } from '../../utils/Api';
+import useErrorPage from '../../hooks/useErrorPage';
 
 const Container = styled(Box)(() => ({
   width: '1200px',
@@ -66,6 +67,8 @@ const ImageBox = ({
   handleEditImgs,
   handleDeleteImg,
 }) => {
+  const toError = useErrorPage();
+
   const [selectedImage, setSelectedImage] = useState(-1);
   
   const imgInputRef = useRef();
@@ -86,7 +89,10 @@ const ImageBox = ({
       // 선택한 이미지 초기화
       setSelectedImage(-1);
     } catch (err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [selectedImage, handleDeleteImg]);
   
@@ -107,7 +113,10 @@ const ImageBox = ({
       // 보여지는 이미지 수정
       handleEditImgs(response.data);
     } catch (err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [handleEditImgs]);
 

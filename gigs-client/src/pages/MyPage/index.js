@@ -78,7 +78,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 
@@ -91,7 +94,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 
@@ -127,7 +133,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 
@@ -147,7 +156,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 
@@ -160,7 +172,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 

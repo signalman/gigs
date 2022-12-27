@@ -8,7 +8,7 @@ const useErrorPage = () => {
   const navigate = useNavigate();
 
   const move = (msg) => {
-    navigate('/error', {state: msg});
+    navigate('/error', {state: {msg}});
   };
 
   return {

@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import React, { useCallback, useRef } from 'react';
+import useErrorPage from '../../hooks/useErrorPage';
 import { updateRepImage } from '../../utils/Api';
 import { COLOR, IMG } from '../../utils/Constants';
 
@@ -38,6 +39,8 @@ const RepImgBox = ({
   editable,
   handleEditRepImg,
 }) => {
+  const toError = useErrorPage();
+
   const repImgInput = useRef();
 
   const updateRepImg = useCallback(async (e) => {
@@ -54,7 +57,10 @@ const RepImgBox = ({
       // 보여지는 이미지 수정
       handleEditRepImg(response.data);
     } catch (err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [target, handleEditRepImg]);
 

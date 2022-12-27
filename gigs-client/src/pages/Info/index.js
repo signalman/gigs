@@ -24,12 +24,14 @@ import ImageBox from './ImageBox';
 import RepImgBox from './RepImgBox';
 import moment from 'moment';
 import "moment/locale/ko";
+import useErrorPage from '../../hooks/useErrorPage';
 
 const Info = ({
   target,
 }) => {
   const params = useParams();
   const [cookies, setCookie, removeCookie] = useCookies(['userId']);
+  const toError = useErrorPage();
 
   const [data, setData] = useState(DUMMY.host);
   const [posts, setPosts] = useState(DUMMY.host.posts);
@@ -155,7 +157,10 @@ const Info = ({
       console.log(response);
       setData(newData);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [target, data]);
 
