@@ -49,6 +49,7 @@ function Card({
   target,
   card,
 }) {
+  console.log(card.name);
   const isStar = target === SYMBOL.star;
 
   const {id, imgUrl, name, avgScore, reviewCount} = card;

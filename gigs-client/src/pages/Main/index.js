@@ -1,11 +1,11 @@
-import { Box, styled, Typography, Grid } from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import { COLOR } from '../../utils/Constants';
 import Card from '../../components/Card';
 import { SYMBOL } from '../../utils/Constants';
-// import mainImg from '../../images/main.png'
 import mainImg from '../../images/main_image.jpg'
-import { fetchStarList } from '../../utils/Api';
+import { getNewCards } from '../../utils/Api';
+import { useNavigate } from 'react-router-dom';
 
 const toStarCard = (data) => {
   return ({
@@ -26,7 +26,7 @@ const toStarCard = (data) => {
 const toHostCard = (data) => {
   return ({
     id: data.hostId,
-    imgUrl: data.stageImgUrl,
+    imgUrl: data.imgUrl,
     name: data.name,
     avgScore: data.score,
     reviewCount: data.reviewCount,
@@ -106,17 +106,29 @@ const IntroMessageBox = styled(Box)((props) => ({
 const Main = ({
   
 }) => {
-  const [cards, setCards] = useState([]);
+  const navigate = useNavigate();
 
-  const getCardsTmp = useCallback(async() => {
-    const response = await fetchStarList({}, 'dateDesc', 20, 0);
-    console.log(response);
+  const [stars, setStars] = useState([]);
+  const [hosts, setHosts] = useState([]);
 
-    setCards(response.data.content.map(item => toStarCard(item)));
+  const getCards = useCallback(async() => {
+    try {
+      const response = await getNewCards();
+      console.log('# 최신 카드 정보');
+      console.log(response);
+
+      setStars(response.data.starCards.map(card => toStarCard(card)));
+      setHosts(response.data.stageCards.map(card => toHostCard(card)));
+    } catch(err) {
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        navigate('/error', {state: {msg: '서버에 문제가 발생했습니다.'}});
+      }
+    }
   }, []);
 
   useEffect(() => {
-    getCardsTmp();
+    getCards();
   }, []);
 
   return (
@@ -139,7 +151,7 @@ const Main = ({
       <BlockTitle>신규 스타</BlockTitle>
       <Block>
         <CardBox>
-          {cards?.map((card, i) => (
+          {stars?.map((card, i) => (
             <Card target={SYMBOL.star} card={card} />
           ))}
         </CardBox>
@@ -148,7 +160,7 @@ const Main = ({
       <BlockTitle>신규 무대</BlockTitle>
       <Block>
         <CardBox>
-          {cards?.map((card, i) => (
+          {hosts?.map((card, i) => (
             <Card target={SYMBOL.stage} card={card} />
           ))}
         </CardBox>
