@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import StageImg from '../../images/stage_tmp.jpg';
 import StarImg from '../../images/star_tmp.jpg';
 import { getTopReviews } from '../../utils/Api';
+import { COLOR } from '../../utils/Constants';
 import TopReviewItem from './TopReviewItem';
 
 const createDummy = (() => {
@@ -44,6 +45,15 @@ const Container = styled(Box)((props) => ({
   rowGap: '50px',
 }));
 
+const NoReviews = styled(Box)((props) => ({
+  width: '100%',
+  height: '500px',
+  lineHeight: '500px',
+  textAlign: 'center',
+  color: COLOR.grey,
+  fontSize: '30px',
+  fontWeight: 'bold',
+}));
 
 
 const TopReviews = ({
@@ -69,9 +79,17 @@ const TopReviews = ({
 
   return (
     <Container>
-      {top10Reviews?.map(review => (
-        <TopReviewItem review={review} />
-      ))}
+      {top10Reviews?.length === 0 ? (
+        <NoReviews>
+          리뷰가 단 하나도 없습니다.
+        </NoReviews>
+      ) : (
+        top10Reviews?.map(review => (
+          <TopReviewItem review={review} />
+        ))
+      )}
+
+      {}
     </Container>
   );
 };
