@@ -15,14 +15,16 @@ const CategoryItem = ({
         sx={{
           boxSizing: 'border-box',
           width: '50px',
-          height: '20px',
-          border: `.5px solid ${COLOR.grey}`,
-          backgroundColor: selected ? COLOR.main : COLOR.whity,
+          height: '30px',
+          border: `.5px solid ${COLOR.grey}80`,
+          backgroundColor: selected ? COLOR.main : 'white',
           textAlign: 'center',
-          lineHeight: '20px',
+          lineHeight: '30px',
           fontSize: '10px',
           color: selected ? COLOR.whity : COLOR.blacky,
           cursor: 'pointer',
+          transition: '.25s all ease',
+          userSelect: 'none',
         }}
         onClick={() => selectItem(children)}
       >

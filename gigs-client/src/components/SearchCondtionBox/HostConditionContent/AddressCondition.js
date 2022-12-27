@@ -10,19 +10,12 @@ const Container = styled(Box)((props) => ({
   alignItems: 'center',
 }));
 
-const AddressCondition = () => {
-  const [siDo, setSiDo] = useState('전체 지역');
-  const [siGunGu, setSiGunGu] = useState('-');
-
-  // 주소 변경 시
-  const handleChangeSiDo = (e) => {
-    setSiGunGu('-');
-    setSiDo(e.target.value);
-  };
-
-  const handleChangeSiGunGu = (e) => {
-    setSiGunGu(e.target.value);
-  }
+const AddressCondition = ({
+  conditions,
+  onChangeSiDo,
+  onChangeSiGunGu,
+}) => {
+  const {siDo, siGunGu} = conditions;
 
   return (
     <Container>
@@ -35,7 +28,7 @@ const AddressCondition = () => {
         }}
         variant='standard'
         value={siDo}
-        onChange={handleChangeSiDo}
+        onChange={onChangeSiDo}
       >
         <MenuItem value='전체 지역'>전체 지역</MenuItem>
         {Object.keys(counties).map(siDoItem => (
@@ -52,7 +45,7 @@ const AddressCondition = () => {
         disabled={siDo === '전체 지역'}
         variant='standard'
         value={siGunGu}
-        onChange={handleChangeSiGunGu}
+        onChange={onChangeSiGunGu}
       >
         <MenuItem value='-'>시/군/구</MenuItem>  
         {siDo !== '전체 지역' && Object.keys(counties[siDo]).map(siGunGuItem => (

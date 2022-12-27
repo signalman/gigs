@@ -82,12 +82,15 @@ const Content = styled(Box)((props) => ({
 }));
 
 const Title = styled(Box)((props) => ({
+  boxSizing: 'border-box',
   width: '100%',
   height: '50px',
+  marginTop: '25px',
   color: COLOR.main,
   lineHeight: '50px',
   textIndent: '20px',
-  fontSize: '22px',
+  fontSize: '24px',
+  fontWeight: 'bold',
 }));
 
 const SortBox = styled(Box)((props) => ({
@@ -113,6 +116,8 @@ const sortSelectStyle = {
 const Search = ({
   target,
 }) => {
+  const isStar = target === SYMBOL.star;
+
   const [conditions, setConditions] = useState({});   // 조건 상자에서 검색을 누른 시점의 조건들
   const [sort, setSort] = useState("dateDesc");       // 정렬 조건
   const [cards, setCards] = useState([]);             // 카드 리스트
@@ -293,7 +298,7 @@ const Search = ({
       <Container>
         <SideBox>
         {/* <Box sx={{ width: '100%',}}> */}
-          <SearchConditionBox isStar={target === SYMBOL.star} />
+          <SearchConditionBox isStar={isStar} fetchData={isStar ? fetchDataForStar : fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />
           {/* {target === SYMBOL.star ?
           (<StarSearchConditionBox target={target} fetchData={fetchDataForStar} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />) :
           (<StageSearchConditionBox target={target} fetchData={fetchDataForStage} setConditions={setConditions} setParentSort={setSort} setProgress={setProgress} />)} */}

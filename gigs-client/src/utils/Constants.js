@@ -90,6 +90,14 @@ export const DUMMY = {
   genres: ["DANCE", "SESSION", "ROCK", "HIPHOP", "INDIE", "JAZZ", "POP"],
 }
 
+export const GENRES = [
+  'DANCE', 'SESSION', 'ROCK', 'HIPHOP', 'INDIE', 'JAZZ', 'POP'
+];
+
+export const STAGE_TYPES = [
+  'CAFE', 'BAR', 'RESTAURANT', 'SCHOOL'
+];
+
 export const ENUM = {
   MIXED: '혼성',
   ALL: '모두',
