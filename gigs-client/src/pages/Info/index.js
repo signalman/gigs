@@ -134,7 +134,7 @@ const Info = ({
       createdAt: moment(review.createdAt),
     }));
 
-    setReviews(newReviews);
+    setReviews(newReviews.filter(review => Boolean(review.content)));
   }, [params]);
 
   // 정보 수정 후 새 데이터로 기존 데이터를 업데이트 하는 함수
