@@ -1,4 +1,4 @@
-import { Box, Dialog, DialogTitle, DialogActions, styled, Button, TextField, DialogContent, MenuItem, Select, Typography, Alert } from '@mui/material';
+import { Box, Dialog, DialogTitle, DialogActions, Button, DialogContent, MenuItem, Select, Typography, Alert } from '@mui/material';
 import React, { useState, useEffect, useCallback } from 'react';
 import ProposalContent from '../../components/Proposal/ProposalContent';
 import CategoryItem from '../../components/CategoryItem';
@@ -7,6 +7,7 @@ import MiniProfile from '../MyPage/MiniProfile';
 import { to00 } from '../../utils/Constants';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import useErrorPage from '../../hooks/useErrorPage';
 
 const WritePostDialog = ({
   open,
@@ -16,6 +17,7 @@ const WritePostDialog = ({
   postDate,
 }) => {
   const navigate = useNavigate();
+  const toError = useErrorPage();
 
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(1);
@@ -67,7 +69,10 @@ const WritePostDialog = ({
 
       navigate(0);
     } catch(err) {
-      console.log(err);   
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [postDate, endTime, startTime, selectedGenre]);
 

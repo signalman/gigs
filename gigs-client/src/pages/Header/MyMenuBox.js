@@ -11,6 +11,7 @@ import { useCookies } from 'react-cookie';
 import Swal from "sweetalert2";
 import styled from '@emotion/styled';
 import { logout } from '../../utils/Api';
+import useErrorPage from '../../hooks/useErrorPage';
 
 const Container = styled(Box)((props) => ({
   width: '120px',
@@ -33,6 +34,7 @@ const MenuIconBox = styled(Box)((props) => ({
  */
 const MyMenuBox = () => {
   const navigate = useNavigate();
+  const toError = useErrorPage();
   
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -82,7 +84,10 @@ const MyMenuBox = () => {
         })
       }
     } catch (err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, []);
 

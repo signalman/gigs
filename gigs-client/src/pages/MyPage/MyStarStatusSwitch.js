@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Box, Switch } from '@mui/material';
 import React, { useCallback, useState } from 'react';
+import useErrorPage from '../../hooks/useErrorPage';
 import { toggleStarStatus } from '../../utils/Api';
 import { COLOR } from '../../utils/Constants';
 
@@ -17,6 +18,8 @@ const Container = styled(Box)((props) => ({
 const MyStarStatusSwitch = ({
   status,
 }) => {
+  const toError = useErrorPage();
+
   const [isActive, setActive] = useState(status);
 
   const handleActiveChange = useCallback(async (e) => {
@@ -27,7 +30,10 @@ const MyStarStatusSwitch = ({
 
       setActive(!e.target.checked);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, []);
 

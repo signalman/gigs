@@ -12,10 +12,12 @@ import { useNavigate } from 'react-router-dom';
 import AlertDialog from '../../components/AlertDialog';
 import SimpleDialog from '../../components/AlertDialog';
 import WriteReviewDialog from './WriteReviewDialog';
+import useErrorPage from '../../hooks/useErrorPage';
 import { useCookies } from 'react-cookie';
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const toError = useErrorPage();
   const [cookies, setCookie, removeCookie] = useCookies(['userId', 'role']);
 
   const [user, setUser] = useState({});
@@ -67,7 +69,7 @@ const MyPage = () => {
       } else {
         const statusCode = err.response.status;
         if(statusCode === 500) {
-          navigate('/error', {state: {msg: '서버에 문제가 발생했습니다.'}});
+          toError.serverError();
         }
       }
     }
@@ -86,7 +88,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 
@@ -99,7 +104,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 
@@ -135,7 +143,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 
@@ -155,7 +166,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 
@@ -168,7 +182,10 @@ const MyPage = () => {
 
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [navigate]);
 

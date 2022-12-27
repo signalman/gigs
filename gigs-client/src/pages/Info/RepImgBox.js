@@ -1,5 +1,6 @@
 import { Box } from '@mui/material';
 import React, { useCallback, useRef } from 'react';
+import useErrorPage from '../../hooks/useErrorPage';
 import Swal from 'sweetalert2';
 import { updateRepImage } from '../../utils/Api';
 import { COLOR, IMG } from '../../utils/Constants';
@@ -40,6 +41,8 @@ const RepImgBox = ({
   editable,
   handleEditRepImg,
 }) => {
+  const toError = useErrorPage();
+
   const repImgInput = useRef();
 
   const updateRepImg = useCallback(async (e) => {
@@ -57,17 +60,18 @@ const RepImgBox = ({
       handleEditRepImg(response.data);
     } catch (err) {
       const statusCode = err.response.status;
-      const msg = err.response.data.message;
-      console.log(statusCode);
-      console.log(msg);
-      if(statusCode === 400 && msg.indexOf('Maximum upload size exceeded') >= 0) {
-        Swal.fire({
-          icon: "warning",
-          title: "1MB 보다 큰 이미지는 업로드할 수 없습니다.",
-          confirmButtonText: "확인"
-        })
+      if(statusCode === 500) {
+        toError.serverError();
+      } else {
+        const msg = err.response.data.message;
+        if(statusCode === 400 && msg.indexOf('Maximum upload size exceeded') >= 0) {
+          Swal.fire({
+            icon: "warning",
+            title: "1MB 보다 큰 이미지는 업로드할 수 없습니다.",
+            confirmButtonText: "확인"
+          })
+        }
       }
-      console.log(err);
     }
   }, [target, handleEditRepImg]);
 

@@ -5,6 +5,7 @@ import { createProposal } from '../../utils/Api';
 import ProposalContent from '../Proposal/ProposalContent';
 import {useNavigate} from 'react-router-dom';
 import Swal from 'sweetalert2';
+import useErrorPage from '../../hooks/useErrorPage';
 
 const WriteProposalDialog = ({
   open,
@@ -12,6 +13,7 @@ const WriteProposalDialog = ({
   post,
 }) => {
   const navigate = useNavigate();
+  const toError = useErrorPage();
 
   const [desc, setDesc] = useState('');
 
@@ -42,7 +44,10 @@ const WriteProposalDialog = ({
       // TODO: 제안서 작성 완료 피드백
       navigate(0);
     } catch(err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [post, desc, handleClose]);
 

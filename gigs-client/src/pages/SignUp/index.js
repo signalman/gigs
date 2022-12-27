@@ -5,6 +5,7 @@ import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { IMaskInput } from 'react-imask';
 import Swal from "sweetalert2";
 import { fetchUserNameAndUid, signUp } from '../../utils/Api';
+import useErrorPage from '../../hooks/useErrorPage';
 
 const style = {
   position: 'absolute',
@@ -19,6 +20,7 @@ const style = {
 const SignUp = (
 
 ) => {
+  const toError = useErrorPage();
 
   const [name, setName] = useState("");
   const [uid, setUid] = useState("");
@@ -69,7 +71,10 @@ const SignUp = (
         console.log(response)
       }
     } catch (err) {
-      console.log(err);
+      const statusCode = err.response.status;
+      if(statusCode === 500) {
+        toError.serverError();
+      }
     }
   }, [uid, name, siDo, siGun, road, detail, phoneNumber, role, navigate]);
 
