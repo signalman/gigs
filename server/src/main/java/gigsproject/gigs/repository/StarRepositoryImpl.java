@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static gigsproject.gigs.domain.QHost.host;
 import static gigsproject.gigs.domain.QStar.star;
 import static gigsproject.gigs.domain.StarStatus.ACTIVE;
 import static gigsproject.gigs.domain.StarStatus.INACTIVE;
@@ -69,7 +70,7 @@ public class StarRepositoryImpl implements StarRepositoryCustom {
     }
 
     private Predicate starNameEq(String name) {
-        return hasText(name) ? star.name.eq(name) : null;
+        return hasText(name) ? star.name.contains(name) : null;
     }
 
     private Predicate starStageTypesEq(List<StageType> stages) {
