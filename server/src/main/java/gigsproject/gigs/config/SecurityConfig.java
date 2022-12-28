@@ -50,6 +50,7 @@ public class SecurityConfig {
                 .and()
                 .logout()
                 .logoutSuccessHandler(logoutSuccessHandler)
+                .invalidateHttpSession(true)
                 .deleteCookies("userId", "role")
                 .and()
                 .build();
