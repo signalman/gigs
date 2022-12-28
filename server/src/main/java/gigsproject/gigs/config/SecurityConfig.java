@@ -4,6 +4,7 @@ package gigsproject.gigs.config;
 
 import gigsproject.gigs.config.oauth.OAuth2AuthenticationFailureHandler;
 import gigsproject.gigs.config.oauth.OAuth2AuthenticationSuccessHandler;
+import gigsproject.gigs.config.oauth.OAuth2LogoutSuccessHandler;
 import gigsproject.gigs.config.oauth.OAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
@@ -25,6 +27,7 @@ public class SecurityConfig {
     private final OAuth2UserService oauth2userService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final OAuth2LogoutSuccessHandler logoutSuccessHandler;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,6 +36,7 @@ public class SecurityConfig {
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/mypage/**").authenticated()
                 .antMatchers("/proposals/**").authenticated()
                 .anyRequest().permitAll()
@@ -45,6 +49,7 @@ public class SecurityConfig {
                 .failureHandler(oAuth2AuthenticationFailureHandler)
                 .and()
                 .logout()
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .deleteCookies("userId", "role")
                 .and()
                 .build();
