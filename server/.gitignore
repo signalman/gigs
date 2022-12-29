@@ -35,3 +35,15 @@ out/
 
 ### VS Code ###
 .vscode/
+
+*.yml
+*.properties
+
+src/main/resources/application.yml
+src/main/resources/application-oauth.yml
+src/main/resources/application-aws.yml
+
+src/test/resources/application.yml
+src/test/resources/application-oauth.yml
+src/test/resources/application-aws.yml
+src/test/resources/application.properties
