@@ -6,7 +6,7 @@
   <tbody>
     <tr>
       <td align="center"><a href="https://github.com/ektto1041"><img src="https://avatars.githubusercontent.com/u/53224839?v=4"width="100px;" alt=""/><br /><sub><b>FE 팀장 : 박상연</b></sub></a><br /></td>
-      <td align="center"><a href="https://github.com/FriedEggChicken"><img src="https://avatars.githubusercontent.com/u/77597604?v=4" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 이성훈</b></sub></a><br /></td>
+      <td align="center"><a href="https://github.com/FriedEggChicken"><img src="https://avatars.githubusercontent.com/u/77597604?v=4" width="100px;" alt=""/><br /><sub><b>FE 팀원 : 이상훈</b></sub></a><br /></td>
      <tr/>
       <td align="center"><a href="https://github.com/signalman"><img src="https://avatars.githubusercontent.com/u/32051350?v=4" width="100px;" alt=""/><br /><sub><b>BE 팀장 : 신호인</b></sub></a><br /></td>
       <td align="center"><a href="https://github.com/psm9718"><img src="https://avatars.githubusercontent.com/u/60373714?v=4" width="100px;" alt=""/><br /><sub><b>BE 팀원 : 박승민</b></sub></a><br /></td>
