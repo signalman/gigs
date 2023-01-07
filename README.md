@@ -1,5 +1,5 @@
-# gigs
-![gigs_logo_tmp](https://user-images.githubusercontent.com/53224839/209759895-afc36d99-1add-43db-be1e-fb454783645b.png)
+# gigs (공연중개플랫폼 프로젝트)
+![209759895-afc36d99-1add-43db-be1e-fb454783645b-removebg-preview](https://user-images.githubusercontent.com/32051350/211132329-f910d63c-5eec-4e6f-9552-e10ad963d681.png)
 
 <a href='https://gigs-web.com'>gigs-web.com</a>
 
