@@ -13,6 +13,29 @@
 
 히스토리를 통해 그동안의 공연기록 또한 확인 가능합니다.
 
+
+
+## 1. 메인 페이지
+![image](https://github.com/signalman/gigs/assets/32051350/611bbe94-b2e7-45f4-892d-c240acb232f6)
+
+## 2. 무대 찾기 페이지
+![image](https://github.com/signalman/gigs/assets/32051350/25636de2-8b13-49f5-a656-deccd1e60c89)
+
+## 3. 스타 찾기 페이지
+![image](https://github.com/signalman/gigs/assets/32051350/76726d2e-1647-477f-b20e-7bbf5aba625c)
+
+## 4. 내 정보 페이지
+![image](https://github.com/signalman/gigs/assets/32051350/6a82fbc7-1c35-42b0-9e7c-0da889f50d8d)
+![image](https://github.com/signalman/gigs/assets/32051350/827641f7-cc2f-43ca-8057-a39ea3e24cd9)
+
+## 5. 상세정보 페이지
+![image](https://github.com/signalman/gigs/assets/32051350/541cd840-cf4a-4c75-86e4-fe335652b71f)
+![image](https://github.com/signalman/gigs/assets/32051350/b5fafa5c-2121-4fdb-9ad2-c13030f6b83e)
+![image](https://github.com/signalman/gigs/assets/32051350/07cf6341-d5e8-4b93-9e0d-25b758b778e4)
+
+
+
+
 ## Contributors
 <table>
   <tbody>
